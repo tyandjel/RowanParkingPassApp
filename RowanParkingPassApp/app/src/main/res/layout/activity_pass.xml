@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_width="75dp"
+        android:layout_height="40dp"
+        android:text="Driver"
+        android:id="@+id/createdlabel2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="75dp"
+        android:layout_height="40dp"
+        android:text="Vehicle"
+        android:id="@+id/createdname"
+        android:layout_below="@+id/createdlabel2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="15sp"
+        android:gravity="center" />
+
+    <Spinner
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/createdriverspinner"
+        android:layout_above="@+id/createdname"
+        android:layout_toRightOf="@+id/createdlabel2"
+        android:layout_toEndOf="@+id/createdlabel2"
+        android:spinnerMode="dropdown" />
+
+    <Spinner
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/createvehiclespinner"
+        android:layout_below="@+id/createdlabel2"
+        android:layout_toRightOf="@+id/createdlabel2"
+        android:layout_toEndOf="@+id/createdlabel2"
+        android:clickable="true"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="New Driver"
+        android:id="@+id/createnewdriverbtn"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/createdriverspinner"
+        android:layout_toEndOf="@+id/createdriverspinner"
+        android:gravity="center"
+        android:textSize="13sp" />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="New Vehicle"
+        android:id="@+id/createnewvehiclebtn"
+        android:layout_below="@+id/createdriverspinner"
+        android:layout_toRightOf="@+id/createvehiclespinner"
+        android:layout_toEndOf="@+id/createvehiclespinner"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:text="Pass Start Date"
+        android:id="@+id/createstartdatelabel"
+        android:layout_below="@+id/createdname"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:text="Pass End Date"
+        android:id="@+id/createdvehicle"
+        android:layout_below="@+id/createvehiclespinner"
+        android:layout_toRightOf="@+id/createstartdatelabel"
+        android:layout_toEndOf="@+id/createstartdatelabel"
+        android:gravity="center"
+        android:textSize="15sp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/createstartdatefield"
+        android:layout_below="@+id/createstartdatelabel"
+        android:layout_toLeftOf="@+id/createdvehicle"
+        android:layout_toStartOf="@+id/createdvehicle"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:editable="false"
+        android:clickable="false" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/createenddatefield"
+        android:layout_alignBottom="@+id/createstartdatefield"
+        android:layout_toRightOf="@+id/createstartdatelabel"
+        android:layout_toEndOf="@+id/createstartdatelabel"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:clickable="false" />
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:text="Create Pass"
+        android:id="@+id/createpassbtn"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:layout_below="@+id/createstartdatefield"
+        android:layout_alignRight="@+id/createenddatefield"
+        android:layout_alignEnd="@+id/createenddatefield" />
+
+    <Button
+        android:layout_width="400dp"
+        android:layout_height="40dp"
+        android:text="Main Menu"
+        android:id="@+id/createmainmenubtn"
+        android:layout_below="@+id/createpassbtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:textSize="15sp" />
+</RelativeLayout>
