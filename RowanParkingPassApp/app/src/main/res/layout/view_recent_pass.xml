@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Johnahtan Saunders 2/16/2015
-    This is the layout for the homepage content to be put in the activity_listView's listView.
+    This is the layout for the homepage content to be put in the activity_list_view's listView.
      It will contain information about the drive( name, address, city, state, zip code) and car (make color, and license plate state and number)-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"

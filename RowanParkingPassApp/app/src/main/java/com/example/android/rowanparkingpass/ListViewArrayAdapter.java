@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Created by Johnathan Saunders on 2/16/2016.
- * This class will be in charge of handling the content put into the activity_listView
+ * This class will be in charge of handling the content put into the activity_list_view
  * it will make activities screens 1,2,3,4,6 and 7 (home, driver, vehicle pages, View Drivers, and View Vehiccles).
  */
 public class ListViewArrayAdapter extends BaseAdapter {

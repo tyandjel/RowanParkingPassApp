@@ -5,15 +5,17 @@ import java.io.Serializable;
 public class Driver implements Serializable {
 
     private String uid;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String street;
     private String town;
     private String state;
     private String zipCode;
 
-    public Driver(String uid, String firstName, String street, String town, String state, String zipCode) {
+    public Driver(String uid, String firstName, String lastName, String street, String town, String state, String zipCode) {
         this.uid = uid;
-        this.name = firstName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.street = street;
         this.town = town;
         this.state = state;
@@ -28,13 +30,18 @@ public class Driver implements Serializable {
         this.uid = uid;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFullName(String firstName) {
-        this.name = firstName;
+    public String getLastName() {
+        return lastName;
     }
+
+    public String getName() {return firstName +" "+ lastName;}
+/**Commented out because of confusion and trying to get code to compile - johnathan, also i added the above getname if that what this was supposed to do
+    public void setFullName(String firstName) {this.name = firstName;}
+ */
 
     public String getStreet() {
         return street;
@@ -75,7 +82,7 @@ public class Driver implements Serializable {
     @Override
     public String toString() {
         return "Driver{" +
-                "name='" + name + '\'' +
+                "name='" + firstName + " "+lastName + '\'' +
                 '}';
     }
 }
