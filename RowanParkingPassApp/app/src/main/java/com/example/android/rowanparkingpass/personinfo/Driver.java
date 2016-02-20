@@ -39,9 +39,6 @@ public class Driver implements Serializable {
     }
 
     public String getName() {return firstName +" "+ lastName;}
-/**Commented out because of confusion and trying to get code to compile - johnathan, also i added the above getname if that what this was supposed to do
-    public void setFullName(String firstName) {this.name = firstName;}
- */
 
     public String getStreet() {
         return street;
