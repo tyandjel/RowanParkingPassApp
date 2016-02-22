@@ -2,7 +2,7 @@ package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
 
-public class Driver implements Serializable {
+public class Driver implements PersonInfo  {
 
     private String uid;
     private String firstName;

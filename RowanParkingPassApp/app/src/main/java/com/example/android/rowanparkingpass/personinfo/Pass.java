@@ -2,7 +2,7 @@ package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
 
-public class Pass implements Serializable {
+public class Pass implements PersonInfo  {
 
     private Driver vistor;
     private Vehicle vehicle;

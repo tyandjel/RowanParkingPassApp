@@ -9,9 +9,11 @@ import android.widget.TextView;
 
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
+import com.example.android.rowanparkingpass.personinfo.PersonInfo;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -21,18 +23,54 @@ import java.util.List;
  */
 public class ListViewArrayAdapter extends BaseAdapter {
         private List<Driver> drivers = new ArrayList<>();
-        private List<Vehicle> cars = new ArrayList<>();
+        private List<Vehicle> vehicles = new ArrayList<>();
         private List<Pass> passes = new ArrayList<>();
         private Context ctxt;
         LayoutInflater myInflator;
         int layout; // current layout to use
 
-        public ListViewArrayAdapter(List<Pass> p,Context c, int layout) {
-            passes.add(0, null); // adds empty place hilder to postion 0
-            passes.addAll(p);
-            ctxt = c;
-            this.layout=layout;
+    /**
+     * This  is for creating the content for a list of passes listview
+     */
+    public  ListViewArrayAdapter(List<PersonInfo> l,Context c, int layout) {
+        ctxt = c;
+        this.layout = layout;
+        Object objIn = l.get(0);
+        if (objIn instanceof Pass) {
+            passes.add(0, null); // adds empty place holder to postion 0
+            passes.addAll((List<Pass>) (List<?>) l); // should try to find a better casting method.
+        } else {
+            if (objIn instanceof Vehicle) {
+                vehicles.add(0, null); // adds empty place holder to postion 0
+                vehicles.addAll((List<Vehicle>) (List<?>) l);
+            } else {
+                if (objIn instanceof Driver) {
+                    drivers.add(0, null); // adds empty place holder to postion 0
+                    drivers.addAll((List<Driver>) (List<?>) l);
+                }
+            }
         }
+    }
+
+    /**
+     * This is for creating the content for a list of drivers in listview
+     */
+    public void makeVehiclesList(List<Vehicle> v,Context c, int layout) {
+        vehicles.add(0, null); // adds empty place hilder to postion 0
+        vehicles.addAll(v);
+        ctxt = c;
+        this.layout=layout;
+    }
+
+    /**
+     * This is for creating the content for a list of vehicles in listview
+     */
+    public void makeDriversList(List<Driver> d,Context c, int layout) {
+        drivers.add(0, null); // adds empty place hilder to postion 0
+        drivers.addAll(d);
+        ctxt = c;
+        this.layout=layout;
+    }
 
         private void inflateLayout(){
             myInflator = (LayoutInflater)ctxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -87,29 +125,29 @@ public class ListViewArrayAdapter extends BaseAdapter {
 
             // recomended to try and change toa switch statement later
             // Recnt pass section
-            if (R.layout.view_recent_pass == layout) { // checks whether this is the layout we should be using.
-                if (convertView != null) {
+            if (convertView != null) {
+                if (R.layout.view_recent_pass == layout) { // checks whether this is the layout we should be using.
                     convertView = myInflator.inflate(R.layout.view_recent_pass, parent, false);
-                }
-                TextView newPass = (TextView) convertView.findViewById(R.id.new_pass_text_view);
-                TextView driverName = (TextView) convertView.findViewById(R.id.driver_text_view);
-                TextView address = (TextView) convertView.findViewById(R.id.address_text_view);
-                TextView townCity = (TextView) convertView.findViewById(R.id.town_city_text_view);
-                TextView car = (TextView) convertView.findViewById(R.id.car_text_view);
-                TextView plate = (TextView) convertView.findViewById(R.id.plate_text_view);
-                //String [] lArr = new String[list.size()];
-                // lArr=list.toArray(lArr); not needed
-                if (position == 0) {
-                    newPass.setText("+ Create New Pass");
-                } else {
-                    Pass cPass = passes.get(position);
-                    driverName.setText(cPass.getVistor().getName());
-                    address.setText(cPass.getVistor().getAddress());
-                    townCity.setText(cPass.getVistor().getTown()+" "+cPass.getVistor().getState() +", "+cPass.getVistor().getZipCode());
-                    car.setText(cPass.getVehicle().getMake()+ " " +cPass.getVehicle().getModel() +" "+cPass.getVehicle().getYear()+ " "+cPass.getVehicle().getColor() );
-                    car.setText(cPass.getVehicle().getVehicleState()+" "+cPass.getVehicle().getLicensePlate());
-                }
 
+                    TextView newPass = (TextView) convertView.findViewById(R.id.new_pass_text_view);
+                    TextView driverName = (TextView) convertView.findViewById(R.id.driver_text_view);
+                    TextView address = (TextView) convertView.findViewById(R.id.address_text_view);
+                    TextView townCity = (TextView) convertView.findViewById(R.id.town_city_text_view);
+                    TextView car = (TextView) convertView.findViewById(R.id.car_text_view);
+                    TextView plate = (TextView) convertView.findViewById(R.id.plate_text_view);
+                    //String [] lArr = new String[list.size()];
+                    // lArr=list.toArray(lArr); not needed
+                    if (position == 0) {
+                        newPass.setText("+ Create New Pass");
+                    } else {
+                        Pass cPass = passes.get(position);
+                        driverName.setText(cPass.getVistor().getName());
+                        address.setText(cPass.getVistor().getAddress());
+                        townCity.setText(cPass.getVistor().getTown() + " " + cPass.getVistor().getState() + ", " + cPass.getVistor().getZipCode());
+                        car.setText(cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel() + " " + cPass.getVehicle().getYear() + " " + cPass.getVehicle().getColor());
+                        car.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
+                    }
+                }
                 return convertView;
             }
             return null;
