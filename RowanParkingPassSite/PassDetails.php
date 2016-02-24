@@ -3,13 +3,17 @@ PassDetails.php
 <?php
    include (‘Config.php’);
    
-   $result = mysqli_query($conn,"SELECT * FROM passTable WHERE pass_id = '".$_GET['id']."' ORDER BY `CreatedTime` DESC");
+   $result = mysqli_query($conn,"SELECT request_id, full_name, street, city, zip, year, make, model, license, start_date, end_date
+      FROM Driver, Requests, Vehicles WHERE request_id = '".$_GET['id']."' and request_type = 'tba' and 
+      Requests.vehicle_id = Vehicles.vehicle_id and Requests.driver_id = Driver.driver_id ORDER BY `CreatedTime` DESC");
 
    $passdetails = mysqli_fetch_assoc($result);
 
-   echo 'Pass ID : '.$passdetails['pass_id'].'<br>';
-   echo 'Driver Name: '.$passdetails['driver_name'].'<br>';
-   echo 'Location: '.$passdetails['location'].'<br>';
+   echo 'Pass ID : '.$passdetails['request_id'].'<br>';
+   echo 'Driver Name: '.$passdetails['full_name'].'<br>';
+   echo 'Location: '.$passdetails['street'].'<br>';
+   echo 'Location: '.$passdetails['city'].'<br>';
+   echo 'Location: '.$passdetails['zip'].'<br>';
    echo Vehicle Year: '.$passdetails['year'].'<br>';
    echo Vehicle Make: '.$passdetails['make'].'<br>';
    echo Vehicle Model: '.$passdetails['model'].'<br>';
@@ -30,7 +34,7 @@ PassDetails.php
 
 if(isset($_POST['accept_button_pressed']))
 {
-    $sql = “UPDATE passTable “. “SET pass_type=accepted”.“WHERE pass_id = $passdetails[‘id’]”;
+    $sql = “UPDATE Requests “. “SET request_type=accepted”.“WHERE request_id = $passdetails[‘request_id’]”;
     $retval = mysql_query($sql, $db);
     $to      = 'nobody@example.com';
     $subject = 'the subject';
@@ -48,7 +52,7 @@ if(isset($_POST['accept_button_pressed']))
 
 if(isset($_POST['deny_button_pressed']))
 {
-    $sql = “UPDATE passTable “. “SET pass_type=denied”.“WHERE pass_id = $passdetails[‘id’]”;
+    $sql = “UPDATE Requests “. “SET request_type=denied”.“WHERE request_id = $passdetails[‘request_id’]”;
     $retval = mysql_query($sql, $db);
 
     $to      = 'nobody@example.com';
