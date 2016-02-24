@@ -1,6 +1,8 @@
 <?php
 
-$result = mysqli_query($conn,"SELECT * FROM passTable Where pass_type = ‘tba’ ORDER BY `CreatedTime` DESC");
+$result = mysqli_query($conn,"SELECT full_name, make, start_date, end_date FROM Driver, Requests, Vehicles
+   Where request_state = ‘tba’ and Requests.driver_id = Driver.driver_id and Requests.vehicle_id = Vehicles.vehicle_id
+   ORDER BY `CreatedTime` DESC");
 
 echo "<table border='0' cellpadding='0' cellspacing='0' class='table-fill'> 
 <tr>
@@ -14,7 +16,7 @@ echo "<table border='0' cellpadding='0' cellspacing='0' class='table-fill'>
 
 while($row = mysqli_fetch_array($result) ) {
 echo "<tr>";
-echo "<td>" . $row['driver_name'] . "</td>";
+echo "<td>" . $row['full_name'] . "</td>";
 echo "<td>" . $row['make'] . "</td>";
 echo "<td>" . $row['start_date'] . "</td>";
 echo "<td>" . $row['end_date'] . "</td>";
