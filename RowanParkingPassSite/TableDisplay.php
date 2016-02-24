@@ -1,7 +1,7 @@
 <?php
 
 $result = mysqli_query($conn,"SELECT full_name, make, start_date, end_date FROM Driver, Requests, Vehicles
-   Where request_state = ‘tba’ and Requests.driver_id = Driver.driver_id and Requests.vehicle_id = Vehicles.vehicle_id
+   Where status = ‘0’ and Requests.driver_id = Driver.driver_id and Requests.vehicle_id = Vehicles.vehicle_id
    ORDER BY `CreatedTime` DESC");
 
 echo "<table border='0' cellpadding='0' cellspacing='0' class='table-fill'> 
