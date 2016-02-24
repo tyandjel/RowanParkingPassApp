@@ -4,7 +4,7 @@ PassDetails.php
    include (‘Config.php’);
    
    $result = mysqli_query($conn,"SELECT request_id, full_name, street, city, zip, year, make, model, license, start_date, end_date
-      FROM Driver, Requests, Vehicles WHERE request_id = '".$_GET['id']."' and request_state = 'tba' and 
+      FROM Driver, Requests, Vehicles WHERE request_id = '".$_GET['id']."' and status = '0' and 
       Requests.vehicle_id = Vehicles.vehicle_id and Requests.driver_id = Driver.driver_id ORDER BY `CreatedTime` DESC");
 
    $passdetails = mysqli_fetch_assoc($result);
@@ -34,7 +34,7 @@ PassDetails.php
 
 if(isset($_POST['accept_button_pressed']))
 {
-    $sql = “UPDATE Requests “. “SET request_type=accepted”.“WHERE request_id = $passdetails[‘request_id’]”;
+    $sql = “UPDATE Requests “. “SET status='2'”.“WHERE request_id = $passdetails[‘request_id’]”;
     $retval = mysql_query($sql, $db);
     $to      = 'nobody@example.com';
     $subject = 'the subject';
@@ -52,7 +52,7 @@ if(isset($_POST['accept_button_pressed']))
 
 if(isset($_POST['deny_button_pressed']))
 {
-    $sql = “UPDATE Requests “. “SET request_type=denied”.“WHERE request_id = $passdetails[‘request_id’]”;
+    $sql = “UPDATE Requests “. “SET status='1'”.“WHERE request_id = $passdetails[‘request_id’]”;
     $retval = mysql_query($sql, $db);
 
     $to      = 'nobody@example.com';
