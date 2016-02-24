@@ -4,7 +4,7 @@ PassDetails.php
    include (‘Config.php’);
    
    $result = mysqli_query($conn,"SELECT request_id, full_name, street, city, zip, year, make, model, license, start_date, end_date
-      FROM Driver, Requests, Vehicles WHERE request_id = '".$_GET['id']."' and request_type = 'tba' and 
+      FROM Driver, Requests, Vehicles WHERE request_id = '".$_GET['id']."' and request_state = 'tba' and 
       Requests.vehicle_id = Vehicles.vehicle_id and Requests.driver_id = Driver.driver_id ORDER BY `CreatedTime` DESC");
 
    $passdetails = mysqli_fetch_assoc($result);
