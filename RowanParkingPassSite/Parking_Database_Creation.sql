@@ -23,7 +23,6 @@ CREATE TABLE `Requests` (
   `status` tinyint(3) unsigned NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  'request_state' text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`request_id`),
   KEY `vehicle_id` (`vehicle_id`),
   KEY `driver_id` (`driver_id`),
