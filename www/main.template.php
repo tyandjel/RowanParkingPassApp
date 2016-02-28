@@ -6,7 +6,7 @@
 
 <title>Rowan Parking Pass Administrator Login</title>
 <link rel="stylesheet" type="text/css" href="/css/login.css">
-<script type="text/javascript" src="/jquery-1.7.js"></script>
+<script type="text/javascript" src="/jquery-1.12.1.min.js"></script>
 <script type="text/javascript">
 <?php echo $jscript; ?>
 </script>

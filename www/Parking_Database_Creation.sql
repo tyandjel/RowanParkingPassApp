@@ -1,3 +1,5 @@
+-- Adminer 3.3.3 MySQL dump
+
 SET NAMES utf8;
 SET foreign_key_checks = 0;
 SET time_zone = 'SYSTEM';
@@ -36,7 +38,7 @@ CREATE TABLE `Requests` (
 DROP TABLE IF EXISTS `User`;
 CREATE TABLE `User` (
   `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `user_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `is_admin` bit(1) NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -52,3 +54,17 @@ CREATE TABLE `Vehicles` (
   `year` int(10) unsigned NOT NULL,
   PRIMARY KEY (`vehicle_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin` (
+  `username` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `salt` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+INSERT INTO `admin` (`username`, `password`, `salt`) VALUES
+('root',	'119e4ab344ece88747d0ce7214b070b2f505e4ee60714c42e5d3907e0285c1f5',	'16db8af74f104266');
+
+-- 2016-02-28 00:43:13

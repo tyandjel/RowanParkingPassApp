@@ -3,10 +3,8 @@
 require_once("common.php");
 
 $name_err;
-$email_err;
 $pw_err;
 
-$email;
 $usrname;
 
 $NoError = true;
@@ -59,10 +57,11 @@ if (!empty($_POST)) {
         $query_params = array(
             ':username' => $_POST['username']
         );
-        
+        //die($_POST['username']);
         try {
             // These two statements run the query against your database table.
             $stmt   = $db->prepare($query);
+            $result = $stmt->execute($query_params);
         }
         catch (PDOException $ex) {
             // Note: On a production website, you should not output $ex->getMessage().
@@ -73,10 +72,9 @@ if (!empty($_POST)) {
         // The fetch() method returns an array representing the "next" row from
         // the selected results, or false if there are no more rows to fetch.
         $row  = $stmt->fetch();
-        
         // If a row was returned, then we know a matching username was found in
         // the database already and we should not allow the user to continue.
-        if (!(empty($row) && empty($rowA))) {
+        if (!(empty($row))) {
             $name_err = "This username is already in use";
             $NoError  = false;
         }
@@ -142,7 +140,7 @@ if (!empty($_POST)) {
                 die("Failed to run query: " . $ex->getMessage());
             }
             $_SESSION['username'] = $_POST['username'];
-            $_SESSION['insert'] = "A confirmation link has been sent to you via email.";
+            $_SESSION['insert'] = "Account added.";
             // This redirects the user back to the login page after they register
             header("Location: message.php");
             
@@ -174,28 +172,28 @@ $(document).ready(function () {
 	}
 	}
 ';
-$registerform = 'I\'ll copy your style. This is just an ugly mocup.</div>
-Register Here.
-      <form id="register" action="register.php" method="post">
-    Username:<br />
-    <input type="text" name="username" value="' . htmlentities($usrname, ENT_QUOTES, 'UTF-8') .'" />
-<FONT COLOR=Red>';
+$registerform = '<body bgcolor = "#FFFFFF">
+      <div align = "center">
+         <div class = "outerBox" align = "left">
+            <div class = "innerBox"><b>Login</b></div>
+            <div style = "margin:30px">
+               <form action = "" method = "post">
+			   <label>UserName  :</label><input type = "text" name = "username" class = "box"/><br />
+			   <FONT COLOR=Red>';
 if ($name_err) {
      $registerform .= "<br />";
 }
 $registerform .= $name_err . '</FONT>
 <br /><br />
-Password:<br />
-<input id="password1" type="password" name="password" value="" />
+<label>Password  :</label><input type = "password" id="password1" name = "password" class = "box" /><br/><br />
+<br />
 <FONT COLOR=Red>';
 if ($pw_err) {
     $registerform .= "<br />";
 }
 $registerform .= $pw_err;
 $registerform .= '</FONT>
-<br /><br />
-Re-type Password:<br />
-<input id="password2" type="password" name="password2" value="" />
+<label>Re-type Password: </label><input id="password2" type="password" name="password2" value="" />
 <br />
 <div id="passerr"></div>
 <br />
@@ -206,8 +204,6 @@ Re-type Password:<br />
 if(!isset($_SESSION['user'])){
 	$side = 'You are not logged in. <a href="https://secure144.inmotionhosting.com/~r4msof5/accounts/login.php"> click here to login</a><br /><br />';
 }
-$side .= "Once you regester for an account you can purchase and download controllers.";
-
 $view->side = $side;
 $view->links = array(array('title'=>'', 'msg'=> $registerform));
 
