@@ -1,0 +1,26 @@
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+}
+label {
+	font-weight:bold;
+	width:100px;
+	font-size:14px;
+}
+.box {
+	border:#666666 solid 1px;
+}
+.outerBox{
+	width:350px;
+	border: solid 1px #333333; 
+}
+.innerBox{
+	background-color:#333333;
+	color:#FFFFFF;
+	padding:3px;
+}
+.errBox{
+	font-size:11px;
+	color:#cc0000;
+	margin-top:10px
+}
