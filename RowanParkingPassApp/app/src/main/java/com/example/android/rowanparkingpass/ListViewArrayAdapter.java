@@ -12,6 +12,7 @@ import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.PersonInfo;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,60 +29,75 @@ public class ListViewArrayAdapter extends BaseAdapter {
         private Context ctxt;
         LayoutInflater myInflator;
         int layout; // current layout to use
+        int passesView =R.layout.view_recent_pass;
+        int vehiclesView = 4;
+        int driversView =5;
 
     /**
      * This  is for creating the content for a list of passes listview
      */
     public  ListViewArrayAdapter(List<PersonInfo> l,Context c, int layout) {
-        ctxt = c;
-        this.layout = layout;
         Object objIn = l.get(0);
         if (objIn instanceof Pass) {
-            passes.add(0, null); // adds empty place holder to postion 0
-            passes.addAll((List<Pass>) (List<?>) l); // should try to find a better casting method.
+            makePassesList((List<Pass>) (List<?>) l); // should try to find a better casting method.
         } else {
             if (objIn instanceof Vehicle) {
-                vehicles.add(0, null); // adds empty place holder to postion 0
-                vehicles.addAll((List<Vehicle>) (List<?>) l);
+                makeVehiclesList((List<Vehicle>) (List<?>) l);
             } else {
                 if (objIn instanceof Driver) {
-                    drivers.add(0, null); // adds empty place holder to postion 0
-                    drivers.addAll((List<Driver>) (List<?>) l);
+                    makeDriversList((List<Driver>) (List<?>) l);
                 }
             }
         }
+        setContextLayout(c,layout);
     }
 
+    public void setContextLayout(Context c, int layout){
+        ctxt = c;
+        this.layout=layout;
+    }
     /**
      * This is for creating the content for a list of drivers in listview
      */
-    public void makeVehiclesList(List<Vehicle> v,Context c, int layout) {
+    public void makeVehiclesList(List<Vehicle> v) {
         vehicles.add(0, null); // adds empty place hilder to postion 0
         vehicles.addAll(v);
-        ctxt = c;
-        this.layout=layout;
     }
-
     /**
      * This is for creating the content for a list of vehicles in listview
      */
-    public void makeDriversList(List<Driver> d,Context c, int layout) {
+    public void makeDriversList(List<Driver> d) {
         drivers.add(0, null); // adds empty place hilder to postion 0
         drivers.addAll(d);
-        ctxt = c;
-        this.layout=layout;
+    }
+    /**
+     * This is for creating the content for a list of Passes in listview
+     */
+    public void makePassesList(List<Pass> p) {
+        passes.add(0, null); // adds empty place hilder to postion 0
+        passes.addAll(p);
     }
 
         private void inflateLayout(){
             myInflator = (LayoutInflater)ctxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
+
         /**
          * How many items are in the data set represented by this Adapter.
          * @return Count of items.
          */
         @Override
-        public int getCount() {return passes.size();} // to be changed to account for drivers an vehicles use
+        public int getCount() {
+            int cnt = 0;
+            if(passesView==layout){
+                cnt=passes.size();
+            }else if(vehiclesView==layout){
+                cnt=vehicles.size();
+            }else if (driversView==layout){
+                cnt=drivers.size();
+            }
+            return cnt;} // to be changed to account for drivers an vehicles use
 
         /**
          * Get the data item associated with the specified position in the data set.
@@ -89,7 +105,16 @@ public class ListViewArrayAdapter extends BaseAdapter {
          * @return The data at the specified position.
          */
         @Override
-        public Object getItem(int position) {return passes.get(position);} // to be changed to account for drivers an vehicles use
+        public Object getItem(int position) {
+            Object item = null;
+            if(passesView==layout){
+                item=passes.get(position);
+            }else if(vehiclesView==layout){
+                item=vehicles.get(position);
+            }else if (driversView==layout){
+                item=drivers.get(position);
+            }
+            return item;} // to be changed to account for drivers an vehicles use
 
         /**
          * Get the row id associated with the specified position in the list.
