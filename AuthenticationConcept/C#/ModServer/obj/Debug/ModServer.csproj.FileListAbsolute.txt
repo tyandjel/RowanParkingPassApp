@@ -26,4 +26,8 @@ C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModS
 C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\bin\Debug\ModServer.pdb
 C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.dll
 C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.pdb
+D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\bin\Debug\ModServer.dll
+D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\bin\Debug\ModServer.pdb
+D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.dll
+D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.pdb
 C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.csprojResolveAssemblyReference.cache

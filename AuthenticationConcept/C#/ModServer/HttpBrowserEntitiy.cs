@@ -16,6 +16,19 @@ namespace ModServer
 
         public enum PORTS : int { HTTP = 80, SSL = 443 };
 
+        private bool unsecure;
+        public bool UNSECURE
+        {
+            get
+            {
+                return unsecure;
+            }
+            set
+            {
+                unsecure = value;
+            }
+        }
+
         private Dictionary<String, String> cookies;
         public Dictionary<String, String> SessionCookies
         {
@@ -50,9 +63,19 @@ namespace ModServer
             return false;
         }
 
-        public HttpBrowserEntitiy()
+        private static bool ValidateServerCertificate_insecure(
+object sender,
+X509Certificate certificate,
+X509Chain chain,
+SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
+
+        public HttpBrowserEntitiy(bool insecure=false)
         {
             cookies = new Dictionary<string, string>();
+            this.UNSECURE = insecure;
         }
 
         // in the fure HttpConnections can have some form of callback or events that will register with the entity
@@ -62,10 +85,15 @@ namespace ModServer
             try
             {
                 TcpClient client = new TcpClient(address, port);
+                RemoteCertificateValidationCallback call_bk = ValidateServerCertificate;
+                if (this.UNSECURE)
+                {
+                    call_bk = ValidateServerCertificate_insecure;
+                }
                 SslStream sslStream = new SslStream(
                     client.GetStream(),
                     false,
-                    new RemoteCertificateValidationCallback(ValidateServerCertificate),
+                    new RemoteCertificateValidationCallback(call_bk),
                     null
                     );
                 // The server name must match the name on the server certificate. 
