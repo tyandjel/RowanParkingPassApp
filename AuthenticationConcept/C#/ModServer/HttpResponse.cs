@@ -61,7 +61,16 @@ namespace ModServer
             }
             set
             {
-                messageRAW = value;
+                if (messageRAW == null)
+                {
+                    messageRAW = value;
+                }
+                else
+                {
+                    var tmpList = messageRAW.ToList();
+                    tmpList.AddRange(value);
+                    messageRAW = tmpList.ToArray();
+                }
             }
         }
 
@@ -87,6 +96,29 @@ namespace ModServer
             headers.Add("Date", DateTime.Now.ToString("r"));
             headers.Add("Server", "MyMobiControllerServer");
             headers.Add("Connection", Connection);
+        }
+
+        public void clearMessageBytes()
+        {
+            this.messageRAW=null;
+        }
+
+        public static bool validateResponse(String[] request)
+        {
+            String[] header = request[0].Split(" ".ToCharArray());
+            if (header.Length != 3)
+            {
+                return false;
+            }
+            try
+            {
+                var status = (ConnectionStatus)Convert.ToInt32(header[1]);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+            return true;
         }
 
         public HttpResponse(String[] request)

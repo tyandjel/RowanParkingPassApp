@@ -16,6 +16,31 @@ namespace ConsoleApplication1
         const string FAIL_STR = "NO";
         static void Main(string[] args)
         {
+            if(args.Length >= 0)
+            {
+                HttpBrowserEntitiy browser = new HttpBrowserEntitiy(true);
+                HttpConnection CAS_Con = browser.openSecureConnection("10.0.0.67", HttpBrowserEntitiy.PORTS.SSL, "lamp");
+                var request = new HttpRequest("POST", "/check_cas_auth.php");
+                request.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                Console.Write("Enter Rowan Username: ");
+                request.addPost("username", Console.ReadLine());
+                Console.Write("\r\nEnter Password(NOT HIDDEN): ");
+                request.addPost("password", Console.ReadLine());
+                request.guessContentLength();
+                //WriteToFile(request.ToString());
+                var response = CAS_Con.sendRequest(request);
+                WriteToFile(response.Body);
+                Console.Read();
+            }
+            else
+            {
+                contact_rowan();
+            }
+            
+        }
+
+        static void contact_rowan()
+        {
             Boolean logged_in = false;
             HttpBrowserEntitiy browser = new HttpBrowserEntitiy();
             // Secure connections use SSL/TLS
@@ -29,12 +54,12 @@ namespace ConsoleApplication1
             WriteToFile(response.ToString());
             WriteToFile("");
             string resp = response.ToString();
-            string lp = GetMiddleString(resp,"name=\"lt\" value=\"","\" />");
+            string lp = GetMiddleString(resp, "name=\"lt\" value=\"", "\" />");
             //WriteToFile(lp);
             //&execution = e4s1 & _eventId = submit & submit = LOGIN
             if (1 == 1)
             {
-                request = new HttpRequest("POST", "/cas/login;jsessionid="+browser.SessionCookies["JSESSIONID"]);
+                request = new HttpRequest("POST", "/cas/login;jsessionid=" + browser.SessionCookies["JSESSIONID"]);
                 request.cookies = browser.SessionCookies;
                 SignLoginRequest(request);
                 request.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -48,13 +73,13 @@ namespace ConsoleApplication1
                 request.addPost("_eventId", "submit");
                 request.addPost("submit", "LOGIN");
                 request.guessContentLength();
-                //WriteToFile(request.ToString());  LETS NOT SEE EACHOTHER PASSWORD YES?!
+                //WriteToFile(request.ToString());//  LETS NOT SEE EACHOTHER PASSWORD YES?!
                 response = CAS_Con.sendRequest(request);
                 WriteToFile(response.ToString() + Environment.NewLine);
                 browser.processResponse(response);
                 browser.SessionCookies.Remove("Path");
 
-                if(response.Body.Contains(SUCCESS_STR))
+                if (response.Body.Contains(SUCCESS_STR))
                 {
                     showMessage("You have logged in successfully.");
                     logged_in = true;
@@ -71,7 +96,7 @@ namespace ConsoleApplication1
             }
             else
             {
-                showMessage("Press any key to end.");
+                showMessage("Press enter to end.");
             }
             Console.Read();
             if (logged_in)
