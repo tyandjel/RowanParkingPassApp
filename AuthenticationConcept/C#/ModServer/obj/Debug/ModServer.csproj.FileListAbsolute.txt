@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 H:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.dll
 H:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.pdb
 H:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.dll
@@ -32,3 +33,38 @@ D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModS
 D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.pdb
 C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.csprojResolveAssemblyReference.cache
 D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.csprojResolveAssemblyReference.cache
+=======
+H:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.dll
+H:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.pdb
+H:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.dll
+H:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.pdb
+E:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.dll
+E:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.pdb
+E:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.dll
+E:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.pdb
+H:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.csprojResolveAssemblyReference.cache
+K:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.dll
+K:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.pdb
+K:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.csprojResolveAssemblyReference.cache
+K:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.dll
+K:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.pdb
+E:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.csprojResolveAssemblyReference.cache
+F:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.dll
+F:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.pdb
+F:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.dll
+F:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.pdb
+G:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.dll
+G:\Projects\Visual Studio\C#\MobiController\ModServer\bin\Debug\ModServer.pdb
+G:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.csprojResolveAssemblyReference.cache
+G:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.dll
+G:\Projects\Visual Studio\C#\MobiController\ModServer\obj\Debug\ModServer.pdb
+C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\bin\Debug\ModServer.dll
+C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\bin\Debug\ModServer.pdb
+C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.dll
+C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.pdb
+D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\bin\Debug\ModServer.dll
+D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\bin\Debug\ModServer.pdb
+D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.dll
+D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.pdb
+C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ModServer\obj\Debug\ModServer.csprojResolveAssemblyReference.cache
+>>>>>>> origin/master
