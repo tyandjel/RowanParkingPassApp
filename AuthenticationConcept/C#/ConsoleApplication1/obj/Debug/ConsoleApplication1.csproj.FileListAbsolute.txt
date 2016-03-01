@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
 C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
 C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
@@ -31,37 +30,3 @@ D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\Cons
 D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ModServer.dll
 D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ModServer.pdb
 D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
-=======
-C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\bin\Debug\ModServer.dll
-C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\bin\Debug\ModServer.pdb
-C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
-C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-C:\Users\Ryan\Documents\Visual Studio\C++\DLL Injector (CreateRemoteThread LoadLibrary)\KeepAwake\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
-D:\Users\Ryan\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-D:\Users\Ryan\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-D:\Users\Ryan\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
-D:\Users\Ryan\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
-D:\Users\Ryan\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-D:\Users\Ryan\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-D:\Users\Ryan\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ModServer.dll
-D:\Users\Ryan\Documents\Visual Studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ModServer.pdb
-C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
-C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ModServer.dll
-C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ModServer.pdb
-C:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
-D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
-D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
-D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ModServer.dll
-D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\bin\Debug\ModServer.pdb
-D:\Users\Ryan\Documents\GitHub\RowanParkingPassApp\AuthenticationConcept\C#\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
->>>>>>> origin/master
