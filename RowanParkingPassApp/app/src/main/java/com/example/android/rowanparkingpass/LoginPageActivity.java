@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerLogin;
+import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerUser;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
 
 import org.json.JSONException;
@@ -156,12 +156,9 @@ public class LoginPageActivity extends Activity {
 
         private static final String USER_KEY = "user";
         private static final String KEY_SUCCESS = "success";
-        private static final String KEY_UID = "uid";
-        private static final String KEY_FIRST_NAME = "fname";
-        private static final String KEY_LAST_NAME = "lname";
-        private static final String KEY_USERNAME = "uname";
-        private static final String KEY_EMAIL = "email";
-        private static final String KEY_CREATED_AT = "created_at";
+        private static final String KEY_USER_ID = "user_id";
+        private static final String KEY_USER_NAME = "user_name";
+        private static final String KEY_IS_ADMIN = "is_admin";
 
         @Override
         protected void onPreExecute() {
@@ -197,29 +194,29 @@ public class LoginPageActivity extends Activity {
                     String res = json.getString(KEY_SUCCESS);
 
                     if (Integer.parseInt(res) == 1) {
-                            pDialog.setMessage("Loading User Space");
-                            pDialog.setTitle("Getting Data");
-                            DatabaseHandlerLogin db = new DatabaseHandlerLogin(getApplicationContext());
-                            JSONObject json_user = json.getJSONObject(USER_KEY);
-                            /**
-                             * Clear all previous data in SQlite database.
-                             **/
-                            UserFunctionsUsers logout = new UserFunctionsUsers();
-                            logout.logoutUser(getApplicationContext());
+                        pDialog.setMessage("Loading User Space");
+                        pDialog.setTitle("Getting Data");
+                        DatabaseHandlerUser db = new DatabaseHandlerUser(getApplicationContext());
+                        JSONObject json_user = json.getJSONObject(USER_KEY);
+                        /**
+                         * Clear all previous data in SQlite database.
+                         **/
+                        UserFunctionsUsers logout = new UserFunctionsUsers();
+                        logout.logoutUser(getApplicationContext());
 
 
-                            db.addUser(json_user.getString(KEY_FIRST_NAME), json_user.getString(KEY_LAST_NAME), json_user.getString(KEY_EMAIL), json_user.getString(KEY_USERNAME), json_user.getString(KEY_UID), json_user.getString(KEY_CREATED_AT));
-                            /**
-                             *If JSON array details are stored in SQlite it launches the User Panel.
-                             **/
-                            Intent upanel = new Intent(getApplicationContext(), HomePageActivity.class);
-                            upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            pDialog.dismiss();
-                            startActivity(upanel);
-                            /**
-                             * Close Login Screen
-                             **/
-                            finish();
+                        db.addUser(json_user.getString(KEY_USER_ID), json_user.getString(KEY_USER_NAME), json_user.getInt(KEY_IS_ADMIN));
+                        /**
+                         *If JSON array details are stored in SQlite it launches the User Panel.
+                         **/
+                        Intent upanel = new Intent(getApplicationContext(), HomePageActivity.class);
+                        upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        pDialog.dismiss();
+                        startActivity(upanel);
+                        /**
+                         * Close Login Screen
+                         **/
+                        finish();
 
                     } else {
 

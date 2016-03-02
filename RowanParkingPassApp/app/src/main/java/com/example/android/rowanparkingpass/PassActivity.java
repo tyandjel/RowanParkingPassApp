@@ -50,11 +50,11 @@ public class PassActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_pass);
 
         //Get this from database
-        Driver[] drivers = new Driver[]{new Driver("0", "Tyler", "Andjel", "13 Yorktown Dr.", "Shamong", "NJ", "08088"),
-                new Driver("1", "John", "Doe", "1 Main St.", "Main", "NJ", "08088")};
+        Driver[] drivers = new Driver[]{new Driver(0, "Tyler", "Andjel", "13 Yorktown Dr.", "Shamong", "NJ", "08088"),
+                new Driver(1, "John", "Doe", "1 Main St.", "Main", "NJ", "08088")};
         //Get this from database
-        Vehicle[] vehicles = new Vehicle[]{new Vehicle("Hyandai", "Sonnata", 2007, "Gray", "NJ", "DBA-TBA"),
-                new Vehicle("Ford", "Mustang", 2015, "Red", "PA", "DTP-TXV")};
+        Vehicle[] vehicles = new Vehicle[]{new Vehicle(1, "Hyandai", "Sonnata", 2007, "Gray", "NJ", "DBA-TBA"),
+                new Vehicle(2, "Ford", "Mustang", 2015, "Red", "PA", "DTP-TXV")};
 
         visitorList = (Spinner) findViewById(R.id.createdriverspinner);
         vehicleList = (Spinner) findViewById(R.id.createvehiclespinner);

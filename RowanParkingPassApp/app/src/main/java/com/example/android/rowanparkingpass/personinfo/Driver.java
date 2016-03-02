@@ -2,9 +2,9 @@ package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
 
-public class Driver implements PersonInfo  {
+public class Driver implements Serializable {
 
-    private String uid;
+    private int driverId;
     private String firstName;
     private String lastName;
     private String street;
@@ -12,8 +12,8 @@ public class Driver implements PersonInfo  {
     private String state;
     private String zipCode;
 
-    public Driver(String uid, String firstName, String lastName, String street, String town, String state, String zipCode) {
-        this.uid = uid;
+    public Driver(int driverId, String firstName, String lastName, String street, String town, String state, String zipCode) {
+        this.driverId = driverId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.street = street;
@@ -22,12 +22,12 @@ public class Driver implements PersonInfo  {
         this.zipCode = zipCode;
     }
 
-    public String getUid() {
-        return uid;
+    public int getDriverId() {
+        return driverId;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setDriverId(int driverId) {
+        this.driverId = driverId;
     }
 
     public String getFirstName() {
@@ -38,7 +38,9 @@ public class Driver implements PersonInfo  {
         return lastName;
     }
 
-    public String getName() {return firstName +" "+ lastName;}
+    public String getName() {
+        return firstName + " " + lastName;
+    }
 
     public String getStreet() {
         return street;
@@ -72,14 +74,14 @@ public class Driver implements PersonInfo  {
         this.zipCode = zipCode;
     }
 
-    public String getAddress(){
-        return street + " " + town + ", " + state +" " + zipCode;
+    public String getAddress() {
+        return street + " " + town + ", " + state + " " + zipCode;
     }
 
     @Override
     public String toString() {
         return "Driver{" +
-                "name='" + firstName + " "+lastName + '\'' +
+                "name='" + firstName + " " + lastName + '\'' +
                 '}';
     }
 }

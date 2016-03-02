@@ -15,12 +15,12 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
 
     // Login Table Columns names
     private static final String KEY_VEHICLE_ID = "vehicle_id";
-    private static final String KEY_YEAR_INT = "year_int";
-    private static final String KEY_MAKE_STR = "make_str";
-    private static final String KEY_MODEL_STR = "model_str";
-    private static final String KEY_STATE_ENUM = "state_enum";
-    private static final String KEY_COLOR_STR = "color_str";
-    private static final String KEY_LICENSE_STR = "license_str";
+    private static final String KEY_MAKE = "make";
+    private static final String KEY_MODEL = "model";
+    private static final String KEY_YEAR = "year";
+    private static final String KEY_STATE = "state";
+    private static final String KEY_COLOR = "color";
+    private static final String KEY_LICENSE = "license";
 
     public DatabaseHandlerVehicles(Context context) {
         super(context);
@@ -31,12 +31,12 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_VISITOR_TABLE = "CREATE TABLE " + TABLE_VISITORS + "("
                 + KEY_VEHICLE_ID + " INTEGER PRIMARY KEY,"
-                + KEY_YEAR_INT + " TEXT,"
-                + KEY_MAKE_STR + " TEXT,"
-                + KEY_MODEL_STR + " TEXT,"
-                + KEY_STATE_ENUM + " TEXT,"
-                + KEY_COLOR_STR + " TEXT,"
-                + KEY_LICENSE_STR + " TEXT UNIQUE"  + ")";
+                + KEY_MAKE + " TEXT,"
+                + KEY_MODEL + " TEXT,"
+                + KEY_YEAR + " INTEGER,"
+                + KEY_STATE + " TEXT,"
+                + KEY_COLOR + " INTEGER,"
+                + KEY_LICENSE + " TEXT UNIQUE" + ")";
         db.execSQL(CREATE_VISITOR_TABLE);
     }
 
@@ -56,12 +56,12 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     public void addVehicle(String year, String make, String model, String state, String color, String license) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_YEAR_INT, year); // Car Year
-        values.put(KEY_MAKE_STR, make); // Car Make
-        values.put(KEY_MODEL_STR, model); // Car Model
-        values.put(KEY_STATE_ENUM, state); // Car State
-        values.put(KEY_COLOR_STR, color); // Car Color
-        values.put(KEY_LICENSE_STR, license); // Car License Plate
+        values.put(KEY_MAKE, make); // Car Make
+        values.put(KEY_MODEL, model); // Car Model
+        values.put(KEY_YEAR, year); // Car Year
+        values.put(KEY_STATE, state); // Car State
+        values.put(KEY_COLOR, color); // Car Color
+        values.put(KEY_LICENSE, license); // Car License Plate
         // Inserting Row
         db.insert(TABLE_VISITORS, null, values);
         db.close(); // Closing database connection
@@ -73,13 +73,13 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     public void updateUser(String year, String make, String model, String state, String color, String license) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_YEAR_INT, year); // Car Year
-        values.put(KEY_MAKE_STR, make); // Car Make
-        values.put(KEY_MODEL_STR, model); // Car Model
-        values.put(KEY_STATE_ENUM, state); // Car State
-        values.put(KEY_COLOR_STR, color); // Car Color
+        values.put(KEY_MAKE, make); // Car Make
+        values.put(KEY_MODEL, model); // Car Model
+        values.put(KEY_YEAR, year); // Car Year
+        values.put(KEY_STATE, state); // Car State
+        values.put(KEY_COLOR, color); // Car Color
         // Update Row
-        db.update(TABLE_VISITORS, values, KEY_LICENSE_STR + "=" + license, null);
+        db.update(TABLE_VISITORS, values, KEY_LICENSE + "=" + license, null);
     }
 
     /**
@@ -95,12 +95,13 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         // Move to first row
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            vehicle.put(KEY_YEAR_INT, cursor.getString(1));
-            vehicle.put(KEY_MAKE_STR, cursor.getString(2));
-            vehicle.put(KEY_MODEL_STR, cursor.getString(3));
-            vehicle.put(KEY_STATE_ENUM, cursor.getString(4));
-            vehicle.put(KEY_COLOR_STR, cursor.getString(5));
-            vehicle.put(KEY_LICENSE_STR, cursor.getString(6));
+            vehicle.put(KEY_VEHICLE_ID, cursor.getString(0));
+            vehicle.put(KEY_MAKE, cursor.getString(1));
+            vehicle.put(KEY_MODEL, cursor.getString(2));
+            vehicle.put(KEY_YEAR, cursor.getString(3));
+            vehicle.put(KEY_STATE, cursor.getString(4));
+            vehicle.put(KEY_COLOR, cursor.getString(5));
+            vehicle.put(KEY_LICENSE, cursor.getString(6));
             rows.add(vehicle);
             vehicle.clear();
             cursor.moveToNext();
