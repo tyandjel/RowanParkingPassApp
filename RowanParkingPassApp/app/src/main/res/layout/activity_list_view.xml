@@ -4,7 +4,8 @@
      All we need to do is rebuild the contents and the view inside the list. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#764502">
 
     <ListView
         android:layout_width="match_parent"

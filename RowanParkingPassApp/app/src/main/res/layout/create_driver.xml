@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#764502">
+    <TextView
+        android:id="@+id/selection"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:text="Full Name"
+            android:gravity="left"
+            android:id="@+id/fullNameText"
+            android:textSize="20sp"
+            android:textColor="#FFEE00"
+            android:paddingLeft="40dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fullNameEditText"
+            android:layout_weight="1"
+            android:text="ie. John Doe"
+            android:textColor="#7dffffff"
+            android:textIsSelectable="true"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:text="Street"
+            android:id="@+id/streetText"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:textColor="#FFEE00"
+            android:paddingLeft="40dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/streetEditText"
+            android:layout_weight="1"
+            android:text="ie. 12 Main St"
+            android:textColor="#7dffffff"
+            android:textIsSelectable="true"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:text="City"
+            android:id="@+id/cityText"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:textColor="#FFEE00"
+            android:paddingLeft="40dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cityEditText"
+            android:layout_weight="1"
+            android:text="ie. Glassboro"
+            android:textColor="#7dffffff"
+            android:textIsSelectable="true"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:text="State"
+            android:id="@+id/stateText"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:textColor="#FFEE00"
+            android:paddingLeft="40dp" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/driverSpinner"
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:text="Zip Code"
+            android:id="@+id/zipCodeText"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:textColor="#FFEE00"
+            android:paddingLeft="40dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/zipCodeEditText"
+            android:layout_weight="1"
+            android:text="ie. 08028"
+            android:textColor="#7dffffff"
+            android:textIsSelectable="true"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+        <TextView
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:text="Save Info."
+            android:id="@+id/saveInfoText"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:textColor="#FFEE00"
+            android:paddingLeft="40dp" />
+
+        <CheckBox
+            android:layout_width="44dp"
+            android:layout_height="48dp"
+            android:id="@+id/saveInfoOnPhoneCheckBox"
+            android:checked="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/cancelDriverButton"
+            android:text="Cancel"
+            android:textColor="#FFEE00"
+            android:textSize="20sp"
+            android:layout_width="165dp"
+            android:layout_height="40dp"
+            android:background="@drawable/buttonshape"
+            android:layout_gravity="left"
+            android:layout_margin="10dp" />
+
+        <Button
+            android:id="@+id/createDriverButton"
+            android:text="Create"
+            android:textColor="#FFEE00"
+            android:textSize="20sp"
+            android:layout_width="165dp"
+            android:layout_height="40dp"
+            android:background="@drawable/buttonshape"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp" />
+
+    </LinearLayout>
+
+    </LinearLayout>
