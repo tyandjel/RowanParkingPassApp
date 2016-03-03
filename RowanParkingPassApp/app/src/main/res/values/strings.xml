@@ -10,5 +10,39 @@
     <string name="register_button">Register</string>
     <string name="forgot_password_button">Forgot Password</string>
 
-    <color name="white">#FFFFFF</color>
+    <string name="settings_change_password_button">Change Password</string>
+    <string name="settings_sync_now_button">Sync Now</string>
+    <string name="settings_auto_sync">Auto Sync</string>
+
+    <string name="pass_end_date">Pass End Date</string>
+    <string name="pass_start_date">Pass Start Date</string>
+    <string name="create_pass">Create Pass</string>
+    <string name="main_menu">Main Menu</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="full_name_hint">John Doe</string>
+    <string name="street">Street</string>
+    <string name="street_hint">12 Main St.</string>
+    <string name="city">City</string>
+    <string name="city_hint">Glassboro</string>
+    <string name="state">State</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="zip_code_hint">08028</string>
+    <string name="create_driver">Create Driver</string>
+
+    <string name="vehicle_make">Make</string>
+    <string name="vehicle_make_hint">Ford</string>
+    <string name="model">Model</string>
+    <string name="model_hint">Mustang</string>
+    <string name="year">Year</string>
+    <string name="year_hint">1986</string>
+    <string name="color">Color</string>
+    <string name="color_hint">Black</string>
+    <string name="license">License</string>
+    <string name="license_hint">#######</string>
+    <string name="create_vehicle">Create Vehicle</string>
+
+    <string name="save_info">Safe Info.</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

@@ -1,58 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1"
+    android:background="@color/background"
+    android:orientation="vertical"
     android:paddingTop="50dp"
-    android:background="#764502">
+    android:weightSum="1">
 
     <Button
         android:id="@+id/changePassButton"
-        android:text="Change Password"
-        android:textColor="#FFEE00"
-        android:textSize="30sp"
         android:layout_width="270dp"
         android:layout_height="60dp"
-        android:background="@drawable/buttonshape"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp" />
+        android:layout_marginTop="80dp"
+        android:background="@drawable/button_shape"
+        android:text="@string/settings_change_password_button"
+        android:textColor="@color/textColor"
+        android:textSize="30sp" />
 
 
     <Button
         android:id="@+id/syncNowButton"
-        android:text="Sync Now"
-        android:textColor="#FFEE00"
-        android:textSize="30sp"
         android:layout_width="270dp"
         android:layout_height="60dp"
-        android:background="@drawable/buttonshape"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_shape"
+        android:text="@string/settings_sync_now_button"
+        android:textColor="@color/textColor"
+        android:textSize="30sp" />
 
     <Switch
-        android:layout_marginTop="30dp"
-        android:clickable="true"
-        android:layout_gravity="center_horizontal"
-        android:checked="true"
-        android:layout_height="wrap_content"
+        android:id="@+id/mySwitch"
         android:layout_width="wrap_content"
-        android:id=
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:checked="true"
+        android:clickable="true"
+        android:textOff="OFF"
+        android:textOn="ON"
+        android:thumb="@drawable/custom_switch_selector" />
 
     <TextView
+        android:id="@+id/autoSyncTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/settings_auto_sync"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Auto Sync"
-    android:id="@+id/autoSyncTextView"
-    android:layout_gravity="center_horizontal"
-    android:textSize="20dp" />”@+id/mySwitch”
-    android:layout_below=”@+id/tvStateDefault”
-    android:layout_width=”wrap_content”
-    android:layout_height=”wrap_content”
-    android:textOn=”ON”
-    android:thumb=”@drawable/customswitchselector”
-    android:track=”@drawable/custom_track”
-    android:textOff=”OFF”
-    android:layout_centerHorizontal=”true”/>
+        android:textSize="20sp" />
 
 </LinearLayout>

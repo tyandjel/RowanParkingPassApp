@@ -1,110 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#764502">
+    android:background="@color/background"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/selection"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="115dp"
-        android:drawSelectorOnTop="false"
-        />
+        android:drawSelectorOnTop="false" />
 
+        <TextView
+            android:id="@+id/createstartdatelabel"
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="@string/pass_start_date"
+            android:textColor="@color/textColor"
+            android:textSize="15sp"
+            android:layout_below="@android:id/list"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    <TextView
-        android:layout_width="182dp"
-        android:layout_height="40dp"
-        android:text="Pass Start Date"
-        android:id="@+id/createstartdatelabel"
-        android:layout_below="@+id/createdname"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:gravity="center"
-        android:textSize="15sp"
-        android:textColor="#FFEE00" />
+        <TextView
+            android:id="@+id/createdenddate"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="@string/pass_end_date"
+            android:textColor="#FFEE00"
+            android:textSize="15sp"
+            android:layout_alignTop="@+id/createstartdatelabel"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/createstartdatelabel"
+            android:layout_toEndOf="@+id/createstartdatelabel" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Pass End Date"
-        android:id="@+id/createdvehicle"
-        android:layout_below="@+id/createvehiclespinner"
-        android:layout_toRightOf="@+id/createstartdatelabel"
-        android:layout_toEndOf="@+id/createstartdatelabel"
-        android:gravity="center"
-        android:textSize="15sp"
-        android:textColor="#FFEE00" />
-        </LinearLayout>
+        <EditText
+            android:id="@+id/createstartdatefield"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:clickable="false"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="date"
+            android:textSize="13sp"
+            android:layout_below="@+id/createstartdatelabel"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"/>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    <EditText
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/createstartdatefield"
-        android:layout_below="@+id/createstartdatelabel"
-        android:layout_toLeftOf="@+id/createdvehicle"
-        android:layout_toStartOf="@+id/createdvehicle"
-        android:gravity="center"
-        android:textSize="13sp"
-        android:editable="false"
-        android:clickable="false"
-        android:layout_marginLeft="8\dp"
-        android:layout_marginRight="10dp" />
-
-    <EditText
-        android:layout_width="180dp"
-        android:layout_height="30dp"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/createenddatefield"
-        android:layout_alignBottom="@+id/createstartdatefield"
-        android:layout_toRightOf="@+id/createstartdatelabel"
-        android:layout_toEndOf="@+id/createstartdatelabel"
-        android:textSize="13sp"
-        android:gravity="center"
-        android:clickable="false"
-        android:layout_marginRight="8dp" />
-
-        </LinearLayout>
+        <EditText
+            android:id="@+id/createenddatefield"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:clickable="false"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="date"
+            android:textSize="13sp"
+            android:layout_below="@+id/createdenddate"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
 
     <Button
         android:id="@+id/createPassButton"
-        android:text="Create Pass"
-        android:textColor="#FFEE00"
-        android:textSize="20sp"
         android:layout_width="180dp"
         android:layout_height="40dp"
-        android:background="@drawable/buttonshape"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp" />
+        android:background="@drawable/button_shape"
+        android:text="@string/create_pass"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:layout_below="@+id/createstartdatefield"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:id="@+id/goMainMenuButton"
-        android:text="Main Menu"
-        android:textColor="#FFEE00"
-        android:textSize="20sp"
         android:layout_width="180dp"
         android:layout_height="40dp"
-        android:background="@drawable/buttonshape"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp" />
+        android:background="@drawable/button_shape"
+        android:text="@string/main_menu"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/createPassButton"
+        android:layout_centerHorizontal="true" />
 
 
-</LinearLayout>
+</RelativeLayout>

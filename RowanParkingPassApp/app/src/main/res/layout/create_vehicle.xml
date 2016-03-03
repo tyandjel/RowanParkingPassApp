@@ -1,221 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#764502">
+    android:background="@color/background">
+
     <TextView
         android:id="@+id/selection"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
+
         <TextView
-            android:layout_width="182dp"
-            android:layout_height="40dp"
-            android:text="Vehicle Make"
             android:id="@+id/vehicleMakeText"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:textColor="#FFEE00"
-            android:paddingLeft="40dp" />
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/vehicle_make"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/vehicleMakeEditText"
-            android:layout_weight="1"
-            android:text="ie. Ford"
-            android:textColor="#7dffffff"
-            android:textIsSelectable="true"
-            android:layout_marginRight="10dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-        <TextView
-            android:layout_width="182dp"
-            android:layout_height="40dp"
-            android:text="Model"
-            android:id="@+id/modelText"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:textColor="#FFEE00"
-            android:paddingLeft="40dp" />
-
-        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/modelEditText"
-            android:layout_weight="1"
-            android:text="ie. Mustang"
-            android:textColor="#7dffffff"
-            android:textIsSelectable="true"
-            android:layout_marginRight="10dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-        <TextView
-            android:layout_width="182dp"
-            android:layout_height="40dp"
-            android:text="Year"
-            android:id="@+id/yearText"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:textColor="#FFEE00"
-            android:paddingLeft="40dp" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/yearEditText"
-            android:layout_weight="1"
-            android:text="ie. 1986"
-            android:textColor="#7dffffff"
-            android:textIsSelectable="true"
+            android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:password="false" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:hint="@string/vehicle_make_hint"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
+
         <TextView
+            android:id="@+id/modelText"
             android:layout_width="182dp"
             android:layout_height="40dp"
-            android:text="Color"
-            android:id="@+id/vehicleColorText"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:textColor="#FFEE00"
-            android:paddingLeft="40dp" />
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/model"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/modelEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/vehicleColorEditText"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="ie. Black"
-            android:textColor="#7dffffff"
-            android:textIsSelectable="true"
-            android:layout_marginRight="10dp" />
-    </LinearLayout>
+            android:hint="@string/model_hint"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
+
         <TextView
+            android:id="@+id/yearText"
             android:layout_width="182dp"
             android:layout_height="40dp"
-            android:text="State"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/year"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/yearEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:hint="@string/year_hint"
+            android:inputType="number"
+            android:maxLength="4"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/vehicleColorText"
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/color"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/vehicleColorEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:hint="@string/color_hint"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
             android:id="@+id/vehicleStateText"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:textColor="#FFEE00"
-            android:paddingLeft="40dp" />
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/state"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
 
         <Spinner
+            android:id="@+id/vehicleSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/vehicleSpinner"
             android:layout_weight="1"
             android:spinnerMode="dropdown" />
 
-    </LinearLayout>
+    </TableRow>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
+
         <TextView
+            android:id="@+id/licenseText"
             android:layout_width="182dp"
             android:layout_height="40dp"
-            android:text="License"
-            android:id="@+id/licenseText"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:textColor="#FFEE00"
-            android:paddingLeft="40dp" />
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/license"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
 
         <EditText
+            android:id="@+id/licenseEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/licenseEditText"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="ie. #######"
-            android:textColor="#7dffffff"
-            android:textIsSelectable="true"
-            android:layout_marginRight="10dp" />
-    </LinearLayout>
+            android:hint="@string/license_hint"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <TableRow
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:weightSum="1">
+
         <TextView
+            android:id="@+id/saveVehicleInfoText"
             android:layout_width="182dp"
             android:layout_height="40dp"
-            android:text="Save Info."
-            android:id="@+id/saveVehicleInfoText"
-            android:gravity="left"
-            android:textSize="20sp"
-            android:textColor="#FFEE00"
-            android:paddingLeft="40dp" />
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/save_info"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
 
         <CheckBox
+            android:id="@+id/saveVehicleInfoOnPhoneCheckBox"
             android:layout_width="44dp"
             android:layout_height="48dp"
-            android:id="@+id/saveVehicleInfoOnPhoneCheckBox"
+            android:layout_weight="1"
             android:checked="true" />
-    </LinearLayout>
+    </TableRow>
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/cancelDriverButton"
-            android:text="Cancel"
-            android:textColor="#FFEE00"
-            android:textSize="20sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="165dp"
             android:layout_height="40dp"
-            android:background="@drawable/buttonshape"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:background="@drawable/button_shape"
+            android:text="@string/cancel"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/createDriverButton"
-            android:text="Create"
-            android:textColor="#FFEE00"
-            android:textSize="20sp"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="165dp"
             android:layout_height="40dp"
-            android:background="@drawable/buttonshape"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp" />
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape"
+            android:text="@string/create_vehicle"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
 
-    </LinearLayout>
+    </TableRow>
 
-</LinearLayout>
+</TableLayout>
