@@ -102,38 +102,53 @@ public class UserFunctionsVehicle extends UserFunctionsBase {
         return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
     }
 
+//    /**
+//     * Syncs the local database of vehicles with server side
+//     *
+//     * @param userId        user's user id
+//     * @param localVehicles list of vehicles on phone
+//     * @return JSONObject whether vehicles were successfully synced and all vehicles associated with the user id
+//     */
+//    public JSONObject syncVehicles(String userId, ArrayList<Vehicle> localVehicles) {
+//        HashMap<String, String> params = new HashMap<>();
+//        JSONObject vehicleObj = new JSONObject();
+//        JSONArray vehicleArray = new JSONArray();
+//
+//        params.put(TAG_KEY, SYNC_VEHICLES_TAG);
+//        params.put(USER_ID_KEY, userId);
+//
+//        try {
+//            for (int i = 0; i < localVehicles.size(); i++) {
+//                JSONObject vehicle = new JSONObject();
+//                vehicle.put(VEHICLE_ID_KEY, localVehicles.get(i).getVehicleId());
+//                vehicle.put(MAKE_KEY, localVehicles.get(i).getMake());
+//                vehicle.put(MODEL_KEY, localVehicles.get(i).getModel());
+//                vehicle.put(YEAR_KEY, localVehicles.get(i).getYear());
+//                vehicle.put(STATE_KEY, localVehicles.get(i).getVehicleState());
+//                vehicle.put(COLOR_KEY, localVehicles.get(i).getColor());
+//                vehicle.put(LICENSE_KEY, localVehicles.get(i).getLicensePlate());
+//                vehicleArray.put(i, vehicle);
+//            }
+//            vehicleObj.put("app_vehicles", vehicleArray);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        params.put(VEHICLE_LIST_KEY, vehicleObj.toString());
+//
+//        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
+//    }
+
     /**
      * Syncs the local database of vehicles with server side
      *
      * @param userId        user's user id
-     * @param localVehicles list of vehicles on phone
      * @return JSONObject whether vehicles were successfully synced and all vehicles associated with the user id
      */
-    public JSONObject syncVehicles(String userId, ArrayList<Vehicle> localVehicles) {
+    public JSONObject syncVehicles(String userId) {
         HashMap<String, String> params = new HashMap<>();
-        JSONObject vehicleObj = new JSONObject();
-        JSONArray vehicleArray = new JSONArray();
 
         params.put(TAG_KEY, SYNC_VEHICLES_TAG);
         params.put(USER_ID_KEY, userId);
-
-        try {
-            for (int i = 0; i < localVehicles.size(); i++) {
-                JSONObject vehicle = new JSONObject();
-                vehicle.put(VEHICLE_ID_KEY, localVehicles.get(i).getVehicleId());
-                vehicle.put(MAKE_KEY, localVehicles.get(i).getMake());
-                vehicle.put(MODEL_KEY, localVehicles.get(i).getModel());
-                vehicle.put(YEAR_KEY, localVehicles.get(i).getYear());
-                vehicle.put(STATE_KEY, localVehicles.get(i).getVehicleState());
-                vehicle.put(COLOR_KEY, localVehicles.get(i).getColor());
-                vehicle.put(LICENSE_KEY, localVehicles.get(i).getLicensePlate());
-                vehicleArray.put(i, vehicle);
-            }
-            vehicleObj.put("app_vehicles", vehicleArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        params.put(VEHICLE_LIST_KEY, vehicleObj.toString());
 
         return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
     }

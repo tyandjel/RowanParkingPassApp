@@ -12,17 +12,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSocketFactory;
 
 public class JSONParser {
 
     public static String POST = "POST";
     public static String GET = "GET";
     String charset = "UTF-8";
-    HttpURLConnection conn;
+    HttpsURLConnection conn;
     DataOutputStream wr;
     StringBuilder result;
     URL urlObj;
@@ -32,6 +34,7 @@ public class JSONParser {
 
     public JSONObject makeHttpRequest(String url, String method,
                                       HashMap<String, String> params) {
+
         sbParams = new StringBuilder();
         int i = 0;
         for (String key : params.keySet()) {
@@ -53,7 +56,7 @@ public class JSONParser {
             try {
                 urlObj = new URL(url);
 
-                conn = (HttpURLConnection) urlObj.openConnection();
+                conn = (HttpsURLConnection) urlObj.openConnection();
 
                 conn.setDoOutput(true);
 
@@ -63,6 +66,8 @@ public class JSONParser {
 
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
+
+                conn.setSSLSocketFactory((SSLSocketFactory)SSLSocketFactory.getDefault());
 
                 conn.connect();
 
@@ -86,7 +91,7 @@ public class JSONParser {
             try {
                 urlObj = new URL(url);
 
-                conn = (HttpURLConnection) urlObj.openConnection();
+                conn = (HttpsURLConnection) urlObj.openConnection();
 
                 conn.setDoOutput(false);
 
