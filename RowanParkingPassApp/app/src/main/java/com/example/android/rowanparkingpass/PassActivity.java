@@ -1,6 +1,5 @@
 package com.example.android.rowanparkingpass;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.example.android.rowanparkingpass.personinfo.Driver;
-import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerVehicles;
@@ -21,13 +18,13 @@ import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHa
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class PassActivity extends Activity implements View.OnClickListener {
+public class PassActivity extends BaseActivity implements View.OnClickListener {
 
     private DatabaseHandlerDrivers dbDriverss;
     private DatabaseHandlerVehicles dbVehicles;
 
-    private Spinner visitorList;
-    private Spinner vehicleList;
+    //private Spinner visitorList;
+    //private Spinner vehicleList;
 
     private ArrayAdapter<Driver> driverArrayAdapter;
     private ArrayAdapter<Vehicle> vehicleArrayAdapter;
@@ -39,8 +36,8 @@ public class PassActivity extends Activity implements View.OnClickListener {
     private EditText startDate;
     private EditText endDate;
 
-    private Button newVisitor;
-    private Button newVehicle;
+    //    private Button newVisitor;
+//    private Button newVehicle;
     private Button createPass;
     private Button mainMenu;
 
@@ -56,14 +53,14 @@ public class PassActivity extends Activity implements View.OnClickListener {
         Vehicle[] vehicles = new Vehicle[]{new Vehicle(1, "Hyandai", "Sonnata", 2007, "Gray", "NJ", "DBA-TBA"),
                 new Vehicle(2, "Ford", "Mustang", 2015, "Red", "PA", "DTP-TXV")};
 
-        visitorList = (Spinner) findViewById(R.id.createdriverspinner);
-        vehicleList = (Spinner) findViewById(R.id.createvehiclespinner);
+        //visitorList = (Spinner) findViewById(R.id.createdriverspinner);
+        //vehicleList = (Spinner) findViewById(R.id.createvehiclespinner);
 
         driverArrayAdapter = new ArrayAdapter<Driver>(this, android.R.layout.simple_spinner_item, drivers);
         vehicleArrayAdapter = new ArrayAdapter<Vehicle>(this, android.R.layout.simple_spinner_item, vehicles);
 
-        visitorList.setAdapter(driverArrayAdapter);
-        vehicleList.setAdapter(vehicleArrayAdapter);
+        //visitorList.setAdapter(driverArrayAdapter);
+        //vehicleList.setAdapter(vehicleArrayAdapter);
 
         dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -99,13 +96,13 @@ public class PassActivity extends Activity implements View.OnClickListener {
         }, year, month, day);
 
 
-        newVisitor = (Button) findViewById(R.id.createnewdriverbtn);
-        newVehicle = (Button) findViewById(R.id.createnewvehiclebtn);
-        createPass = (Button) findViewById(R.id.createpassbtn);
-        mainMenu = (Button) findViewById(R.id.createmainmenubtn);
+//        newVisitor = (Button) findViewById(R.id.createnewdriverbtn);
+//        newVehicle = (Button) findViewById(R.id.createnewvehiclebtn);
+        createPass = (Button) findViewById(R.id.createPassButton);
+        mainMenu = (Button) findViewById(R.id.goMainMenuButton);
 
-        newVisitor.setOnClickListener(this);
-        newVehicle.setOnClickListener(this);
+//        newVisitor.setOnClickListener(this);
+//        newVehicle.setOnClickListener(this);
         createPass.setOnClickListener(this);
         mainMenu.setOnClickListener(this);
 
@@ -114,19 +111,20 @@ public class PassActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Intent intent;
-        if (view == newVisitor) {
-            //TODO change so it knows to go to show drivers
-            intent = new Intent(getApplicationContext(), ListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        } else if (view == newVehicle) {
-            //TODO change so it knows to go to show vehicles
-            intent = new Intent(getApplicationContext(), ListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        } else if (view == startDate) {
+//        if (view == newVisitor) {
+//            //TODO change so it knows to go to show drivers
+//            intent = new Intent(getApplicationContext(), ListActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(intent);
+//            finish();
+//        } else if (view == newVehicle) {
+//            //TODO change so it knows to go to show vehicles
+//            intent = new Intent(getApplicationContext(), ListActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(intent);
+//            finish();
+       /* } else*/
+        if (view == startDate) {
             // Select Pass Start Date using a date selector
             startDatePickerDialog.show();
         } else if (view == endDate) {
@@ -134,11 +132,11 @@ public class PassActivity extends Activity implements View.OnClickListener {
             endDatePickerDialog.show();
         } else if (view == createPass) {
             //TODO add pass to remote database, send email, and may be able to get rid of createdPass
-            Pass createdPass = new Pass(driverArrayAdapter.getItem(visitorList.getSelectedItemPosition()),
-                    vehicleArrayAdapter.getItem(vehicleList.getSelectedItemPosition()),
-                    startDate.getText().toString(), endDate.getText().toString());
+//            Pass createdPass = new Pass(driverArrayAdapter.getItem(visitorList.getSelectedItemPosition()),
+//                    vehicleArrayAdapter.getItem(vehicleList.getSelectedItemPosition()),
+//                    startDate.getText().toString(), endDate.getText().toString());
             intent = new Intent(getApplicationContext(), HomePageActivity.class);
-            intent.putExtra("pass", createdPass);
+//            intent.putExtra("pass", createdPass);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();

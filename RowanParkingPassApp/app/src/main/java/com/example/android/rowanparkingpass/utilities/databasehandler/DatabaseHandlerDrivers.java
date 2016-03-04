@@ -107,7 +107,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
             for (int i = 1; i < fullName.length - 1; i++) {
                 lastName += fullName[i];
             }
-            rows.add(new Driver(user.get(KEY_DRIVER_ID), firstName, lastName, user.get(KEY_STREET), user.get(KEY_CITY), user.get(KEY_STATE), user.get(KEY_ZIP)));
+            rows.add(new Driver(Integer.parseInt(user.get(KEY_DRIVER_ID)), firstName, lastName, user.get(KEY_STREET), user.get(KEY_CITY), user.get(KEY_STATE), user.get(KEY_ZIP)));
             user.clear();
             cursor.moveToNext();
         }

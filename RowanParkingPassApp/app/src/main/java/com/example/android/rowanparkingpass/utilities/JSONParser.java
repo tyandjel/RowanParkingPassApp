@@ -67,7 +67,7 @@ public class JSONParser {
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
 
-                conn.setSSLSocketFactory((SSLSocketFactory)SSLSocketFactory.getDefault());
+                conn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
 
                 conn.connect();
 

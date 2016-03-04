@@ -1,13 +1,9 @@
 package com.example.android.rowanparkingpass.utilities.userfunctions;
 
-import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.JSONParser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserFunctionsVehicle extends UserFunctionsBase {
@@ -141,7 +137,7 @@ public class UserFunctionsVehicle extends UserFunctionsBase {
     /**
      * Syncs the local database of vehicles with server side
      *
-     * @param userId        user's user id
+     * @param userId user's user id
      * @return JSONObject whether vehicles were successfully synced and all vehicles associated with the user id
      */
     public JSONObject syncVehicles(String userId) {

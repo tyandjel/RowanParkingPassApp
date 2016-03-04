@@ -1,6 +1,5 @@
 package com.example.android.rowanparkingpass;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,14 +20,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
-public class LoginPageActivity extends Activity {
+import javax.net.ssl.HttpsURLConnection;
 
-    private Button btnLogin;
-    private Button btnPasswordReset;
+public class LoginPageActivity extends BaseActivity {
+
     private EditText inputEmail;
     private EditText inputPassword;
     private TextView loginErrorMsg;
@@ -39,16 +36,17 @@ public class LoginPageActivity extends Activity {
 
         setContentView(R.layout.activity_login);
 
-        inputEmail = (EditText) findViewById(R.id.vehiclestart);
+        inputEmail = (EditText) findViewById(R.id.username);
         inputPassword = (EditText) findViewById(R.id.pword);
-        btnLogin = (Button) findViewById(R.id.createdmainmenu);
-        btnPasswordReset = (Button) findViewById(R.id.passres);
+        Button btnLogin = (Button) findViewById(R.id.createdmainmenu);
+        Button btnForgotPassword = (Button) findViewById(R.id.forgotpass);
         loginErrorMsg = (TextView) findViewById(R.id.loginErrorMsg);
 
-        btnPasswordReset.setOnClickListener(new View.OnClickListener() {
+        btnForgotPassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), RowanWebPageActivity.class);
-                startActivityForResult(myIntent, 0);
+                myIntent.putExtra(MODE, mode.FORGOT_PASSWORD.name());
+                startActivity(myIntent);
                 finish();
             }
         });
@@ -71,7 +69,8 @@ public class LoginPageActivity extends Activity {
                             "Email field empty", Toast.LENGTH_SHORT).show();
                 } else {
                     //TODO Remove next line
-                    Intent upanel = new Intent(getApplicationContext(), HomePageActivity.class);
+                    Intent upanel = new Intent(getApplicationContext(), ListActivity.class);
+                    upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(upanel);
                     /**
@@ -118,14 +117,12 @@ public class LoginPageActivity extends Activity {
             if (netInfo != null && netInfo.isConnected()) {
                 try {
                     URL url = new URL("http://www.google.com");
-                    HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
+                    HttpsURLConnection urlc = (HttpsURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
                     if (urlc.getResponseCode() == 200) {
                         return true;
                     }
-                } catch (MalformedURLException e1) {
-                    e1.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -141,7 +138,7 @@ public class LoginPageActivity extends Activity {
                 new ProcessLogin().execute();
             } else {
                 nDialog.dismiss();
-                loginErrorMsg.setText("Error in Network Connection");
+                loginErrorMsg.setText(R.string.error_in_network_connection);
             }
         }
     }
@@ -164,7 +161,7 @@ public class LoginPageActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            inputEmail = (EditText) findViewById(R.id.vehiclestart);
+            inputEmail = (EditText) findViewById(R.id.username);
             inputPassword = (EditText) findViewById(R.id.pword);
             email = inputEmail.getText().toString();
             password = inputPassword.getText().toString();
@@ -221,7 +218,7 @@ public class LoginPageActivity extends Activity {
                     } else {
 
                         pDialog.dismiss();
-                        loginErrorMsg.setText("Incorrect username/password");
+                        loginErrorMsg.setText(R.string.incorrect_username_password);
                     }
                 }
             } catch (JSONException e) {

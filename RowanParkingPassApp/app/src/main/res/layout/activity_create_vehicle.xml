@@ -213,7 +213,7 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/cancelDriverButton"
+            android:id="@+id/cancelVehicleButton"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="165dp"
             android:layout_height="40dp"
@@ -224,7 +224,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/createDriverButton"
+            android:id="@+id/createVehicleButton"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="165dp"
             android:layout_height="40dp"

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Johnathan Saunders on 2/16/2016.
  * This class will be in charge of handling the content put into the activity_list_view
- * it will make activities screens 1,2,3,4,6 and 7 (home, driver, vehicle pages, View Drivers, and View Vehiccles).
+ * it will fullName activities screens 2,3,4,6 and 7 (home, driver, vehicle pages, View Drivers, and View Vehicles).
  */
 public class ListViewArrayAdapter extends BaseAdapter {
     private List<Driver> drivers = new ArrayList<>();
@@ -34,15 +34,17 @@ public class ListViewArrayAdapter extends BaseAdapter {
      * This  is for creating the content for a list of passes listview
      */
     public ListViewArrayAdapter(List<Object> l, Context c, int layout) {
-        Object objIn = l.get(0);
-        if (objIn instanceof Pass) {
-            makePassesList((List<Pass>) (List<?>) l); // should try to find a better casting method.
-        } else {
-            if (objIn instanceof Vehicle) {
-                makeVehiclesList((List<Vehicle>) (List<?>) l);
+        if (!l.isEmpty()) {
+            Object objIn = l.get(0);
+            if (objIn instanceof Pass) {
+                makePassesList((List<Pass>) (List<?>) l); // should try to find a better casting method.
             } else {
-                if (objIn instanceof Driver) {
-                    makeDriversList((List<Driver>) (List<?>) l);
+                if (objIn instanceof Vehicle) {
+                    makeVehiclesList((List<Vehicle>) (List<?>) l);
+                } else {
+                    if (objIn instanceof Driver) {
+                        makeDriversList((List<Driver>) (List<?>) l);
+                    }
                 }
             }
         }
