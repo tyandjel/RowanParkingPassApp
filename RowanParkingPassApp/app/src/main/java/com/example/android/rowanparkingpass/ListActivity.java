@@ -61,7 +61,6 @@ public class ListActivity extends BaseActivity {
                 myIntent = new Intent(this, ListActivity.class);
                 myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
                 startActivity(myIntent);
-                finish();
                 break;
             // action with ID action_vehicles was selected
             case R.id.action_vehicles:
@@ -69,14 +68,12 @@ public class ListActivity extends BaseActivity {
                 myIntent = new Intent(this, ListActivity.class);
                 myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
                 startActivity(myIntent);
-                finish();
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
                 myIntent = new Intent(this, SettingActivity.class);
                 startActivity(myIntent);
-                finish();
                 break;
             // action with ID action_logout was selected
             case R.id.action_logout:

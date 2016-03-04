@@ -47,7 +47,6 @@ public class LoginPageActivity extends BaseActivity {
                 Intent myIntent = new Intent(view.getContext(), RowanWebPageActivity.class);
                 myIntent.putExtra(MODE, mode.FORGOT_PASSWORD.name());
                 startActivity(myIntent);
-                finish();
             }
         });
 
@@ -76,7 +75,7 @@ public class LoginPageActivity extends BaseActivity {
                     /**
                      * Close Login Screen
                      **/
-                    finish();
+//                    finish();
                     Toast.makeText(getApplicationContext(),
                             "Email and Password field are empty", Toast.LENGTH_SHORT).show();
                 }

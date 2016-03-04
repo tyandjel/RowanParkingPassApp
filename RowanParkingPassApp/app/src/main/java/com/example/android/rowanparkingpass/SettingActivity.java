@@ -49,7 +49,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 myIntent = new Intent(this, HomePageActivity.class);
                 myIntent.putExtra(MODE, mode.HOME_PAGE);
                 startActivity(myIntent);
-                finish();
                 break;
             default:
                 break;
@@ -65,9 +64,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.changePassButton:
                 Toast.makeText(this, "Change password was clicked", Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(this, RowanWebPageActivity.class);
-                myIntent.putExtra(MODE, RowanWebPageActivity.mode.CHANGE_PASSWORD);
+                myIntent.putExtra(MODE, RowanWebPageActivity.mode.CHANGE_PASSWORD.name());
                 startActivity(myIntent);
-                finish();
                 break;
             case R.id.syncNowButton:
                 Toast.makeText(this, "Sync now was clicked", Toast.LENGTH_SHORT).show();

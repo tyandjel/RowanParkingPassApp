@@ -10,4 +10,10 @@ public abstract class BaseActivity extends Activity {
 
     public static String currentMode;
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
+
 }
