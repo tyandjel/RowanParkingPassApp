@@ -16,12 +16,12 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     private static final String TABLE_DRIVER = "Driver";
 
     // Login Table Columns names
-    private static final String KEY_DRIVER_ID = "driver_id";
-    private static final String KEY_FULL_NAME = "full_name";
-    private static final String KEY_STREET = "street";
-    private static final String KEY_CITY = "city";
-    private static final String KEY_STATE = "state";
-    private static final String KEY_ZIP = "zip";
+    public static final String KEY_DRIVER_ID = "driver_id";
+    public static final String KEY_FULL_NAME = "full_name";
+    public static final String KEY_STREET = "street";
+    public static final String KEY_CITY = "city";
+    public static final String KEY_STATE = "state";
+    public static final String KEY_ZIP = "zip";
 
     public DatabaseHandlerDrivers(Context context) {
         super(context);
@@ -51,9 +51,9 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     }
 
     /**
-     * Storing visitor details in database
+     * Storing Driver details in database
      */
-    public void addVistor(String firstName, String lastName, String street, String city, String state, String zip) {
+    public void addDriver(String firstName, String lastName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_FULL_NAME, firstName + " " + lastName); // Full Name
@@ -82,9 +82,9 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     }
 
     /**
-     * Getting user data from database
+     * Getting driver data from database
      */
-    public ArrayList<Driver> getVisitors() {
+    public ArrayList<Driver> getDrivers() {
         ArrayList<Driver> rows = new ArrayList<>();
         HashMap<String, String> user = new HashMap<>();
         String selectQuery = "SELECT * FROM " + TABLE_DRIVER;
@@ -107,7 +107,8 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
             for (int i = 1; i < fullName.length - 1; i++) {
                 lastName += fullName[i];
             }
-            rows.add(new Driver(Integer.parseInt(user.get(KEY_DRIVER_ID)), firstName, lastName, user.get(KEY_STREET), user.get(KEY_CITY), user.get(KEY_STATE), user.get(KEY_ZIP)));
+            rows.add(new Driver(Integer.parseInt(user.get(KEY_DRIVER_ID)), firstName, lastName,
+                    user.get(KEY_STREET), user.get(KEY_CITY), user.get(KEY_STATE), user.get(KEY_ZIP)));
             user.clear();
             cursor.moveToNext();
         }

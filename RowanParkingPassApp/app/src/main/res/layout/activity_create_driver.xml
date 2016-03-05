@@ -193,7 +193,7 @@
             android:layout_width="165dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_selector"
             android:text="@string/cancel"
             android:textColor="@color/textColor"
             android:textSize="20sp" />
@@ -205,7 +205,7 @@
             android:layout_height="40dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button_selector"
             android:maxWidth="165dp"
             android:text="@string/create_driver"
             android:textColor="@color/textColor"

@@ -13,7 +13,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp"
-        android:background="@drawable/button_shape"
+        android:background="@drawable/button_selector"
         android:text="@string/settings_change_password_button"
         android:textColor="@color/textColor"
         android:textSize="30sp" />
@@ -25,7 +25,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:background="@drawable/button_shape"
+        android:background="@drawable/button_selector"
         android:text="@string/settings_sync_now_button"
         android:textColor="@color/textColor"
         android:textSize="30sp" />

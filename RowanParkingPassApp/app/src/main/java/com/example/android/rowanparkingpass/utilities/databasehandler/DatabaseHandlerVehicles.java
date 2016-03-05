@@ -5,22 +5,24 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.android.rowanparkingpass.personinfo.Vehicle;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
 
     // Login table name
-    private static final String TABLE_VISITORS = "vehicles";
+    private static final String TABLE_VEHICLES = "vehicles";
 
     // Login Table Columns names
-    private static final String KEY_VEHICLE_ID = "vehicle_id";
-    private static final String KEY_MAKE = "make";
-    private static final String KEY_MODEL = "model";
-    private static final String KEY_YEAR = "year";
-    private static final String KEY_STATE = "state";
-    private static final String KEY_COLOR = "color";
-    private static final String KEY_LICENSE = "license";
+    public static final String KEY_VEHICLE_ID = "vehicle_id";
+    public static final String KEY_MAKE = "make";
+    public static final String KEY_MODEL = "model";
+    public static final String KEY_YEAR = "year";
+    public static final String KEY_STATE = "state";
+    public static final String KEY_COLOR = "color";
+    public static final String KEY_LICENSE = "license";
 
     public DatabaseHandlerVehicles(Context context) {
         super(context);
@@ -29,7 +31,7 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_VISITOR_TABLE = "CREATE TABLE " + TABLE_VISITORS + "("
+        String CREATE_VISITOR_TABLE = "CREATE TABLE " + TABLE_VEHICLES + "("
                 + KEY_VEHICLE_ID + " INTEGER PRIMARY KEY,"
                 + KEY_MAKE + " TEXT,"
                 + KEY_MODEL + " TEXT,"
@@ -44,14 +46,14 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_VISITORS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_VEHICLES);
 
         // Create tables again
         onCreate(db);
     }
 
     /**
-     * Storing visitor details in database
+     * Storing vehicle details in database
      */
     public void addVehicle(String year, String make, String model, String state, String color, String license) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -63,14 +65,14 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         values.put(KEY_COLOR, color); // Car Color
         values.put(KEY_LICENSE, license); // Car License Plate
         // Inserting Row
-        db.insert(TABLE_VISITORS, null, values);
+        db.insert(TABLE_VEHICLES, null, values);
         db.close(); // Closing database connection
     }
 
     /**
-     * Update visitor details in database
+     * Update vehicle details in database
      */
-    public void updateUser(String year, String make, String model, String state, String color, String license) {
+    public void updateVehicle(String year, String make, String model, String state, String color, String license) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_MAKE, make); // Car Make
@@ -79,16 +81,16 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         values.put(KEY_STATE, state); // Car State
         values.put(KEY_COLOR, color); // Car Color
         // Update Row
-        db.update(TABLE_VISITORS, values, KEY_LICENSE + "=" + license, null);
+        db.update(TABLE_VEHICLES, values, KEY_LICENSE + "=" + license, null);
     }
 
     /**
      * Getting user data from database
      */
-    public ArrayList<HashMap<String, String>> getVehicles() {
-        ArrayList<HashMap<String, String>> rows = new ArrayList<HashMap<String, String>>();
+    public ArrayList<Vehicle> getVehicles() {
+        ArrayList<Vehicle> rows = new ArrayList<Vehicle>();
         HashMap<String, String> vehicle = new HashMap<String, String>();
-        String selectQuery = "SELECT * FROM " + TABLE_VISITORS;
+        String selectQuery = "SELECT * FROM " + TABLE_VEHICLES;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -102,13 +104,15 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
             vehicle.put(KEY_STATE, cursor.getString(4));
             vehicle.put(KEY_COLOR, cursor.getString(5));
             vehicle.put(KEY_LICENSE, cursor.getString(6));
-            rows.add(vehicle);
+            rows.add(new Vehicle(Integer.parseInt(vehicle.get(KEY_VEHICLE_ID)), vehicle.get(KEY_MAKE),
+                    vehicle.get(KEY_MODEL), Integer.parseInt(vehicle.get(KEY_YEAR)), vehicle.get(KEY_STATE),
+                    vehicle.get(KEY_COLOR), vehicle.get(KEY_LICENSE)));
             vehicle.clear();
             cursor.moveToNext();
         }
         cursor.close();
         db.close();
-        // return user
+        // return vehicle
         return rows;
     }
 
@@ -117,7 +121,7 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
      * return true if rows are there in table
      */
     public int getRowCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_VISITORS;
+        String countQuery = "SELECT  * FROM " + TABLE_VEHICLES;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int rowCount = cursor.getCount();
@@ -135,7 +139,7 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     public void resetTables() {
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete All Rows
-        db.delete(TABLE_VISITORS, null, null);
+        db.delete(TABLE_VEHICLES, null, null);
         db.close();
     }
 

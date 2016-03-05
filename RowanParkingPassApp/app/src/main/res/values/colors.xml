@@ -8,5 +8,6 @@
     <color name="textColor2">#7dffff</color>
     <color name="white">#FFFFFF</color>
     <color name="background">#764502</color>
+    <color name="buttonpressed">#FFEE00</color>
 
 </resources>

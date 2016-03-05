@@ -8,11 +8,18 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.personinfo.Pass;
+import com.example.android.rowanparkingpass.personinfo.Vehicle;
+import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerDrivers;
+import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerPasses;
+import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerVehicles;
+
 import java.util.ArrayList;
 
 public class ListActivity extends BaseActivity {
 
-    ListView listView;
+    private ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,13 +31,19 @@ public class ListActivity extends BaseActivity {
         setContentView(R.layout.activity_list_view);
 
         listView = (ListView) findViewById(R.id.listView);
-
         if (currentMode.equals(mode.HOME_PAGE.name())) {
-            listView.setAdapter(new ListViewArrayAdapter(new ArrayList<>(), this, R.layout.view_recent_pass));
+//            DatabaseHandlerPasses db = new DatabaseHandlerPasses(getApplicationContext());
+//            ArrayList<Pass> listOfPasses = db.getRequestDetails();
+            //TODO Fix ListViewArrayAdapter, GetView returns null
+//            listView.setAdapter(new ListViewArrayAdapter(listOfPasses, this, R.layout.view_recent_pass, currentMode));
         } else if (currentMode.equals(mode.DRIVERS.name()) || currentMode.equals(mode.DRIVERS_LIST.name())) {
-            listView.setAdapter(new ListViewArrayAdapter(new ArrayList<>(), this, R.layout.view_driver));
+//            DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(getApplicationContext());
+//            ArrayList<Driver> listOfDrivers = db.getDrivers();
+//            listView.setAdapter(new ListViewArrayAdapter(listOfDrivers, this, R.layout.view_driver, currentMode));
         } else if (currentMode.equals(mode.VEHICLES.name()) || currentMode.equals(mode.VEHICLES_LIST.name())) {
-            listView.setAdapter(new ListViewArrayAdapter(new ArrayList<>(), this, R.layout.view_vehicle));
+//            DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(getApplicationContext());
+//            ArrayList<Vehicle> listOfVehicles = db.getVehicles();
+//            listView.setAdapter(new ListViewArrayAdapter(listOfVehicles, this, R.layout.view_vehicle, currentMode));
         }
     }
 

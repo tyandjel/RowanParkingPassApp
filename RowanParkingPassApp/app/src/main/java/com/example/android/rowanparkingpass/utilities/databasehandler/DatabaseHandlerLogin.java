@@ -84,17 +84,17 @@ public class DatabaseHandlerLogin extends DatabaseHandlerBase {
      * Getting user login status
      * return true if rows are there in table
      */
-//    public int getRowCount() {
-//        String countQuery = "SELECT  * FROM " + TABLE_LOGIN;
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery(countQuery, null);
-//        int rowCount = cursor.getCount();
-//        db.close();
-//        cursor.close();
-//
-//        // return row count
-//        return rowCount;
-//    }
+    public int getRowCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_LOGIN;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int rowCount = cursor.getCount();
+        db.close();
+        cursor.close();
+
+        // return row count
+        return rowCount;
+    }
 
     /**
      * Re create database

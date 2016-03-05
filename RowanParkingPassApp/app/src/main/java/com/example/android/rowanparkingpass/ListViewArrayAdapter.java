@@ -33,19 +33,26 @@ public class ListViewArrayAdapter extends BaseAdapter {
     /**
      * This  is for creating the content for a list of passes listview
      */
-    public ListViewArrayAdapter(List<Object> l, Context c, int layout) {
+    public ListViewArrayAdapter(List<?> l, Context c, int layout, String mode) {
         if (!l.isEmpty()) {
             Object objIn = l.get(0);
             if (objIn instanceof Pass) {
-                makePassesList((List<Pass>) (List<?>) l); // should try to find a better casting method.
-            } else {
-                if (objIn instanceof Vehicle) {
-                    makeVehiclesList((List<Vehicle>) (List<?>) l);
-                } else {
-                    if (objIn instanceof Driver) {
-                        makeDriversList((List<Driver>) (List<?>) l);
-                    }
-                }
+                makePassesList((List<Pass>) l);
+            } else if (objIn instanceof Vehicle) {
+                makeVehiclesList((List<Vehicle>) l);
+            } else if (objIn instanceof Driver) {
+                makeDriversList((List<Driver>) l);
+            }
+
+        } else {
+            if (mode.equals(BaseActivity.mode.HOME_PAGE.name())) {
+                makePassesList(new ArrayList<Pass>());
+            } else if (mode.equals(BaseActivity.mode.DRIVERS.name()) ||
+                    mode.equals(BaseActivity.mode.DRIVERS_LIST.name())) {
+                makeDriversList(new ArrayList<Driver>());
+            } else if (mode.equals(BaseActivity.mode.VEHICLES.name()) ||
+                    mode.equals(BaseActivity.mode.VEHICLES_LIST.name())) {
+                makeVehiclesList(new ArrayList<Vehicle>());
             }
         }
         setContextLayout(c, layout);
@@ -60,7 +67,7 @@ public class ListViewArrayAdapter extends BaseAdapter {
      * This is for creating the content for a list of drivers in listview
      */
     public void makeVehiclesList(List<Vehicle> v) {
-        vehicles.add(0, null); // adds empty place hilder to postion 0
+        vehicles.add(0, null); // adds empty place holder to position 0
         vehicles.addAll(v);
     }
 
@@ -68,7 +75,7 @@ public class ListViewArrayAdapter extends BaseAdapter {
      * This is for creating the content for a list of vehicles in listview
      */
     public void makeDriversList(List<Driver> d) {
-        drivers.add(0, null); // adds empty place hilder to postion 0
+        drivers.add(0, null); // adds empty place holder to position 0
         drivers.addAll(d);
     }
 
@@ -76,7 +83,7 @@ public class ListViewArrayAdapter extends BaseAdapter {
      * This is for creating the content for a list of Passes in listview
      */
     public void makePassesList(List<Pass> p) {
-        passes.add(0, null); // adds empty place hilder to postion 0
+        passes.add(0, null); // adds empty place holder to position 0
         passes.addAll(p);
     }
 
@@ -154,8 +161,8 @@ public class ListViewArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // recomended to try and change toa switch statement later
-        // Recnt pass section
+        // recommended to try and change to a switch statement later
+        // Recent pass section
         if (convertView != null) {
             if (R.layout.view_recent_pass == layout) { // checks whether this is the layout we should be using.
                 convertView = myInflator.inflate(R.layout.view_recent_pass, parent, false);
