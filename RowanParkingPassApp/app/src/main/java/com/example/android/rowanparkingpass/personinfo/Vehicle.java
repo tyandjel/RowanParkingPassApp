@@ -2,8 +2,9 @@ package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
 
-public class Vehicle implements PersonInfo {
+public class Vehicle implements Serializable {
 
+    private int vehicleId;
     private String make;
     private String model;
     private int year;
@@ -11,13 +12,22 @@ public class Vehicle implements PersonInfo {
     private String vehicleState;
     private String licensePlate;
 
-    public Vehicle(String make, String model, int year, String color, String vehicleState, String licensePlate) {
+    public Vehicle(int vehicleId, String make, String model, int year, String color, String vehicleState, String licensePlate) {
+        this.vehicleId = vehicleId;
         this.make = make;
         this.model = model;
         this.year = year;
         this.color = color;
         this.vehicleState = vehicleState;
         this.licensePlate = licensePlate;
+    }
+
+    public int getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
     public String getMake() {

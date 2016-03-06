@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -249,6 +249,7 @@ namespace ModServer
         public string getPostBodyData(bool calculateContentLength)
         {
             var tempString = new StringBuilder();
+            tempString.Append(Environment.NewLine);
             foreach (KeyValuePair<String, String> kvp in postValues)
             {
                 tempString.Append(WebUtility.UrlEncode(kvp.Key));
@@ -309,10 +310,11 @@ namespace ModServer
             {
                 tempString.Remove(tempString.Length - 1, 1); // get rid of last ';'
                 tempString.Insert(0, "Cookie: "); // in case no cookies
+                returnString.Append(tempString);
+                returnString.Append(Environment.NewLine);
             }
-            returnString.Append(tempString);
-            returnString.Append(Environment.NewLine+Environment.NewLine);
-            returnString.AppendLine(body + Environment.NewLine);
+            returnString.AppendLine(body);
+            //returnString.Append(Environment.NewLine);
 
             return returnString.ToString();
         }

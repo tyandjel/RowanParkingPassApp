@@ -2,26 +2,26 @@ package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
 
-public class Pass implements PersonInfo  {
+public class Pass implements Serializable {
 
-    private Driver vistor;
+    private Driver driver;
     private Vehicle vehicle;
     private String fromDate;
     private String toDate;
 
-    public Pass(Driver vistor, Vehicle vehicle, String fromDate, String toDate) {
-        this.vistor = vistor;
+    public Pass(Driver driver, Vehicle vehicle, String fromDate, String toDate) {
+        this.driver = driver;
         this.vehicle = vehicle;
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
 
-    public Driver getVistor() {
-        return vistor;
+    public Driver getDriver() {
+        return driver;
     }
 
-    public void setVistor(Driver vistor) {
-        this.vistor = vistor;
+    public void setDriver(Driver driver) {
+        this.driver = driver;
     }
 
     public Vehicle getVehicle() {
@@ -51,7 +51,7 @@ public class Pass implements PersonInfo  {
     @Override
     public String toString() {
         return "Pass{" +
-                "vistor='" + vistor + '\'' +
+                "driver='" + driver + '\'' +
                 ", vehicle='" + vehicle + '\'' +
                 ", fromDate=" + fromDate +
                 '}';

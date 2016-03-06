@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingTop="50dp"
+    android:weightSum="1">
+
+    <Button
+        android:id="@+id/changePassButton"
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/button_selector"
+        android:text="@string/settings_change_password_button"
+        android:textColor="@color/textColor"
+        android:textSize="30sp" />
+
+
+    <Button
+        android:id="@+id/syncNowButton"
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_selector"
+        android:text="@string/settings_sync_now_button"
+        android:textColor="@color/textColor"
+        android:textSize="30sp" />
+
+    <Switch
+        android:id="@+id/mySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:checked="true"
+        android:clickable="true"
+        android:textOff="OFF"
+        android:textOn="ON"
+        android:thumb="@drawable/custom_switch_selector" />
+
+    <TextView
+        android:id="@+id/autoSyncTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/settings_auto_sync"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="20sp" />
+
+</LinearLayout>

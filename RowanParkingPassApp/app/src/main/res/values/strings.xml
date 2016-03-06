@@ -3,12 +3,61 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="email">E-mail</string>
+    <string name="email">Username</string>
     <string name="password">Password</string>
-    <string name="login_title">Welcome to Rowan Car Pass</string>
+    <string name="login_title">Welcome</string>
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
     <string name="forgot_password_button">Forgot Password</string>
 
-    <color name="white">#FFFFFF</color>
+    <string name="settings_change_password_button">Change Password</string>
+    <string name="settings_sync_now_button">Sync Now</string>
+    <string name="settings_auto_sync">Auto Sync</string>
+
+    <string name="pass_end_date">Pass End Date</string>
+    <string name="pass_start_date">Pass Start Date</string>
+    <string name="create_pass">Create Pass</string>
+    <string name="main_menu">Main Menu</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="full_name_hint">John Doe</string>
+    <string name="street">Street</string>
+    <string name="street_hint">12 Main St.</string>
+    <string name="city">City</string>
+    <string name="city_hint">Glassboro</string>
+    <string name="state">State</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="zip_code_hint">08028</string>
+    <string name="create_driver">Create Driver</string>
+    <string name="create_temp_driver">Create Temp Driver</string>
+    <string name="save_driver">Save Driver</string>
+
+    <string name="vehicle_make">Make</string>
+    <string name="vehicle_make_hint">Ford</string>
+    <string name="model">Model</string>
+    <string name="model_hint">Mustang</string>
+    <string name="year">Year</string>
+    <string name="year_hint">1986</string>
+    <string name="color">Color</string>
+    <string name="color_hint">Black</string>
+    <string name="license">License</string>
+    <string name="license_hint">#######</string>
+    <string name="create_vehicle">Create Vehicle</string>
+    <string name="create_temp_vehicle">Create Temp Vehicle</string>
+    <string name="save_vehicle">Save Vehicle</string>
+
+    <string name="save_info">Save Info.</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="menu_vehicles">Vehicles</string>
+    <string name="menu_drivers">Drivers</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_home">Main Menu</string>
+
+    <string name="error_in_network_connection">Error in Network Connection</string>
+    <string name="incorrect_username_password">Incorrect Username/Password</string>
+
 </resources>
