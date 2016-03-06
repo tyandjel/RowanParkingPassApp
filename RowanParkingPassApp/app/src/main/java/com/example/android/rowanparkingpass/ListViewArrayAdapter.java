@@ -36,7 +36,7 @@ public class ListViewArrayAdapter extends BaseAdapter {
     /**
      * This  is for creating the content for a list of passes listview
      */
-    public  ListViewArrayAdapter(List<PersonInfo> l,Context c, int layout) {
+    public  ListViewArrayAdapter(List<Object> l,Context c, int layout) {
         Object objIn = l.get(0);
         if (objIn instanceof Pass) {
             makePassesList((List<Pass>) (List<?>) l); // should try to find a better casting method.
