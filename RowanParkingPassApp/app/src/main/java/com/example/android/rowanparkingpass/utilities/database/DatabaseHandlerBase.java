@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass.utilities.databasehandler;
+package com.example.android.rowanparkingpass.utilities.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,7 +9,7 @@ public abstract class DatabaseHandlerBase extends SQLiteOpenHelper {
     static final int DATABASE_VERSION = 1;
 
     // Database Name
-    static final String DATABASE_NAME = "Parking";
+    static final String DATABASE_NAME = "Parking.db";
 
 
     public DatabaseHandlerBase(Context context) {

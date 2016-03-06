@@ -3,7 +3,7 @@ package com.example.android.rowanparkingpass.utilities.userfunctions;
 import android.content.Context;
 
 import com.example.android.rowanparkingpass.utilities.JSONParser;
-import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerUser;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 
 import org.json.JSONObject;
 

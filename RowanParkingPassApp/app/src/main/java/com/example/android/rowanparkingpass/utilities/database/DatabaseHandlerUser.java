@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass.utilities.databasehandler;
+package com.example.android.rowanparkingpass.utilities.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,14 +9,16 @@ import java.util.HashMap;
 
 public class DatabaseHandlerUser extends DatabaseHandlerBase {
 
-    // Login table name
-    private static final String TABLE_USER = "User";
-
-    // Login Table Columns names
-    private static final String KEY_USER_ID = "user_id";
-    private static final String KEY_USER_NAME = "user_name";
-    private static final String KEY_IS_ADMIN = "is_admin";
-    private static final String KEY_SYNC = "sync";
+    private static final String SQL_CREATE_ENTRIES =
+            "CREATE TABLE " + UserContract.UserEntry.TABLE_NAME + " (" +
+                    UserContract.UserEntry.COLUMN_USER_ID + UserContract.INTEGER_TYPE + " PRIMARY KEY," +
+                    UserContract.UserEntry.COLUMN_USER_NAME + UserContract.TEXT_TYPE + UserContract.COMMA_SEP +
+                    UserContract.UserEntry.COLUMN_IS_ADMIN + UserContract.INTEGER_TYPE + UserContract.COMMA_SEP +
+                    UserContract.UserEntry.COLUMN_SYNC + UserContract.INTEGER_TYPE + " )";
+    private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + UserContract.UserEntry.TABLE_NAME;
+    private static final String SQL_SELECT_ALL_ENTRIES =
+            "SELECT * FROM " + UserContract.UserEntry.TABLE_NAME;
 
     public DatabaseHandlerUser(Context context) {
         super(context);
@@ -25,19 +27,14 @@ public class DatabaseHandlerUser extends DatabaseHandlerBase {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_USER + "("
-                + KEY_USER_ID + " INTEGER PRIMARY KEY,"
-                + KEY_USER_NAME + " TEXT,"
-                + KEY_IS_ADMIN + " INTEGER,"
-                + KEY_SYNC + " INTEGER" + ")";
-        db.execSQL(CREATE_LOGIN_TABLE);
+        db.execSQL(SQL_CREATE_ENTRIES);
     }
 
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL(SQL_DELETE_ENTRIES);
 
         // Create tables again
         onCreate(db);
@@ -46,14 +43,15 @@ public class DatabaseHandlerUser extends DatabaseHandlerBase {
     /**
      * Storing logged in user details in database
      */
-    public void addUser(String userId, String userName, int isAdmin) {
+    public void addUser(String userId, String userName, int isAdmin, int sync) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_USER_ID, userId); // User ID
-        values.put(KEY_USER_NAME, userName); // User Name
-        values.put(KEY_IS_ADMIN, isAdmin); // is an admin?
+        values.put(UserContract.UserEntry.COLUMN_USER_ID, userId); // User ID
+        values.put(UserContract.UserEntry.COLUMN_USER_NAME, userName); // User Name
+        values.put(UserContract.UserEntry.COLUMN_IS_ADMIN, isAdmin); // is an admin?
+        values.put(UserContract.UserEntry.COLUMN_SYNC, sync); // sync enabled?
         // Inserting Row
-        db.insert(TABLE_USER, null, values);
+        db.insert(UserContract.UserEntry.TABLE_NAME, null, values);
         db.close(); // Closing database connection
     }
 
@@ -62,16 +60,16 @@ public class DatabaseHandlerUser extends DatabaseHandlerBase {
      */
     public HashMap<String, String> getUserDetails() {
         HashMap<String, String> user = new HashMap<>();
-        String selectQuery = "SELECT * FROM " + TABLE_USER;
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
         // Move to first row
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
-            user.put(KEY_USER_ID, cursor.getString(0));
-            user.put(KEY_USER_NAME, cursor.getString(1));
-            user.put(KEY_IS_ADMIN, cursor.getString(2));
+            user.put(UserContract.UserEntry.COLUMN_USER_ID, cursor.getString(0)); // User ID
+            user.put(UserContract.UserEntry.COLUMN_USER_NAME, cursor.getString(1)); // User Name
+            user.put(UserContract.UserEntry.COLUMN_IS_ADMIN, cursor.getString(2)); // is an admin?
+            user.put(UserContract.UserEntry.COLUMN_SYNC, cursor.getString(3)); // sync enabled?
         }
         cursor.close();
         db.close();
@@ -80,9 +78,8 @@ public class DatabaseHandlerUser extends DatabaseHandlerBase {
     }
 
     public boolean isUserAdmin() {
-        String selectQuery = "SELECT * FROM " + TABLE_USER;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
         // Move to first row
         cursor.moveToFirst();
         // If there is anything in the database the isAdmin is equal to 1 (true)
@@ -97,9 +94,8 @@ public class DatabaseHandlerUser extends DatabaseHandlerBase {
      * return true if rows are there in table
      */
     public int getRowCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_USER;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
         int rowCount = cursor.getCount();
         db.close();
         cursor.close();
@@ -115,7 +111,7 @@ public class DatabaseHandlerUser extends DatabaseHandlerBase {
     public void resetTables() {
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete All Rows
-        db.delete(TABLE_USER, null, null);
+        db.delete(UserContract.UserEntry.TABLE_NAME, null, null);
         db.close();
     }
 

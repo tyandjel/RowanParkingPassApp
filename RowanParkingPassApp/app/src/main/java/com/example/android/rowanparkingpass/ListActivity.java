@@ -8,12 +8,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
-import com.example.android.rowanparkingpass.personinfo.Vehicle;
-import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerDrivers;
-import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerPasses;
-import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerVehicles;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
 import java.util.ArrayList;
 
@@ -32,12 +28,12 @@ public class ListActivity extends BaseActivity {
 
         listView = (ListView) findViewById(R.id.listView);
         if (currentMode.equals(mode.HOME_PAGE.name())) {
-//            DatabaseHandlerPasses db = new DatabaseHandlerPasses(getApplicationContext());
-//            ArrayList<Pass> listOfPasses = db.getRequestDetails();
-            //TODO Fix ListViewArrayAdapter, GetView returns null
-//            listView.setAdapter(new ListViewArrayAdapter(listOfPasses, this, R.layout.view_recent_pass, currentMode));
+            DatabaseHandlerPasses db = new DatabaseHandlerPasses(this);
+            ArrayList<Pass> listOfPasses = db.getRequestDetails();
+            listView.setAdapter(new ListViewArrayAdapter(listOfPasses, this, R.layout.view_recent_pass, currentMode));
         } else if (currentMode.equals(mode.DRIVERS.name()) || currentMode.equals(mode.DRIVERS_LIST.name())) {
-//            DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(getApplicationContext());
+//TODO Fix why no table created
+//            DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(this);
 //            ArrayList<Driver> listOfDrivers = db.getDrivers();
 //            listView.setAdapter(new ListViewArrayAdapter(listOfDrivers, this, R.layout.view_driver, currentMode));
         } else if (currentMode.equals(mode.VEHICLES.name()) || currentMode.equals(mode.VEHICLES_LIST.name())) {

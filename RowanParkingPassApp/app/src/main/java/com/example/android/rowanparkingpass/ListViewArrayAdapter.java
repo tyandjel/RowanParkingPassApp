@@ -23,12 +23,14 @@ public class ListViewArrayAdapter extends BaseAdapter {
     private List<Driver> drivers = new ArrayList<>();
     private List<Vehicle> vehicles = new ArrayList<>();
     private List<Pass> passes = new ArrayList<>();
-    private Context ctxt;
-    LayoutInflater myInflator;
+
+    private Context context;
+    LayoutInflater myInflater;
+
     int layout; // current layout to use
     int passesView = R.layout.view_recent_pass;
-    int vehiclesView = 4;
-    int driversView = 5;
+    int vehiclesView = R.layout.view_vehicle;
+    int driversView = R.layout.view_driver;
 
     /**
      * This  is for creating the content for a list of passes listview
@@ -59,7 +61,7 @@ public class ListViewArrayAdapter extends BaseAdapter {
     }
 
     public void setContextLayout(Context c, int layout) {
-        ctxt = c;
+        context = c;
         this.layout = layout;
     }
 
@@ -88,7 +90,7 @@ public class ListViewArrayAdapter extends BaseAdapter {
     }
 
     private void inflateLayout() {
-        myInflator = (LayoutInflater) ctxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        myInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
 
@@ -161,11 +163,12 @@ public class ListViewArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // recommended to try and change to a switch statement later
-        // Recent pass section
-        if (convertView != null) {
-            if (R.layout.view_recent_pass == layout) { // checks whether this is the layout we should be using.
-                convertView = myInflator.inflate(R.layout.view_recent_pass, parent, false);
+        inflateLayout();
+        // checks which layout we should be using.
+        switch (layout) {
+            // Recent pass section
+            case R.layout.view_recent_pass:
+                convertView = myInflater.inflate(R.layout.view_recent_pass, parent, false);
 
                 TextView newPass = (TextView) convertView.findViewById(R.id.new_pass_text_view);
                 TextView driverName = (TextView) convertView.findViewById(R.id.driver_text_view);
@@ -177,17 +180,65 @@ public class ListViewArrayAdapter extends BaseAdapter {
                 // lArr=list.toArray(lArr); not needed
                 if (position == 0) {
                     newPass.setText("+ Create New Pass");
+                    driverName.setText("");
+                    address.setText("");
+                    townCity.setText("");
+                    car.setText("");
+                    plate.setText("");
                 } else {
+                    newPass.setText("");
                     Pass cPass = passes.get(position);
                     driverName.setText(cPass.getDriver().getName());
-                    address.setText(cPass.getDriver().getAddress());
+                    address.setText(cPass.getDriver().getStreet());
                     townCity.setText(cPass.getDriver().getTown() + " " + cPass.getDriver().getState() + ", " + cPass.getDriver().getZipCode());
-                    car.setText(cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel() + " " + cPass.getVehicle().getYear() + " " + cPass.getVehicle().getColor());
-                    car.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
+                    car.setText(cPass.getVehicle().getYear() + " " + cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel() + " " + cPass.getVehicle().getColor());
+                    plate.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
                 }
-            }
-            return convertView;
+                break;
+            // Recent drivers section
+            case R.layout.view_driver:
+                convertView = myInflater.inflate(R.layout.view_driver, parent, false);
+
+                TextView newDriver = (TextView) convertView.findViewById(R.id.new_visitor_text_view);
+                TextView driver = (TextView) convertView.findViewById(R.id.driver_text_view);
+                TextView driverAddress = (TextView) convertView.findViewById(R.id.address_text_view);
+                TextView driverTownCity = (TextView) convertView.findViewById(R.id.town_city_text_view);
+
+                if (position == 0) {
+                    newDriver.setText("+ Create New Driver");
+                    driver.setText("");
+                    driverAddress.setText("");
+                    driverTownCity.setText("");
+                } else {
+                    newDriver.setText("");
+                    Driver cDriver = drivers.get(position);
+                    driver.setText(cDriver.getName());
+                    driverAddress.setText(cDriver.getStreet());
+                    driverTownCity.setText(cDriver.getTown() + "," + cDriver.getState() + " " + cDriver.getZipCode());
+                }
+                break;
+            // Recent vehicles section
+            case R.layout.view_vehicle:
+                convertView = myInflater.inflate(R.layout.view_vehicle, parent, false);
+
+                TextView newVehicle = (TextView) convertView.findViewById(R.id.new_vehicle_text_view);
+                TextView carText = (TextView) convertView.findViewById(R.id.car_text_view);
+                TextView plateText = (TextView) convertView.findViewById(R.id.plate_text_view);
+
+                if (position == 0) {
+                    newVehicle.setText("+ Create New Vehicle");
+                    carText.setText("");
+                    plateText.setText("");
+                } else {
+                    newVehicle.setText("");
+                    Vehicle cVehicle = vehicles.get(position);
+                    carText.setText(cVehicle.getYear() + " " + cVehicle.getMake() + " " + cVehicle.getModel() + " " + cVehicle.getColor());
+                    plateText.setText(cVehicle.getLicensePlate());
+                }
+                break;
+            default:
+                break;
         }
-        return null;
+        return convertView;
     }
 }

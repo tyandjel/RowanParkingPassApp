@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerUser;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
 
 import org.json.JSONException;
@@ -155,6 +155,7 @@ public class LoginPageActivity extends BaseActivity {
         private static final String KEY_USER_ID = "user_id";
         private static final String KEY_USER_NAME = "user_name";
         private static final String KEY_IS_ADMIN = "is_admin";
+        private static final String KEY_SYNC = "sync";
 
         @Override
         protected void onPreExecute() {
@@ -200,8 +201,7 @@ public class LoginPageActivity extends BaseActivity {
                         UserFunctionsUsers logout = new UserFunctionsUsers();
                         logout.logoutUser(getApplicationContext());
 
-
-                        db.addUser(json_user.getString(KEY_USER_ID), json_user.getString(KEY_USER_NAME), json_user.getInt(KEY_IS_ADMIN));
+                        db.addUser(json_user.getString(KEY_USER_ID), json_user.getString(KEY_USER_NAME), json_user.getInt(KEY_IS_ADMIN), json_user.getInt(KEY_SYNC));
                         /**
                          *If JSON array details are stored in SQlite it launches the User Panel.
                          **/

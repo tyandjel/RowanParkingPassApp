@@ -12,8 +12,8 @@ import android.widget.EditText;
 
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
-import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerDrivers;
-import com.example.android.rowanparkingpass.utilities.databasehandler.DatabaseHandlerVehicles;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
