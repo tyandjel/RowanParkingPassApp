@@ -15,7 +15,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
+=======
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
+>>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
 
@@ -38,6 +42,12 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
 
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
+
+        if(currentMode.equals(mode.UPDATE_VEHICLE.name())){
+            setTitle("Update Vehicle");
+        }else{
+            setTitle("Create New Vehicle");
+        }
 
         make = (EditText) findViewById(R.id.vehicleMakeEditText);
         model = (EditText) findViewById(R.id.modelEditText);
@@ -91,7 +101,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
             // action with ID action_delete was selected
             case R.id.action_delete:
                 Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, ListActivity.class);
+                myIntent = new Intent(this, VehiclesActivity.class);
                 myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
                 startActivity(myIntent);
                 finish();
@@ -126,7 +136,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
                     break;
             }
             // Go back to past activity
-            myIntent = new Intent(this, ListActivity.class);
+            myIntent = new Intent(this, VehiclesActivity.class);
             if (currentMode.equals(mode.VEHICLES.name())) {
                 myIntent.putExtra(MODE, mode.VEHICLES.name());
             } else {

@@ -14,13 +14,6 @@ import java.util.HashMap;
 
 public class DatabaseHandlerPasses extends DatabaseHandlerBase {
 
-    private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + PassContract.PassEntry.TABLE_NAME + " (" +
-                    PassContract.PassEntry.COLUMN_REQUEST_ID + PassContract.INTEGER_TYPE + " PRIMARY KEY," +
-                    PassContract.PassEntry.COLUMN_VEHICLE_ID + PassContract.INTEGER_TYPE + VehicleContract.COMMA_SEP +
-                    PassContract.PassEntry.COLUMN_DRIVER_ID + PassContract.INTEGER_TYPE + VehicleContract.COMMA_SEP +
-                    PassContract.PassEntry.COLUMN_START_DATE + PassContract.DATE_TYPE + VehicleContract.COMMA_SEP +
-                    PassContract.PassEntry.COLUMN_END_DATE + PassContract.DATE_TYPE + " )";
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + PassContract.PassEntry.TABLE_NAME;
     private static final String SQL_SELECT_ALL_ENTRIES =
@@ -41,7 +34,9 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_CREATE_PASS_ENTRIES);
+        db.execSQL(SQL_CREATE_DRIVER_ENTRIES);
+        db.execSQL(SQL_CREATE_VEHICLE_ENTRIES);
     }
 
     // Upgrading database
@@ -78,10 +73,11 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
         HashMap<String, String> pass = new HashMap<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
+
         Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
         // Move to first row
         cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast() && cursor.getCount() > 0) {
             pass.put(PassContract.PassEntry.COLUMN_REQUEST_ID, cursor.getString(0));
             pass.put(PassContract.PassEntry.COLUMN_VEHICLE_ID, cursor.getString(1));
             pass.put(PassContract.PassEntry.COLUMN_DRIVER_ID, cursor.getString(2));

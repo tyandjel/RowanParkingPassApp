@@ -15,7 +15,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
+=======
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
+>>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
 
@@ -38,6 +42,12 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
 
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
+
+        if(currentMode.equals(mode.UPDATE_DRIVER.name())){
+            setTitle("Update Driver");
+        }else{
+            setTitle("Create New Driver");
+        }
 
         fullName = (EditText) findViewById(R.id.fullNameEditText);
         street = (EditText) findViewById(R.id.streetEditText);
@@ -90,7 +100,7 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
             // action with ID action_delete was selected
             case R.id.action_delete:
                 Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, ListActivity.class);
+                myIntent = new Intent(this, DriversActivity.class);
                 myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
                 startActivity(myIntent);
                 finish();
@@ -124,7 +134,7 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
                     break;
             }
             // Go back to past activity
-            myIntent = new Intent(this, ListActivity.class);
+            myIntent = new Intent(this, DriversActivity.class);
             if (currentMode.equals(mode.DRIVERS.name())) {
                 myIntent.putExtra(MODE, mode.DRIVERS.name());
             } else {

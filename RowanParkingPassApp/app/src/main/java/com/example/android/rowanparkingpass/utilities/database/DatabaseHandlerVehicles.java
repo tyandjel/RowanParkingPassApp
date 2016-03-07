@@ -91,7 +91,7 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
         // Move to first row
         cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast() && cursor.getCount() > 0) {
             vehicle.put(VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID, cursor.getString(0)); // Vehicle Id
             vehicle.put(VehicleContract.VehicleEntry.COLUMN_MAKE, cursor.getString(1)); // Car Make
             vehicle.put(VehicleContract.VehicleEntry.COLUMN_MODEL, cursor.getString(2)); // Car Model

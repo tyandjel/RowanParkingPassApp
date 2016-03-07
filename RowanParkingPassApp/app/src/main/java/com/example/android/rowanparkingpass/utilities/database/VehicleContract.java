@@ -16,5 +16,6 @@ public final class VehicleContract extends BaseContract {
         public static final String COLUMN_STATE = "state";
         public static final String COLUMN_COLOR = "color";
         public static final String COLUMN_LICENSE = "license";
+        public static final String[] selectionArgs = {COLUMN_VEHICLE_ID, COLUMN_MAKE, COLUMN_MODEL, COLUMN_YEAR, COLUMN_STATE, COLUMN_COLOR, COLUMN_LICENSE};
     }
 }

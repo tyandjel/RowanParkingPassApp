@@ -90,7 +90,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
         Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
         // Move to first row
         cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
+        while (!cursor.isAfterLast() && cursor.getCount() > 0) {
             driver.put(DriverContract.DriverEntry.COLUMN_DRIVER_ID, cursor.getString(0));
             driver.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(1)); // Full Name
             driver.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(2)); // Street
