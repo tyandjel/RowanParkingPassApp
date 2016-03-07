@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
 
@@ -74,7 +74,7 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
-        if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
+        if (currentMode!=null && currentMode.equals(mode.UPDATE_DRIVER.name())) {
             inflater.inflate(R.menu.menu_delete, menu);
         }
 

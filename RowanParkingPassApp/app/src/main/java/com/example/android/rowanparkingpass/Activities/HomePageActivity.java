@@ -7,7 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
 import com.example.android.rowanparkingpass.R;
 
 public class HomePageActivity extends BaseActivity {

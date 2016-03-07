@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginPageActivity"
+            android:name=".Activities.LoginPageActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,32 +23,46 @@
         </activity>
 
         <activity
-            android:name=".HomePageActivity"
+            android:name=".Activities.HomePageActivity"
             android:label="Home Page" />
 
         <activity
-            android:name=".ListActivity"
+            android:name=".Activities.ListViewActivities.ListActivity"
             android:label="List Activity" />
+        <activity
+            android:name=".Activities.ListViewActivities.PassesActivity"
+            android:label="Passes" />
+        <activity
+            android:name=".Activities.ListViewActivities.DriversActivity"
+            android:label="Drivers" />
+        <activity
+            android:name=".Activities.ListViewActivities.VehiclesActivity"
+            android:label="Vehicles" />
 
         <activity
-            android:name=".PassActivity"
+            android:name=".Activities.PassActivity"
             android:label="Create Pass" />
 
         <activity
-            android:name=".CreateDriverActivity"
+            android:name=".Activities.CreateDriverActivity"
             android:label="Create Driver" />
 
         <activity
-            android:name=".CreateVehicleActivity"
+            android:name=".Activities.CreateVehicleActivity"
             android:label="Create Vehicle" />
 
         <activity
-            android:name=".RowanWebPageActivity"
+            android:name=".Activities.RowanWebPageActivity"
             android:label="Rowan Web Page Activity" />
 
         <activity
-            android:name=".SettingActivity"
+            android:name=".Activities.SettingActivity"
             android:label="Settings" />
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 

@@ -4,7 +4,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/listViewObjects"
     android:orientation="vertical"
     android:paddingBottom="10dp"
     android:paddingLeft="15dp"
@@ -19,7 +19,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/address_text_view"
@@ -29,7 +30,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/town_city_text_view"
@@ -39,7 +41,8 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/address_text_view"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/car_text_view"
@@ -49,7 +52,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/town_city_text_view"
         android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/plate_text_view"
@@ -59,15 +63,17 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColor"/>
 
     <TextView
         android:id="@+id/new_pass_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/textColor"/>
 
 </RelativeLayout>

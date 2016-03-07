@@ -15,20 +15,16 @@ import com.example.android.rowanparkingpass.Activities.SettingActivity;
 
 public class ListActivity extends BaseActivity {
 
-    private ListView listView;
-
+    protected ListView listView;
+    Intent currentIntent;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-/*
-        Intent currentIntent = getIntent();
-        currentMode = currentIntent.getStringExtra(MODE);
-
         setContentView(R.layout.activity_list_view);
-
+        currentIntent = getIntent();
+        currentMode = currentIntent.getStringExtra(MODE);
         listView = (ListView) findViewById(R.id.listView);
+        /*
         if (currentMode.equals(mode.HOME_PAGE.name())) {
             DatabaseHandlerPasses db = new DatabaseHandlerPasses(this);
             ArrayList<Pass> listOfPasses = db.getRequestDetails();
@@ -43,19 +39,20 @@ public class ListActivity extends BaseActivity {
 //            ArrayList<Vehicle> listOfVehicles = db.getVehicles();
 //            listView.setAdapter(new ListViewArrayAdapter(listOfVehicles, this, R.layout.view_vehicle, currentMode));
         }
-        */
+*/
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-
-        if (currentMode.equals(mode.HOME_PAGE.name())) {
-            inflater.inflate(R.menu.menu_home_page, menu);
-        } else if (currentMode.equals(mode.DRIVERS.name()) || currentMode.equals(mode.VEHICLES.name())) {
-            inflater.inflate(R.menu.menu_vehicles_drivers_page, menu);
-        } else if (currentMode.equals(mode.DRIVERS_LIST.name()) || currentMode.equals(mode.VEHICLES_LIST.name())) {
-            inflater.inflate(R.menu.menu_search, menu);
+        if(currentMode!=null) {
+            if (currentMode.equals(mode.HOME_PAGE.name())) {
+                inflater.inflate(R.menu.menu_home_page, menu);
+            } else if (currentMode.equals(mode.DRIVERS.name()) || currentMode.equals(mode.VEHICLES.name())) {
+                inflater.inflate(R.menu.menu_vehicles_drivers_page, menu);
+            } else if (currentMode.equals(mode.DRIVERS_LIST.name()) || currentMode.equals(mode.VEHICLES_LIST.name())) {
+                inflater.inflate(R.menu.menu_search, menu);
+            }
         }
 
         return true;
@@ -112,5 +109,6 @@ public class ListActivity extends BaseActivity {
 
         return true;
     }
+
 
 }

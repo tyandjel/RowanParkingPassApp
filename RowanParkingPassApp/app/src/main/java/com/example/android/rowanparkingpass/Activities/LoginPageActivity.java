@@ -12,7 +12,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
@@ -22,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -69,7 +73,7 @@ public class LoginPageActivity extends BaseActivity {
                             "Email field empty", Toast.LENGTH_SHORT).show();
                 } else {
                     //TODO Remove next line
-                    Intent upanel = new Intent(getApplicationContext(), ListActivity.class);
+                    Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(upanel);

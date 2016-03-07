@@ -1,5 +1,6 @@
 package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,16 +11,23 @@ import com.example.android.rowanparkingpass.ArrayAdapter.DriverArrayAdapter;
 import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by John on 3/6/2016.
  */
 public class DriversActivity extends ListActivity {
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        List<Driver> testDrivers = new ArrayList<>();
+        testDrivers.add(new Driver(-1,"Test Driver 1","-1","-1","-1","-1","-1"));
+        testDrivers.add(new Driver(-1,"Test Driver 2","-1","-1","-1","-1","-1"));
+        buildEventList(testDrivers);
     }
 
     public void buildEventList(List<Driver> drivers) {
