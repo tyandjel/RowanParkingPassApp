@@ -39,6 +39,12 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
 
+        if(currentMode.equals(mode.UPDATE_VEHICLE.name())){
+            setTitle("Update Vehicle");
+        }else{
+            setTitle("Create New Vehicle");
+        }
+
         make = (EditText) findViewById(R.id.vehicleMakeEditText);
         model = (EditText) findViewById(R.id.modelEditText);
         year = (EditText) findViewById(R.id.yearEditText);

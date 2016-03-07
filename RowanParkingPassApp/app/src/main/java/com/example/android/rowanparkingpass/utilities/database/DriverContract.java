@@ -15,6 +15,7 @@ public final class DriverContract extends BaseContract {
         public static final String COLUMN_CITY = "city";
         public static final String COLUMN_STATE = "state";
         public static final String COLUMN_ZIP = "zip";
+        public static final String[] selectionArgs = {COLUMN_DRIVER_ID, COLUMN_FULL_NAME, COLUMN_STREET, COLUMN_CITY, COLUMN_STATE, COLUMN_ZIP};
     }
 
 

@@ -10,8 +10,10 @@ import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Pass;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,9 +21,17 @@ import java.util.List;
  */
 public class PassesActivity extends ListActivity {
 
+    private ListView listView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        listView = (ListView) findViewById(R.id.listView);
+
+        DatabaseHandlerPasses db = new DatabaseHandlerPasses(this.getApplicationContext());
+        ArrayList<Pass> listOfPasses = db.getRequestDetails();
+        buildEventList(listOfPasses);
     }
 
     public void buildEventList(List<Pass> passes) {

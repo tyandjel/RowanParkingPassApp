@@ -13,5 +13,6 @@ public final class UserContract extends BaseContract {
         public static final String COLUMN_USER_NAME = "user_name";
         public static final String COLUMN_IS_ADMIN = "is_admin";
         public static final String COLUMN_SYNC = "sync";
+        public static final String[] selectionArgs = {COLUMN_USER_ID, COLUMN_USER_NAME, COLUMN_IS_ADMIN, COLUMN_SYNC};
     }
 }

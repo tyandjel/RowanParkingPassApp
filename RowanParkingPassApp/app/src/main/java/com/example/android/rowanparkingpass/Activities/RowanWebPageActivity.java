@@ -34,11 +34,14 @@ public class RowanWebPageActivity extends BaseActivity {
 
         webView.setWebViewClient(new MyBrowser());
         webView.getSettings().setLoadsImagesAutomatically(true);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
         if (currentMode.equals(mode.FORGOT_PASSWORD.name())) {
+            setTitle("Forgot Password");
             webView.loadUrl(forgot_password_url);
         } else if (currentMode.equals(mode.CHANGE_PASSWORD.name())) {
+            setTitle("Change Password");
             webView.loadUrl(change_password_url);
         }
     }

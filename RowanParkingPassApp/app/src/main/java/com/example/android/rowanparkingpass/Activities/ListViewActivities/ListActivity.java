@@ -10,19 +10,29 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
-import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.Activities.SettingActivity;
+import com.example.android.rowanparkingpass.R;
 
 public class ListActivity extends BaseActivity {
 
-    protected ListView listView;
+    protected Intent pastIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        currentMode = getIntent().getStringExtra(MODE);
-        listView = (ListView) findViewById(R.id.listView);
+        pastIntent = getIntent();
+        currentMode = pastIntent.getStringExtra(MODE);
+
+        if (currentMode.equals(mode.DRIVERS.name())) {
+            setTitle("Select a Driver");
+        } else if (currentMode.equals(mode.DRIVERS_LIST.name())) {
+            setTitle("Your Drivers");
+        } else if (currentMode.equals(mode.VEHICLES.name())) {
+            setTitle("Select a Vehicle");
+        } else if (currentMode.equals(mode.VEHICLES_LIST.name())) {
+            setTitle("Your Vehicles");
+        }
 /*
         Intent currentIntent = getIntent();
         currentMode = currentIntent.getStringExtra(MODE);

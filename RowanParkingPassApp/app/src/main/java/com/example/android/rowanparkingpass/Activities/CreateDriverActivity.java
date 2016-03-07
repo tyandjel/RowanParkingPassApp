@@ -39,6 +39,12 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
 
+        if(currentMode.equals(mode.UPDATE_DRIVER.name())){
+            setTitle("Update Driver");
+        }else{
+            setTitle("Create New Driver");
+        }
+
         fullName = (EditText) findViewById(R.id.fullNameEditText);
         street = (EditText) findViewById(R.id.streetEditText);
         city = (EditText) findViewById(R.id.cityEditText);

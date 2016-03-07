@@ -31,6 +31,18 @@
             android:label="List Activity" />
 
         <activity
+            android:name=".Activities.ListViewActivities.DriversActivity"
+            android:label="Drivers" />
+
+        <activity
+            android:name=".Activities.ListViewActivities.VehiclesActivity"
+            android:label="Vehicles" />
+
+        <activity
+            android:name=".Activities.ListViewActivities.PassesActivity"
+            android:label="Vehicles" />
+
+        <activity
             android:name=".Activities.PassActivity"
             android:label="Create Pass" />
 
