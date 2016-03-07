@@ -10,25 +10,25 @@
     <Button
         android:id="@+id/changePassButton"
         android:layout_width="270dp"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp"
         android:background="@drawable/button_selector"
         android:text="@string/settings_change_password_button"
         android:textColor="@color/textColor"
-        android:textSize="30sp" />
+        android:textSize="@dimen/settings_button_text_size" />
 
 
     <Button
         android:id="@+id/syncNowButton"
         android:layout_width="270dp"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:background="@drawable/button_selector"
         android:text="@string/settings_sync_now_button"
         android:textColor="@color/textColor"
-        android:textSize="30sp" />
+        android:textSize="@dimen/settings_button_text_size" />
 
     <Switch
         android:id="@+id/mySwitch"

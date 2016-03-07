@@ -15,13 +15,14 @@ import com.example.android.rowanparkingpass.Activities.SettingActivity;
 
 public class ListActivity extends BaseActivity {
 
-    private ListView listView;
+    protected ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        currentMode = getIntent().getStringExtra(MODE);
+        listView = (ListView) findViewById(R.id.listView);
 /*
         Intent currentIntent = getIntent();
         currentMode = currentIntent.getStringExtra(MODE);

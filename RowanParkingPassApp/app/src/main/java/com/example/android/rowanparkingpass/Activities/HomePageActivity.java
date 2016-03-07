@@ -7,7 +7,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 
 public class HomePageActivity extends BaseActivity {
@@ -35,7 +36,7 @@ public class HomePageActivity extends BaseActivity {
             // action with ID action_drivers was selected
             case R.id.action_drivers:
                 Toast.makeText(this, "Drivers selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, ListActivity.class);
+                myIntent = new Intent(this, DriversActivity.class);
                 myIntent.putExtra(MODE, mode.DRIVERS_LIST);
                 startActivity(myIntent);
                 finish();
@@ -43,7 +44,7 @@ public class HomePageActivity extends BaseActivity {
             // action with ID action_vehicles was selected
             case R.id.action_vehicles:
                 Toast.makeText(this, "Vehicles selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, ListActivity.class);
+                myIntent = new Intent(this, VehiclesActivity.class);
                 myIntent.putExtra(MODE, mode.VEHICLES_LIST);
                 startActivity(myIntent);
                 finish();
