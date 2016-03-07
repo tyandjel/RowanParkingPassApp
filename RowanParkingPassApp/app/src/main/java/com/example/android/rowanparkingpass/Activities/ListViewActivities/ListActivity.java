@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass;
+package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +8,10 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.personinfo.Pass;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
-
-import java.util.ArrayList;
+import com.example.android.rowanparkingpass.Activities.BaseActivity;
+import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
+import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.Activities.SettingActivity;
 
 public class ListActivity extends BaseActivity {
 
@@ -21,6 +21,8 @@ public class ListActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+/*
         Intent currentIntent = getIntent();
         currentMode = currentIntent.getStringExtra(MODE);
 
@@ -41,6 +43,7 @@ public class ListActivity extends BaseActivity {
 //            ArrayList<Vehicle> listOfVehicles = db.getVehicles();
 //            listView.setAdapter(new ListViewArrayAdapter(listOfVehicles, this, R.layout.view_vehicle, currentMode));
         }
+        */
     }
 
     @Override

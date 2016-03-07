@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass;
+package com.example.android.rowanparkingpass.Activities;
 
 
 import android.content.Intent;
@@ -12,12 +12,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.R;
+
 public class RowanWebPageActivity extends BaseActivity {
 
     private WebView webView;
 
-    private static final String forgot_password_url = "http://www.rowan.edu";
-    private static final String change_password_url = "http://www.rowan.edu/cs";
+    private static final String forgot_password_url = "https://id.rowan.edu/";
+    private static final String change_password_url = "https://id.rowan.edu/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -103,3 +105,4 @@ public class RowanWebPageActivity extends BaseActivity {
         }
     }
 }
+

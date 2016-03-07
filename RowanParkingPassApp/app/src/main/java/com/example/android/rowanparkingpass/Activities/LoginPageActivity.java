@@ -1,7 +1,6 @@
-package com.example.android.rowanparkingpass;
+package com.example.android.rowanparkingpass.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
 
@@ -111,7 +112,7 @@ public class LoginPageActivity extends BaseActivity {
             /**
              * Gets current device state and checks for working internet connection by trying Google.
              **/
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {

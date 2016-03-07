@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass;
+package com.example.android.rowanparkingpass.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;

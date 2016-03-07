@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass;
+package com.example.android.rowanparkingpass.ArrayAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.android.rowanparkingpass.Activities.BaseActivity;
+import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;

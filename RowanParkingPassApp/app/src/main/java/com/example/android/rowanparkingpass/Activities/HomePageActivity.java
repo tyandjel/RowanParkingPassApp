@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass;
+package com.example.android.rowanparkingpass.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.example.android.rowanparkingpass.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.R;
 
 public class HomePageActivity extends BaseActivity {
 

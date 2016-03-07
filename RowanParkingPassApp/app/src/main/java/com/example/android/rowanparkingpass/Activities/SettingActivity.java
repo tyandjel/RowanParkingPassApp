@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass;
+package com.example.android.rowanparkingpass.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
+
+import com.example.android.rowanparkingpass.R;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 

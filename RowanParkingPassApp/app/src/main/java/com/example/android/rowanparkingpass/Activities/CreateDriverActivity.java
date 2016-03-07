@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass;
+package com.example.android.rowanparkingpass.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,55 +15,56 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
 
-public class CreateVehicleActivity extends BaseActivity implements View.OnClickListener {
+public class CreateDriverActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TEMP_VEHICLE = "temp";
+    private static final String TEMP_DRIVER = "temp";
 
-    private EditText make;
-    private EditText model;
-    private EditText year;
-    private EditText color;
-    private EditText license;
-    private CheckBox saveInfo;
+    EditText fullName;
+    EditText street;
+    EditText city;
+    Spinner state;
+    EditText zipCode;
+    CheckBox saveInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_create_vehicle);
+        setContentView(R.layout.activity_create_driver);
 
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
 
-        make = (EditText) findViewById(R.id.vehicleMakeEditText);
-        model = (EditText) findViewById(R.id.modelEditText);
-        year = (EditText) findViewById(R.id.yearEditText);
-        color = (EditText) findViewById(R.id.vehicleColorEditText);
-        Spinner state = (Spinner) findViewById(R.id.vehicleSpinner);
-        license = (EditText) findViewById(R.id.licenseEditText);
-        saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
+        fullName = (EditText) findViewById(R.id.fullNameEditText);
+        street = (EditText) findViewById(R.id.streetEditText);
+        city = (EditText) findViewById(R.id.cityEditText);
+        state = (Spinner) findViewById(R.id.driverSpinner);
+        zipCode = (EditText) findViewById(R.id.zipCodeEditText);
+        saveInfo = (CheckBox) findViewById(R.id.saveInfoOnPhoneCheckBox);
 
         Button cancel = (Button) findViewById(R.id.cancelDriverButton);
-        final Button createVehicle = (Button) findViewById(R.id.createVehicleButton);
+        final Button createDriver = (Button) findViewById(R.id.createDriverButton);
 
         state.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values()));
 
         cancel.setOnClickListener(this);
-        createVehicle.setOnClickListener(this);
+        createDriver.setOnClickListener(this);
 
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
-                        createVehicle.setText(R.string.save_vehicle);
+                    if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
+                        createDriver.setText(R.string.save_driver);
                     } else {
-                        createVehicle.setText(R.string.create_vehicle);
+                        createDriver.setText(R.string.create_driver);
                     }
                 } else {
-                    createVehicle.setText(R.string.create_temp_vehicle);
+                    createDriver.setText(R.string.create_temp_driver);
                 }
             }
         });
@@ -73,7 +74,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
-        if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
+        if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
             inflater.inflate(R.menu.menu_delete, menu);
         }
 
@@ -90,7 +91,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
             case R.id.action_delete:
                 Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
                 myIntent = new Intent(this, ListActivity.class);
-                myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
                 startActivity(myIntent);
                 finish();
                 break;
@@ -104,20 +105,19 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         // Check to see if user filled out all fields
-        if (TextUtils.isEmpty(make.getText()) || TextUtils.isEmpty(model.getText()) ||
-                TextUtils.isEmpty(year.getText()) || TextUtils.isEmpty(color.getText()) ||
-                TextUtils.isEmpty(license.getText())) {
-            Toast.makeText(this, "Fill out all vehicle fields", Toast.LENGTH_SHORT);
-        } else if (year.getText().length() != 4) {
-            Toast.makeText(this, "Enter a 4 digit year", Toast.LENGTH_SHORT);
+        if (TextUtils.isEmpty(fullName.getText()) || TextUtils.isEmpty(street.getText()) ||
+                TextUtils.isEmpty(city.getText()) || TextUtils.isEmpty(zipCode.getText())) {
+            Toast.makeText(this, "Fill out all driver fields", Toast.LENGTH_SHORT);
+        } else if (zipCode.getText().length() != 5) {
+            Toast.makeText(this, "Enter a 4 digit zip code", Toast.LENGTH_SHORT);
         } else {
             // Change to new activity
             Intent myIntent;
             switch (v.getId()) {
-                case R.id.cancelVehicleButton:
+                case R.id.cancelDriverButton:
                     Toast.makeText(this, "Cancel was clicked", Toast.LENGTH_SHORT).show();
                     break;
-                case R.id.createVehicleButton:
+                case R.id.createDriverButton:
                     Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
                     break;
                 default:
@@ -125,14 +125,16 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
             }
             // Go back to past activity
             myIntent = new Intent(this, ListActivity.class);
-            if (currentMode.equals(mode.VEHICLES.name())) {
-                myIntent.putExtra(MODE, mode.VEHICLES.name());
+            if (currentMode.equals(mode.DRIVERS.name())) {
+                myIntent.putExtra(MODE, mode.DRIVERS.name());
             } else {
-                myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
             }
-            myIntent.putExtra(TEMP_VEHICLE, saveInfo.isChecked());
+            myIntent.putExtra(TEMP_DRIVER, saveInfo.isChecked());
             startActivity(myIntent);
             finish();
         }
     }
+
+
 }
