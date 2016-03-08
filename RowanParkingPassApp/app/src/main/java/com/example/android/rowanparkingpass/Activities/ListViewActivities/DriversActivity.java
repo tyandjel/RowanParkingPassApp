@@ -27,16 +27,17 @@ public class DriversActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-         listView = (ListView) findViewById(R.id.listView);
         DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(this.getApplicationContext());
         //TODO Fix why it can't find table
         ArrayList<Driver> listOfDrivers = db.getDrivers();
             listOfDrivers.add(new Driver(-1,"Test Driver 1","-1","-1","-1","-1","-1"));
             listOfDrivers.add(new Driver(-1,"Test Driver 2","-1","-1","-1","-1","-1"));
         Log.d(TAG, Arrays.asList(listOfDrivers).toString());
+        buildEventList(listOfDrivers);
     }
 
     public void buildEventList(List<Driver> drivers) {
+        ListView listView = (ListView) findViewById(R.id.listView);
         final DriverArrayAdapter adapter = new DriverArrayAdapter(drivers, this);
         listView.setAdapter(adapter);
         // Create a message handling object as an anonymous class.
@@ -48,19 +49,27 @@ public class DriversActivity extends ListActivity {
                     intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
                     intent.putExtra(MODE,mode.CREATE_DRIVER.name());
                     startActivity(intent);
-                } else {
+                } /**else {
                     if (currentMode.equals(mode.DRIVERS.name())) {
                         intent = new Intent(DriversActivity.this, VehiclesActivity.class);
                         intent.putExtra(MODE,mode.VEHICLES.name());
-                    } else {
-                        intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
-                        intent.putExtra(MODE,mode.UPDATE_DRIVER.name());
                     }
+                        else {
+                        intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
+                        //intent.putExtra(MODE,mode.UPDATE_DRIVER.name());
+                    }
+                 */
+                else {
+                    intent = new Intent(DriversActivity.this, VehiclesActivity.class);
+                    intent.putExtra(MODE,mode.VEHICLES_LIST.name());
+
                     intent.putExtra("Drvier", (Serializable) adapter.getItem(position));
                     startActivity(intent);
                 }
-            }
-        };
-        listView.setOnItemClickListener(mMessageClickedHandler);
+                }
+            };
+            listView.setOnItemClickListener(mMessageClickedHandler);
+        }
+
     }
-}
+

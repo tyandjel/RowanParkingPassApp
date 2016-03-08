@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
@@ -14,13 +13,11 @@ import com.example.android.rowanparkingpass.Activities.SettingActivity;
 import com.example.android.rowanparkingpass.R;
 
 public class ListActivity extends BaseActivity {
-
-    protected ListView listView;
     Intent pastIntent;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
+
 
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);

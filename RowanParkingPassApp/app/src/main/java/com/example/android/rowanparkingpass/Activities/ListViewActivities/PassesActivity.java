@@ -27,15 +27,13 @@ public class PassesActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        listView = (ListView) findViewById(R.id.listView);
-
         DatabaseHandlerPasses db = new DatabaseHandlerPasses(this.getApplicationContext());
         ArrayList<Pass> listOfPasses = db.getRequestDetails();
         buildEventList(listOfPasses);
     }
 
     public void buildEventList(List<Pass> passes) {
+        ListView listView = (ListView) findViewById(R.id.listView);
         final PassArrayAdapter adapter = new PassArrayAdapter(passes, this);
         listView.setAdapter(adapter);
         // Create a message handling object as an anonymous class.

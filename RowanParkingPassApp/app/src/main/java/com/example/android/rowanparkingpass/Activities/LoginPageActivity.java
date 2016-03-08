@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
@@ -70,9 +69,9 @@ public class LoginPageActivity extends BaseActivity {
                 } else {
                     //TODO Remove next line
 
-                    Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
+                    //Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
 
-                    //Intent upanel = new Intent(getApplicationContext(), HomePageActivity.class);
+                    Intent upanel = new Intent(getApplicationContext(), HomePageActivity.class);
 
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

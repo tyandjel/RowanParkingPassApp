@@ -40,7 +40,7 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
 
-        if(currentMode.equals(mode.UPDATE_DRIVER.name())){
+        if(currentMode!= null &&currentMode.equals(mode.UPDATE_DRIVER.name())){
             setTitle("Update Driver");
         }else{
             setTitle("Create New Driver");

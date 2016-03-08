@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.example.android.rowanparkingpass.Activities.CreateVehicleActivity;
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.VehicleArrayAdapter;
+import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
 import java.io.Serializable;
@@ -28,7 +30,7 @@ public class VehiclesActivity extends ListActivity {
         }
 
         public void buildEventList(List<Vehicle> vehicles) {
-            //ListView listView = (ListView) findViewById(R.id.listView);
+            ListView listView = (ListView) findViewById(R.id.listView);
             final VehicleArrayAdapter adapter = new VehicleArrayAdapter(vehicles, this);
             listView.setAdapter(adapter);
             // Create a message handling object as an anonymous class.
@@ -38,13 +40,13 @@ public class VehiclesActivity extends ListActivity {
                     Intent intent;
                     if(position==0){
                         intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
-                        startActivity(intent);
+                        intent.putExtra(MODE, mode.CREATE_VEHICLE.name());
                     }
                     else {
                         intent = new Intent(VehiclesActivity.this, PassActivity.class);
-                        intent.putExtra("Vehicle", (Serializable)adapter.getItem(position));
-                        startActivity(intent);
+                        intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
                     }
+                    startActivity(intent);
                 }
             };
             listView.setOnItemClickListener(mMessageClickedHandler);
