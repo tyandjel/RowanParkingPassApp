@@ -10,14 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
-=======
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;

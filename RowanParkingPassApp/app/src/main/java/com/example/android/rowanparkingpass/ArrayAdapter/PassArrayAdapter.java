@@ -13,22 +13,11 @@ import com.example.android.rowanparkingpass.personinfo.Pass;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
+
 /**
  * Created by John on 3/6/2016.
  */
-public class PassArrayAdapter extends BaseAdapter {
-    LayoutInflater myInflater;
-    private List<Pass> passes = new ArrayList<>();
-    private Context ctxt;
 
-    public PassArrayAdapter(List<Pass> l, Context c) {
-        makePassesList(l);
-        ctxt = c;
-        myInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-=======
 public class PassArrayAdapter extends BaseAdapter {
 
     private List<Pass> passes = new ArrayList<>();
@@ -54,22 +43,18 @@ public class PassArrayAdapter extends BaseAdapter {
     public void setContextLayout(Context c, int layout) {
         context = c;
         this.layout = layout;
+        myInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 
     /**
      * This is for creating the content for a list of Passes in listview
      */
     public void makePassesList(List<Pass> p) {
-<<<<<<< HEAD
         passes.add(new Pass()); // adds empty place holder to position 0
         passes.addAll(p);
     }
 
-=======
-        passes.add(0, null); // adds empty place holder to position 0
-        passes.addAll(p);
-    }
+
 
     private void inflateLayout() {
         myInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -81,47 +66,36 @@ public class PassArrayAdapter extends BaseAdapter {
      *
      * @return Count of items.
      */
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
     @Override
     public int getCount() {
         return passes.size();
     }
 
-<<<<<<< HEAD
-=======
+
     /**
      * Get the data item associated with the specified position in the data set.
      *
      * @param position Position of the item whose data we want within the adapter's data set.
      * @return The data at the specified position.
      */
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
     @Override
     public Object getItem(int position) {
         return passes.get(position);
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Get the row id associated with the specified position in the list.
      *
      * @param position The position of the item within the adapter's data set whose row id we want.
      * @return The id of the item at the specified position.
      */
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-<<<<<<< HEAD
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null){
-            convertView =myInflater.inflate(R.layout.view_recent_pass, parent, false);
-        }
-=======
+
     /**
      * Get a View that displays the data at the specified position in the data set. You can either
      * create a View manually or inflate it from an XML layout file. When the View is inflated, the
@@ -140,12 +114,11 @@ public class PassArrayAdapter extends BaseAdapter {
      * @param parent      The parent that this view will eventually be attached to
      * @return A View corresponding to the data at the specified position.
      */
-    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        inflateLayout();
-        convertView = myInflater.inflate(R.layout.view_recent_pass, parent, false);
-
+            if (convertView == null){
+                convertView =myInflater.inflate(R.layout.view_recent_pass, parent, false);
+            }
         TextView newPass = (TextView) convertView.findViewById(R.id.new_pass_text_view);
         TextView driverName = (TextView) convertView.findViewById(R.id.driver_text_view);
         TextView address = (TextView) convertView.findViewById(R.id.address_text_view);
@@ -154,32 +127,6 @@ public class PassArrayAdapter extends BaseAdapter {
         TextView plate = (TextView) convertView.findViewById(R.id.plate_text_view);
         //String [] lArr = new String[list.size()];
         // lArr=list.toArray(lArr); not needed
-        if (position == 0) {
-            newPass.setText("+ Create New Pass");
-            driverName.setText("");
-            address.setText("");
-            townCity.setText("");
-            car.setText("");
-            plate.setText("");
-        } else {
-            newPass.setText("");
-            Pass cPass = passes.get(position);
-            driverName.setText(cPass.getDriver().getName());
-            address.setText(cPass.getDriver().getStreet());
-            townCity.setText(cPass.getDriver().getTown() + " " + cPass.getDriver().getState() + ", " + cPass.getDriver().getZipCode());
-            car.setText(cPass.getVehicle().getYear() + " " + cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel() + " " + cPass.getVehicle().getColor());
-            plate.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
-        }
-        return convertView;
-    }
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
-
-        TextView newPass = (TextView) convertView.findViewById(R.id.new_pass_text_view);
-        TextView driverName = (TextView) convertView.findViewById(R.id.driver_text_view);
-        TextView address = (TextView) convertView.findViewById(R.id.address_text_view);
-        TextView townCity = (TextView) convertView.findViewById(R.id.town_city_text_view);
-        TextView car = (TextView) convertView.findViewById(R.id.car_text_view);
-        TextView plate = (TextView) convertView.findViewById(R.id.plate_text_view);
         if (position == 0) {
             newPass.setText("+ Create New Pass");
             driverName.setText("");

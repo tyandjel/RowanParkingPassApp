@@ -15,31 +15,26 @@ import com.example.android.rowanparkingpass.R;
 
 public class ListActivity extends BaseActivity {
 
-<<<<<<< HEAD
     protected ListView listView;
-    Intent currentIntent;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-=======
-    protected Intent pastIntent;
+    Intent pastIntent;
 
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_view);
 
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
-
-        if (currentMode.equals(mode.DRIVERS.name())) {
-            setTitle("Select a Driver");
-        } else if (currentMode.equals(mode.DRIVERS_LIST.name())) {
-            setTitle("Your Drivers");
-        } else if (currentMode.equals(mode.VEHICLES.name())) {
-            setTitle("Select a Vehicle");
-        } else if (currentMode.equals(mode.VEHICLES_LIST.name())) {
-            setTitle("Your Vehicles");
-        }
+            if( currentMode != null) {
+                if (currentMode.equals(mode.DRIVERS.name())) {
+                    setTitle("Select a Driver");
+                } else if (currentMode.equals(mode.DRIVERS_LIST.name())) {
+                    setTitle("Your Drivers");
+                } else if (currentMode.equals(mode.VEHICLES.name())) {
+                    setTitle("Select a Vehicle");
+                } else if (currentMode.equals(mode.VEHICLES_LIST.name())) {
+                    setTitle("Your Vehicles");
+                }
+            }
 /*
         Intent currentIntent = getIntent();
         currentMode = currentIntent.getStringExtra(MODE);

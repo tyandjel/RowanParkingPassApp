@@ -12,13 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
-=======
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
@@ -28,7 +22,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -76,11 +69,11 @@ public class LoginPageActivity extends BaseActivity {
                             "Email field empty", Toast.LENGTH_SHORT).show();
                 } else {
                     //TODO Remove next line
-<<<<<<< HEAD
+
                     Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
-=======
-                    Intent upanel = new Intent(getApplicationContext(), HomePageActivity.class);
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
+
+                    //Intent upanel = new Intent(getApplicationContext(), HomePageActivity.class);
+
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(upanel);

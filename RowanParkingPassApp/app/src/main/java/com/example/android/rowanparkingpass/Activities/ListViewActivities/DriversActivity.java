@@ -1,6 +1,5 @@
 package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,18 +11,11 @@ import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.DriverArrayAdapter;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
-<<<<<<< HEAD
-import com.example.android.rowanparkingpass.personinfo.Vehicle;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-=======
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 import java.util.List;
 
 /**
@@ -31,15 +23,6 @@ import java.util.List;
  */
 public class DriversActivity extends ListActivity {
 
-<<<<<<< HEAD
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        List<Driver> testDrivers = new ArrayList<>();
-        testDrivers.add(new Driver(-1,"Test Driver 1","-1","-1","-1","-1","-1"));
-        testDrivers.add(new Driver(-1,"Test Driver 2","-1","-1","-1","-1","-1"));
-        buildEventList(testDrivers);
-=======
-    private ListView listView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +31,9 @@ public class DriversActivity extends ListActivity {
         DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(this.getApplicationContext());
         //TODO Fix why it can't find table
         ArrayList<Driver> listOfDrivers = db.getDrivers();
+            listOfDrivers.add(new Driver(-1,"Test Driver 1","-1","-1","-1","-1","-1"));
+            listOfDrivers.add(new Driver(-1,"Test Driver 2","-1","-1","-1","-1","-1"));
         Log.d(TAG, Arrays.asList(listOfDrivers).toString());
-        buildEventList(listOfDrivers);
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
     }
 
     public void buildEventList(List<Driver> drivers) {

@@ -17,18 +17,6 @@ import java.util.List;
  * Created by John on 3/6/2016.
  */
 public class VehicleArrayAdapter extends BaseAdapter {
-<<<<<<< HEAD
-    LayoutInflater myInflator;
-    private List<Vehicle> vehicles = new ArrayList<>();
-    private Context ctxt;
-
-    public VehicleArrayAdapter(List<Vehicle> l, Context c) {
-        ctxt = c;
-        makeVehiclesList(l);
-        myInflator = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-=======
 
     private List<Vehicle> vehicles = new ArrayList<>();
 
@@ -46,14 +34,8 @@ public class VehicleArrayAdapter extends BaseAdapter {
         } else {
             makeVehiclesList(new ArrayList<Vehicle>());
         }
-        setContextLayout(c, layout);
+        myInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
-    public void setContextLayout(Context c, int layout) {
-        context = c;
-        this.layout = layout;
-    }
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 
     /**
      * This is for creating the content for a list of drivers in listview
@@ -63,9 +45,6 @@ public class VehicleArrayAdapter extends BaseAdapter {
         vehicles.addAll(v);
     }
 
-<<<<<<< HEAD
-
-=======
     private void inflateLayout() {
         myInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -76,47 +55,38 @@ public class VehicleArrayAdapter extends BaseAdapter {
      *
      * @return Count of items.
      */
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
-    @Override
+
     public int getCount() {
         return vehicles.size();
     }
 
-<<<<<<< HEAD
-=======
+
     /**
      * Get the data item associated with the specified position in the data set.
      *
      * @param position Position of the item whose data we want within the adapter's data set.
      * @return The data at the specified position.
      */
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
+
     @Override
     public Object getItem(int position) {
         return vehicles.get(position);
     }
 
-<<<<<<< HEAD
-=======
+
     /**
      * Get the row id associated with the specified position in the list.
      *
      * @param position The position of the item within the adapter's data set whose row id we want.
      * @return The id of the item at the specified position.
      */
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-<<<<<<< HEAD
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null){
-            convertView = myInflator.inflate(R.layout.view_vehicle, parent, false);
-        }
-=======
+
+
     /**
      * Get a View that displays the data at the specified position in the data set. You can either
      * create a View manually or inflate it from an XML layout file. When the View is inflated, the
@@ -138,10 +108,9 @@ public class VehicleArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        inflateLayout();
-
-        convertView = myInflater.inflate(R.layout.view_vehicle, parent, false);
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
+            if (convertView == null){
+                convertView = myInflater.inflate(R.layout.view_vehicle, parent, false);
+            }
 
         TextView newVehicle = (TextView) convertView.findViewById(R.id.new_vehicle_text_view);
         TextView carText = (TextView) convertView.findViewById(R.id.car_text_view);
@@ -157,13 +126,10 @@ public class VehicleArrayAdapter extends BaseAdapter {
             carText.setText(cVehicle.getYear() + " " + cVehicle.getMake() + " " + cVehicle.getModel() + " " + cVehicle.getColor());
             plateText.setText(cVehicle.getLicensePlate());
         }
-<<<<<<< HEAD
-        return convertView;
-    }
-}
-=======
 
         return convertView;
     }
 }
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
+
+
+

@@ -4,25 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-<<<<<<< HEAD
-import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
-import com.example.android.rowanparkingpass.Activities.CreateVehicleActivity;
-import com.example.android.rowanparkingpass.Activities.PassActivity;
-import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
-import com.example.android.rowanparkingpass.ArrayAdapter.VehicleArrayAdapter;
-import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.personinfo.Pass;
-import com.example.android.rowanparkingpass.personinfo.Vehicle;
-=======
 import com.example.android.rowanparkingpass.Activities.CreateVehicleActivity;
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.VehicleArrayAdapter;
-import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,7 +19,7 @@ import java.util.List;
  */
 public class VehiclesActivity extends ListActivity {
 
-<<<<<<< HEAD
+
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             List<Vehicle> testVehicles = new ArrayList<>();
@@ -64,6 +50,7 @@ public class VehiclesActivity extends ListActivity {
             listView.setOnItemClickListener(mMessageClickedHandler);
         }
     }
+/**
 =======
     private ListView listView;
 
@@ -106,8 +93,8 @@ public class VehiclesActivity extends ListActivity {
             }
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
-    }
-}
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
+    }*/
+
+
 
 

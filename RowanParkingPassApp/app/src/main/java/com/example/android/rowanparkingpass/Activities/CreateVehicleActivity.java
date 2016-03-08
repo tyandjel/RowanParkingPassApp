@@ -14,12 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-<<<<<<< HEAD
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
-=======
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
 
