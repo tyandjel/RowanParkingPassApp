@@ -86,7 +86,7 @@ if (!empty($_POST)) {
 			$_SESSION['username'] = $row['username'];
             $_SESSION['insert'] = "Login success.";
             // This redirects the user back to the login page after they register
-            header("Location: message.php");
+            header("Location: TableDisplay.php");
             
             // Calling die or exit after performing a redirect using the header function
             // is critical.  The rest of your PHP script will continue to execute and

@@ -1,28 +1,61 @@
-<?php
+﻿<?php
 
-$result = mysqli_query($conn,"SELECT * FROM passTable Where pass_type = ‘tba’ ORDER BY `CreatedTime` DESC");
+require_once("common.php");
 
-echo "<table border='0' cellpadding='0' cellspacing='0' class='table-fill'> 
-<tr>
-<th width='250px' position='fixed'>Driver</th> 
-<th width='150px'>Make</th>
-<th width='100px'>Start Date</th>
-<th>End Date</th>
-<th>View Pass</th>
-</tr>";
-
-
-while($row = mysqli_fetch_array($result) ) {
-echo "<tr>";
-echo "<td>" . $row['driver_name'] . "</td>";
-echo "<td>" . $row['make'] . "</td>";
-echo "<td>" . $row['start_date'] . "</td>";
-echo "<td>" . $row['end_date'] . "</td>";
-echo "<td><a href='PassDetails.php?id=".$row['pass_id']."'>View Job</td>";
-
-echo "</tr>";
+if (isset($_SESSION['username'])) {
+    echo nl2br("Welcome to the member's area, " . $_SESSION['username'] . "!\n ");
+} else {
+    header("Location: login.php");
+    die("Redirecting..");
 }
-echo “</table>”;
+
+$query = "SELECT * FROM Requests Where status = 0 ORDER BY `time_stamp` DESC";
+
+try {
+            // These two statements run the query against your database table.
+            $stmt   = $db->prepare($query);
+            $result = $stmt->execute();
+
+            echo "Query successful";
+        }
+        catch (PDOException $ex) {
+            // Note: On a production website, you should not output $ex->getMessage().
+            // It may provide an attacker with helpful information about your code. 
+            die("Failed to run query: " . $ex->getMessage());
+        }
+
+
+     $row = $stmt->fetchAll();
+     echo json_encode($row[0]);
+
+
+     if($row)
+     {
+
+     }
+     else
+     {
+	echo "No requests found";
+	header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+        die();
+
+     }
+
+
+
+     echo "</tr>";
+     for($i = 0; $i < count($row); $i++) 
+     {
+	echo "test";
+        echo "<td>" . $row['driver_id'] . "</td>";
+	echo "<td>" . $row['start_date'] . "</td>";
+	echo "<td>" . $row['end_date'] . "</td>";
+	echo "<td><a href='PassDetails.php?id=".$row['pass_id']."'>View Job</td>";
+     }
+
+        echo "</tr>";
+}
+echo “</table>”;*/
 ?>
 <html>
    
