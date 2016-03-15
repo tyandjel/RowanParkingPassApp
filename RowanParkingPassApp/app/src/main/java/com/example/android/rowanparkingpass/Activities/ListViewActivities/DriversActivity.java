@@ -22,7 +22,7 @@ import java.util.List;
  * Created by John on 3/6/2016.
  */
 public class DriversActivity extends ListActivity {
-
+public static boolean hasStarted =false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,15 +31,23 @@ public class DriversActivity extends ListActivity {
         //TODO Fix why it can't find table
         ArrayList<Driver> listOfDrivers = db.getDrivers();
             listOfDrivers.add(new Driver(-1,"Test Driver 1","-1","-1","-1","-1","-1"));
-            listOfDrivers.add(new Driver(-1,"Test Driver 2","-1","-1","-1","-1","-1"));
+        listOfDrivers.add(new Driver(-1,"Test Driver 2","-1","-1","-1","-1","-1"));
+        listOfDrivers.add(new Driver(-1,"Test Driver 1","-1","-1","-1","-1","-1"));
+        listOfDrivers.add(new Driver(-1,"Test Driver 2","-1","-1","-1","-1","-1"));
+        listOfDrivers.add(new Driver(-1,"Test Driver 1","-1","-1","-1","-1","-1"));
+        listOfDrivers.add(new Driver(-1,"Test Driver 2","-1","-1","-1","-1","-1"));
+
         Log.d(TAG, Arrays.asList(listOfDrivers).toString());
         buildEventList(listOfDrivers);
+
+
     }
 
     public void buildEventList(List<Driver> drivers) {
         ListView listView = (ListView) findViewById(R.id.listView);
         final DriverArrayAdapter adapter = new DriverArrayAdapter(drivers, this);
         listView.setAdapter(adapter);
+        hasStarted=true;
         // Create a message handling object as an anonymous class.
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {

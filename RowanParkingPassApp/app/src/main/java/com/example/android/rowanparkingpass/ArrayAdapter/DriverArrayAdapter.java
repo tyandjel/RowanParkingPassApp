@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -20,7 +22,7 @@ import java.util.List;
 
 
 public class DriverArrayAdapter extends BaseAdapter {
-
+private int lastPos = 0;
     private List<Driver> drivers = new ArrayList<>();
 
     private Context context;
@@ -77,6 +79,13 @@ public class DriverArrayAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+    private boolean isincreasing(int pos){
+        boolean resut = false;
+        if(pos > lastPos)
+            resut= true;
+        lastPos=pos;
+        return resut;
+    }
 
     /**
      * Get a View that displays the data at the specified position in the data set. You can either
@@ -120,7 +129,13 @@ public class DriverArrayAdapter extends BaseAdapter {
             driverAddress.setText(cDriver.getStreet());
             driverTownCity.setText(cDriver.getTown() + "," + cDriver.getState() + " " + cDriver.getZipCode());
         }
+        if(position>0) {
+            Animation animation = null;
+            animation = new TranslateAnimation(0, 0, 2000, 0);
+            animation.setDuration(500 + (position * 100));
+            convertView.startAnimation(animation);
+        }
 
-        return convertView;
-    }
+
+        return convertView;    }
 }

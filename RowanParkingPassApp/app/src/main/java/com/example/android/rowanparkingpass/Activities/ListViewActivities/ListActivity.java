@@ -16,6 +16,7 @@ public class ListActivity extends BaseActivity {
     Intent pastIntent;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_list_view);
 
 
