@@ -62,6 +62,7 @@ public class ListViewArrayAdapter extends BaseAdapter {
         setContextLayout(c, layout);
     }
 
+
     public void setContextLayout(Context c, int layout) {
         context = c;
         this.layout = layout;

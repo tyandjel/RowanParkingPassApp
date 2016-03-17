@@ -9,6 +9,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 
@@ -28,12 +29,16 @@ private int lastPos = 0;
     private Context context;
     LayoutInflater myInflater;
 
+    private int numOnScreen;
+    private boolean hasLoaded = false;
+
     private int layout = R.layout.view_driver;// current layout to use
 
     /**
      * This  is for creating the content for a list of passes listview
      */
     public DriverArrayAdapter(List<Driver> l, Context c) {
+
         if (!l.isEmpty()) {
             makeDriversList(l);
         } else {
@@ -116,26 +121,38 @@ private int lastPos = 0;
         TextView driver = (TextView) convertView.findViewById(R.id.driver_text_view);
         TextView driverAddress = (TextView) convertView.findViewById(R.id.address_text_view);
         TextView driverTownCity = (TextView) convertView.findViewById(R.id.town_city_text_view);
-
+        Animation animation = null;
         if (position == 0) {
             newDriver.setText("+ Create New Driver");
             driver.setText("");
             driverAddress.setText("");
             driverTownCity.setText("");
+            // stops create driver from animating.
+            animation = new TranslateAnimation(0, 0, 0, 0);
         } else {
             newDriver.setText("");
             Driver cDriver = drivers.get(position);
             driver.setText(cDriver.getName());
             driverAddress.setText(cDriver.getStreet());
             driverTownCity.setText(cDriver.getTown() + "," + cDriver.getState() + " " + cDriver.getZipCode());
-        }
-        if(position>0) {
-            Animation animation = null;
+
+            // This creates a translation animation from bottom to the top
             animation = new TranslateAnimation(0, 0, 2000, 0);
+        }
+
+
+        //makes there a delay between views for translation speed.
+        if(!hasLoaded) {
             animation.setDuration(500 + (position * 100));
             convertView.startAnimation(animation);
         }
 
 
+        //TODO: Fix bug where the views keep animating when scrolling.
+
         return convertView;    }
+
+    public void setHHasLoaded(boolean b){
+        hasLoaded = b;
+    }
 }
