@@ -1,13 +1,9 @@
 package com.example.android.rowanparkingpass.utilities.userfunctions;
 
-import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.utilities.JSONParser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserFunctionsDriver extends UserFunctionsBase {
@@ -99,37 +95,52 @@ public class UserFunctionsDriver extends UserFunctionsBase {
         return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
     }
 
+//    /**
+//     * Syncs the local database and server side database
+//     *
+//     * @param userId       user's user id
+//     * @param localDrivers list of drivers on phone
+//     * @return JSONObject whether drivers were successfully synced and all vehicles associated with the user id
+//     */
+//    public JSONObject syncVehicles(String userId, ArrayList<Driver> localDrivers) {
+//        HashMap<String, String> params = new HashMap<>();
+//        JSONObject driverObj = new JSONObject();
+//        JSONArray driverArray = new JSONArray();
+//
+//        params.put(TAG_KEY, SYNC_DRIVERS_TAG);
+//        params.put(USER_ID_KEY, userId);
+//
+//        try {
+//            for (int i = 0; i < localDrivers.size(); i++) {
+//                JSONObject driver = new JSONObject();
+//                driver.put(DRIVER_ID_KEY, localDrivers.get(i).getDriverId());
+//                driver.put(FULL_NAME_KEY, localDrivers.get(i).getName());
+//                driver.put(STREET_KEY, localDrivers.get(i).getStreet());
+//                driver.put(CITY_KEY, localDrivers.get(i).getTown());
+//                driver.put(STATE_KEY, localDrivers.get(i).getState());
+//                driver.put(ZIP_KEY, localDrivers.get(i).getZipCode());
+//                driverArray.put(i, driver);
+//            }
+//            driverObj.put("app_drivers", driverArray);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        params.put(DRIVER_LIST_KEY, driverObj.toString());
+//        return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
+//    }
+
     /**
      * Syncs the local database and server side database
      *
-     * @param userId       user's user id
-     * @param localDrivers list of drivers on phone
+     * @param userId user's user id
      * @return JSONObject whether drivers were successfully synced and all vehicles associated with the user id
      */
-    public JSONObject syncVehicles(String userId, ArrayList<Driver> localDrivers) {
+    public JSONObject syncVehicles(String userId) {
         HashMap<String, String> params = new HashMap<>();
-        JSONObject driverObj = new JSONObject();
-        JSONArray driverArray = new JSONArray();
 
         params.put(TAG_KEY, SYNC_DRIVERS_TAG);
         params.put(USER_ID_KEY, userId);
 
-        try {
-            for (int i = 0; i < localDrivers.size(); i++) {
-                JSONObject driver = new JSONObject();
-                driver.put(DRIVER_ID_KEY, localDrivers.get(i).getDriverId());
-                driver.put(FULL_NAME_KEY, localDrivers.get(i).getName());
-                driver.put(STREET_KEY, localDrivers.get(i).getStreet());
-                driver.put(CITY_KEY, localDrivers.get(i).getTown());
-                driver.put(STATE_KEY, localDrivers.get(i).getState());
-                driver.put(ZIP_KEY, localDrivers.get(i).getZipCode());
-                driverArray.put(i, driver);
-            }
-            driverObj.put("app_drivers", driverArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        params.put(DRIVER_LIST_KEY, driverObj.toString());
         return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
     }
 

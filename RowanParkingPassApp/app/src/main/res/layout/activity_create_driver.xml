@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background">
+
+    <TextView
+        android:id="@+id/selection"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fullNameText"
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/full_name"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/fullNameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:hint="@string/full_name_hint"
+            android:inputType="textPersonName"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/streetText"
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/street"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/streetEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:hint="@string/street_hint"
+            android:inputType="textPostalAddress"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/cityText"
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/city"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/cityEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:hint="@string/city_hint"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/stateText"
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/state"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/driverSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/zipCodeText"
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/zip_code"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/zipCodeEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:hint="@string/zip_code_hint"
+            android:inputType="number"
+            android:maxLength="5"
+            android:textColor="@color/textColor2"
+            android:textIsSelectable="true" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/saveInfoText"
+            android:layout_width="182dp"
+            android:layout_height="40dp"
+            android:gravity="start"
+            android:paddingEnd="40dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/save_info"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/saveInfoOnPhoneCheckBox"
+            android:layout_width="44dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:checked="true" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/cancelDriverButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="165dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_selector"
+            android:text="@string/cancel"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/createDriverButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="165dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:maxWidth="165dp"
+            android:text="@string/create_driver"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+    </TableRow>
+
+</TableLayout>

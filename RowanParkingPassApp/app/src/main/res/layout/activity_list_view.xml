@@ -1,14 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Johnahtan Saunders 2/16/2015
+<?xml version="1.0" encoding="utf-8"?><!-- Johnahtan Saunders 2/16/2015
     This Layout can be used for the Home page Drivers Page and the Vehicle's page because it only contains a list view
      All we need to do is rebuild the contents and the view inside the list. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/textColor"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"/>
+
 </LinearLayout>
