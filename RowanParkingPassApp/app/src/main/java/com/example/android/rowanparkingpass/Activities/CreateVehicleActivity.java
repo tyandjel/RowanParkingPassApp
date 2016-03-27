@@ -57,8 +57,8 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
 
         state.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values()));
 
-        cancel.setOnClickListener(this);
-        createVehicle.setOnClickListener(this);
+        //cancel.setOnClickListener(this);
+        //createVehicle.setOnClickListener(this);
 
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

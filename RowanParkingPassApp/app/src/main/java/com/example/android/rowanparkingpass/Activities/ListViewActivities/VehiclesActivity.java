@@ -38,13 +38,17 @@ public class VehiclesActivity extends ListActivity {
                 public void onItemClick(AdapterView parent, View v, int position, long id) {
                     // Do something in response to the click
                     Intent intent;
-                    if(position==0){
+                    if(position==0)
+                    {
                         intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
                         intent.putExtra(MODE, mode.CREATE_VEHICLE.name());
                     }
                     else {
                         intent = new Intent(VehiclesActivity.this, PassActivity.class);
                         intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
+                        if(currentMode.equals(mode.VEHICLES_LIST.name())) {
+                            intent.putExtra(MODE, mode.UPDATE_VEHICLE.name());
+                        }
                     }
                     startActivity(intent);
                 }

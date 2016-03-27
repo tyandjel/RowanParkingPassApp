@@ -13,7 +13,8 @@ import com.example.android.rowanparkingpass.Activities.SettingActivity;
 import com.example.android.rowanparkingpass.R;
 
 public class ListActivity extends BaseActivity {
-    Intent pastIntent;
+    protected Intent pastIntent;
+    protected String c_mode = ""; // the current mode
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -76,6 +77,7 @@ public class ListActivity extends BaseActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -83,41 +85,38 @@ public class ListActivity extends BaseActivity {
 
         switch (item.getItemId()) {
             // action with ID action_drivers was selected
+            case R.id.action_home_page:
+                myIntent = new Intent(this, PassesActivity.class);
+                myIntent.putExtra(MODE, mode.HOME_PAGE.name());
+                startActivity(myIntent);
+                finish();
+                break;
             case R.id.action_drivers:
                 Toast.makeText(this, "Drivers selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, ListActivity.class);
+                myIntent = new Intent(this, DriversActivity.class);
                 myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
                 startActivity(myIntent);
+                finish();
                 break;
             // action with ID action_vehicles was selected
             case R.id.action_vehicles:
                 Toast.makeText(this, "Vehicles selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, ListActivity.class);
+                myIntent = new Intent(this, VehiclesActivity.class);
                 myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
                 startActivity(myIntent);
+                finish();
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:
                 Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
                 myIntent = new Intent(this, SettingActivity.class);
                 startActivity(myIntent);
+                finish();
                 break;
             // action with ID action_logout was selected
             case R.id.action_logout:
                 Toast.makeText(this, "Logout selected", Toast.LENGTH_SHORT).show();
                 myIntent = new Intent(this, LoginPageActivity.class);
-                startActivity(myIntent);
-                finish();
-                break;
-            // action with ID action_search was selected
-            case R.id.action_search:
-                Toast.makeText(this, "Search selected", Toast.LENGTH_SHORT).show();
-                break;
-            // action with ID action_home was selected
-            case R.id.action_home:
-                Toast.makeText(this, "Home selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, ListActivity.class);
-                myIntent.putExtra(MODE, mode.HOME_PAGE.name());
                 startActivity(myIntent);
                 finish();
                 break;

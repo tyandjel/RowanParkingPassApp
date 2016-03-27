@@ -34,18 +34,9 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create_driver);
-
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
-
-        if(currentMode!= null &&currentMode.equals(mode.UPDATE_DRIVER.name())){
-            setTitle("Update Driver");
-        }else{
-            setTitle("Create New Driver");
-        }
-
         fullName = (EditText) findViewById(R.id.fullNameEditText);
         street = (EditText) findViewById(R.id.streetEditText);
         city = (EditText) findViewById(R.id.cityEditText);
@@ -55,6 +46,15 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
 
         Button cancel = (Button) findViewById(R.id.cancelDriverButton);
         final Button createDriver = (Button) findViewById(R.id.createDriverButton);
+
+        if(currentMode!= null &&currentMode.equals(mode.UPDATE_DRIVER.name())){
+            setTitle("Update Driver");
+            createDriver.setText("Update Driver");
+        }else{
+            setTitle("Create New Driver");
+        }
+
+
 
         state.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values()));
 
