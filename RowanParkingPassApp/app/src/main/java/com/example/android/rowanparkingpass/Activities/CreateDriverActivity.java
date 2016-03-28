@@ -3,6 +3,7 @@ package com.example.android.rowanparkingpass.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
+import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
 public class CreateDriverActivity extends BaseActivity implements View.OnClickListener {
 
@@ -112,35 +114,50 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         // Check to see if user filled out all fields
-        if (TextUtils.isEmpty(fullName.getText()) || TextUtils.isEmpty(street.getText()) ||
-                TextUtils.isEmpty(city.getText()) || TextUtils.isEmpty(zipCode.getText())) {
-            Toast.makeText(this, "Fill out all driver fields", Toast.LENGTH_SHORT);
-        } else if (zipCode.getText().length() != 5) {
-            Toast.makeText(this, "Enter a 4 digit zip code", Toast.LENGTH_SHORT);
-        } else {
-            // Change to new activity
-            Intent myIntent;
+        // Change to new activity
+            Intent myIntent= new Intent(CreateDriverActivity.this, HomePageActivity.class); // defaults to homepage incase of errors
             switch (v.getId()) {
                 case R.id.cancelDriverButton:
                     Toast.makeText(this, "Cancel was clicked", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: Cancelbtn");
+                    myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
+                    if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
+                        myIntent.putExtra(MODE,mode.DRIVERS_LIST.name());
+                    } else {
+                        myIntent.putExtra(MODE, mode.DRIVERS.name());
+                    }
+                    startActivity(myIntent);
+                    finish();
                     break;
                 case R.id.createDriverButton:
-                    Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onClick: Createbtn");
+                    if (TextUtils.isEmpty(fullName.getText()) || TextUtils.isEmpty(street.getText()) ||
+                            TextUtils.isEmpty(city.getText()) || TextUtils.isEmpty(zipCode.getText()))
+                    {
+                        Log.d(TAG, "onClick: All Field Empty");
+                        Toast.makeText(this.getApplicationContext(), "Fill out all driver fields", Toast.LENGTH_SHORT).show();
+                    } else if (zipCode.getText().length() != 5) {
+                        Log.d(TAG, "onClick: !5 zip");
+                        Toast.makeText(this, "Enter a 5 digit zip code", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        // opens the next activity
+                        if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
+                            myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
+                            myIntent.putExtra(MODE, mode.DRIVERS.name());
+                        } else {
+                            myIntent = new Intent(CreateDriverActivity.this, Vehicle.class);
+                            myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                        }
+                        startActivity(myIntent);
+                        finish();
+                    }
                     break;
                 default:
+                    Log.d(TAG, "onClick: Error sent to home screen");
                     break;
             }
-            // Go back to past activity
-            myIntent = new Intent(this, DriversActivity.class);
-            if (currentMode.equals(mode.DRIVERS.name())) {
-                myIntent.putExtra(MODE, mode.DRIVERS.name());
-            } else {
-                myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
-            }
-            myIntent.putExtra(TEMP_DRIVER, saveInfo.isChecked());
-            startActivity(myIntent);
-            finish();
-        }
     }
 
 
