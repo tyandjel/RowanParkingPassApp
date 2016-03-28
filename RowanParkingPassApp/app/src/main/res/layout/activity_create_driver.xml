@@ -2,7 +2,9 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+
+    >
 
     <TextView
         android:id="@+id/selection"
@@ -36,7 +38,7 @@
             android:hint="@string/full_name_hint"
             android:inputType="textPersonName"
             android:textColor="@color/textColor2"
-            android:textIsSelectable="true" />
+            />
     </TableRow>
 
     <TableRow
@@ -66,7 +68,7 @@
             android:hint="@string/street_hint"
             android:inputType="textPostalAddress"
             android:textColor="@color/textColor2"
-            android:textIsSelectable="true" />
+             />
     </TableRow>
 
     <TableRow
@@ -95,7 +97,7 @@
             android:layout_weight="1"
             android:hint="@string/city_hint"
             android:textColor="@color/textColor2"
-            android:textIsSelectable="true" />
+            />
     </TableRow>
 
     <TableRow
@@ -154,7 +156,7 @@
             android:inputType="number"
             android:maxLength="5"
             android:textColor="@color/textColor2"
-            android:textIsSelectable="true" />
+             />
     </TableRow>
 
     <TableRow

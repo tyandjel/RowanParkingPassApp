@@ -22,7 +22,7 @@ import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
-public class CreateDriverActivity extends BaseActivity implements View.OnClickListener {
+public class CreateDriverActivity extends BaseActivity  {
 
     private static final String TEMP_DRIVER = "temp";
 
@@ -47,7 +47,52 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
         saveInfo = (CheckBox) findViewById(R.id.saveInfoOnPhoneCheckBox);
 
         Button cancel = (Button) findViewById(R.id.cancelDriverButton);
-        final Button createDriver = (Button) findViewById(R.id.createDriverButton);
+
+        // Change to new activity
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Cancel was clicked", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: Cancelbtn");
+                Intent myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
+                if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
+                    myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
+                } else {
+                    myIntent.putExtra(MODE, mode.DRIVERS.name());
+                }
+                startActivity(myIntent);
+                finish();
+            }
+        });
+        // ======= Create Driver
+         Button createDriver = (Button) findViewById(R.id.createDriverButton);
+        createDriver.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: Createbtn");
+                if (TextUtils.isEmpty(fullName.getText()) || TextUtils.isEmpty(street.getText()) ||
+                        TextUtils.isEmpty(city.getText()) || TextUtils.isEmpty(zipCode.getText()))
+                {
+                    Log.d(TAG, "onClick: All Field Empty");
+                    Toast.makeText(getApplicationContext(), "Fill out all driver fields", Toast.LENGTH_SHORT).show();
+                } else if (zipCode.getText().length() != 5) {
+                    Log.d(TAG, "onClick: !5 zip");
+                    Toast.makeText(getApplicationContext(), "Enter a 5 digit zip code", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    // opens the next activity
+                    Intent myIntent;
+                    if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
+                        myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
+                        myIntent.putExtra(MODE, mode.DRIVERS.name());
+                    } else {
+                        myIntent = new Intent(CreateDriverActivity.this, Vehicle.class);
+                        myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                    }
+                    startActivity(myIntent);
+                    finish();
+                }
+            }
+        });
 
         if(currentMode!= null &&currentMode.equals(mode.UPDATE_DRIVER.name())){
             setTitle("Update Driver");
@@ -60,12 +105,10 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
 
         state.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values()));
 
-        cancel.setOnClickListener(this);
-        createDriver.setOnClickListener(this);
 
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Button createDriver = (Button) findViewById(R.id.createDriverButton);
                 if (isChecked) {
                     if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
                         createDriver.setText(R.string.save_driver);
@@ -110,55 +153,5 @@ public class CreateDriverActivity extends BaseActivity implements View.OnClickLi
 
         return true;
     }
-
-    @Override
-    public void onClick(View v) {
-        // Check to see if user filled out all fields
-        // Change to new activity
-            Intent myIntent= new Intent(CreateDriverActivity.this, HomePageActivity.class); // defaults to homepage incase of errors
-            switch (v.getId()) {
-                case R.id.cancelDriverButton:
-                    Toast.makeText(this, "Cancel was clicked", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onClick: Cancelbtn");
-                    myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
-                    if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
-                        myIntent.putExtra(MODE,mode.DRIVERS_LIST.name());
-                    } else {
-                        myIntent.putExtra(MODE, mode.DRIVERS.name());
-                    }
-                    startActivity(myIntent);
-                    finish();
-                    break;
-                case R.id.createDriverButton:
-                    //Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "onClick: Createbtn");
-                    if (TextUtils.isEmpty(fullName.getText()) || TextUtils.isEmpty(street.getText()) ||
-                            TextUtils.isEmpty(city.getText()) || TextUtils.isEmpty(zipCode.getText()))
-                    {
-                        Log.d(TAG, "onClick: All Field Empty");
-                        Toast.makeText(this.getApplicationContext(), "Fill out all driver fields", Toast.LENGTH_SHORT).show();
-                    } else if (zipCode.getText().length() != 5) {
-                        Log.d(TAG, "onClick: !5 zip");
-                        Toast.makeText(this, "Enter a 5 digit zip code", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        // opens the next activity
-                        if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
-                            myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
-                            myIntent.putExtra(MODE, mode.DRIVERS.name());
-                        } else {
-                            myIntent = new Intent(CreateDriverActivity.this, Vehicle.class);
-                            myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
-                        }
-                        startActivity(myIntent);
-                        finish();
-                    }
-                    break;
-                default:
-                    Log.d(TAG, "onClick: Error sent to home screen");
-                    break;
-            }
-    }
-
 
 }
