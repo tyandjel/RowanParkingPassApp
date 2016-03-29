@@ -77,11 +77,12 @@ public class DriversActivity extends ListActivity {
                     if(currentMode.equals(mode.DRIVERS_LIST.name())) {
                         intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
                         intent.putExtra(MODE, mode.UPDATE_DRIVER.name());
+                        intent.putExtra("Driver", (Serializable) adapter.getItem(position));
                     }else{
                         intent = new Intent(DriversActivity.this, VehiclesActivity.class);
                         intent.putExtra(MODE, mode.VEHICLES.name());
                     }
-                    intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
+                    intent.putExtra("Driver", (Serializable) adapter.getItem(position));
                 }
                 startActivity(intent);
                         }

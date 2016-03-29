@@ -64,4 +64,23 @@ public enum States {
         return state;
     }
 
+    /**
+     * give the postion of the state name or -1 if not included.
+     * @param value State Name
+     * @return
+     */
+    public static int getPosition(String value){
+        States[] v = values();
+        boolean found = false;
+        int pos = -1;
+        for(int i=0; i< v.length && !found; i++){
+            String s = v[i].state;
+            if((s).equals(value)) {
+                found = true;
+                pos = i;
+            }
+        }
+        return pos;
+    }
+
 }
