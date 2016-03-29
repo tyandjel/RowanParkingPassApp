@@ -23,10 +23,19 @@ import java.util.List;
  * Created by John on 3/6/2016.
  */
 public class DriversActivity extends ListActivity {
-public static boolean hasStarted =false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        build();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //build();
+    }
+
+    public void build(){
 
         DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(this.getApplicationContext());
         //TODO Fix why it can't find table
@@ -40,12 +49,10 @@ public static boolean hasStarted =false;
 
         Log.d(TAG, Arrays.asList(listOfDrivers).toString());
         buildEventList(listOfDrivers);
-
-
     }
 
 
-    public void buildEventList(List<Driver> drivers) {
+    private void buildEventList(List<Driver> drivers) {
         ListView listView = (ListView) findViewById(R.id.listView);
         final DriverArrayAdapter adapter = new DriverArrayAdapter(drivers, this);
         listView.setAdapter(adapter);

@@ -23,42 +23,17 @@ public class ListActivity extends BaseActivity {
 
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
-            if( currentMode != null) {
-                if (currentMode.equals(mode.DRIVERS.name())) {
-                    setTitle("Select a Driver");
-                } else if (currentMode.equals(mode.DRIVERS_LIST.name())) {
-                    setTitle("Your Drivers");
-                } else if (currentMode.equals(mode.VEHICLES.name())) {
-                    setTitle("Select a Vehicle");
-                } else if (currentMode.equals(mode.VEHICLES_LIST.name())) {
-                    setTitle("Your Vehicles");
-                }
+        if (currentMode != null) {
+            if (currentMode.equals(mode.DRIVERS.name())) {
+                setTitle("Select a Driver");
+            } else if (currentMode.equals(mode.DRIVERS_LIST.name())) {
+                setTitle("Your Drivers");
+            } else if (currentMode.equals(mode.VEHICLES.name())) {
+                setTitle("Select a Vehicle");
+            } else if (currentMode.equals(mode.VEHICLES_LIST.name())) {
+                setTitle("Your Vehicles");
             }
-/*
-        Intent currentIntent = getIntent();
-        currentMode = currentIntent.getStringExtra(MODE);
-
->>>>>>> 2d173e9b3f5ba3d1fc71fc9b10533e01ecb4375b
-        setContentView(R.layout.activity_list_view);
-        currentIntent = getIntent();
-        currentMode = currentIntent.getStringExtra(MODE);
-        listView = (ListView) findViewById(R.id.listView);
-        /*
-        if (currentMode.equals(mode.HOME_PAGE.name())) {
-            DatabaseHandlerPasses db = new DatabaseHandlerPasses(this);
-            ArrayList<Pass> listOfPasses = db.getRequestDetails();
-            listView.setAdapter(new ListViewArrayAdapter(listOfPasses, this, R.layout.view_recent_pass, currentMode));
-        } else if (currentMode.equals(mode.DRIVERS.name()) || currentMode.equals(mode.DRIVERS_LIST.name())) {
-//TODO Fix why no table created
-//            DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(this);
-//            ArrayList<Driver> listOfDrivers = db.getDrivers();
-//            listView.setAdapter(new ListViewArrayAdapter(listOfDrivers, this, R.layout.view_driver, currentMode));
-        } else if (currentMode.equals(mode.VEHICLES.name()) || currentMode.equals(mode.VEHICLES_LIST.name())) {
-//            DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(getApplicationContext());
-//            ArrayList<Vehicle> listOfVehicles = db.getVehicles();
-//            listView.setAdapter(new ListViewArrayAdapter(listOfVehicles, this, R.layout.view_vehicle, currentMode));
         }
-*/
     }
 
     @Override
