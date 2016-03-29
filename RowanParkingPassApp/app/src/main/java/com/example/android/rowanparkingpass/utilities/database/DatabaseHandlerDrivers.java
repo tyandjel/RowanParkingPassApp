@@ -15,7 +15,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DriverContract.DriverEntry.TABLE_NAME + " (" +
-                    DriverContract.DriverEntry.COLUMN_DRIVER_ID + DriverContract.INTEGER_TYPE + " PRIMARY KEY," +
+                    DriverContract.DriverEntry.COLUMN_DRIVER_ID + DriverContract.INTEGER_TYPE + " PRIMARY KEY AUTO_INCREMENT," +
                     DriverContract.DriverEntry.COLUMN_FULL_NAME + DriverContract.TEXT_TYPE + DriverContract.COMMA_SEP +
                     DriverContract.DriverEntry.COLUMN_STREET + DriverContract.TEXT_TYPE + DriverContract.COMMA_SEP +
                     DriverContract.DriverEntry.COLUMN_CITY + DriverContract.TEXT_TYPE + DriverContract.COMMA_SEP +
@@ -65,9 +65,25 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     }
 
     /**
+     * Storing Driver details in database
+     */
+    public void addDriver(String firstName, String lastName, String street, String city, String state, String zip) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, firstName + " " + lastName); // Full Name
+        values.put(DriverContract.DriverEntry.COLUMN_STREET, street); // Street
+        values.put(DriverContract.DriverEntry.COLUMN_CITY, city); // City
+        values.put(DriverContract.DriverEntry.COLUMN_STATE, state); // State
+        values.put(DriverContract.DriverEntry.COLUMN_ZIP, zip); // Zip
+        // Inserting Row
+        db.insert(DriverContract.DriverEntry.TABLE_NAME, null, values);
+        db.close(); // Closing database connection
+    }
+
+    /**
      * Update visitor details in database
      */
-    public void updateUser(String driverId, String firstName, String lastName, String street, String city, String state, String zip) {
+    public void updateDriver(String driverId, String firstName, String lastName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, firstName + " " + lastName); // Full Name
@@ -77,6 +93,15 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
         values.put(DriverContract.DriverEntry.COLUMN_ZIP, zip); // Zip
         // Update Row
         db.update(DriverContract.DriverEntry.TABLE_NAME, values, DriverContract.DriverEntry.COLUMN_DRIVER_ID + "=" + driverId, null);
+    }
+
+    /**
+     * Update visitor details in database
+     */
+    public void deleteDriver(String driverId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(DriverContract.DriverEntry.TABLE_NAME, BaseContract.WHERE + DriverContract.DriverEntry.COLUMN_DRIVER_ID.toString() +"="+ driverId, null);
     }
 
     /**

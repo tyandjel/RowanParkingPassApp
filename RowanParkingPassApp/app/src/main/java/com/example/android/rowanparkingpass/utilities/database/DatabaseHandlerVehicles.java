@@ -14,7 +14,7 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + VehicleContract.VehicleEntry.TABLE_NAME + " (" +
-                    VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + VehicleContract.INTEGER_TYPE + " PRIMARY KEY," +
+                    VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + VehicleContract.INTEGER_TYPE + " PRIMARY KEY AUTO_INCREMENT," +
                     VehicleContract.VehicleEntry.COLUMN_MAKE + VehicleContract.TEXT_TYPE + VehicleContract.COMMA_SEP +
                     VehicleContract.VehicleEntry.COLUMN_MODEL + VehicleContract.TEXT_TYPE + VehicleContract.COMMA_SEP +
                     VehicleContract.VehicleEntry.COLUMN_YEAR + VehicleContract.INTEGER_TYPE + VehicleContract.COMMA_SEP +
@@ -65,6 +65,23 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     }
 
     /**
+     * Storing vehicle details in database
+     */
+    public void addVehicle(int year, String make, String model, String state, String color, String license) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(VehicleContract.VehicleEntry.COLUMN_MAKE, make); // Car Make
+        values.put(VehicleContract.VehicleEntry.COLUMN_MODEL, model); // Car Model
+        values.put(VehicleContract.VehicleEntry.COLUMN_YEAR, year); // Car Year
+        values.put(VehicleContract.VehicleEntry.COLUMN_STATE, state); // Car State
+        values.put(VehicleContract.VehicleEntry.COLUMN_COLOR, color); // Car Color
+        values.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, license); // Car License Plate
+        // Inserting Row
+        db.insert(VehicleContract.VehicleEntry.TABLE_NAME, null, values);
+        db.close(); // Closing database connection
+    }
+
+    /**
      * Update vehicle details in database
      */
     public void updateVehicle(int vehicleId, int year, String make, String model, String state, String color, String license) {
@@ -78,6 +95,12 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         values.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, license); // Car License Plate
         // Update Row
         db.update(VehicleContract.VehicleEntry.TABLE_NAME, values, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + "=" + vehicleId, null);
+    }
+
+    public void deleteVehicle(String vehicleId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(VehicleContract.VehicleEntry.TABLE_NAME, BaseContract.WHERE + VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleId, null);
     }
 
     /**
