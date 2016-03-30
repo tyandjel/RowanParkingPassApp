@@ -44,22 +44,18 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
     @Override
     protected void onResume() {
         super.onResume();
-        //build();
+        adapter.notifyDataSetChanged();
+
     }
 
     public void build() {
 
         db = new DatabaseHandlerDrivers(this.getApplicationContext());
         ArrayList<Driver> listOfDrivers = db.getDrivers();
-        listOfDrivers.add(new Driver(-1, "Test Driver 1", "-1", "-1", "-1", "-1", "-1"));
-        listOfDrivers.add(new Driver(-1, "Test Driver 2", "-1", "-1", "-1", "-1", "-1"));
-        listOfDrivers.add(new Driver(-1, "Test Driver 1", "-1", "-1", "-1", "-1", "-1"));
-        listOfDrivers.add(new Driver(-1, "Test Driver 2", "-1", "-1", "-1", "-1", "-1"));
-        listOfDrivers.add(new Driver(-1, "Test Driver 1", "-1", "-1", "-1", "-1", "-1"));
-        listOfDrivers.add(new Driver(-1, "Test Driver 2", "-1", "-1", "-1", "-1", "-1"));
+
 
         Log.d(TAG, Arrays.asList(listOfDrivers).toString());
-        buildEventList(listOfDrivers);
+        buildDriversList(listOfDrivers);
     }
 
     @Override
@@ -79,17 +75,16 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         return true;
     }
 
-    private void buildEventList(List<Driver> drivers) {
-        final ListView listView = (ListView) findViewById(R.id.listView);
+    private void buildDriversList(List<Driver> drivers) {
+        listView = (ListView) findViewById(R.id.listView);
         final ListView tempListView = listView;
-        adapter = new DriverArrayAdapter(drivers, this);
-        listView.setAdapter(adapter);
+        makeAdapter(drivers);
         // Checks if the listView has finished loading in and then tells the adapter so it can stop animating things
         ViewTreeObserver observer = listView.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                adapter.setHHasLoaded(true);
+                adapter.setHasLoaded(true);
             }
         });
         // checks what item in the listview was clicked. 
@@ -100,13 +95,15 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                     searchMenuItem.collapseActionView();
                     searchView.setQuery("", false);
                 }
-                Intent intent;
+                Intent intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
+
+                //// TODO: 3/30/16 fix mode for create driver
                 if (position == 0 && listView.getItemAtPosition(0) == null) {
-                    intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
                     intent.putExtra(MODE, mode.CREATE_DRIVER.name());
-                } else {
+                    intent.putExtra("Old", currentMode);
+                }
+                else {
                     if (currentMode.equals(mode.DRIVERS_LIST.name())) {
-                        intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
                         intent.putExtra(MODE, mode.UPDATE_DRIVER.name());
                         intent.putExtra("Driver", (Serializable) adapter.getItem(position));
                     } else {
@@ -120,7 +117,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         };
         // checks what item in the listview was long clicked
         AdapterView.OnItemLongClickListener mMessageLongClickedHandler = new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView parent, View v, int position, long id) {
+            public boolean onItemLongClick(AdapterView parent, View v, final int position, long id) {
                 if (position != 0) {
                     final Driver driver = (Driver) tempListView.getItemAtPosition(position);
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(DriversActivity.this);
@@ -130,9 +127,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             db.deleteDriver(String.valueOf(driver.getDriverId()));
-                            Intent intent = new Intent(DriversActivity.this, DriversActivity.class);
-                            intent.putExtra(MODE, currentMode);
-                            startActivity(intent);
+                           makeAdapter(db.getDrivers());
                         }
                     });
                     alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -149,7 +144,10 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         listView.setOnItemClickListener(mMessageClickedHandler);
         listView.setOnItemLongClickListener(mMessageLongClickedHandler);
     }
-
+private void makeAdapter(List<Driver> d){
+    adapter = new DriverArrayAdapter(d, this);
+    listView.setAdapter(adapter);
+}
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

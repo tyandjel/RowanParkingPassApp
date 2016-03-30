@@ -10,7 +10,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.android.rowanparkingpass.R;
@@ -28,7 +27,6 @@ public class DriverArrayAdapter extends BaseAdapter implements Filterable {
     private Context context;
     LayoutInflater myInflater;
 
-    private int numOnScreen;
     private boolean hasLoaded = false;
 
     private int layout = R.layout.view_driver;// current layout to use
@@ -155,7 +153,7 @@ public class DriverArrayAdapter extends BaseAdapter implements Filterable {
         return convertView;
     }
 
-    public void setHHasLoaded(boolean b) {
+    public void setHasLoaded(boolean b) {
         hasLoaded = b;
     }
 
@@ -194,10 +192,14 @@ public class DriverArrayAdapter extends BaseAdapter implements Filterable {
             return filterResults;
         }
 
+
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             filteredDriverList = (ArrayList<Driver>) results.values;
             notifyDataSetChanged();
         }
+    }
+    public Driver deleteDriver(int p){
+        return driversList.remove(p);
     }
 }
