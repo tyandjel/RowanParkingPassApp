@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,11 +21,10 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
+import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerDialog;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerSwatch;
 import com.example.android.rowanparkingpass.utilities.colorpicker.Utils;
-
-import java.util.Arrays;
 
 public class CreateVehicleActivity extends BaseActivity implements View.OnClickListener {
 
@@ -45,6 +45,8 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_vehicle);
+
+        setupUI(findViewById(R.id.parent));
 
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
@@ -136,6 +138,26 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
         }
 
         return true;
+    }
+
+    public void setupUI(View view) {
+
+        //Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    Utilities.hideSoftKeyboard(CreateVehicleActivity.this);
+                    return false;
+                }
+            });
+        }
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
     }
 
     @Override
