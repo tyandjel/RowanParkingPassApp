@@ -2,7 +2,9 @@ package com.example.android.rowanparkingpass.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,11 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
+import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerDialog;
+import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerSwatch;
+import com.example.android.rowanparkingpass.utilities.colorpicker.Utils;
+
+import java.util.Arrays;
 
 public class CreateVehicleActivity extends BaseActivity implements View.OnClickListener {
 
@@ -26,9 +33,12 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
     private EditText make;
     private EditText model;
     private EditText year;
-    private EditText color;
+    private EditText colorBox;
     private EditText license;
     private CheckBox saveInfo;
+    private ColorPickerDialog colorCalender;
+    private int mSelectedColorCal0;
+    private int[] mColor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +58,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
         make = (EditText) findViewById(R.id.vehicleMakeEditText);
         model = (EditText) findViewById(R.id.modelEditText);
         year = (EditText) findViewById(R.id.yearEditText);
-        color = (EditText) findViewById(R.id.vehicleColorEditText);
+        colorBox = (EditText) findViewById(R.id.vehicleColorEditText);
         Spinner state = (Spinner) findViewById(R.id.vehicleSpinner);
         license = (EditText) findViewById(R.id.licenseEditText);
         saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
@@ -73,6 +83,25 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
                 } else {
                     createVehicle.setText(R.string.create_temp_vehicle);
                 }
+            }
+        });
+
+        //Set up the colorBox picker for car colorBox
+        mColor = Utils.ColorUtils.colorChoice(getApplicationContext());
+        colorCalender = ColorPickerDialog.newInstance(R.string.color_picker_default_title, mColor, mSelectedColorCal0, 5, Utils.isTablet(this) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
+        colorBox.setInputType(InputType.TYPE_NULL);
+        colorBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                colorCalender.show(getFragmentManager(), "cal");
+            }
+        });
+        colorCalender.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+            @Override
+            public void onColorSelected(int color) {
+                mSelectedColorCal0 = color;
+                colorBox.setBackgroundColor(mSelectedColorCal0);
+                colorBox.setTextColor(mSelectedColorCal0);
             }
         });
     }
@@ -110,10 +139,10 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View view) {
         // Check to see if user filled out all fields
         if (TextUtils.isEmpty(make.getText()) || TextUtils.isEmpty(model.getText()) ||
-                TextUtils.isEmpty(year.getText()) || TextUtils.isEmpty(color.getText()) ||
+                TextUtils.isEmpty(year.getText()) || TextUtils.isEmpty(colorBox.getText()) ||
                 TextUtils.isEmpty(license.getText())) {
             Toast.makeText(this, "Fill out all vehicle fields", Toast.LENGTH_SHORT);
         } else if (year.getText().length() != 4) {
@@ -121,7 +150,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
         } else {
             // Change to new activity
             Intent myIntent;
-            switch (v.getId()) {
+            switch (view.getId()) {
                 case R.id.cancelVehicleButton:
                     Toast.makeText(this, "Cancel was clicked", Toast.LENGTH_SHORT).show();
                     break;
