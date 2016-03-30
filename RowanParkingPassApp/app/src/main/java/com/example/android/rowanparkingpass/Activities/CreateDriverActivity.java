@@ -92,11 +92,17 @@ public class CreateDriverActivity extends BaseActivity {
                     if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
                         myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
                         myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
+
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
 
                     } else {
-                        myIntent = new Intent(CreateDriverActivity.this, VehiclesActivity.class);
-                        myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                        if(pastIntent.getStringExtra("Old").equals( mode.DRIVERS.name())){
+                            myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
+                            myIntent.putExtra(MODE, mode.DRIVERS.name());
+                        }else {
+                            myIntent = new Intent(CreateDriverActivity.this, VehiclesActivity.class);
+                            myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                        }
                         db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         //Todo: add ID to addDriver later
                     }
