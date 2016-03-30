@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
@@ -210,7 +211,8 @@ public class LoginPageActivity extends BaseActivity {
                         /**
                          *If JSON array details are stored in SQlite it launches the User Panel.
                          **/
-                        Intent upanel = new Intent(getApplicationContext(), HomePageActivity.class);
+                        Intent upanel = new Intent(getApplicationContext(), ListActivity.class);
+
                         upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         pDialog.dismiss();
                         startActivity(upanel);

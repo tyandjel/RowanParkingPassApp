@@ -16,16 +16,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.States;
-import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
-public class CreateDriverActivity extends BaseActivity  {
+public class CreateDriverActivity extends BaseActivity {
 
     private static final String TEMP_DRIVER = "temp";
 
@@ -37,12 +35,14 @@ public class CreateDriverActivity extends BaseActivity  {
     CheckBox saveInfo;
     DatabaseHandlerDrivers db;
     Intent pastIntent;
+    String pastMode;
+    Driver driver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_driver);
-         pastIntent = getIntent();
+        pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
         saveInfo = (CheckBox) findViewById(R.id.saveInfoOnPhoneCheckBox);
         state = (Spinner) findViewById(R.id.driverSpinner);
@@ -50,9 +50,9 @@ public class CreateDriverActivity extends BaseActivity  {
         street = (EditText) findViewById(R.id.streetEditText);
         city = (EditText) findViewById(R.id.cityEditText);
         zipCode = (EditText) findViewById(R.id.zipCodeEditText);
-       db = new DatabaseHandlerDrivers(getApplicationContext());
+        db = new DatabaseHandlerDrivers(getApplicationContext());
 
-
+        driver = (Driver) pastIntent.getSerializableExtra("Driver");
 
         Button cancel = (Button) findViewById(R.id.cancelDriverButton);
 
@@ -64,15 +64,17 @@ public class CreateDriverActivity extends BaseActivity  {
                 Intent myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
                 if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
                     myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
+
                 } else {
-                    myIntent.putExtra(MODE, mode.DRIVERS.name());
+                        myIntent.putExtra(MODE, mode.DRIVERS.name());
+
                 }
                 startActivity(myIntent);
                 finish();
             }
         });
         // ======= Create Driver/ Update Driver
-         Button createDriver = (Button) findViewById(R.id.createDriverButton);
+        Button createDriver = (Button) findViewById(R.id.createDriverButton);
         createDriver.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
@@ -89,13 +91,13 @@ public class CreateDriverActivity extends BaseActivity  {
                     Intent myIntent;
                     if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
                         myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
-                        myIntent.putExtra(MODE, mode.DRIVERS.name());
-                        db.addDriver(-1, fullName.getText().toString(), " ", street.getText().toString(), state.getSelectedItem().toString(), city.getText().toString(), zipCode.getText().toString());
+                        myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
+                        db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
 
                     } else {
                         myIntent = new Intent(CreateDriverActivity.this, VehiclesActivity.class);
                         myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
-                        db.addDriver( fullName.getText().toString(), " ", street.getText().toString(),  city.getText().toString(),state.getSelectedItem().toString(), zipCode.getText().toString());
+                        db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         //Todo: add ID to addDriver later
                     }
                     startActivity(myIntent);
@@ -105,17 +107,13 @@ public class CreateDriverActivity extends BaseActivity  {
         });
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values());
         state.setAdapter(spinnerAdapter);
-        if(currentMode!= null &&currentMode.equals(mode.UPDATE_DRIVER.name())){
+        if (currentMode != null && currentMode.equals(mode.UPDATE_DRIVER.name())) {
             setTitle("Update Driver");
             createDriver.setText("Update Driver");
             buildUpdateDriver(spinnerAdapter);
-        }else{
+        } else {
             setTitle("Create New Driver");
         }
-
-
-
-
 
 
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -134,13 +132,13 @@ public class CreateDriverActivity extends BaseActivity  {
             }
         });
     }
-    public void buildUpdateDriver(ArrayAdapter spinnerAdapter){
 
-         fullName.setText(((Driver)pastIntent.getSerializableExtra("Driver")).getName());
-         street.setText(((Driver)pastIntent.getSerializableExtra("Driver")).getStreet());
-         city.setText(((Driver) pastIntent.getSerializableExtra("Driver")).getTown());
-        state.setSelection(States.getPosition(((Driver) (pastIntent.getSerializableExtra("Driver"))).getState()));
-         zipCode.setText(((Driver)pastIntent.getSerializableExtra("Driver")).getZipCode());;
+    public void buildUpdateDriver(ArrayAdapter spinnerAdapter) {
+        fullName.setText(driver.getName());
+        street.setText(driver.getStreet());
+        city.setText(driver.getTown());
+        state.setSelection(States.getPosition(driver.getState()));
+        zipCode.setText(driver.getZipCode());
         CheckBox saveInfo; // possible future bug todo: make toast to inform user of deletion
 
     }
@@ -149,7 +147,7 @@ public class CreateDriverActivity extends BaseActivity  {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
-        if (currentMode!=null && currentMode.equals(mode.UPDATE_DRIVER.name())) {
+        if (currentMode != null && currentMode.equals(mode.UPDATE_DRIVER.name())) {
             inflater.inflate(R.menu.menu_delete, menu);
         }
 
@@ -166,15 +164,13 @@ public class CreateDriverActivity extends BaseActivity  {
                 myIntent = new Intent(this, DriversActivity.class);
                 myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
                 // delete driver from database
+                db.deleteDriver(String.valueOf(driver.getDriverId()));
                 startActivity(myIntent);
                 finish();
                 break;
             default:
                 break;
         }
-
         return true;
     }
-
-
 }

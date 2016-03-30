@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.States;
@@ -38,9 +39,9 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
 
-        if(currentMode.equals(mode.UPDATE_VEHICLE.name())){
+        if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
             setTitle("Update Vehicle");
-        }else{
+        } else {
             setTitle("Create New Vehicle");
         }
 
@@ -80,7 +81,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
-        if (currentMode != null &&currentMode.equals(mode.UPDATE_VEHICLE.name())) {
+        if (currentMode != null && currentMode.equals(mode.UPDATE_VEHICLE.name())) {
             inflater.inflate(R.menu.menu_delete, menu);
         }
 

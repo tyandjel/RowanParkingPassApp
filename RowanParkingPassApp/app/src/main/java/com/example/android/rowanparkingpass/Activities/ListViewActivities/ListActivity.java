@@ -1,10 +1,13 @@
 package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
@@ -14,7 +17,7 @@ import com.example.android.rowanparkingpass.R;
 
 public class ListActivity extends BaseActivity {
     protected Intent pastIntent;
-    protected String c_mode = ""; // the current mode
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -39,7 +42,7 @@ public class ListActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if(currentMode!=null) {
+        if (currentMode != null) {
             if (currentMode.equals(mode.HOME_PAGE.name())) {
                 inflater.inflate(R.menu.menu_home_page, menu);
             } else if (currentMode.equals(mode.DRIVERS.name()) || currentMode.equals(mode.VEHICLES.name())) {
@@ -48,10 +51,8 @@ public class ListActivity extends BaseActivity {
                 inflater.inflate(R.menu.menu_search, menu);
             }
         }
-
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -101,6 +102,4 @@ public class ListActivity extends BaseActivity {
 
         return true;
     }
-
-
 }

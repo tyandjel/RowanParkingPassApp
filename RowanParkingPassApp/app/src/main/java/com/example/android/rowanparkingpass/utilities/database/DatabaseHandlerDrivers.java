@@ -50,11 +50,11 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     /**
      * Storing Driver details in database
      */
-    public void addDriver(int driverId, String firstName, String lastName, String street, String city, String state, String zip) {
+    public void addDriver(int driverId, String fullName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DriverContract.DriverEntry.COLUMN_DRIVER_ID, driverId);
-        values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, firstName + " " + lastName); // Full Name
+        values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, fullName); // Full Name
         values.put(DriverContract.DriverEntry.COLUMN_STREET, street); // Street
         values.put(DriverContract.DriverEntry.COLUMN_CITY, city); // City
         values.put(DriverContract.DriverEntry.COLUMN_STATE, state); // State
@@ -67,10 +67,10 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     /**
      * Storing Driver details in database
      */
-    public void addDriver(String firstName, String lastName, String street, String city, String state, String zip) {
+    public void addDriver(String fullName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, firstName + " " + lastName); // Full Name
+        values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, fullName); // Full Name
         values.put(DriverContract.DriverEntry.COLUMN_STREET, street); // Street
         values.put(DriverContract.DriverEntry.COLUMN_CITY, city); // City
         values.put(DriverContract.DriverEntry.COLUMN_STATE, state); // State
@@ -83,10 +83,10 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     /**
      * Update visitor details in database
      */
-    public void updateDriver(String driverId, String firstName, String lastName, String street, String city, String state, String zip) {
+    public void updateDriver(String driverId, String fullName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, firstName + " " + lastName); // Full Name
+        values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, fullName); // Full Name
         values.put(DriverContract.DriverEntry.COLUMN_STREET, street); // Street
         values.put(DriverContract.DriverEntry.COLUMN_CITY, city); // City
         values.put(DriverContract.DriverEntry.COLUMN_STATE, state); // State
@@ -101,7 +101,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     public void deleteDriver(String driverId) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
-        db.delete(DriverContract.DriverEntry.TABLE_NAME, BaseContract.WHERE + DriverContract.DriverEntry.COLUMN_DRIVER_ID.toString() +"="+ driverId, null);
+        db.delete(DriverContract.DriverEntry.TABLE_NAME, DriverContract.DriverEntry.COLUMN_DRIVER_ID.toString() + "=" + driverId, null);
     }
 
     /**

@@ -22,57 +22,15 @@ import java.util.List;
 public class VehiclesActivity extends ListActivity {
 
 
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            List<Vehicle> testVehicles = new ArrayList<>();
-            testVehicles.add(new Vehicle(-1,"-1","-1",-1,"-1","-1","-1"));
-            buildEventList(testVehicles);
-        }
-
-        public void buildEventList(List<Vehicle> vehicles) {
-            ListView listView = (ListView) findViewById(R.id.listView);
-            final VehicleArrayAdapter adapter = new VehicleArrayAdapter(vehicles, this);
-            listView.setAdapter(adapter);
-            // Create a message handling object as an anonymous class.
-            AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView parent, View v, int position, long id) {
-                    // Do something in response to the click
-                    Intent intent;
-                    if(position==0)
-                    {
-                        intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
-                        intent.putExtra(MODE, mode.CREATE_VEHICLE.name());
-                    }
-                    else {
-                        intent = new Intent(VehiclesActivity.this, PassActivity.class);
-                        intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
-                        if(currentMode.equals(mode.VEHICLES_LIST.name())) {
-                            intent.putExtra(MODE, mode.UPDATE_VEHICLE.name());
-                        }
-                    }
-                    startActivity(intent);
-                }
-            };
-            listView.setOnItemClickListener(mMessageClickedHandler);
-        }
-    }
-/**
-=======
-    private ListView listView;
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        listView = (ListView) findViewById(R.id.listView);
-
-        DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(this.getApplicationContext());
-        //TODO Fix why it can't find table
-        ArrayList<Vehicle> listOfVehicles = db.getVehicles();
-        buildEventList(listOfVehicles);
+        List<Vehicle> testVehicles = new ArrayList<>();
+        testVehicles.add(new Vehicle(-1, "-1", "-1", -1, "-1", "-1", "-1"));
+        buildEventList(testVehicles);
     }
 
     public void buildEventList(List<Vehicle> vehicles) {
+        ListView listView = (ListView) findViewById(R.id.listView);
         final VehicleArrayAdapter adapter = new VehicleArrayAdapter(vehicles, this);
         listView.setAdapter(adapter);
         // Create a message handling object as an anonymous class.
@@ -82,24 +40,64 @@ public class VehiclesActivity extends ListActivity {
                 Intent intent;
                 if (position == 0) {
                     intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
-                    intent.putExtra(MODE,mode.CREATE_VEHICLE.name());
-                    startActivity(intent);
+                    intent.putExtra(MODE, mode.CREATE_VEHICLE.name());
                 } else {
-                    if (currentMode.equals(mode.VEHICLES.name())) {
-                        intent = new Intent(VehiclesActivity.this, PassActivity.class);
-                        intent.putExtra(MODE,mode.CREATE_PASS.name());
-                        intent.putExtra("Driver", (Serializable) pastIntent.getStringExtra("Driver"));
-                    } else {
-                        intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
-                        intent.putExtra(MODE,mode.CREATE_VEHICLE.name());
-                    }
+                    intent = new Intent(VehiclesActivity.this, PassActivity.class);
                     intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
-                    startActivity(intent);
+                    if (currentMode.equals(mode.VEHICLES_LIST.name())) {
+                        intent.putExtra(MODE, mode.UPDATE_VEHICLE.name());
+                    }
                 }
+                startActivity(intent);
             }
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
-    }*/
+    }
+}
+/**
+ * =======
+ * private ListView listView;
+ *
+ * @Override public void onCreate(Bundle savedInstanceState) {
+ * super.onCreate(savedInstanceState);
+ * <p/>
+ * listView = (ListView) findViewById(R.id.listView);
+ * <p/>
+ * DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(this.getApplicationContext());
+ * //TODO Fix why it can't find table
+ * ArrayList<Vehicle> listOfVehicles = db.getVehicles();
+ * buildEventList(listOfVehicles);
+ * }
+ * <p/>
+ * public void buildEventList(List<Vehicle> vehicles) {
+ * final VehicleArrayAdapter adapter = new VehicleArrayAdapter(vehicles, this);
+ * listView.setAdapter(adapter);
+ * // Create a message handling object as an anonymous class.
+ * AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
+ * public void onItemClick(AdapterView parent, View v, int position, long id) {
+ * // Do something in response to the click
+ * Intent intent;
+ * if (position == 0) {
+ * intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
+ * intent.putExtra(MODE,mode.CREATE_VEHICLE.name());
+ * startActivity(intent);
+ * } else {
+ * if (currentMode.equals(mode.VEHICLES.name())) {
+ * intent = new Intent(VehiclesActivity.this, PassActivity.class);
+ * intent.putExtra(MODE,mode.CREATE_PASS.name());
+ * intent.putExtra("Driver", (Serializable) pastIntent.getStringExtra("Driver"));
+ * } else {
+ * intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
+ * intent.putExtra(MODE,mode.CREATE_VEHICLE.name());
+ * }
+ * intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
+ * startActivity(intent);
+ * }
+ * }
+ * };
+ * listView.setOnItemClickListener(mMessageClickedHandler);
+ * }
+ */
 
 
 

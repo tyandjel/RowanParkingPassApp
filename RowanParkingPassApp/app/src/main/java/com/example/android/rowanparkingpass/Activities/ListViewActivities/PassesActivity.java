@@ -29,14 +29,16 @@ public class PassesActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         buildEventList(buildList());
     }
-    private List<Pass> buildList(){
+
+    private List<Pass> buildList() {
         DatabaseHandlerPasses db = new DatabaseHandlerPasses(this.getApplicationContext());
         ArrayList<Pass> listOfAllPasses = db.getRequestDetails();
-            if (listOfAllPasses==null){
-                listOfAllPasses= new ArrayList<>();
-            }
+        if (listOfAllPasses == null) {
+            listOfAllPasses = new ArrayList<>();
+        }
         return listOfAllPasses;
     }
+
     private void buildEventList(List<Pass> passes) {
         ListView listView = (ListView) findViewById(R.id.listView);
         final PassArrayAdapter adapter = new PassArrayAdapter(passes, this);
@@ -56,7 +58,9 @@ public class PassesActivity extends ListActivity {
                     intent.putExtra("Pass", (Serializable) adapter.getItem(position));
                     startActivity(intent);
                 }
-            };
+            }
+
+            ;
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
     }

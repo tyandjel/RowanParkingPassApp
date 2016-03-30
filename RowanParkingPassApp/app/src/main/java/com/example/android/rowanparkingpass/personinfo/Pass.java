@@ -15,11 +15,12 @@ public class Pass implements Serializable {
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
-    public Pass(){
-        driver=new Driver(-1,"-1","-1","-1","-1","-1","-1");
-        vehicle = new Vehicle(-1,"-1","-1",-1,"-1","-1","-1");
-        fromDate="-1";
-        toDate="-1";
+
+    public Pass() {
+        driver = new Driver(-1, "-1", "-1", "-1", "-1", "-1", "-1");
+        vehicle = new Vehicle(-1, "-1", "-1", -1, "-1", "-1", "-1");
+        fromDate = "-1";
+        toDate = "-1";
     }
 
     public Driver getDriver() {

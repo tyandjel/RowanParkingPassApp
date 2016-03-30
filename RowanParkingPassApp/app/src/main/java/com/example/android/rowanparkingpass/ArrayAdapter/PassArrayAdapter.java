@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.android.rowanparkingpass.R;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class PassArrayAdapter extends BaseAdapter {
 
-    private List<Pass> passes = new ArrayList<>();
+    private List<Pass> passesList = new ArrayList<>();
 
     private Context context;
     LayoutInflater myInflater;
@@ -28,7 +29,7 @@ public class PassArrayAdapter extends BaseAdapter {
     private int layout = R.layout.view_recent_pass; // current layout to use
 
     /**
-     * This  is for creating the content for a list of passes listview
+     * This  is for creating the content for a list of passesList listview
      */
     public PassArrayAdapter(List<Pass> l, Context c) {
         if (!l.isEmpty()) {
@@ -50,10 +51,9 @@ public class PassArrayAdapter extends BaseAdapter {
      * This is for creating the content for a list of Passes in listview
      */
     public void makePassesList(List<Pass> p) {
-        passes.add(new Pass()); // adds empty place holder to position 0
-        passes.addAll(p);
+        passesList.add(new Pass()); // adds empty place holder to position 0
+        passesList.addAll(p);
     }
-
 
 
     private void inflateLayout() {
@@ -68,7 +68,7 @@ public class PassArrayAdapter extends BaseAdapter {
      */
     @Override
     public int getCount() {
-        return passes.size();
+        return passesList.size();
     }
 
 
@@ -80,7 +80,7 @@ public class PassArrayAdapter extends BaseAdapter {
      */
     @Override
     public Object getItem(int position) {
-        return passes.get(position);
+        return passesList.get(position);
     }
 
     /**
@@ -116,9 +116,9 @@ public class PassArrayAdapter extends BaseAdapter {
      */
     public View getView(int position, View convertView, ViewGroup parent) {
 
-            if (convertView == null){
-                convertView =myInflater.inflate(R.layout.view_recent_pass, parent, false);
-            }
+        if (convertView == null) {
+            convertView = myInflater.inflate(R.layout.view_recent_pass, parent, false);
+        }
         TextView newPass = (TextView) convertView.findViewById(R.id.new_pass_text_view);
         TextView driverName = (TextView) convertView.findViewById(R.id.driver_text_view);
         TextView address = (TextView) convertView.findViewById(R.id.address_text_view);
@@ -136,7 +136,7 @@ public class PassArrayAdapter extends BaseAdapter {
             plate.setText("");
         } else {
             newPass.setText("");
-            Pass cPass = passes.get(position);
+            Pass cPass = passesList.get(position);
             driverName.setText(cPass.getDriver().getName());
             address.setText(cPass.getDriver().getStreet());
             townCity.setText(cPass.getDriver().getTown() + " " + cPass.getDriver().getState() + ", " + cPass.getDriver().getZipCode());

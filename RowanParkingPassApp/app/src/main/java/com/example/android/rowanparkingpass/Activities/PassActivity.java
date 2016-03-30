@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
@@ -136,14 +137,14 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
 //            Pass createdPass = new Pass(driverArrayAdapter.getItem(visitorList.getSelectedItemPosition()),
 //                    vehicleArrayAdapter.getItem(vehicleList.getSelectedItemPosition()),
 //                    startDate.getText().toString(), endDate.getText().toString());
-            intent = new Intent(getApplicationContext(), HomePageActivity.class);
+            intent = new Intent(getApplicationContext(), ListActivity.class);
 //            intent.putExtra("pass", createdPass);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         } else if (view == mainMenu) {
             // Goes back to main menu
-            intent = new Intent(getApplicationContext(), HomePageActivity.class);
+            intent = new Intent(getApplicationContext(), ListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
