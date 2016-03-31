@@ -1,0 +1,23 @@
+<?php
+
+if($_Server["REQUEST_METHOD"]) == "POST"){
+	require 'Config.php';
+	createVehicle();
+}
+
+function createVehicle()
+{
+	global $db;
+	
+	$make = $_POST["make"];
+	$model = $_POST["model"];
+	$year = $_POST["year"];
+	$color = $_POST["color"];
+	$license = $_POST["license"];
+	$state = $_Post["state"];
+	
+	$query = "Insert into Vehicles(make,model,license,state,color,year) values ($make,$model,$license,$state,$color,$year);
+	mysqli_query($db,$query) or die (mysqli_error($db));
+	mysqli_close($connect);
+	
+}
