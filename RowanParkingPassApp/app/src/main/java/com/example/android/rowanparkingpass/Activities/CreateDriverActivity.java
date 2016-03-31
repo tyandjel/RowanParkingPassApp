@@ -95,20 +95,20 @@ public class CreateDriverActivity extends BaseActivity {
                 } else {
                     // opens the next activity
                     Intent myIntent;
-                    if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
+                    if (currentMode.equals(mode.UPDATE_DRIVER.name())) { // checks if ur updating a driver
                         myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
-                        myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
-
+                        myIntent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
+                        // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
-
-                    } else {
-                        if(pastIntent.getStringExtra("Old").equals( mode.DRIVERS.name())){
-                            myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
-                            myIntent.putExtra(MODE, mode.DRIVERS.name());
-                        }else {
+                    } else { // if not Updating then u are creating a driver
+                        if(pastIntent.getStringExtra("Old").equals( mode.DRIVERS_LIST.name())){ // checks if the old intent was the DRivers or driver_list
+                            myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class); // it was the drivers list go back to the drivers list
+                            myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
+                        }else { // was no the drivers list create driver and move to vehicle list
                             myIntent = new Intent(CreateDriverActivity.this, VehiclesActivity.class);
-                            myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                            myIntent.putExtra(MODE, mode.VEHICLES.name());
                         }
+                        // add new driver
                         db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         //Todo: add ID to addDriver later
                     }
