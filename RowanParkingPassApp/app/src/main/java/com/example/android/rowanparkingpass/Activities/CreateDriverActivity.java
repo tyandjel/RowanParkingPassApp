@@ -1,5 +1,7 @@
 package com.example.android.rowanparkingpass.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -166,17 +168,30 @@ public class CreateDriverActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent myIntent;
         switch (item.getItemId()) {
             // action with ID action_delete was selected
             case R.id.action_delete:
-                Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, DriversActivity.class);
-                myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
-                // delete driver from database
-                db.deleteDriver(String.valueOf(driver.getDriverId()));
-                startActivity(myIntent);
-                finish();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(CreateDriverActivity.this);
+                alertDialog.setTitle("Delete Driver?");
+                alertDialog.setMessage(driver.getName());
+                alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
+                        myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
+                        // delete driver from database
+                        db.deleteDriver(String.valueOf(driver.getDriverId()));
+                        startActivity(myIntent);
+                        finish();
+                    }
+                });
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                });
+                alertDialog.show();
                 break;
             default:
                 break;

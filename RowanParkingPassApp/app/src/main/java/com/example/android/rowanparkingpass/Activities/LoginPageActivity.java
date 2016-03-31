@@ -6,7 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
 
@@ -37,6 +40,7 @@ public class LoginPageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
+        setupUI(findViewById(R.id.parent));
 
         inputEmail = (EditText) findViewById(R.id.username);
         inputPassword = (EditText) findViewById(R.id.pword);
@@ -87,6 +91,26 @@ public class LoginPageActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    public void setupUI(View view) {
+
+        //Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    Utilities.hideSoftKeyboard(LoginPageActivity.this);
+                    return false;
+                }
+            });
+        }
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
     }
 
     public void NetAsync(View view) {
