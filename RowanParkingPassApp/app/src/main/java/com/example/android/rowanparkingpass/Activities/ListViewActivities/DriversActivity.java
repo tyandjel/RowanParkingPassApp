@@ -20,6 +20,7 @@ import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.DriverArrayAdapter;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
 import java.io.Serializable;
@@ -59,12 +60,12 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
-        if(currentMode.equals(mode.DRIVERS_LIST)){
+        if (currentMode.equals(mode.DRIVERS_LIST.name())) {
             inflator.inflate(R.menu.menu_search, menu);
-        }else{
-            inflator.inflate(R.menu.menu_vehicles_drivers_page,menu);
+        } else {
+            inflator.inflate(R.menu.menu_vehicles_drivers_page, menu);
         }
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchMenuItem = menu.findItem(R.id.action_search);
@@ -72,6 +73,18 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(false);
         searchView.setOnQueryTextListener(this);
+        searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                Utilities.hideSoftKeyboard(DriversActivity.this);
+                searchView.setQuery("",false);
+            }
+        });
         return true;
     }
 
@@ -101,8 +114,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                 if (position == 0 && listView.getItemAtPosition(0) == null) {
                     intent.putExtra(MODE, mode.CREATE_DRIVER.name());
                     intent.putExtra("Old", currentMode);
-                }
-                else {
+                } else {
                     if (currentMode.equals(mode.DRIVERS_LIST.name())) {
                         intent.putExtra(MODE, mode.UPDATE_DRIVER.name());
                         intent.putExtra("Driver", (Serializable) adapter.getItem(position));
@@ -127,7 +139,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             db.deleteDriver(String.valueOf(driver.getDriverId()));
-                           makeAdapter(db.getDrivers());
+                            makeAdapter(db.getDrivers());
                         }
                     });
                     alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -144,19 +156,21 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         listView.setOnItemClickListener(mMessageClickedHandler);
         listView.setOnItemLongClickListener(mMessageLongClickedHandler);
     }
-private void makeAdapter(List<Driver> d){
-    adapter = new DriverArrayAdapter(d, this);
-    listView.setAdapter(adapter);
-}
+
+    private void makeAdapter(List<Driver> d) {
+        adapter = new DriverArrayAdapter(d, this);
+        listView.setAdapter(adapter);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_search:
                 searchView.requestFocus();
                 break;
             case R.id.action_home:
                 Intent intent = new Intent(this, PassesActivity.class);
-                intent.putExtra(MODE,mode.HOME_PAGE.name());
+                intent.putExtra(MODE, mode.HOME_PAGE.name());
                 startActivity(intent);
             default:
                 break;
@@ -166,7 +180,8 @@ private void makeAdapter(List<Driver> d){
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        searchView.clearFocus();
+        return true;
     }
 
     @Override
