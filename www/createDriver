@@ -9,13 +9,11 @@ function createDriver()
 {
 	global $db;
 	
-	$firstName = $_POST["firstName"];
-	$LastName = $_POST["LastName"];
 	$street = $_POST["street"];
 	$city = $_POST["city"];
 	$state = $_POST["state"];
 	$zip = $_POST["zip"];
-	$full_name = $firstName . ' ' . $LastName;
+	$full_name = $_Post["full_name"];
 	
 	$query = "Insert into Driver(street,city,state,full_name,zip) values ($street,$city,$state,$full_name);
 	mysqli_query($db,$query) or die (mysqli_error($db));
