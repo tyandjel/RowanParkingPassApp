@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,13 +19,20 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.States;
+import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerDialog;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerSwatch;
 import com.example.android.rowanparkingpass.utilities.colorpicker.Utils;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
+
+import java.io.Serializable;
 
 public class CreateVehicleActivity extends BaseActivity implements View.OnClickListener {
 
@@ -39,17 +47,100 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
     private ColorPickerDialog colorCalender;
     private int mSelectedColorCal0;
     private int[] mColor;
+    Intent pastIntent;
+
+    Spinner state;
+    DatabaseHandlerVehicles db;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create_vehicle);
+
+        make = (EditText) findViewById(R.id.vehicleMakeEditText);
+        model = (EditText) findViewById(R.id.modelEditText);
+        year = (EditText) findViewById(R.id.yearEditText);
+        colorBox = (EditText) findViewById(R.id.vehicleColorEditText);
+        state = (Spinner) findViewById(R.id.vehicleSpinner);
+        license = (EditText) findViewById(R.id.licenseEditText);
+        saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
+
+        final Button createVehicle = (Button) findViewById(R.id.createVehicleButton);
+        pastIntent=getIntent();
+        state.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values()));
+
+        Button cancel = (Button) findViewById(R.id.cancelVehicleButton);
+        Button create = (Button) findViewById(R.id.createVehicleButton);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Cancel was clicked", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: Cancelbtn");
+                Intent myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class);
+                if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
+                    myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+
+                } else {
+                    myIntent.putExtra(MODE, mode.VEHICLES.name());
+                }
+
+                startActivity(myIntent);
+                finish();
+            }
+        });
+        create.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent;
+
+                if (TextUtils.isEmpty(year.getText()) || TextUtils.isEmpty(make.getText()) ||
+                        TextUtils.isEmpty(model.getText()) || TextUtils.isEmpty(license.getText())) {
+                    Log.d(TAG, "onClick: All Field Empty");
+                    Toast.makeText(getApplicationContext(), "Fill out all driver fields", Toast.LENGTH_SHORT).show();
+                } else if (year.getText().length() != 4) {
+                    Log.d(TAG, "onClick: !4 zip");
+                    Toast.makeText(getApplicationContext(), "Enter a 4 digit year", Toast.LENGTH_SHORT).show();
+                } else {
+                    db = new DatabaseHandlerVehicles(getApplicationContext());
+                    // opens the next activity
+                    if (currentMode.equals(mode.UPDATE_VEHICLE.name())) { // checks if ur updating a driver
+                        myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class);
+                        myIntent.putExtra(MODE, mode.VEHICLES_LIST.name()); // tells the intent that it has to use the update driver list logic
+                        // updates driver in database
+                        Vehicle vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
+                        db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                    } else { // if not Updating then u are creating a driver
+                        if (pastIntent.getStringExtra("Old").equals(mode.VEHICLES_LIST.name())) { // checks if the old intent was the DRivers or driver_list
+                            myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class); // it was the drivers list go back to the drivers list
+                            myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                        } else { // was no the drivers list create driver and move to vehicle list
+                            myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
+                            myIntent.putExtra(MODE, mode.VEHICLES.name());
+                        }
+                        // add new driver
+                        int s = Integer.valueOf(year.getText().toString());
+                        String ee = make.getText().toString();
+                        String fds = model.getText().toString();
+                        String dfsa = state.getSelectedItem().toString();
+                        String dfasfdsaf =  String.valueOf(mSelectedColorCal0);
+                        String dfasfas = license.getText().toString();
+
+
+                        db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                        //Todo: add ID to addVehicle later
+                    }
+                    startActivity(myIntent);
+                    finish();
+                }
+            }
+        }));
 
         setupUI(findViewById(R.id.parent));
 
         Intent pastIntent = getIntent();
+        pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
+
 
         if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
             setTitle("Update Vehicle");
@@ -57,18 +148,6 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
             setTitle("Create New Vehicle");
         }
 
-        make = (EditText) findViewById(R.id.vehicleMakeEditText);
-        model = (EditText) findViewById(R.id.modelEditText);
-        year = (EditText) findViewById(R.id.yearEditText);
-        colorBox = (EditText) findViewById(R.id.vehicleColorEditText);
-        Spinner state = (Spinner) findViewById(R.id.vehicleSpinner);
-        license = (EditText) findViewById(R.id.licenseEditText);
-        saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
-
-        Button cancel = (Button) findViewById(R.id.cancelDriverButton);
-        final Button createVehicle = (Button) findViewById(R.id.createVehicleButton);
-
-        state.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values()));
 
         //cancel.setOnClickListener(this);
         //createVehicle.setOnClickListener(this);
@@ -163,35 +242,34 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         // Check to see if user filled out all fields
-        if (TextUtils.isEmpty(make.getText()) || TextUtils.isEmpty(model.getText()) ||
-                TextUtils.isEmpty(year.getText()) || TextUtils.isEmpty(colorBox.getText()) ||
-                TextUtils.isEmpty(license.getText())) {
-            Toast.makeText(this, "Fill out all vehicle fields", Toast.LENGTH_SHORT);
-        } else if (year.getText().length() != 4) {
-            Toast.makeText(this, "Enter a 4 digit year", Toast.LENGTH_SHORT);
-        } else {
-            // Change to new activity
-            Intent myIntent;
-            switch (view.getId()) {
-                case R.id.cancelVehicleButton:
-                    Toast.makeText(this, "Cancel was clicked", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.createVehicleButton:
-                    Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    break;
-            }
-            // Go back to past activity
-            myIntent = new Intent(this, VehiclesActivity.class);
-            if (currentMode.equals(mode.VEHICLES.name())) {
-                myIntent.putExtra(MODE, mode.VEHICLES.name());
-            } else {
-                myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
-            }
-            myIntent.putExtra(TEMP_VEHICLE, saveInfo.isChecked());
-            startActivity(myIntent);
-            finish();
+        // Change to new activity
+        Intent myIntent;
+        switch (view.getId()) {
+            case R.id.cancelVehicleButton:
+                Toast.makeText(this, "Cancel was clicked", Toast.LENGTH_SHORT).show();
+                //// TODO: 4/1/16 fix canel button
+                finish();
+                break;
+            case R.id.createVehicleButton:
+
+                Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
         }
+
+
+        // Go back to past activity
+        myIntent = new Intent(this, VehiclesActivity.class);
+        if (currentMode.equals(mode.VEHICLES.name())) {
+            myIntent.putExtra(MODE, mode.VEHICLES.name());
+        } else {
+            myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+        }
+        myIntent.putExtra(TEMP_VEHICLE, saveInfo.isChecked());
+        startActivity(myIntent);
+        finish();
+
+
     }
 }

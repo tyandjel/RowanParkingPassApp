@@ -40,7 +40,6 @@ public class CreateDriverActivity extends BaseActivity {
     CheckBox saveInfo;
     DatabaseHandlerDrivers db;
     Intent pastIntent;
-    String pastMode;
     Driver driver;
 
     @Override

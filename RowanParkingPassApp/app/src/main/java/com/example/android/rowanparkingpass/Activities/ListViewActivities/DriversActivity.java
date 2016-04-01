@@ -104,13 +104,11 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                 Intent intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
 
                 if (position == 0 && listView.getItemAtPosition(0) == null) {
-
                     intent.putExtra(MODE, mode.CREATE_DRIVER.name());
                     intent.putExtra("Old", currentMode);
                 } else {
                     if (currentMode.equals(mode.DRIVERS_LIST.name())) {
                         intent.putExtra(MODE, mode.UPDATE_DRIVER.name());
-                        intent.putExtra("Driver", (Serializable) adapter.getItem(position));
                     } else {
                         intent = new Intent(DriversActivity.this, VehiclesActivity.class);
                         intent.putExtra(MODE, mode.VEHICLES.name());

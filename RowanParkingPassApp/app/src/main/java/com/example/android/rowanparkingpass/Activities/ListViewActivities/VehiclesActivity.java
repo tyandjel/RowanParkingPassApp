@@ -10,7 +10,10 @@ import com.example.android.rowanparkingpass.Activities.CreateVehicleActivity;
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.VehicleArrayAdapter;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,9 +27,9 @@ public class VehiclesActivity extends ListActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        List<Vehicle> testVehicles = new ArrayList<>();
-        testVehicles.add(new Vehicle(-1, "-1", "-1", -1, "-1", "-1", "-1"));
-        buildEventList(testVehicles);
+       DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(getApplicationContext());
+        ArrayList<Vehicle> listOfVehicles = db.getVehicles();
+        buildEventList(listOfVehicles);
         loaded();
     }
 
@@ -39,15 +42,28 @@ public class VehiclesActivity extends ListActivity {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // Do something in response to the click
                 Intent intent;
+
                 if (position == 0) {
                     intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
                     intent.putExtra(MODE, mode.CREATE_VEHICLE.name());
+                    intent.putExtra("Old", currentMode);
+
                 } else {
-                    intent = new Intent(VehiclesActivity.this, PassActivity.class);
+                    intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
+
                     intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
                     if (currentMode.equals(mode.VEHICLES_LIST.name())) {
                         intent.putExtra(MODE, mode.UPDATE_VEHICLE.name());
+
                     }
+                    else {
+                        intent = new Intent(VehiclesActivity.this, PassActivity.class);
+
+                        intent.putExtra(MODE,mode.CREATE_PASS.name());
+
+                    }
+                    intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
+
                 }
 
                 startActivity(intent);
