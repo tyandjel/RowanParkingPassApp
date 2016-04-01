@@ -35,7 +35,7 @@
         android:drawableStart="@drawable/user"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:textColor="#000000"
+        android:textColor="@color/textColor2"
         android:textSize="15sp" />
 
     <Button
@@ -75,7 +75,7 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:textColor="#000000"
+        android:textColor="@color/textColor2"
         android:textSize="15sp" />
 
     <Button

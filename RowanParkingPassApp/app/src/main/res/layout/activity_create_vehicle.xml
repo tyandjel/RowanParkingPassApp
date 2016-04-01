@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/background"
-    android:id="@+id/parent">
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/selection"
@@ -34,6 +34,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:digits="@string/safe_characters"
             android:hint="@string/vehicle_make_hint"
             android:textColor="@color/textColor2" />
     </TableRow>
@@ -62,6 +63,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:digits="@string/safe_characters"
             android:hint="@string/model_hint"
             android:textColor="@color/textColor2" />
     </TableRow>
@@ -121,7 +123,9 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:clickable="false"
+            android:focusableInTouchMode="false"
             android:hint="@string/color_hint"
+            android:inputType="none"
             android:textColor="@color/textColor2" />
     </TableRow>
 
@@ -175,8 +179,11 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:digits="@string/safe_characters"
             android:hint="@string/license_hint"
-            android:textColor="@color/textColor2" />
+            android:inputType="textCapCharacters"
+            android:textColor="@color/textColor2"
+            android:maxLength="7" />
     </TableRow>
 
     <TableRow
