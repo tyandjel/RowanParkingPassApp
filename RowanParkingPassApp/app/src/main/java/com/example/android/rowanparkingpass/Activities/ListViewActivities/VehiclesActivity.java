@@ -27,11 +27,12 @@ public class VehiclesActivity extends ListActivity {
         List<Vehicle> testVehicles = new ArrayList<>();
         testVehicles.add(new Vehicle(-1, "-1", "-1", -1, "-1", "-1", "-1"));
         buildEventList(testVehicles);
+        loaded();
     }
 
     public void buildEventList(List<Vehicle> vehicles) {
-        ListView listView = (ListView) findViewById(R.id.listView);
-        final VehicleArrayAdapter adapter = new VehicleArrayAdapter(vehicles, this);
+         listView = (ListView) findViewById(R.id.listView);
+        adapter = new VehicleArrayAdapter(vehicles, this);
         listView.setAdapter(adapter);
         // Create a message handling object as an anonymous class.
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {

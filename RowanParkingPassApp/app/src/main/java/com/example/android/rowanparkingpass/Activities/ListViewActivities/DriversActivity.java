@@ -30,9 +30,8 @@ import java.util.List;
 
 public class DriversActivity extends ListActivity implements SearchView.OnQueryTextListener {
 
-    ListView listView;
+
     DatabaseHandlerDrivers db;
-    DriverArrayAdapter adapter;
     SearchView searchView;
     MenuItem searchMenuItem;
 
@@ -40,6 +39,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         build();
+        loaded();
     }
 
     @Override
@@ -92,14 +92,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         listView = (ListView) findViewById(R.id.listView);
         final ListView tempListView = listView;
         makeAdapter(drivers);
-        // Checks if the listView has finished loading in and then tells the adapter so it can stop animating things
-        ViewTreeObserver observer = listView.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                adapter.setHasLoaded(true);
-            }
-        });
+
         // checks what item in the listview was clicked. 
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {

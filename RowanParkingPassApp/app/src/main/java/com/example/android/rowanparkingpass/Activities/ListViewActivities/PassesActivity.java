@@ -22,12 +22,12 @@ import java.util.List;
 
 public class PassesActivity extends ListActivity {
 
-    private ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buildEventList(buildList());
+        loaded();
     }
 
     private List<Pass> buildList() {
@@ -40,8 +40,8 @@ public class PassesActivity extends ListActivity {
     }
 
     private void buildEventList(List<Pass> passes) {
-        ListView listView = (ListView) findViewById(R.id.listView);
-        final PassArrayAdapter adapter = new PassArrayAdapter(passes, this);
+         listView = (ListView) findViewById(R.id.listView);
+         adapter = new PassArrayAdapter(passes, this);
         listView.setAdapter(adapter);
         // Create a message handling object as an anonymous class.
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
@@ -59,8 +59,6 @@ public class PassesActivity extends ListActivity {
                     startActivity(intent);
                 }
             }
-
-            ;
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
     }

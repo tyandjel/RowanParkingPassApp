@@ -4,25 +4,32 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
 import com.example.android.rowanparkingpass.Activities.SettingActivity;
+import com.example.android.rowanparkingpass.ArrayAdapter.DriverArrayAdapter;
+import com.example.android.rowanparkingpass.ArrayAdapter.ListViewArrayAdapter;
+import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
 import com.example.android.rowanparkingpass.R;
 
-public class ListActivity extends BaseActivity {
+public abstract class ListActivity extends BaseActivity {
     protected Intent pastIntent;
+    ListView listView;
+    ListViewArrayAdapter adapter;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_list_view);
-
 
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
@@ -37,6 +44,18 @@ public class ListActivity extends BaseActivity {
                 setTitle("Your Vehicles");
             }
         }
+        // wait for Child to be built
+    }
+    public void loaded(){
+        // Checks if the listView has finished loading in and then tells the adapter so it can stop animating things
+        ViewTreeObserver observer = listView.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+               adapter.setHasLoaded(true);
+                Log.d("has Loaded", "List");
+            }
+        });
     }
 
     @Override
