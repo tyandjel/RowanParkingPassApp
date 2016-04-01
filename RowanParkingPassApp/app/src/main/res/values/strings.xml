@@ -65,6 +65,6 @@
     <string name="color_swatch_description_selected">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
     <string name="pref_config">Color Picker</string>
 
-    <string name="safe_characters">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmopqrstuvwxyz1234567890ėęěĕəèéêëēŕřþťțţýùúûüūůűųìíîïīįıòóôõöøőœàáâãäåæāăąß§śšşďđ ģğķĺļľłźżžçćčñńņňÈÉÊËĒĖĘĚĔƏŔŘÞŤȚŢÝÙÚÛÜŪŮŰŲÌÍÎÏĪĮİÒÓÔÕÖØŐŐŒÀÁÂÃÄÅÆĀĂĄß§ŚŠŞĎĐĢĞĶĹĻĽŁŹŻŽÇĆČÑŃŅŇ. </string>
+    <string name="safe_characters">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ėęěĕəèéêëēŕřþťțţýùúûüūůűųìíîïīįıòóôõöøőœàáâãäåæāăąß§śšşďđ ģğķĺļľłźżžçćčñńņňÈÉÊËĒĖĘĚĔƏŔŘÞŤȚŢÝÙÚÛÜŪŮŰŲÌÍÎÏĪĮİÒÓÔÕÖØŐŐŒÀÁÂÃÄÅÆĀĂĄß§ŚŠŞĎĐĢĞĶĹĻĽŁŹŻŽÇĆČÑŃŅŇ. </string>
 
 </resources>

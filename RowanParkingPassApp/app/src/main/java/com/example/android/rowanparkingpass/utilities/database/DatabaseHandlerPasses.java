@@ -66,6 +66,15 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
     }
 
     /**
+     * Update visitor details in database
+     */
+    public void deleteRequest(String passId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_REQUEST_ID.toString() + "=" + passId, null);
+    }
+
+    /**
      * Getting pass data from database
      */
     public ArrayList<Pass> getRequestDetails() {
@@ -81,8 +90,8 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
             pass.put(PassContract.PassEntry.COLUMN_REQUEST_ID, cursor.getString(0));
             pass.put(PassContract.PassEntry.COLUMN_VEHICLE_ID, cursor.getString(1));
             pass.put(PassContract.PassEntry.COLUMN_DRIVER_ID, cursor.getString(2));
-            pass.put(PassContract.PassEntry.COLUMN_START_DATE, cursor.getString(4));
-            pass.put(PassContract.PassEntry.COLUMN_END_DATE, cursor.getString(5));
+            pass.put(PassContract.PassEntry.COLUMN_START_DATE, cursor.getString(3));
+            pass.put(PassContract.PassEntry.COLUMN_END_DATE, cursor.getString(4));
 
             HashMap<String, String> obj = new HashMap<>();
             // Get Driver Info
@@ -93,11 +102,11 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
             String firstName = "";
             String lastName = "";
             if (!cursor.isAfterLast()) {
-                obj.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(1));
-                obj.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(2));
-                obj.put(DriverContract.DriverEntry.COLUMN_CITY, cursor.getString(3));
-                obj.put(DriverContract.DriverEntry.COLUMN_STATE, cursor.getString(4));
-                obj.put(DriverContract.DriverEntry.COLUMN_ZIP, cursor.getString(5));
+                obj.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(0));
+                obj.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(1));
+                obj.put(DriverContract.DriverEntry.COLUMN_CITY, cursor.getString(2));
+                obj.put(DriverContract.DriverEntry.COLUMN_STATE, cursor.getString(3));
+                obj.put(DriverContract.DriverEntry.COLUMN_ZIP, cursor.getString(4));
                 // Split the full name
                 String[] fullName = obj.get(DriverContract.DriverEntry.COLUMN_FULL_NAME).split(" ");
                 firstName = fullName[0];
@@ -105,7 +114,8 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
                     lastName += fullName[i];
                 }
             }
-            Driver d = new Driver(Integer.parseInt(PassContract.PassEntry.COLUMN_DRIVER_ID), firstName, lastName,
+            Driver d = new Driver(Integer.parseInt(obj.get(PassContract.PassEntry.COLUMN_DRIVER_ID)),
+                    firstName, lastName,
                     obj.get(DriverContract.DriverEntry.COLUMN_STREET),
                     obj.get(DriverContract.DriverEntry.COLUMN_CITY),
                     obj.get(DriverContract.DriverEntry.COLUMN_STATE),
@@ -127,7 +137,7 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
                 obj.put(VehicleContract.VehicleEntry.COLUMN_COLOR, cursor.getString(5));
                 obj.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, cursor.getString(6));
             }
-            Vehicle v = new Vehicle(Integer.parseInt(PassContract.PassEntry.COLUMN_VEHICLE_ID),
+            Vehicle v = new Vehicle(Integer.parseInt(obj.get(PassContract.PassEntry.COLUMN_VEHICLE_ID)),
                     obj.get(VehicleContract.VehicleEntry.COLUMN_MAKE),
                     obj.get(VehicleContract.VehicleEntry.COLUMN_MODEL),
                     Integer.parseInt(obj.get(VehicleContract.VehicleEntry.COLUMN_YEAR)),
