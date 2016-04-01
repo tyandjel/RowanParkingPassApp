@@ -128,6 +128,7 @@ public class CreateDriverActivity extends BaseActivity {
         }
 
 
+
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -217,5 +218,12 @@ public class CreateDriverActivity extends BaseActivity {
                 setupUI(innerView);
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
     }
 }

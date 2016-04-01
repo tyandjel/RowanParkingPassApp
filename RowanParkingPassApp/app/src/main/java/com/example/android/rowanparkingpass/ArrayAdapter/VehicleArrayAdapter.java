@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by John on 3/6/2016.
  */
-public class VehicleArrayAdapter extends BaseAdapter implements Filterable {
+public class VehicleArrayAdapter extends ListViewArrayAdapter {
 
     private List<Vehicle> vehicleList = new ArrayList<>();
     private ArrayList<Vehicle> filteredVehicleList = new ArrayList<>();
@@ -133,7 +133,7 @@ public class VehicleArrayAdapter extends BaseAdapter implements Filterable {
             plateText.setText(cVehicle.getLicensePlate());
         }
 
-        return convertView;
+        return   animateList(position,convertView);
     }
 
     @Override

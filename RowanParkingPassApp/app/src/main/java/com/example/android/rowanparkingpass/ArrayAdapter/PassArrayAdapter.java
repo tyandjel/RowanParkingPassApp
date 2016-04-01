@@ -4,7 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
@@ -19,7 +22,7 @@ import java.util.List;
  * Created by John on 3/6/2016.
  */
 
-public class PassArrayAdapter extends BaseAdapter {
+public class PassArrayAdapter extends ListViewArrayAdapter {
 
     private List<Pass> passesList = new ArrayList<>();
 
@@ -83,6 +86,8 @@ public class PassArrayAdapter extends BaseAdapter {
         return passesList.get(position);
     }
 
+
+
     /**
      * Get the row id associated with the specified position in the list.
      *
@@ -143,6 +148,12 @@ public class PassArrayAdapter extends BaseAdapter {
             car.setText(cPass.getVehicle().getYear() + " " + cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel() + " " + cPass.getVehicle().getColor());
             plate.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
         }
-        return convertView;
+        return   animateList(position,convertView);
+    }
+
+    @Override
+    // method not used
+    public Filter getFilter() {
+        return null;
     }
 }

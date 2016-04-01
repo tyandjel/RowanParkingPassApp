@@ -9,7 +9,9 @@
     android:paddingBottom="10dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="10dp">
+    android:paddingTop="10dp"
+    android:elevation="5dp"
+    >
 
     <TextView
         android:id="@+id/driver_text_view"
