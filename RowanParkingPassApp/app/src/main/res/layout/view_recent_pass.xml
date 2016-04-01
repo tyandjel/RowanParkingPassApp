@@ -58,6 +58,16 @@
         android:textColor="@color/textColor"/>
 
     <TextView
+        android:id="@+id/car_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="car color"
+        android:layout_toLeftOf="@+id/new_pass_text_view"
+        android:layout_below="@+id/car_text_view"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
         android:id="@+id/plate_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

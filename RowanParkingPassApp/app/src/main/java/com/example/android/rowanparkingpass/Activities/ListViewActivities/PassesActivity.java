@@ -2,6 +2,7 @@ package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,6 +34,7 @@ public class PassesActivity extends ListActivity {
     private List<Pass> buildList() {
         DatabaseHandlerPasses db = new DatabaseHandlerPasses(this.getApplicationContext());
         ArrayList<Pass> listOfAllPasses = db.getRequestDetails();
+        Log.d(TAG, "BUILD LIST");
         if (listOfAllPasses == null) {
             listOfAllPasses = new ArrayList<>();
         }
@@ -40,8 +42,8 @@ public class PassesActivity extends ListActivity {
     }
 
     private void buildEventList(List<Pass> passes) {
-         listView = (ListView) findViewById(R.id.listView);
-         adapter = new PassArrayAdapter(passes, this);
+        listView = (ListView) findViewById(R.id.listView);
+        adapter = new PassArrayAdapter(passes, this);
         listView.setAdapter(adapter);
         // Create a message handling object as an anonymous class.
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {

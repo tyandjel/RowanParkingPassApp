@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -26,6 +25,7 @@ import java.util.Calendar;
 public class PassActivity extends BaseActivity implements View.OnClickListener {
 
     Intent pastIntent;
+    Pass pass;
     Driver driver;
     Vehicle vehicle;
 
@@ -51,10 +51,16 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
 
         dbPasses = new DatabaseHandlerPasses(getApplicationContext());
 
+        pass = (Pass) pastIntent.getSerializableExtra("Pass");
+        if(pass == null) {
 //        driver = (Driver) pastIntent.getSerializableExtra("Driver");
 //        vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
-        driver = new Driver(1, "Tyler", "Andjel", "13 Yorktown Dr.", "Shamong", "New Jersey", "08088");
-        vehicle = new Vehicle(1, "Hyndai", "Sonota", 2007, "0", "New Jersey", "125ABC");
+            driver = new Driver(1, "Tyler", "Andjel", "13 Yorktown Dr.", "Shamong", "New Jersey", "08088");
+            vehicle = new Vehicle(1, "Hyndai", "Sonota", 2007, "0", "New Jersey", "125ABC");
+        }else{
+            driver = pass.getDriver();
+            vehicle = pass.getVehicle();
+        }
 
         setDriverView();
         setVehicleView();
@@ -136,9 +142,9 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                 Toast.makeText(getApplicationContext(), "You must select a start and end date.", Toast.LENGTH_SHORT).show();
             } else {
                 Pass createdPass = new Pass(driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
-                dbPasses.addRequest(1, createdPass.getDriver().getDriverId(), createdPass.getVehicle().getVehicleId(), createdPass.getFromDate(), createdPass.getToDate());
+                dbPasses.addRequest(1, createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
                 intent = new Intent(getApplicationContext(), PassesActivity.class);
-                intent.putExtra(MODE, mode.HOME_PAGE);
+                intent.putExtra(MODE, mode.HOME_PAGE.name());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -146,7 +152,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         } else if (view == mainMenu) {
             // Goes back to main menu
             intent = new Intent(getApplicationContext(), PassesActivity.class);
-            intent.putExtra(MODE, mode.HOME_PAGE);
+            intent.putExtra(MODE, mode.HOME_PAGE.name());
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();

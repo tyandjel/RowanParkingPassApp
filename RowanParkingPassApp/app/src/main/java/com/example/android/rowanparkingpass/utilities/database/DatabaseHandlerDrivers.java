@@ -105,6 +105,45 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     }
 
     /**
+     * Get a driver from ID
+     */
+    public Driver getDriver(String id) {
+        HashMap<String, String> obj = new HashMap<>();
+        final String SQL_SELECT_DRIVER =
+                "SELECT * FROM " + DriverContract.DriverEntry.TABLE_NAME +
+                        " WHERE " + DriverContract.DriverEntry.COLUMN_DRIVER_ID +
+                        " = " + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_SELECT_DRIVER, null);
+        cursor.moveToFirst();
+        String firstName = "";
+        String lastName = "";
+        if (!cursor.isAfterLast() && cursor.getCount() > 0) {
+            obj.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(1));
+            obj.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(2));
+            obj.put(DriverContract.DriverEntry.COLUMN_CITY, cursor.getString(3));
+            obj.put(DriverContract.DriverEntry.COLUMN_STATE, cursor.getString(4));
+            obj.put(DriverContract.DriverEntry.COLUMN_ZIP, cursor.getString(5));
+            // Split the full name
+            String[] fullName = obj.get(DriverContract.DriverEntry.COLUMN_FULL_NAME).split(" ");
+            firstName = fullName[0];
+            for (int i = 1; i < fullName.length - 1; i++) {
+                lastName += fullName[i];
+            }
+            cursor.moveToNext();
+        }
+        Driver driver = new Driver(Integer.parseInt(id),
+                firstName, lastName,
+                obj.get(DriverContract.DriverEntry.COLUMN_STREET),
+                obj.get(DriverContract.DriverEntry.COLUMN_CITY),
+                obj.get(DriverContract.DriverEntry.COLUMN_STATE),
+                obj.get(DriverContract.DriverEntry.COLUMN_ZIP));
+        cursor.close();
+        db.close();
+        return driver;
+    }
+
+    /**
      * Getting driver data from database
      */
     public ArrayList<Driver> getDrivers() {

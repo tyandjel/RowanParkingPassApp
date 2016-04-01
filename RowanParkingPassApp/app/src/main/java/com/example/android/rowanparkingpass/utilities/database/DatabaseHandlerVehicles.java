@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
@@ -101,6 +102,38 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
         db.delete(VehicleContract.VehicleEntry.TABLE_NAME, BaseContract.WHERE + VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleId, null);
+    }
+
+    public Vehicle getVehicle(String id) {
+        final String SQL_SELECT_VEHICLE =
+                "SELECT * FROM " + VehicleContract.VehicleEntry.TABLE_NAME +
+                        " WHERE " + VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID +
+                        " = " + id;
+        HashMap<String, String> obj = new HashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_SELECT_VEHICLE, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast() && cursor.getCount() > 0) {
+            obj.put(VehicleContract.VehicleEntry.COLUMN_MAKE, cursor.getString(1));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_MODEL, cursor.getString(2));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_YEAR, cursor.getString(3));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_STATE, cursor.getString(4));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_COLOR, cursor.getString(5));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, cursor.getString(6));
+            cursor.moveToNext();
+        }
+        Log.d("TAG", "DB HANDLER VEHICLES");
+        Vehicle vehicle = new Vehicle(Integer.parseInt(id),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_MAKE),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_MODEL),
+                Integer.parseInt(obj.get(VehicleContract.VehicleEntry.COLUMN_YEAR)),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_COLOR),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_STATE),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_LICENSE));
+        obj.clear();
+        cursor.close();
+        db.close();
+        return vehicle;
     }
 
     /**

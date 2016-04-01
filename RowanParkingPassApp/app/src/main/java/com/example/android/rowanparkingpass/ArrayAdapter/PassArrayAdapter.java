@@ -129,6 +129,7 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
         TextView address = (TextView) convertView.findViewById(R.id.address_text_view);
         TextView townCity = (TextView) convertView.findViewById(R.id.town_city_text_view);
         TextView car = (TextView) convertView.findViewById(R.id.car_text_view);
+        TextView color = (TextView) convertView.findViewById(R.id.car_color);
         TextView plate = (TextView) convertView.findViewById(R.id.plate_text_view);
         //String [] lArr = new String[list.size()];
         // lArr=list.toArray(lArr); not needed
@@ -138,6 +139,8 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
             address.setText("");
             townCity.setText("");
             car.setText("");
+            color.setText("");
+            color.setBackgroundColor(0);
             plate.setText("");
         } else {
             newPass.setText("");
@@ -145,7 +148,9 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
             driverName.setText(cPass.getDriver().getName());
             address.setText(cPass.getDriver().getStreet());
             townCity.setText(cPass.getDriver().getTown() + " " + cPass.getDriver().getState() + ", " + cPass.getDriver().getZipCode());
-            car.setText(cPass.getVehicle().getYear() + " " + cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel() + " " + cPass.getVehicle().getColor());
+            car.setText(cPass.getVehicle().getYear() + " " + cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel());
+            color.setBackgroundColor(Integer.parseInt(cPass.getVehicle().getColor()));
+            color.setTextColor(Integer.parseInt(cPass.getVehicle().getColor()));
             plate.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
         }
         return   animateList(position,convertView);
