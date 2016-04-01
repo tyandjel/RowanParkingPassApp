@@ -138,11 +138,6 @@ public class DriverArrayAdapter extends ListViewArrayAdapter {
 
 
         }
-
-
-
-
-
         return   animateList(position,convertView);
 
     }

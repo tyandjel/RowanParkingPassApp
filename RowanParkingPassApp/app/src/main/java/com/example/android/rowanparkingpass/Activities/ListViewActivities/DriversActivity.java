@@ -103,7 +103,6 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                 }
                 Intent intent = new Intent(DriversActivity.this, CreateDriverActivity.class);
 
-                //// TODO: 3/30/16 fix mode for create driver
                 if (position == 0 && listView.getItemAtPosition(0) == null) {
 
                     intent.putExtra(MODE, mode.CREATE_DRIVER.name());
@@ -118,6 +117,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                     }
                     intent.putExtra("Driver", (Serializable) adapter.getItem(position));
                 }
+
                 startActivity(intent);
             }
         };

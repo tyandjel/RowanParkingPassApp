@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/listViewObjects"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:elevation="5dp"
+    >
     <!-- Johnathan Saunders 2/20/2015
       This is the layout to be put in the list view activity for the list of vehicles-->
     <TextView
