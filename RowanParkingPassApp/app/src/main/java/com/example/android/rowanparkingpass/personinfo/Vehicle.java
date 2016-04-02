@@ -79,7 +79,7 @@ public class Vehicle implements Serializable {
     }
 
     public String getCarInfo() {
-        return year + " " + make + " " + model + " " + vehicleState + " " +licensePlate;
+        return year + " " + make + " " + model + " " + vehicleState + " " + licensePlate;
     }
 
     @Override

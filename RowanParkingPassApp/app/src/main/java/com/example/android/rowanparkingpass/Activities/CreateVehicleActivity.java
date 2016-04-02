@@ -32,7 +32,7 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVe
 
 import java.util.ArrayList;
 
-public class CreateVehicleActivity extends BaseActivity  {
+public class CreateVehicleActivity extends BaseActivity {
 
     private static final String TEMP_VEHICLE = "temp";
 
@@ -66,7 +66,8 @@ public class CreateVehicleActivity extends BaseActivity  {
         license = (EditText) findViewById(R.id.licenseEditText);
         saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
         final Button createVehicle = (Button) findViewById(R.id.createVehicleButton);
-        pastIntent=getIntent();
+        pastIntent = getIntent();
+        currentMode = pastIntent.getStringExtra(MODE);
         driver = (Driver) pastIntent.getSerializableExtra("Driver");
         vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values());
@@ -77,12 +78,20 @@ public class CreateVehicleActivity extends BaseActivity  {
 
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Cancel was clicked", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onClick: Cancelbtn");
                 Intent myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class);
                 if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
                     myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
-
+                } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
+                    myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
+                    myIntent.putExtra(MODE, mode.CREATE_PASS.name());
+                    myIntent.putExtra("Driver", driver);
+                    myIntent.putExtra("Vehicle", vehicle);
+                } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
+                    myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
+                    myIntent.putExtra(MODE, mode.CREATE_PASS.name());
+                    myIntent.putExtra("Driver", driver);
+                    myIntent.putExtra("Vehicle", vehicle);
                 } else {
                     myIntent.putExtra(MODE, mode.VEHICLES.name());
                 }
@@ -113,6 +122,14 @@ public class CreateVehicleActivity extends BaseActivity  {
                         Vehicle vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
 
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                    } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
+                        myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
+                        myIntent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
+                        Vehicle v2 = new Vehicle(vehicle.getVehicleId(), make.getText().toString(), model.getText().toString(), Integer.parseInt(year.getText().toString()), String.valueOf(mSelectedColorCal0), state.getSelectedItem().toString(), license.getText().toString());
+                        myIntent.putExtra("Driver", driver);
+                        myIntent.putExtra("Vehicle", v2);
+                        // updates driver in database
+                        db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else { // if not Updating then u are creating a driver
                         if (pastIntent.getStringExtra("Old").equals(mode.VEHICLES_LIST.name())) { // checks if the old intent was the DRivers or driver_list
                             myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class); // it was the drivers list go back to the drivers list
@@ -135,7 +152,7 @@ public class CreateVehicleActivity extends BaseActivity  {
         }));
         setupUI(findViewById(R.id.parent));
         currentMode = pastIntent.getStringExtra(MODE);
-        if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
+        if (currentMode.equals(mode.UPDATE_VEHICLE.name()) || currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
             setTitle("Update Vehicle");
             buildUpdateDriver();
             create.setText("Update");
@@ -148,7 +165,7 @@ public class CreateVehicleActivity extends BaseActivity  {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
+                    if (currentMode.equals(mode.UPDATE_VEHICLE.name()) || currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
                         createVehicle.setText(R.string.save_vehicle);
                     } else {
                         createVehicle.setText(R.string.create_vehicle);
@@ -230,6 +247,7 @@ public class CreateVehicleActivity extends BaseActivity  {
         colorBox.setBackgroundColor(color);
         colorBox.setHintTextColor(color);
         license.setText(vehicle.getLicensePlate());
+        saveInfo.setChecked(true);
         saveInfo.setEnabled(false);
 
     }

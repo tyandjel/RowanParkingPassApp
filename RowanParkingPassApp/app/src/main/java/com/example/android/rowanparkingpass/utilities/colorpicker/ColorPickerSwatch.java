@@ -49,7 +49,7 @@ public class ColorPickerSwatch extends FrameLayout implements View.OnClickListen
     }
 
     public ColorPickerSwatch(Context context, int color, boolean checked,
-            OnColorSelectedListener listener) {
+                             OnColorSelectedListener listener) {
         super(context);
         mColor = color;
         mOnColorSelectedListener = listener;

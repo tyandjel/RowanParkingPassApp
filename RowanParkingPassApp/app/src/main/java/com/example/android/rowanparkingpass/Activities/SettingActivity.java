@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
 

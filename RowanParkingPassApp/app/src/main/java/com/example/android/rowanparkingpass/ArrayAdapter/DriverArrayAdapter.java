@@ -1,15 +1,10 @@
 package com.example.android.rowanparkingpass.ArrayAdapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.android.rowanparkingpass.R;
@@ -26,7 +21,6 @@ public class DriverArrayAdapter extends ListViewArrayAdapter {
 
     private Context context;
     LayoutInflater myInflater;
-
 
 
     private int layout = R.layout.view_driver;// current layout to use
@@ -138,10 +132,9 @@ public class DriverArrayAdapter extends ListViewArrayAdapter {
 
 
         }
-        return   animateList(position,convertView);
+        return animateList(position, convertView);
 
     }
-
 
 
     @Override
@@ -186,7 +179,8 @@ public class DriverArrayAdapter extends ListViewArrayAdapter {
             notifyDataSetChanged();
         }
     }
-    public Driver deleteDriver(int p){
+
+    public Driver deleteDriver(int p) {
         return driversList.remove(p);
     }
 }

@@ -1,23 +1,10 @@
 package com.example.android.rowanparkingpass.ArrayAdapter;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Filterable;
-import android.widget.TextView;
-
-import com.example.android.rowanparkingpass.Activities.BaseActivity;
-import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.personinfo.Driver;
-import com.example.android.rowanparkingpass.personinfo.Pass;
-import com.example.android.rowanparkingpass.personinfo.Vehicle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Johnathan Saunders on 2/16/2016.
@@ -27,14 +14,16 @@ import java.util.List;
 public abstract class ListViewArrayAdapter extends BaseAdapter implements Filterable {
 
     private boolean hasLoaded = false;
+
     public void setHasLoaded(boolean b) {
         hasLoaded = b;
     }
-    public View animateList( int pos, View convertView){
+
+    public View animateList(int pos, View convertView) {
         Animation animation = null;
-        if(pos == 0) {// stops animation form effecting view in pos 0
+        if (pos == 0) {// stops animation form effecting view in pos 0
             animation = new TranslateAnimation(0, 0, 0, 0);
-        }else {
+        } else {
             // This creates a translation animation from bottom to the top
             animation = new TranslateAnimation(0, 0, 2000, 0);
         }
@@ -46,7 +35,6 @@ public abstract class ListViewArrayAdapter extends BaseAdapter implements Filter
         }
         return convertView;
     }
-
 
 
 }

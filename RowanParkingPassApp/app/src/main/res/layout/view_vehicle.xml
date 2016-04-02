@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/listViewObjects"
     android:elevation="5dp"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:gravity="center_horizontal">
     <!-- Johnathan Saunders 2/20/2015
       This is the layout to be put in the list view activity for the list of vehicles-->
     <TextView
@@ -17,7 +18,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/textColor"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/car_color"
@@ -25,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="car color"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_below="@+id/plate_text_view"
         android:layout_toRightOf="@+id/car_color_text"
         android:layout_alignParentRight="true"
@@ -45,7 +47,8 @@
         android:layout_toLeftOf="@+id/car_color"
         android:layout_below="@+id/car_text_view"
         android:layout_alignRight="@+id/car_text_view"
-        android:layout_alignEnd="@+id/car_text_view" />
+        android:layout_alignEnd="@+id/car_text_view"
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/new_vehicle_text_view"
@@ -62,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Color:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/textColor"
         android:layout_below="@+id/plate_text_view"
         android:layout_alignParentLeft="true"
