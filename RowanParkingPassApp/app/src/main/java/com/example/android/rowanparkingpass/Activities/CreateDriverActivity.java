@@ -31,7 +31,6 @@ import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CreateDriverActivity extends BaseActivity {
@@ -81,8 +80,8 @@ public class CreateDriverActivity extends BaseActivity {
                 } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
                     intent = new Intent(CreateDriverActivity.this, PassActivity.class);
                     intent.putExtra(MODE, mode.CREATE_PASS.name());
-                    intent.putExtra("Driver", (Serializable) driver);
-                    intent.putExtra("Vehicle", (Serializable) vehicle);
+                    intent.putExtra("Driver", driver);
+                    intent.putExtra("Vehicle", vehicle);
                 } else {
                     intent.putExtra(MODE, mode.DRIVERS.name());
 
@@ -95,7 +94,6 @@ public class CreateDriverActivity extends BaseActivity {
         Button createDriver = (Button) findViewById(R.id.createDriverButton);
         createDriver.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onClick: Createbtn");
                 if (TextUtils.isEmpty(fullName.getText()) || TextUtils.isEmpty(street.getText()) ||
                         TextUtils.isEmpty(city.getText()) || TextUtils.isEmpty(zipCode.getText())) {
@@ -115,6 +113,9 @@ public class CreateDriverActivity extends BaseActivity {
                     } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
                         intent = new Intent(CreateDriverActivity.this, PassActivity.class);
                         intent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
+                        Driver d = new Driver(driver.getDriverId(), fullName.getText().toString(), "", street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                        intent.putExtra("Driver", d);
+                        intent.putExtra("Vehicle", vehicle);
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                     } else { // if not Updating then u are creating a driver
@@ -138,7 +139,7 @@ public class CreateDriverActivity extends BaseActivity {
         });
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values());
         state.setAdapter(spinnerAdapter);
-        if (currentMode != null && (currentMode.equals(mode.UPDATE_DRIVER.name()) || currentMode.equals(mode.UPDATE_PASS_DRIVER.name()))) {
+        if (currentMode.equals(mode.UPDATE_DRIVER.name()) || currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
             setTitle("Update Driver");
             createDriver.setText("Update Driver");
             buildUpdateDriver();

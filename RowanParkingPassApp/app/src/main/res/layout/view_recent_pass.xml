@@ -21,29 +21,38 @@
         android:layout_alignParentTop="true"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/textColor" />
+        android:textColor="@color/textColor"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/address_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/car_color"
-        android:layout_alignRight="@+id/car_color"
         android:layout_below="@+id/driver_text_view"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/textColor" />
+        android:textColor="@color/textColor"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/town_city_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/car_color"
-        android:layout_alignRight="@+id/car_color"
         android:layout_below="@+id/address_text_view"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/textColor" />
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/textColor"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/car_text_view"
@@ -54,20 +63,23 @@
         android:layout_below="@+id/town_city_text_view"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/textColor" />
+        android:textColor="@color/textColor"
+        android:layout_alignRight="@+id/town_city_text_view"
+        android:layout_alignEnd="@+id/town_city_text_view"
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/car_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/plate_text_view"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_toEndOf="@+id/car_text_view"
         android:gravity="center_horizontal"
         android:text="car color"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_toRightOf="@+id/car_text_view" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@+id/plate_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/car_color_text"
+        android:layout_toEndOf="@+id/car_color_text" />
 
     <TextView
         android:id="@+id/plate_text_view"
@@ -78,7 +90,10 @@
         android:layout_below="@+id/car_text_view"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/textColor" />
+        android:textColor="@color/textColor"
+        android:layout_alignRight="@+id/car_color"
+        android:layout_alignEnd="@+id/car_color"
+        android:gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/new_pass_text_view"
@@ -94,14 +109,12 @@
         android:id="@+id/car_color_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/car_text_view"
-        android:layout_alignEnd="@+id/town_city_text_view"
-        android:layout_alignRight="@+id/town_city_text_view"
         android:gravity="center_horizontal|end"
-        android:text="Color"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Color: "
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/textColor"
-        android:layout_alignLeft="@+id/car_color"
-        android:layout_alignStart="@+id/car_color" />
+        android:layout_alignTop="@+id/car_color"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

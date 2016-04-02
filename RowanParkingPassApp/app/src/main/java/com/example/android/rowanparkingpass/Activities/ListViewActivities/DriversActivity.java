@@ -61,7 +61,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
         if (currentMode.equals(mode.DRIVERS_LIST.name())) {
-            inflator.inflate(R.menu.menu_search, menu);
+            inflator.inflate(R.menu.menu_search_home, menu);
         } else {
             inflator.inflate(R.menu.menu_vehicles_drivers_page, menu);
         }

@@ -19,20 +19,20 @@ import com.example.android.rowanparkingpass.R;
 /**
  * ColorPreference based on ColorPickerDialog of Stock Calendar
  */
-public class ColorPickerPreference extends Preference{
-	
-	private int[] mColorChoices = {};
+public class ColorPickerPreference extends Preference {
+
+    private int[] mColorChoices = {};
     private int mValue = 0;
     private int mItemLayoutId = R.layout.calendar_grid_item_color;
     private int mNumColumns = 5;
     private View mPreviewView;
 
-	public ColorPickerPreference(Context context) {
-		super(context);
-		initAttrs(null, 0);
-	}
-	
-	public ColorPickerPreference(Context context, AttributeSet attrs) {
+    public ColorPickerPreference(Context context) {
+        super(context);
+        initAttrs(null, 0);
+    }
+
+    public ColorPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         initAttrs(attrs, 0);
     }
@@ -41,9 +41,9 @@ public class ColorPickerPreference extends Preference{
         super(context, attrs, defStyle);
         initAttrs(attrs, defStyle);
     }
-	
+
     private void initAttrs(AttributeSet attrs, int defStyle) {
-    	TypedArray a = getContext().getTheme().obtainStyledAttributes(
+        TypedArray a = getContext().getTheme().obtainStyledAttributes(
                 attrs, R.styleable.ColorPickerPreference, defStyle, defStyle);
 
         try {
@@ -64,7 +64,7 @@ public class ColorPickerPreference extends Preference{
         }
         setWidgetLayoutResource(mItemLayoutId);
     }
-    
+
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
@@ -85,29 +85,29 @@ public class ColorPickerPreference extends Preference{
         super.onClick();
 
         ColorPickerDialog colorcalendar = (ColorPickerDialog) ColorPickerDialog.newInstance(R.string.color_picker_default_title,
-				mColorChoices, getValue(), mNumColumns, Utils.isTablet(getContext())? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
-        
+                mColorChoices, getValue(), mNumColumns, Utils.isTablet(getContext()) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
+
         //colorcalendar.setPreference(this);
 
         Activity activity = (Activity) getContext();
         activity.getFragmentManager().beginTransaction()
                 .add(colorcalendar, getFragmentTag())
                 .commit();
-        
-       colorcalendar.setOnColorSelectedListener(listener);
+
+        colorcalendar.setOnColorSelectedListener(listener);
     }
-    
+
     /**
      * Implement listener to get selected color value
      */
     ColorPickerSwatch.OnColorSelectedListener listener = new ColorPickerSwatch.OnColorSelectedListener() {
-		
-		@Override
-		public void onColorSelected(int color) {
-			setValue(color);
-		}
-	};
-    
+
+        @Override
+        public void onColorSelected(int color) {
+            setValue(color);
+        }
+    };
+
     @Override
     protected void onAttachedToActivity() {
         super.onAttachedToActivity();
@@ -138,7 +138,7 @@ public class ColorPickerPreference extends Preference{
     public int getValue() {
         return mValue;
     }
-    
+
     private static void setColorViewValue(View view, int color) {
         if (view instanceof ImageView) {
             ImageView imageView = (ImageView) view;
@@ -169,6 +169,6 @@ public class ColorPickerPreference extends Preference{
             ((TextView) view).setTextColor(color);
         }
     }
-    
-    
+
+
 }
