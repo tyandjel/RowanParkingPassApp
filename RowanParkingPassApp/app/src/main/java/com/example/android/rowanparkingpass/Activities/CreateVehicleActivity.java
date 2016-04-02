@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
@@ -29,10 +28,7 @@ import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerDialog;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerSwatch;
 import com.example.android.rowanparkingpass.utilities.colorpicker.Utils;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
-
-import java.io.Serializable;
 
 public class CreateVehicleActivity extends BaseActivity implements View.OnClickListener {
 
@@ -48,6 +44,8 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
     private int mSelectedColorCal0;
     private int[] mColor;
     Intent pastIntent;
+    private Driver driver;
+    private Vehicle vehicle;
 
     Spinner state;
     DatabaseHandlerVehicles db;
@@ -83,7 +81,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
                 } else {
                     myIntent.putExtra(MODE, mode.VEHICLES.name());
                 }
-
+                myIntent.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));
                 startActivity(myIntent);
                 finish();
             }
@@ -98,7 +96,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
                     Log.d(TAG, "onClick: All Field Empty");
                     Toast.makeText(getApplicationContext(), "Fill out all driver fields", Toast.LENGTH_SHORT).show();
                 } else if (year.getText().length() != 4) {
-                    Log.d(TAG, "onClick: !4 zip");
+                    Log.d(TAG, "onClick: !4 year");
                     Toast.makeText(getApplicationContext(), "Enter a 4 digit year", Toast.LENGTH_SHORT).show();
                 } else {
                     db = new DatabaseHandlerVehicles(getApplicationContext());
@@ -118,17 +116,12 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
                             myIntent.putExtra(MODE, mode.VEHICLES.name());
                         }
                         // add new driver
-                        int s = Integer.valueOf(year.getText().toString());
-                        String ee = make.getText().toString();
-                        String fds = model.getText().toString();
-                        String dfsa = state.getSelectedItem().toString();
-                        String dfasfdsaf =  String.valueOf(mSelectedColorCal0);
-                        String dfasfas = license.getText().toString();
-
-
                         db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                        // Todo: find a better way to pass Vehicle
+                        myIntent.putExtra("Vehicle", new Vehicle(1, make.getText().toString(), model.getText().toString(),Integer.valueOf(year.getText().toString()), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString()));
                         //Todo: add ID to addVehicle later
                     }
+                    myIntent.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));
                     startActivity(myIntent);
                     finish();
                 }
