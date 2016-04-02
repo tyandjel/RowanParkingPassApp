@@ -30,6 +30,8 @@ import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerSwa
 import com.example.android.rowanparkingpass.utilities.colorpicker.Utils;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
+import java.util.ArrayList;
+
 public class CreateVehicleActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TEMP_VEHICLE = "temp";
@@ -106,6 +108,7 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
                         myIntent.putExtra(MODE, mode.VEHICLES_LIST.name()); // tells the intent that it has to use the update driver list logic
                         // updates driver in database
                         Vehicle vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
+
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else { // if not Updating then u are creating a driver
                         if (pastIntent.getStringExtra("Old").equals(mode.VEHICLES_LIST.name())) { // checks if the old intent was the DRivers or driver_list
@@ -117,8 +120,8 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
                         }
                         // add new driver
                         db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
-                        // Todo: find a better way to pass Vehicle
-                        myIntent.putExtra("Vehicle", new Vehicle(1, make.getText().toString(), model.getText().toString(),Integer.valueOf(year.getText().toString()), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString()));
+                        ArrayList<Vehicle> vehicles = db.getVehicles();
+                        myIntent.putExtra("Vehicle",vehicles.get(vehicles.size()-1));
                         //Todo: add ID to addVehicle later
                     }
                     myIntent.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));

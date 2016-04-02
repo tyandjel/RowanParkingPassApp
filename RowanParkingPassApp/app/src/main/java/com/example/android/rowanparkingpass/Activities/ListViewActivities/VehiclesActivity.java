@@ -46,7 +46,6 @@ public class VehiclesActivity extends ListActivity {
                     intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
                     intent.putExtra(MODE, mode.CREATE_VEHICLE.name());
                     intent.putExtra("Old", currentMode); // tells wheather the vehicle was created during create pass or not
-
                 } else {// a premade vehicle was picked
                     intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
 

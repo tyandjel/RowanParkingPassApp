@@ -32,6 +32,7 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDr
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CreateDriverActivity extends BaseActivity {
 
@@ -114,8 +115,6 @@ public class CreateDriverActivity extends BaseActivity {
                     } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
                         intent = new Intent(CreateDriverActivity.this, PassActivity.class);
                         intent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
-                        intent.putExtra("Driver", (Serializable) driver);
-                        intent.putExtra("Vehicle", (Serializable) vehicle);
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                     } else { // if not Updating then u are creating a driver
@@ -124,11 +123,13 @@ public class CreateDriverActivity extends BaseActivity {
                             intent.putExtra(MODE, mode.DRIVERS_LIST.name());
                         } else { // was no the drivers list create driver and move to vehicle list
                             intent = new Intent(CreateDriverActivity.this, VehiclesActivity.class);
-                            intent.putExtra(MODE, mode.VEHICLES.name());
                         }
                         // add new driver
                         db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         //Todo: add ID to addDriver later
+                        intent.putExtra(MODE, mode.VEHICLES.name());
+                        ArrayList<Driver> drivers = db.getDrivers();
+                        intent.putExtra("Driver", drivers.get(drivers.size() - 1));
                     }
                     startActivity(intent);
                     finish();
