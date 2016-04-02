@@ -32,7 +32,7 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVe
 
 import java.util.ArrayList;
 
-public class CreateVehicleActivity extends BaseActivity implements View.OnClickListener {
+public class CreateVehicleActivity extends BaseActivity  {
 
     private static final String TEMP_VEHICLE = "temp";
 
@@ -66,9 +66,13 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
         license = (EditText) findViewById(R.id.licenseEditText);
         saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
 
+
         final Button createVehicle = (Button) findViewById(R.id.createVehicleButton);
         pastIntent=getIntent();
-        state.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values()));
+        driver = (Driver) pastIntent.getSerializableExtra("Driver");
+        vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
+        ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values());
+        state.setAdapter(spinnerAdapter);
 
         Button cancel = (Button) findViewById(R.id.cancelVehicleButton);
         Button create = (Button) findViewById(R.id.createVehicleButton);
@@ -140,6 +144,8 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
 
         if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
             setTitle("Update Vehicle");
+            buildUpdateDriver();
+            create.setText("Update");
         } else {
             setTitle("Create New Vehicle");
         }
@@ -235,37 +241,15 @@ public class CreateVehicleActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        // Check to see if user filled out all fields
-        // Change to new activity
-        Intent myIntent;
-        switch (view.getId()) {
-            case R.id.cancelVehicleButton:
-                Toast.makeText(this, "Cancel was clicked", Toast.LENGTH_SHORT).show();
-                //// TODO: 4/1/16 fix canel button
-                finish();
-                break;
-            case R.id.createVehicleButton:
 
-                Toast.makeText(this, "Create was clicked", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                break;
-        }
-
-
-        // Go back to past activity
-        myIntent = new Intent(this, VehiclesActivity.class);
-        if (currentMode.equals(mode.VEHICLES.name())) {
-            myIntent.putExtra(MODE, mode.VEHICLES.name());
-        } else {
-            myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
-        }
-        myIntent.putExtra(TEMP_VEHICLE, saveInfo.isChecked());
-        startActivity(myIntent);
-        finish();
-
+    public void buildUpdateDriver() {
+        make.setText(vehicle.getMake());
+        model.setText(vehicle.getModel());
+        year.setText(String.valueOf(vehicle.getYear()));
+        state.setSelection(States.getPosition(vehicle.getVehicleState()));
+        colorBox.setBackgroundColor(Integer.valueOf(vehicle.getColor()));
+        license.setText(vehicle.getLicensePlate());
+        saveInfo.setEnabled(false);
 
     }
 }
