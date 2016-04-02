@@ -48,16 +48,35 @@ public class CreateVehicleActivity extends BaseActivity {
     Intent pastIntent;
     private Driver driver;
     private Vehicle vehicle;
-
+    private  Button createVehicle;
     Spinner state;
     DatabaseHandlerVehicles db;
+    Button cancel;
+    Button create;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_vehicle);
+        //populates the global fields
+        populateFeilds();
+        //builds the cancelBtn and its listener
+        buildCancelBtn();
+        //builds the create button and its listener
+        buildCreateBtn();
 
+        setupUI(findViewById(R.id.parent));
+        //sets the banner text to the current state of the activity
+       buildBannerText();
+        //cancel.setOnClickListener(this);
+        //createVehicle.setOnClickListener(this);
+        // makes the check box and it's listener
+        buildCehckBox();
+        //Set up the colorBox picker for car colorBox
+        buildColorBox();
+    }
+    private void populateFeilds(){
         make = (EditText) findViewById(R.id.vehicleMakeEditText);
         model = (EditText) findViewById(R.id.modelEditText);
         year = (EditText) findViewById(R.id.yearEditText);
@@ -65,17 +84,18 @@ public class CreateVehicleActivity extends BaseActivity {
         state = (Spinner) findViewById(R.id.vehicleSpinner);
         license = (EditText) findViewById(R.id.licenseEditText);
         saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
-        final Button createVehicle = (Button) findViewById(R.id.createVehicleButton);
+        createVehicle = (Button) findViewById(R.id.createVehicleButton);
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
         driver = (Driver) pastIntent.getSerializableExtra("Driver");
         vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values());
         state.setAdapter(spinnerAdapter);
-        Button cancel = (Button) findViewById(R.id.cancelVehicleButton);
-        Button create = (Button) findViewById(R.id.createVehicleButton);
+        cancel = (Button) findViewById(R.id.cancelVehicleButton);
+        create = (Button) findViewById(R.id.createVehicleButton);
 
-
+    }
+    private  void buildCancelBtn(){
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Cancelbtn");
@@ -100,6 +120,8 @@ public class CreateVehicleActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+    private void buildCreateBtn(){
         create.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +172,9 @@ public class CreateVehicleActivity extends BaseActivity {
                 }
             }
         }));
-        setupUI(findViewById(R.id.parent));
+    }
+
+    private void buildBannerText(){
         currentMode = pastIntent.getStringExtra(MODE);
         if (currentMode.equals(mode.UPDATE_VEHICLE.name()) || currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
             setTitle("Update Vehicle");
@@ -159,8 +183,9 @@ public class CreateVehicleActivity extends BaseActivity {
         } else {
             setTitle("Create New Vehicle");
         }
-        //cancel.setOnClickListener(this);
-        //createVehicle.setOnClickListener(this);
+    }
+
+    private void buildCehckBox(){
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -175,7 +200,9 @@ public class CreateVehicleActivity extends BaseActivity {
                 }
             }
         });
-        //Set up the colorBox picker for car colorBox
+    }
+
+    private void buildColorBox(){
         mColor = Utils.ColorUtils.colorChoice(getApplicationContext());
         colorCalender = ColorPickerDialog.newInstance(R.string.color_picker_default_title, mColor, mSelectedColorCal0, 5, Utils.isTablet(this) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
         colorBox.setInputType(InputType.TYPE_NULL);

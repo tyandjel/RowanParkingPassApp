@@ -37,16 +37,15 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getApplicationContext();
-        build();
-        loaded();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
-
+        context = getApplicationContext();
+        build();
+        loaded();
     }
 
     public void build() {
@@ -56,6 +55,8 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
 
         buildDriversList(listOfDrivers);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

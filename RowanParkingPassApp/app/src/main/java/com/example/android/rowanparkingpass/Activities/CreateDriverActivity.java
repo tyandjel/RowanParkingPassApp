@@ -74,19 +74,6 @@ public class CreateDriverActivity extends BaseActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Log.d(TAG, "onClick: Cancelbtn");
-                Intent intent = new Intent(CreateDriverActivity.this, DriversActivity.class);
-                if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
-                    intent.putExtra(MODE, mode.DRIVERS_LIST.name());
-                } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
-                    intent = new Intent(CreateDriverActivity.this, PassActivity.class);
-                    intent.putExtra(MODE, mode.CREATE_PASS.name());
-                    intent.putExtra("Driver", driver);
-                    intent.putExtra("Vehicle", vehicle);
-                } else {
-                    intent.putExtra(MODE, mode.DRIVERS.name());
-
-                }
-                startActivity(intent);
                 finish();
             }
         });
@@ -107,9 +94,9 @@ public class CreateDriverActivity extends BaseActivity {
                     Intent intent;
                     if (currentMode.equals(mode.UPDATE_DRIVER.name())) { // checks if ur updating a driver
                         intent = new Intent(CreateDriverActivity.this, DriversActivity.class);
-                        intent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                        finish();
                     } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
                         intent = new Intent(CreateDriverActivity.this, PassActivity.class);
                         intent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
@@ -130,10 +117,12 @@ public class CreateDriverActivity extends BaseActivity {
                         //Todo: add ID to addDriver later
                         intent.putExtra(MODE, mode.VEHICLES.name());
                         ArrayList<Driver> drivers = db.getDrivers();
-                        intent.putExtra("Driver", drivers.get(drivers.size() - 1));
+                        intent.putExtra("Driver", drivers.get(drivers.size() - 1)); // gets newest driver just made in teh database to send
+
+                        startActivity(intent);
+                        finish();
                     }
-                    startActivity(intent);
-                    finish();
+
                 }
             }
         });
