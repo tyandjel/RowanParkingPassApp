@@ -141,7 +141,7 @@ public class CreateDriverActivity extends BaseActivity {
         if (currentMode != null && (currentMode.equals(mode.UPDATE_DRIVER.name()) || currentMode.equals(mode.UPDATE_PASS_DRIVER.name()))) {
             setTitle("Update Driver");
             createDriver.setText("Update Driver");
-            buildUpdateDriver(spinnerAdapter);
+            buildUpdateDriver();
         } else {
             setTitle("Create New Driver");
         }
@@ -164,7 +164,7 @@ public class CreateDriverActivity extends BaseActivity {
         });
     }
 
-    public void buildUpdateDriver(ArrayAdapter spinnerAdapter) {
+    public void buildUpdateDriver() {
         fullName.setText(driver.getName());
         street.setText(driver.getStreet());
         city.setText(driver.getTown());

@@ -48,26 +48,24 @@ public class VehiclesActivity extends ListActivity {
                     intent.putExtra("Old", currentMode); // tells wheather the vehicle was created during create pass or not
                 } else {// a premade vehicle was picked
                     intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
-
-                    intent.putExtra("Vehicle", (Serializable) adapter.getItem(position));
                     if (currentMode.equals(mode.VEHICLES_LIST.name())) { // User is updating driver
                         intent.putExtra(MODE, mode.UPDATE_VEHICLE.name());
-
                     }
                     else {// user is selecting this driver for Creating a pass
                         intent = new Intent(VehiclesActivity.this, PassActivity.class);
-
                         intent.putExtra(MODE,mode.CREATE_PASS.name());
-                        intent.putExtra("Vehicle",(Serializable) adapter.getItem(position));
+
                     }
 
                 }
+                intent.putExtra("Vehicle",(Serializable) adapter.getItem(position));
                 intent.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));
                 startActivity(intent);
             }
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
     }
+
 }
 
 
