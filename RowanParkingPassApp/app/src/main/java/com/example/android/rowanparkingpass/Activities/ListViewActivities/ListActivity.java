@@ -31,7 +31,11 @@ public abstract class ListActivity extends BaseActivity {
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
         if (currentMode != null) {
-            if (currentMode.equals(mode.DRIVERS.name())) {
+            if (currentMode.equals(mode.HOME_PAGE.name())) {
+                setTitle("Your Passes");
+            } else if (currentMode.equals(mode.PASS_SEARCH.name())) {
+                setTitle("Find Passes");
+            } else if (currentMode.equals(mode.DRIVERS.name())) {
                 setTitle("Select a Driver");
             } else if (currentMode.equals(mode.DRIVERS_LIST.name())) {
                 setTitle("Your Drivers");
