@@ -76,6 +76,7 @@ public class CreateVehicleActivity extends BaseActivity {
         //Set up the colorBox picker for car colorBox
         buildColorBox();
     }
+
     private void populateFeilds(){
         make = (EditText) findViewById(R.id.vehicleMakeEditText);
         model = (EditText) findViewById(R.id.modelEditText);
@@ -95,32 +96,16 @@ public class CreateVehicleActivity extends BaseActivity {
         create = (Button) findViewById(R.id.createVehicleButton);
 
     }
+
     private  void buildCancelBtn(){
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Log.d(TAG, "onClick: Cancelbtn");
-                Intent myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class);
-                if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
-                    myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
-                } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
-                    myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
-                    myIntent.putExtra(MODE, mode.CREATE_PASS.name());
-                    myIntent.putExtra("Driver", driver);
-                    myIntent.putExtra("Vehicle", vehicle);
-                } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
-                    myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
-                    myIntent.putExtra(MODE, mode.CREATE_PASS.name());
-                    myIntent.putExtra("Driver", driver);
-                    myIntent.putExtra("Vehicle", vehicle);
-                } else {
-                    myIntent.putExtra(MODE, mode.VEHICLES.name());
-                }
-                myIntent.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));
-                startActivity(myIntent);
+
                 finish();
             }
         });
     }
+
     private void buildCreateBtn(){
         create.setOnClickListener((new View.OnClickListener() {
             @Override
@@ -153,25 +138,30 @@ public class CreateVehicleActivity extends BaseActivity {
                         // updates driver in database
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else { // if not Updating then u are creating a driver
-                        if (pastIntent.getStringExtra("Old").equals(mode.VEHICLES_LIST.name())) { // checks if the old intent was the DRivers or driver_list
-                            myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class); // it was the drivers list go back to the drivers list
-                            myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
-                        } else { // was no the drivers list create driver and move to vehicle list
+                        db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+
+                        if (pastIntent.getStringExtra("Old").equals(mode.VEHICLES_LIST.name())) { // checks if the old intent was the vehicle or vehicle_list
+                          finish(); // go back to vehicle list
+                            return;
+                        } else { // was not the vehicle list create driver and move to pass
                             myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
                             myIntent.putExtra(MODE, mode.VEHICLES.name());
+                            // add new driver
+                            ArrayList<Vehicle> vehicles = db.getVehicles();
+                            myIntent.putExtra("Vehicle", vehicles.get(vehicles.size() - 1));
+                            //Todo: add ID to addVehicle later
                         }
-                        // add new driver
-                        db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
-                        ArrayList<Vehicle> vehicles = db.getVehicles();
-                        myIntent.putExtra("Vehicle", vehicles.get(vehicles.size() - 1));
-                        //Todo: add ID to addVehicle later
+
                     }
-                    myIntent.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));
-                    startActivity(myIntent);
-                    finish();
+                   startActivity(myIntent);
                 }
             }
         }));
+    }
+    public void startActivity(Intent in){
+        in.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));
+        super.startActivity(in);
+        finish();
     }
 
     private void buildBannerText(){
@@ -246,6 +236,7 @@ public class CreateVehicleActivity extends BaseActivity {
         }
         return true;
     }
+
     public void setupUI(View view) {
         //Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
@@ -264,6 +255,7 @@ public class CreateVehicleActivity extends BaseActivity {
             }
         }
     }
+
     private void buildUpdateDriver() {
         make.setText(vehicle.getMake());
         model.setText(vehicle.getModel());
