@@ -153,7 +153,6 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         driverView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getApplicationContext(), "Long Press Driver", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PassActivity.this, CreateDriverActivity.class);
                 intent.putExtra(MODE, mode.UPDATE_PASS_DRIVER.name());
                 intent.putExtra("Driver", (Serializable) driver);
@@ -189,7 +188,6 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         vehicleView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(getApplicationContext(), "Long Press Vehicle", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PassActivity.this, CreateDriverActivity.class);
                 intent.putExtra(MODE, mode.UPDATE_PASS_DRIVER.name());
                 intent.putExtra("Driver", (Serializable) driver);

@@ -120,6 +120,7 @@ public class VehicleArrayAdapter extends ListViewArrayAdapter {
         TextView carText = (TextView) convertView.findViewById(R.id.car_text_view);
         TextView plateText = (TextView) convertView.findViewById(R.id.plate_text_view);
         TextView carColor = (TextView) convertView.findViewById(R.id.car_color);
+        TextView carColorText = (TextView) convertView.findViewById(R.id.car_color_text);
 
         if (position == 0 && getItem(0) == null) {
             newVehicle.setText("+ Create New Vehicle");
@@ -127,6 +128,7 @@ public class VehicleArrayAdapter extends ListViewArrayAdapter {
             plateText.setText("");
             carColor.setText("");
             carColor.setBackgroundColor(0);
+            carColorText.setText("");
         } else {
             newVehicle.setText("");
             Vehicle cVehicle = vehicleList.get(position);

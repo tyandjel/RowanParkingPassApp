@@ -11,6 +11,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
@@ -49,7 +50,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             // action with ID action_drivers was selected
             case R.id.action_home:
                 Toast.makeText(this, "Home Selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, ListActivity.class);
+                myIntent = new Intent(this, PassesActivity.class);
                 myIntent.putExtra(MODE, mode.HOME_PAGE);
                 startActivity(myIntent);
                 break;

@@ -23,31 +23,37 @@
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/textColor"
-        android:padding="10dp"/>
+        android:padding="5dp"
+        android:layout_alignRight="@+id/address_text_view"
+        android:layout_alignEnd="@+id/address_text_view" />
 
     <TextView
         android:id="@+id/address_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/textColor"
-        android:padding="10dp"/>
+        android:layout_below="@+id/driver_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="end" />
 
     <TextView
         android:id="@+id/town_city_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/address_text_view"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/textColor"
-        android:padding="10dp"/>
+        android:layout_below="@+id/address_text_view"
+        android:layout_alignLeft="@+id/address_text_view"
+        android:layout_alignStart="@+id/address_text_view"
+        android:layout_alignRight="@+id/address_text_view"
+        android:layout_alignEnd="@+id/address_text_view"
+        android:gravity="end" />
 
     <TextView
         android:id="@+id/new_visitor_text_view"

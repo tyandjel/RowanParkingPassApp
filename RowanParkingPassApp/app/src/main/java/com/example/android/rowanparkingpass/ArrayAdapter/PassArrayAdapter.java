@@ -126,6 +126,7 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
         TextView car = (TextView) convertView.findViewById(R.id.car_text_view);
         TextView color = (TextView) convertView.findViewById(R.id.car_color);
         TextView plate = (TextView) convertView.findViewById(R.id.plate_text_view);
+        TextView carColorText = (TextView) convertView.findViewById(R.id.car_color_text);
         //String [] lArr = new String[list.size()];
         // lArr=list.toArray(lArr); not needed
         if (position == 0) {
@@ -137,6 +138,7 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
             color.setText("");
             color.setBackgroundColor(0);
             plate.setText("");
+            carColorText.setText("");
         } else {
             newPass.setText("");
             Pass cPass = filteredPassesList.get(position);
