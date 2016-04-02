@@ -11,13 +11,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -59,7 +62,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         if (pass == null) {
 //        driver = (Driver) pastIntent.getSerializableExtra("Driver");
 //        vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
-            driver = new Driver(1, "Tyler", "Andjel", "13 Yorktown Dr.", "Shamong", "New Jersey", "08088");
+            driver = new Driver(1, "Tyler", "Andjel", "13 Yorktown Dr.", "Glassboro", "New Jersey", "08088");
             vehicle = new Vehicle(1, "Hyndai", "Sonota", 2007, "0", "New Jersey", "125ABC");
         } else {
             driver = pass.getDriver();
@@ -141,15 +144,22 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         driverView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Press Driver", Toast.LENGTH_SHORT).show();
-                //TODO: Set up quick click to go back to driver selection
+                Intent intent = new Intent(PassActivity.this, DriversActivity.class);
+                intent.putExtra(MODE, mode.DRIVERS.name());
+                startActivity(intent);
+                finish();
             }
         });
         driverView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(getApplicationContext(), "Long Press Driver", Toast.LENGTH_SHORT).show();
-                //TODO: Set up long click to go and update existing driver and then come back to Pass Activity
+                Intent intent = new Intent(PassActivity.this, CreateDriverActivity.class);
+                intent.putExtra(MODE, mode.UPDATE_PASS_DRIVER.name());
+                intent.putExtra("Driver", (Serializable) driver);
+                intent.putExtra("Vehicle", (Serializable) vehicle);
+                startActivity(intent);
+                finish();
                 return true;
             }
         });
@@ -169,15 +179,23 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         vehicleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Press Vehicle", Toast.LENGTH_SHORT).show();
-                //TODO: Set up quick click to go back to vehicle selection
+                Intent intent = new Intent(PassActivity.this, VehiclesActivity.class);
+                intent.putExtra(MODE, mode.VEHICLES.name());
+                intent.putExtra("Driver", (Serializable) driver);
+                startActivity(intent);
+                finish();
             }
         });
         vehicleView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(getApplicationContext(), "Long Press Vehicle", Toast.LENGTH_SHORT).show();
-                //TODO: Set up long click to go and update existing vehicle and then come back to Pass Activity
+                Intent intent = new Intent(PassActivity.this, CreateDriverActivity.class);
+                intent.putExtra(MODE, mode.UPDATE_PASS_DRIVER.name());
+                intent.putExtra("Driver", (Serializable) driver);
+                intent.putExtra("Vehicle", (Serializable) vehicle);
+                startActivity(intent);
+                finish();
                 return true;
             }
         });
