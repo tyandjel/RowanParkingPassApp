@@ -65,17 +65,16 @@ public class CreateVehicleActivity extends BaseActivity  {
         state = (Spinner) findViewById(R.id.vehicleSpinner);
         license = (EditText) findViewById(R.id.licenseEditText);
         saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
-
-
         final Button createVehicle = (Button) findViewById(R.id.createVehicleButton);
         pastIntent=getIntent();
         driver = (Driver) pastIntent.getSerializableExtra("Driver");
         vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values());
         state.setAdapter(spinnerAdapter);
-
         Button cancel = (Button) findViewById(R.id.cancelVehicleButton);
         Button create = (Button) findViewById(R.id.createVehicleButton);
+
+
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Cancel was clicked", Toast.LENGTH_SHORT).show();
@@ -125,7 +124,7 @@ public class CreateVehicleActivity extends BaseActivity  {
                         // add new driver
                         db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                         ArrayList<Vehicle> vehicles = db.getVehicles();
-                        myIntent.putExtra("Vehicle",vehicles.get(vehicles.size()-1));
+                        myIntent.putExtra("Vehicle", vehicles.get(vehicles.size() - 1));
                         //Todo: add ID to addVehicle later
                     }
                     myIntent.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));
@@ -134,14 +133,8 @@ public class CreateVehicleActivity extends BaseActivity  {
                 }
             }
         }));
-
         setupUI(findViewById(R.id.parent));
-
-        Intent pastIntent = getIntent();
-        pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
-
-
         if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
             setTitle("Update Vehicle");
             buildUpdateDriver();
@@ -149,11 +142,8 @@ public class CreateVehicleActivity extends BaseActivity  {
         } else {
             setTitle("Create New Vehicle");
         }
-
-
         //cancel.setOnClickListener(this);
         //createVehicle.setOnClickListener(this);
-
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -168,7 +158,6 @@ public class CreateVehicleActivity extends BaseActivity  {
                 }
             }
         });
-
         //Set up the colorBox picker for car colorBox
         mColor = Utils.ColorUtils.colorChoice(getApplicationContext());
         colorCalender = ColorPickerDialog.newInstance(R.string.color_picker_default_title, mColor, mSelectedColorCal0, 5, Utils.isTablet(this) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
@@ -188,23 +177,17 @@ public class CreateVehicleActivity extends BaseActivity  {
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-
         if (currentMode != null && currentMode.equals(mode.UPDATE_VEHICLE.name())) {
             inflater.inflate(R.menu.menu_delete, menu);
         }
-
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         Intent myIntent;
-
         switch (item.getItemId()) {
             // action with ID action_delete was selected
             case R.id.action_delete:
@@ -217,12 +200,9 @@ public class CreateVehicleActivity extends BaseActivity  {
             default:
                 break;
         }
-
         return true;
     }
-
     public void setupUI(View view) {
-
         //Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
@@ -240,14 +220,15 @@ public class CreateVehicleActivity extends BaseActivity  {
             }
         }
     }
-
-
-    public void buildUpdateDriver() {
+    private void buildUpdateDriver() {
         make.setText(vehicle.getMake());
         model.setText(vehicle.getModel());
         year.setText(String.valueOf(vehicle.getYear()));
         state.setSelection(States.getPosition(vehicle.getVehicleState()));
-        colorBox.setBackgroundColor(Integer.valueOf(vehicle.getColor()));
+        int color = Integer.valueOf(vehicle.getColor());
+        mSelectedColorCal0=Integer.valueOf(vehicle.getColor());
+        colorBox.setBackgroundColor(color);
+        colorBox.setHintTextColor(color);
         license.setText(vehicle.getLicensePlate());
         saveInfo.setEnabled(false);
 
