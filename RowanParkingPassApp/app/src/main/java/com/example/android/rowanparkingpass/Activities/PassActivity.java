@@ -186,7 +186,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public boolean onLongClick(View v) {
                 Intent intent = new Intent(PassActivity.this, CreateDriverActivity.class);
-                intent.putExtra(MODE, mode.UPDATE_PASS_DRIVER.name());
+                intent.putExtra(MODE, mode.UPDATE_PASS_VEHICLE.name());
                 intent.putExtra("Driver", (Serializable) driver);
                 intent.putExtra("Vehicle", (Serializable) vehicle);
                 startActivity(intent);
