@@ -127,7 +127,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
             // Split the full name
             String[] fullName = obj.get(DriverContract.DriverEntry.COLUMN_FULL_NAME).split(" ");
             firstName = fullName[0];
-            for (int i = 1; i < fullName.length - 1; i++) {
+            for (int i = 1; i <= fullName.length - 1; i++) {
                 lastName += fullName[i];
             }
             cursor.moveToNext();
@@ -165,7 +165,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
             String[] fullName = driver.get(DriverContract.DriverEntry.COLUMN_FULL_NAME).split(" ");
             String firstName = fullName[0];
             String lastName = "";
-            for (int i = 1; i < fullName.length - 1; i++) {
+            for (int i = 1; i <= fullName.length - 1; i++) {
                 lastName += fullName[i];
             }
             rows.add(new Driver(Integer.parseInt(driver.get(DriverContract.DriverEntry.COLUMN_DRIVER_ID)),

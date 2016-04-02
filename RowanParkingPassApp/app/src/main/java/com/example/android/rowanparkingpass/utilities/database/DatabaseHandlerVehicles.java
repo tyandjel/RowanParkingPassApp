@@ -159,8 +159,8 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
                     vehicle.get(VehicleContract.VehicleEntry.COLUMN_MAKE),
                     vehicle.get(VehicleContract.VehicleEntry.COLUMN_MODEL),
                     Integer.parseInt(vehicle.get(VehicleContract.VehicleEntry.COLUMN_YEAR)),
-                    vehicle.get(VehicleContract.VehicleEntry.COLUMN_STATE),
                     vehicle.get(VehicleContract.VehicleEntry.COLUMN_COLOR),
+                    vehicle.get(VehicleContract.VehicleEntry.COLUMN_STATE),
                     vehicle.get(VehicleContract.VehicleEntry.COLUMN_LICENSE)));
             vehicle.clear();
             cursor.moveToNext();

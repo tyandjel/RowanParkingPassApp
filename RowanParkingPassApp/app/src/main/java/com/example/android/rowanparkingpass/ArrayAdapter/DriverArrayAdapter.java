@@ -134,7 +134,7 @@ public class DriverArrayAdapter extends ListViewArrayAdapter {
             Driver cDriver = filteredDriverList.get(position);
             driver.setText(cDriver.getName());
             driverAddress.setText(cDriver.getStreet());
-            driverTownCity.setText(cDriver.getTown() + "," + cDriver.getState() + " " + cDriver.getZipCode());
+            driverTownCity.setText(cDriver.getTown() + ", " + cDriver.getState() + " " + cDriver.getZipCode());
 
 
         }

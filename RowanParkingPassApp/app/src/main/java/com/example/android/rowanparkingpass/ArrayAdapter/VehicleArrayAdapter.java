@@ -4,9 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.android.rowanparkingpass.R;
@@ -121,19 +119,24 @@ public class VehicleArrayAdapter extends ListViewArrayAdapter {
         TextView newVehicle = (TextView) convertView.findViewById(R.id.new_vehicle_text_view);
         TextView carText = (TextView) convertView.findViewById(R.id.car_text_view);
         TextView plateText = (TextView) convertView.findViewById(R.id.plate_text_view);
+        TextView carColor = (TextView) convertView.findViewById(R.id.car_color);
 
         if (position == 0 && getItem(0) == null) {
             newVehicle.setText("+ Create New Vehicle");
             carText.setText("");
             plateText.setText("");
+            carColor.setText("");
+            carColor.setBackgroundColor(0);
         } else {
             newVehicle.setText("");
             Vehicle cVehicle = vehicleList.get(position);
-            carText.setText(cVehicle.getYear() + " " + cVehicle.getMake() + " " + cVehicle.getModel() + " " + cVehicle.getColor());
-            plateText.setText(cVehicle.getLicensePlate());
+            carText.setText(cVehicle.getYear() + " " + cVehicle.getMake() + " " + cVehicle.getModel());
+            plateText.setText(cVehicle.getVehicleState() + " " + cVehicle.getLicensePlate());
+            carColor.setTextColor(Integer.parseInt(cVehicle.getColor()));
+            carColor.setBackgroundColor(Integer.parseInt(cVehicle.getColor()));
         }
 
-        return   animateList(position,convertView);
+        return animateList(position, convertView);
     }
 
     @Override

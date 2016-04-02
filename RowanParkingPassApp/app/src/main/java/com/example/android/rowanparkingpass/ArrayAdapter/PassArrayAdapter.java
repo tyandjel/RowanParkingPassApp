@@ -4,11 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.android.rowanparkingpass.R;
@@ -17,14 +13,11 @@ import com.example.android.rowanparkingpass.personinfo.Pass;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by John on 3/6/2016.
- */
-
 public class PassArrayAdapter extends ListViewArrayAdapter {
 
     private List<Pass> passesList = new ArrayList<>();
+    private ArrayList<Pass> filteredPassesList = new ArrayList<>();
+    private PassFilter passFilter;
 
     private Context context;
     LayoutInflater myInflater;
@@ -42,6 +35,7 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
             makePassesList(new ArrayList<Pass>());
         }
         setContextLayout(c, layout);
+        getFilter();
     }
 
     public void setContextLayout(Context c, int layout) {
@@ -56,6 +50,8 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
     public void makePassesList(List<Pass> p) {
         passesList.add(new Pass()); // adds empty place holder to position 0
         passesList.addAll(p);
+        filteredPassesList.add(0, null);
+        filteredPassesList.addAll(p);
     }
 
 
@@ -71,7 +67,7 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
      */
     @Override
     public int getCount() {
-        return passesList.size();
+        return filteredPassesList.size();
     }
 
 
@@ -83,9 +79,8 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
      */
     @Override
     public Object getItem(int position) {
-        return passesList.get(position);
+        return filteredPassesList.get(position);
     }
-
 
 
     /**
@@ -144,7 +139,7 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
             plate.setText("");
         } else {
             newPass.setText("");
-            Pass cPass = passesList.get(position);
+            Pass cPass = filteredPassesList.get(position);
             driverName.setText(cPass.getDriver().getName());
             address.setText(cPass.getDriver().getStreet());
             townCity.setText(cPass.getDriver().getTown() + " " + cPass.getDriver().getState() + ", " + cPass.getDriver().getZipCode());
@@ -153,12 +148,49 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
             color.setTextColor(Integer.parseInt(cPass.getVehicle().getColor()));
             plate.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
         }
-        return   animateList(position,convertView);
+        return animateList(position, convertView);
     }
 
     @Override
-    // method not used
     public Filter getFilter() {
-        return null;
+        if (passFilter == null) {
+            passFilter = new PassFilter();
+        }
+        return passFilter;
+    }
+
+    private class PassFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            if (constraint != null && constraint.length() > 0) {
+                ArrayList<Pass> tempList = new ArrayList<>();
+
+                // search content in friend list
+                for (Pass pass : passesList) {
+                    if (pass != null) {
+                        if (pass.getVehicle().getCarInfo().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            tempList.add(pass);
+                        }
+                    }
+                }
+
+                filterResults.count = tempList.size();
+                filterResults.values = tempList;
+            } else {
+                filterResults.count = passesList.size();
+                filterResults.values = passesList;
+            }
+
+            return filterResults;
+        }
+
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredPassesList = (ArrayList<Pass>) results.values;
+            notifyDataSetChanged();
+        }
     }
 }

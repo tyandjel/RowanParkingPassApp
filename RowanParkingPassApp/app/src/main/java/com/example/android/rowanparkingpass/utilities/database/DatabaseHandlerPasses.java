@@ -62,12 +62,52 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
     }
 
     /**
-     * Update visitor details in database
+     * Delete pass from database based on requestID
+     *
+     * @param requestID the request id
      */
-    public void deleteRequest(String passId) {
+    public void deleteRequestRequestID(String requestID) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
-        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_REQUEST_ID.toString() + "=" + passId, null);
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_REQUEST_ID.toString() + "=" + requestID, null);
+    }
+
+    /**
+     * Delete pass from database based on driverID
+     *
+     * @param driverID the driver id
+     */
+    public void deleteRequestDriverID(String driverID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_DRIVER_ID.toString() + "=" + driverID, null);
+
+    }
+
+    /**
+     * Delete pass from database based on vehicle id
+     *
+     * @param vehicleID the vehicle id
+     */
+    public void deleteRequestVehicleID(String vehicleID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleID, null);
+
+    }
+
+    /**
+     * Delete pass from database based on driver id and vehicle id
+     *
+     * @param driverID  the driver id
+     * @param vehicleID the vehicle id
+     */
+    public void deleteRequestDriverIDVehicleID(String driverID, String vehicleID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(PassContract.PassEntry.TABLE_NAME,
+                PassContract.PassEntry.COLUMN_DRIVER_ID.toString() + "=" + driverID + " AND "
+                        + PassContract.PassEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleID, null);
     }
 
     /**
@@ -96,7 +136,7 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
             // Get vehicle
             Vehicle v = new DatabaseHandlerVehicles(context).getVehicle(pass.get(PassContract.PassEntry.COLUMN_VEHICLE_ID));
             Log.d("TAG", "BEFORE R");
-            rows.add(new Pass(d, v, pass.get(PassContract.PassEntry.COLUMN_START_DATE), pass.get(PassContract.PassEntry.COLUMN_END_DATE)));
+            rows.add(new Pass(Integer.parseInt(pass.get(PassContract.PassEntry.COLUMN_REQUEST_ID)), d, v, pass.get(PassContract.PassEntry.COLUMN_START_DATE), pass.get(PassContract.PassEntry.COLUMN_END_DATE)));
             pass.clear();
             cursor.moveToNext();
         }

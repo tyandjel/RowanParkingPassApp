@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -22,22 +20,24 @@ import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DriversActivity extends ListActivity implements SearchView.OnQueryTextListener {
 
 
     DatabaseHandlerDrivers db;
+    Context context;
     SearchView searchView;
     MenuItem searchMenuItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         build();
         loaded();
     }
@@ -54,8 +54,6 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         db = new DatabaseHandlerDrivers(this.getApplicationContext());
         ArrayList<Driver> listOfDrivers = db.getDrivers();
 
-
-        Log.d(TAG, Arrays.asList(listOfDrivers).toString());
         buildDriversList(listOfDrivers);
     }
 
@@ -82,7 +80,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
             @Override
             public void onViewDetachedFromWindow(View v) {
                 Utilities.hideSoftKeyboard(DriversActivity.this);
-                searchView.setQuery("",false);
+                searchView.setQuery("", false);
             }
         });
         return true;
@@ -122,15 +120,21 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         // checks what item in the listview was long clicked
         AdapterView.OnItemLongClickListener mMessageLongClickedHandler = new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView parent, View v, final int position, long id) {
+                //Close search view if its visible
+                if (searchView.isShown()) {
+                    searchMenuItem.collapseActionView();
+                    searchView.setQuery("", false);
+                }
                 if (position != 0) {
                     final Driver driver = (Driver) tempListView.getItemAtPosition(position);
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(DriversActivity.this);
-                    alertDialog.setTitle("Delete Driver");
+                    alertDialog.setTitle("Delete Driver?");
                     alertDialog.setMessage(driver.getName());
                     alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             db.deleteDriver(String.valueOf(driver.getDriverId()));
+                            new DatabaseHandlerPasses(context).deleteRequestDriverID(String.valueOf(driver.getDriverId()));
                             makeAdapter(db.getDrivers());
                         }
                     });

@@ -13,7 +13,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         FORGOT_PASSWORD,
         CHANGE_PASSWORD,
         UPDATE_VEHICLE,
+        UPDATE_PASS_VEHICLE,
         UPDATE_DRIVER,
+        UPDATE_PASS_DRIVER,
         CREATE_PASS,
         CREATE_VEHICLE,
         CREATE_DRIVER
