@@ -20,7 +20,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         CREATE_VEHICLE,
         CREATE_DRIVER,
         SETTINGS,
-        LOGIN
+        LOGIN,
+        PASS_SEARCH
     }
 
     public static final String TAG = "tag";

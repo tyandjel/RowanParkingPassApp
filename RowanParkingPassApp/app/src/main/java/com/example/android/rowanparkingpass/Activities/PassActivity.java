@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
@@ -60,10 +59,8 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
 
         pass = (Pass) pastIntent.getSerializableExtra("Pass");
         if (pass == null) {
-       driver = (Driver) pastIntent.getSerializableExtra("Driver");
-      vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
-           // driver = new Driver(1, "Tyler", "Andjel", "13 Yorktown Dr.", "Glassboro", "New Jersey", "08088");
-           // vehicle = new Vehicle(1, "Hyndai", "Sonota", 2007, "0", "New Jersey", "125ABC");
+            driver = (Driver) pastIntent.getSerializableExtra("Driver");
+            vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
         } else {
             driver = pass.getDriver();
             vehicle = pass.getVehicle();

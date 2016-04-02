@@ -21,13 +21,15 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
 
     private Context context;
     LayoutInflater myInflater;
+    boolean searchMode;
 
     private int layout = R.layout.view_recent_pass; // current layout to use
 
     /**
      * This  is for creating the content for a list of passesList listview
      */
-    public PassArrayAdapter(List<Pass> l, Context c) {
+    public PassArrayAdapter(List<Pass> l, Context c, boolean searchMode) {
+        this.searchMode = searchMode;
         if (!l.isEmpty()) {
             makePassesList(l);
 
@@ -116,8 +118,13 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
      */
     public View getView(int position, View convertView, ViewGroup parent) {
 
+
         if (convertView == null) {
-            convertView = myInflater.inflate(R.layout.view_recent_pass, parent, false);
+            if (searchMode) {
+                convertView = myInflater.inflate(R.layout.view_passes, parent, false);
+            } else {
+                convertView = myInflater.inflate(R.layout.view_recent_pass, parent, false);
+            }
         }
         TextView newPass = (TextView) convertView.findViewById(R.id.new_pass_text_view);
         TextView driverName = (TextView) convertView.findViewById(R.id.driver_text_view);
@@ -129,26 +136,35 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
         TextView carColorText = (TextView) convertView.findViewById(R.id.car_color_text);
         //String [] lArr = new String[list.size()];
         // lArr=list.toArray(lArr); not needed
-        if (position == 0) {
-            newPass.setText("+ Create New Pass");
-            driverName.setText("");
-            address.setText("");
-            townCity.setText("");
-            car.setText("");
-            color.setText("");
-            color.setBackgroundColor(0);
-            plate.setText("");
-            carColorText.setText("");
-        } else {
-            newPass.setText("");
+        if (searchMode) {
             Pass cPass = filteredPassesList.get(position);
             driverName.setText(cPass.getDriver().getName());
-            address.setText(cPass.getDriver().getStreet());
-            townCity.setText(cPass.getDriver().getTown() + " " + cPass.getDriver().getState() + ", " + cPass.getDriver().getZipCode());
             car.setText(cPass.getVehicle().getYear() + " " + cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel());
             color.setBackgroundColor(Integer.parseInt(cPass.getVehicle().getColor()));
             color.setTextColor(Integer.parseInt(cPass.getVehicle().getColor()));
             plate.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
+        } else {
+            if (position == 0) {
+                newPass.setText("+ Create New Pass");
+                driverName.setText("");
+                address.setText("");
+                townCity.setText("");
+                car.setText("");
+                color.setText("");
+                color.setBackgroundColor(0);
+                plate.setText("");
+                carColorText.setText("");
+            } else {
+                newPass.setText("");
+                Pass cPass = filteredPassesList.get(position);
+                driverName.setText(cPass.getDriver().getName());
+                address.setText(cPass.getDriver().getStreet());
+                townCity.setText(cPass.getDriver().getTown() + " " + cPass.getDriver().getState() + ", " + cPass.getDriver().getZipCode());
+                car.setText(cPass.getVehicle().getYear() + " " + cPass.getVehicle().getMake() + " " + cPass.getVehicle().getModel());
+                color.setBackgroundColor(Integer.parseInt(cPass.getVehicle().getColor()));
+                color.setTextColor(Integer.parseInt(cPass.getVehicle().getColor()));
+                plate.setText(cPass.getVehicle().getVehicleState() + " " + cPass.getVehicle().getLicensePlate());
+            }
         }
         return animateList(position, convertView);
     }

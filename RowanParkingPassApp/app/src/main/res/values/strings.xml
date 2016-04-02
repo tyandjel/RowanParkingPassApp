@@ -54,6 +54,7 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_search">Search</string>
+    <string name="menu_pass_search">Pass Search</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_home">Main Menu</string>
 

@@ -1,7 +1,7 @@
 package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
-import android.app.SearchManager;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,15 +10,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
 import com.example.android.rowanparkingpass.Activities.SettingActivity;
-import com.example.android.rowanparkingpass.ArrayAdapter.DriverArrayAdapter;
 import com.example.android.rowanparkingpass.ArrayAdapter.ListViewArrayAdapter;
-import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
 import com.example.android.rowanparkingpass.R;
 
 public abstract class ListActivity extends BaseActivity {
@@ -46,13 +43,14 @@ public abstract class ListActivity extends BaseActivity {
         }
         // wait for Child to be built
     }
-    public void loaded(){
+
+    public void loaded() {
         // Checks if the listView has finished loading in and then tells the adapter so it can stop animating things
         ViewTreeObserver observer = listView.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-               adapter.setHasLoaded(true);
+                adapter.setHasLoaded(true);
                 Log.d("has Loaded", "List");
             }
         });
@@ -64,6 +62,8 @@ public abstract class ListActivity extends BaseActivity {
         if (currentMode != null) {
             if (currentMode.equals(mode.HOME_PAGE.name())) {
                 inflater.inflate(R.menu.menu_home_page, menu);
+            } else if (currentMode.equals(mode.PASS_SEARCH.name())) {
+                inflater.inflate(R.menu.menu_search_home, menu);
             } else if (currentMode.equals(mode.DRIVERS.name()) || currentMode.equals(mode.VEHICLES.name())) {
                 inflater.inflate(R.menu.menu_vehicles_drivers_page, menu);
             } else if (currentMode.equals(mode.DRIVERS_LIST.name()) || currentMode.equals(mode.VEHICLES_LIST.name())) {
@@ -100,6 +100,25 @@ public abstract class ListActivity extends BaseActivity {
                 myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
                 startActivity(myIntent);
                 finish();
+                break;
+            // action with ID action_search_pass was selected
+            case R.id.action_search_pass:
+                //TODO: Will check to see if person logged in is allowed to search through passes. If so then go to search pass screen
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setTitle("Search Through Passes");
+                alertDialog.setMessage("Not functional yet");
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                });
+                alertDialog.show();
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:

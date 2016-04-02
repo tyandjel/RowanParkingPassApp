@@ -28,11 +28,14 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
     DatabaseHandlerPasses db;
     SearchView searchView;
     MenuItem searchMenuItem;
+    Intent pastIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = new DatabaseHandlerPasses(getApplicationContext());
+        pastIntent = getIntent();
+        currentMode = pastIntent.getStringExtra(MODE);
         buildEventList(buildList());
         loaded();
     }
@@ -40,7 +43,11 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
-        inflator.inflate(R.menu.menu_home_page, menu);
+        if (currentMode.equals(mode.HOME_PAGE.name())) {
+            inflator.inflate(R.menu.menu_home_page, menu);
+        } else {
+            inflator.inflate(R.menu.menu_search_home, menu);
+        }
         //Will be used for searching through passes
 //        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 //        searchMenuItem = menu.findItem(R.id.action_search);
@@ -63,7 +70,12 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
     }
 
     private List<Pass> buildList() {
-        ArrayList<Pass> listOfAllPasses = db.getRequestDetails();
+        ArrayList<Pass> listOfAllPasses = null;
+        if (currentMode.equals(mode.HOME_PAGE.name())) {
+            listOfAllPasses = db.getRequestDetails();
+        } else {
+            //TODO: Get list of Passes with just Nmae and Vehicle Info from server not local db
+        }
         Log.d(TAG, "BUILD LIST");
         if (listOfAllPasses == null) {
             listOfAllPasses = new ArrayList<>();
@@ -73,7 +85,11 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
 
     private void buildEventList(List<Pass> passes) {
         listView = (ListView) findViewById(R.id.listView);
-        adapter = new PassArrayAdapter(passes, this);
+        if (currentMode.equals(mode.HOME_PAGE.name())) {
+            adapter = new PassArrayAdapter(passes, this, false);
+        } else {
+            adapter = new PassArrayAdapter(passes, this, true);
+        }
         listView.setAdapter(adapter);
         // Create a message handling object as an anonymous class.
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
@@ -84,16 +100,18 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
 //                    searchMenuItem.collapseActionView();
 //                    searchView.setQuery("", false);
 //                }
-                Intent intent;
-                if (position == 0) {
-                    intent = new Intent(PassesActivity.this, DriversActivity.class);
-                    intent.putExtra(MODE, mode.DRIVERS.name());
-                    startActivity(intent);
-                } else {
-                    intent = new Intent(PassesActivity.this, PassActivity.class);
-                    intent.putExtra(MODE, mode.CREATE_PASS.name());
-                    intent.putExtra("Pass", (Serializable) adapter.getItem(position));
-                    startActivity(intent);
+                if (currentMode.equals(mode.HOME_PAGE.name())) {
+                    Intent intent;
+                    if (position == 0) {
+                        intent = new Intent(PassesActivity.this, DriversActivity.class);
+                        intent.putExtra(MODE, mode.DRIVERS.name());
+                        startActivity(intent);
+                    } else {
+                        intent = new Intent(PassesActivity.this, PassActivity.class);
+                        intent.putExtra(MODE, mode.CREATE_PASS.name());
+                        intent.putExtra("Pass", (Serializable) adapter.getItem(position));
+                        startActivity(intent);
+                    }
                 }
             }
         };
@@ -105,27 +123,30 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
 //                    searchMenuItem.collapseActionView();
 //                    searchView.setQuery("", false);
 //                }
-                if (position != 0) {
-                    final Pass pass = (Pass) listView.getItemAtPosition(position);
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(PassesActivity.this);
-                    alertDialog.setTitle("Delete Pass?");
-                    alertDialog.setMessage(pass.getDriver().getName() + "\n" + pass.getVehicle().getCarInfo());
-                    alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            db.deleteRequestRequestID(String.valueOf(pass.getRequestID()));
-                            makeAdapter(db.getRequestDetails());
-                        }
-                    });
-                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Do nothing
-                        }
-                    });
-                    alertDialog.show();
+                if (currentMode.equals(mode.HOME_PAGE.name())) {
+                    if (position != 0) {
+                        final Pass pass = (Pass) listView.getItemAtPosition(position);
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(PassesActivity.this);
+                        alertDialog.setTitle("Delete Pass?");
+                        alertDialog.setMessage(pass.getDriver().getName() + "\n" + pass.getVehicle().getCarInfo());
+                        alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                db.deleteRequestRequestID(String.valueOf(pass.getRequestID()));
+                                makeAdapter(db.getRequestDetails());
+                            }
+                        });
+                        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                            }
+                        });
+                        alertDialog.show();
+                    }
                 }
                 return true;
+
             }
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
@@ -133,7 +154,11 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
     }
 
     private void makeAdapter(List<Pass> p) {
-        adapter = new PassArrayAdapter(p, this);
+        if (currentMode.equals(mode.HOME_PAGE.name())) {
+            adapter = new PassArrayAdapter(p, this, false);
+        } else {
+            adapter = new PassArrayAdapter(p, this, true);
+        }
         listView.setAdapter(adapter);
     }
 
