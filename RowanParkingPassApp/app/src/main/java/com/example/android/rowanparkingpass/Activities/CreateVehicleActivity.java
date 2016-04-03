@@ -113,7 +113,7 @@ public class CreateVehicleActivity extends BaseActivity {
         createVehicle.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent;
+                Intent intent;
                 if (TextUtils.isEmpty(year.getText()) || TextUtils.isEmpty(make.getText()) ||
                         TextUtils.isEmpty(model.getText()) || TextUtils.isEmpty(license.getText())) {
                     Log.d(TAG, "onClick: All Field Empty");
@@ -125,35 +125,40 @@ public class CreateVehicleActivity extends BaseActivity {
                     db = new DatabaseHandlerVehicles(getApplicationContext());
                     // opens the next activity
                     if (currentMode.equals(mode.UPDATE_VEHICLE.name())) { // checks if ur updating a driver
-                        myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class);
-                        myIntent.putExtra(MODE, mode.VEHICLES_LIST.name()); // tells the intent that it has to use the update driver list logic
+                        intent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class);
+                        intent.putExtra(MODE, mode.VEHICLES_LIST.name()); // tells the intent that it has to use the update driver list logic
                         // updates driver in database
                         Vehicle vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
-                        myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
-                        myIntent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
+                        intent = new Intent(CreateVehicleActivity.this, PassActivity.class);
+                        intent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
                         Vehicle v2 = new Vehicle(vehicle.getVehicleId(), make.getText().toString(), model.getText().toString(), Integer.parseInt(year.getText().toString()), String.valueOf(mSelectedColorCal0), state.getSelectedItem().toString(), license.getText().toString());
-                        myIntent.putExtra("Driver", driver);
-                        myIntent.putExtra("Vehicle", v2);
+                        intent.putExtra("Driver", driver);
+                        intent.putExtra("Vehicle", v2);
                         // updates driver in database
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else { // if not Updating then u are creating a driver
-                        db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                         if (pastIntent.getStringExtra("Old").equals(mode.VEHICLES_LIST.name())) { // checks if the old intent was the vehicle or vehicle_list
-                            finish(); // go back to vehicle list
-                            return;
+                            intent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class); // it was the drivers list go back to the drivers list
+                            intent.putExtra(MODE, mode.DRIVERS_LIST.name());
                         } else { // was not the vehicle list createVehicle driver and move to pass
-                            myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
-                            myIntent.putExtra(MODE, mode.VEHICLES.name());
-                            // add new driver
-                            ArrayList<Vehicle> vehicles = db.getVehicles();
-                            myIntent.putExtra("Vehicle", vehicles.get(vehicles.size() - 1));
-                            //Todo: add ID to addVehicle later
+                            intent = new Intent(CreateVehicleActivity.this, PassActivity.class);
                         }
-
+                        // add new vehicle
+                        if (saveInfo.isChecked()) {
+                            db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                            //Todo: add ID to addVehicle later
+                            intent.putExtra(MODE, mode.CREATE_PASS.name());
+                            ArrayList<Vehicle> vehicles = db.getVehicles();
+                            intent.putExtra("Vehicle", vehicles.get(vehicles.size() - 1));
+                        } else {
+                            intent.putExtra(MODE, mode.CREATE_PASS.name());
+                            Vehicle tempVehicle = new Vehicle(-1, make.getText().toString(), model.getText().toString(), Integer.parseInt(year.getText().toString()), String.valueOf(mSelectedColorCal0), state.getSelectedItem().toString(), license.getText().toString());
+                            intent.putExtra("Vehicle", tempVehicle);
+                        }
                     }
-                    startActivity(myIntent);
+                    startActivity(intent);
                 }
             }
         }));

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
@@ -27,13 +28,8 @@ import java.util.Date;
 
 public class PassActivity extends BaseActivity implements View.OnClickListener {
 
-    private Intent pastIntent;
-    private Pass pass;
     private Driver driver;
     private Vehicle vehicle;
-
-    private View driverView;
-    private View vehicleView;
 
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog startDatePickerDialog;
@@ -52,12 +48,12 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass);
 
-        pastIntent = getIntent();
+        Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
 
         db = new DatabaseHandlerPasses(getApplicationContext());
 
-        pass = (Pass) pastIntent.getSerializableExtra("Pass");
+        Pass pass = (Pass) pastIntent.getSerializableExtra("Pass");
         if (pass == null) {
             driver = (Driver) pastIntent.getSerializableExtra("Driver");
             vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
@@ -137,14 +133,14 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void setDriverView() {
-        driverView = findViewById(R.id.driver_view);
+        View driverView = findViewById(R.id.driver_view);
         driverView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PassActivity.this, DriversActivity.class);
                 intent.putExtra(MODE, mode.UPDATE_PASS_DRIVERS.name());
-                intent.putExtra("Driver",driver);
-                intent.putExtra("Vehicle",vehicle);
+                intent.putExtra("Driver", driver);
+                intent.putExtra("Vehicle", vehicle);
                 startActivity(intent);
                 finish();
             }
@@ -173,7 +169,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void setVehicleView() {
-        vehicleView = findViewById(R.id.vehicle_view);
+        View vehicleView = findViewById(R.id.vehicle_view);
         vehicleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,8 +219,12 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             if (view == createPass) {
                 //TODO add pass to remote database, send email
                 Pass createdPass = new Pass(1, driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
-                db.deleteRequestDriverIDVehicleID(String.valueOf(createdPass.getDriver().getDriverId()), String.valueOf(createdPass.getVehicle().getVehicleId()));
-                db.addRequest(createdPass.getRequestID(), createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
+                if (createdPass.getDriver().getDriverId() != -1 && createdPass.getVehicle().getVehicleId() != -1) {
+                    db.deleteRequestDriverIDVehicleID(String.valueOf(createdPass.getDriver().getDriverId()), String.valueOf(createdPass.getVehicle().getVehicleId()));
+                    db.addRequest(createdPass.getRequestID(), createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
+                } else {
+                    Toast.makeText(getApplicationContext(), "A temporary driver and/or vehicle was used. Pass will not be stored locally.", Toast.LENGTH_LONG).show();
+                }
                 intent = new Intent(getApplicationContext(), PassesActivity.class);
                 intent.putExtra(MODE, mode.HOME_PAGE.name());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
