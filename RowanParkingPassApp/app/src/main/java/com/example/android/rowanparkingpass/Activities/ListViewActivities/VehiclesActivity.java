@@ -50,7 +50,7 @@ public class VehiclesActivity extends ListActivity {
                     intent = new Intent(VehiclesActivity.this, CreateVehicleActivity.class);
                     if (currentMode.equals(mode.VEHICLES_LIST.name())) { // User is updating driver
                         intent.putExtra(MODE, mode.UPDATE_VEHICLE.name());
-                    } else {// user is selecting this driver for Creating a pass
+                    }else {// user is selecting this driver for Creating a pass
                         intent = new Intent(VehiclesActivity.this, PassActivity.class);
                         intent.putExtra(MODE, mode.CREATE_PASS.name());
 

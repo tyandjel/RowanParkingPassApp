@@ -34,8 +34,6 @@ import java.util.ArrayList;
 
 public class CreateVehicleActivity extends BaseActivity {
 
-    private static final String TEMP_VEHICLE = "temp";
-
     private EditText make;
     private EditText model;
     private EditText year;
@@ -44,7 +42,6 @@ public class CreateVehicleActivity extends BaseActivity {
     private CheckBox saveInfo;
     private ColorPickerDialog colorCalender;
     private int mSelectedColorCal0;
-    private int[] mColor;
     Intent pastIntent;
     private Driver driver;
     private Vehicle vehicle;
@@ -65,12 +62,9 @@ public class CreateVehicleActivity extends BaseActivity {
         buildCancelBtn();
         //builds the create button and its listener
         buildCreateBtn();
-
         setupUI(findViewById(R.id.parent));
         //sets the banner text to the current state of the activity
        buildBannerText();
-        //cancel.setOnClickListener(this);
-        //createVehicle.setOnClickListener(this);
         // makes the check box and it's listener
         buildCehckBox();
         //Set up the colorBox picker for car colorBox
@@ -193,7 +187,7 @@ public class CreateVehicleActivity extends BaseActivity {
     }
 
     private void buildColorBox(){
-        mColor = Utils.ColorUtils.colorChoice(getApplicationContext());
+        int[] mColor = Utils.ColorUtils.colorChoice(getApplicationContext());
         colorCalender = ColorPickerDialog.newInstance(R.string.color_picker_default_title, mColor, mSelectedColorCal0, 5, Utils.isTablet(this) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
         colorBox.setInputType(InputType.TYPE_NULL);
         colorBox.setOnClickListener(new View.OnClickListener() {
