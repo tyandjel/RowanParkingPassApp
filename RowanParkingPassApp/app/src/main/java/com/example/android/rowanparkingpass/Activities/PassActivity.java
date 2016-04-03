@@ -142,7 +142,9 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PassActivity.this, DriversActivity.class);
-                intent.putExtra(MODE, mode.DRIVERS.name());
+                intent.putExtra(MODE, mode.UPDATE_PASS_DRIVERS.name());
+                intent.putExtra("Driver",driver);
+                intent.putExtra("Vehicle",vehicle);
                 startActivity(intent);
                 finish();
             }
@@ -152,8 +154,8 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             public boolean onLongClick(View v) {
                 Intent intent = new Intent(PassActivity.this, CreateDriverActivity.class);
                 intent.putExtra(MODE, mode.UPDATE_PASS_DRIVER.name());
-                intent.putExtra("Driver", (Serializable) driver);
-                intent.putExtra("Vehicle", (Serializable) vehicle);
+                intent.putExtra("Driver", driver);
+                intent.putExtra("Vehicle", vehicle);
                 startActivity(intent);
                 finish();
                 return true;

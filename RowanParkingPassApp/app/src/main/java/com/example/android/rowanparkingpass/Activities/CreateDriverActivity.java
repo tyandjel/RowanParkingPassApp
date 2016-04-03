@@ -118,11 +118,10 @@ public class CreateDriverActivity extends BaseActivity {
                         intent.putExtra(MODE, mode.VEHICLES.name());
                         ArrayList<Driver> drivers = db.getDrivers();
                         intent.putExtra("Driver", drivers.get(drivers.size() - 1)); // gets newest driver just made in teh database to send
-
-                        startActivity(intent);
-                        finish();
                     }
 
+                    startActivity(intent);
+                    finish();
                 }
             }
         });

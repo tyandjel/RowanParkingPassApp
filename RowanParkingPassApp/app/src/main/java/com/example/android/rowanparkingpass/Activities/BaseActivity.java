@@ -16,6 +16,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         UPDATE_PASS_VEHICLE,
         UPDATE_DRIVER,
         UPDATE_PASS_DRIVER,
+        UPDATE_PASS_DRIVERS,
         CREATE_PASS,
         CREATE_VEHICLE,
         CREATE_DRIVER,

@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
+import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.DriverArrayAdapter;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
@@ -108,13 +109,17 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                 } else {
                     if (currentMode.equals(mode.DRIVERS_LIST.name())) {
                         intent.putExtra(MODE, mode.UPDATE_DRIVER.name());
-                    } else {
-                        intent = new Intent(DriversActivity.this, VehiclesActivity.class);
-                        intent.putExtra(MODE, mode.VEHICLES.name());
+                    } else if(currentMode.equals(mode.UPDATE_PASS_DRIVERS.name())) {
+                        intent = new Intent(DriversActivity.this, PassActivity.class);
+                        intent.putExtra("Vehicle", pastIntent.getSerializableExtra("Vehicle"));
+                        intent.putExtra(MODE, mode.CREATE_PASS.name());
                     }
+                        else{
+                            intent = new Intent(DriversActivity.this, VehiclesActivity.class);
+                            intent.putExtra(MODE, mode.VEHICLES.name());
+                        }
                     intent.putExtra("Driver", (Serializable) adapter.getItem(position));
                 }
-
                 startActivity(intent);
             }
         };
