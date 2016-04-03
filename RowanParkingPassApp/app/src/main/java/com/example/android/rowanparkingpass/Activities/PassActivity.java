@@ -219,7 +219,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             if (view == createPass) {
                 //TODO add pass to remote database, send email
                 Pass createdPass = new Pass(1, driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
-                if (createdPass.getDriver().getDriverId() != -1 && createdPass.getVehicle().getVehicleId() != -1) {
+                if (createdPass.getDriver().getDriverId() != -1 || createdPass.getVehicle().getVehicleId() != -1) {
                     db.deleteRequestDriverIDVehicleID(String.valueOf(createdPass.getDriver().getDriverId()), String.valueOf(createdPass.getVehicle().getVehicleId()));
                     db.addRequest(createdPass.getRequestID(), createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
                 } else {
