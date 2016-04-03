@@ -101,7 +101,7 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     public void deleteVehicle(String vehicleId) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
-        db.delete(VehicleContract.VehicleEntry.TABLE_NAME, BaseContract.WHERE + VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleId, null);
+        db.delete(VehicleContract.VehicleEntry.TABLE_NAME, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleId, null);
     }
 
     public Vehicle getVehicle(String id) {

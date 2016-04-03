@@ -42,14 +42,13 @@ public class CreateVehicleActivity extends BaseActivity {
     private CheckBox saveInfo;
     private ColorPickerDialog colorCalender;
     private int mSelectedColorCal0;
-    Intent pastIntent;
+    private Intent pastIntent;
     private Driver driver;
     private Vehicle vehicle;
-    private  Button createVehicle;
-    Spinner state;
-    DatabaseHandlerVehicles db;
-    Button cancel;
-    Button create;
+    private Button createVehicle;
+    private Button cancel;
+    private Spinner state;
+    private DatabaseHandlerVehicles db;
 
 
     @Override
@@ -60,18 +59,18 @@ public class CreateVehicleActivity extends BaseActivity {
         populateFeilds();
         //builds the cancelBtn and its listener
         buildCancelBtn();
-        //builds the create button and its listener
+        //builds the createVehicle button and its listener
         buildCreateBtn();
         setupUI(findViewById(R.id.parent));
         //sets the banner text to the current state of the activity
-       buildBannerText();
+        buildBannerText();
         // makes the check box and it's listener
         buildCehckBox();
         //Set up the colorBox picker for car colorBox
         buildColorBox();
     }
 
-    private void populateFeilds(){
+    private void populateFeilds() {
         make = (EditText) findViewById(R.id.vehicleMakeEditText);
         model = (EditText) findViewById(R.id.modelEditText);
         year = (EditText) findViewById(R.id.yearEditText);
@@ -79,7 +78,6 @@ public class CreateVehicleActivity extends BaseActivity {
         state = (Spinner) findViewById(R.id.vehicleSpinner);
         license = (EditText) findViewById(R.id.licenseEditText);
         saveInfo = (CheckBox) findViewById(R.id.saveVehicleInfoOnPhoneCheckBox);
-        createVehicle = (Button) findViewById(R.id.createVehicleButton);
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
         driver = (Driver) pastIntent.getSerializableExtra("Driver");
@@ -87,29 +85,39 @@ public class CreateVehicleActivity extends BaseActivity {
         ArrayAdapter spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, States.values());
         state.setAdapter(spinnerAdapter);
         cancel = (Button) findViewById(R.id.cancelVehicleButton);
-        create = (Button) findViewById(R.id.createVehicleButton);
+        createVehicle = (Button) findViewById(R.id.createVehicleButton);
 
     }
 
-    private  void buildCancelBtn(){
+    private void buildCancelBtn() {
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-
+                Intent intent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class);
+                if (currentMode.equals(mode.UPDATE_VEHICLE.name())) {
+                    intent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
+                    intent = new Intent(CreateVehicleActivity.this, PassActivity.class);
+                    intent.putExtra(MODE, mode.CREATE_PASS.name());
+                    intent.putExtra("Driver", driver);
+                    intent.putExtra("Vehicle", vehicle);
+                } else {
+                    intent.putExtra(MODE, mode.VEHICLES.name());
+                }
+                startActivity(intent);
                 finish();
             }
         });
     }
 
-    private void buildCreateBtn(){
-        create.setOnClickListener((new View.OnClickListener() {
+    private void buildCreateBtn() {
+        createVehicle.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent;
-
                 if (TextUtils.isEmpty(year.getText()) || TextUtils.isEmpty(make.getText()) ||
                         TextUtils.isEmpty(model.getText()) || TextUtils.isEmpty(license.getText())) {
                     Log.d(TAG, "onClick: All Field Empty");
-                    Toast.makeText(getApplicationContext(), "Fill out all driver fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Fill out all vehicle fields", Toast.LENGTH_SHORT).show();
                 } else if (year.getText().length() != 4) {
                     Log.d(TAG, "onClick: !4 year");
                     Toast.makeText(getApplicationContext(), "Enter a 4 digit year", Toast.LENGTH_SHORT).show();
@@ -121,7 +129,6 @@ public class CreateVehicleActivity extends BaseActivity {
                         myIntent.putExtra(MODE, mode.VEHICLES_LIST.name()); // tells the intent that it has to use the update driver list logic
                         // updates driver in database
                         Vehicle vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
-
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
                         myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
@@ -134,9 +141,9 @@ public class CreateVehicleActivity extends BaseActivity {
                     } else { // if not Updating then u are creating a driver
                         db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                         if (pastIntent.getStringExtra("Old").equals(mode.VEHICLES_LIST.name())) { // checks if the old intent was the vehicle or vehicle_list
-                          finish(); // go back to vehicle list
+                            finish(); // go back to vehicle list
                             return;
-                        } else { // was not the vehicle list create driver and move to pass
+                        } else { // was not the vehicle list createVehicle driver and move to pass
                             myIntent = new Intent(CreateVehicleActivity.this, PassActivity.class);
                             myIntent.putExtra(MODE, mode.VEHICLES.name());
                             // add new driver
@@ -146,29 +153,30 @@ public class CreateVehicleActivity extends BaseActivity {
                         }
 
                     }
-                   startActivity(myIntent);
+                    startActivity(myIntent);
                 }
             }
         }));
     }
-    public void startActivity(Intent in){
+
+    public void startActivity(Intent in) {
         in.putExtra("Driver", pastIntent.getSerializableExtra("Driver"));
         super.startActivity(in);
         finish();
     }
 
-    private void buildBannerText(){
+    private void buildBannerText() {
         currentMode = pastIntent.getStringExtra(MODE);
         if (currentMode.equals(mode.UPDATE_VEHICLE.name()) || currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
             setTitle("Update Vehicle");
             buildUpdateDriver();
-            create.setText("Update");
+            createVehicle.setText("Update");
         } else {
             setTitle("Create New Vehicle");
         }
     }
 
-    private void buildCehckBox(){
+    private void buildCehckBox() {
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -179,13 +187,13 @@ public class CreateVehicleActivity extends BaseActivity {
                         createVehicle.setText(R.string.create_vehicle);
                     }
                 } else {
-                    createVehicle.setText(R.string.create_temp_vehicle);
+                    Toast.makeText(getApplicationContext(), "Vehicle will not be saved", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void buildColorBox(){
+    private void buildColorBox() {
         int[] mColor = Utils.ColorUtils.colorChoice(getApplicationContext());
         colorCalender = ColorPickerDialog.newInstance(R.string.color_picker_default_title, mColor, mSelectedColorCal0, 5, Utils.isTablet(this) ? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
         colorBox.setInputType(InputType.TYPE_NULL);
@@ -204,6 +212,7 @@ public class CreateVehicleActivity extends BaseActivity {
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -212,6 +221,7 @@ public class CreateVehicleActivity extends BaseActivity {
         }
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent myIntent;
@@ -255,7 +265,7 @@ public class CreateVehicleActivity extends BaseActivity {
         year.setText(String.valueOf(vehicle.getYear()));
         state.setSelection(States.getPosition(vehicle.getVehicleState()));
         int color = Integer.valueOf(vehicle.getColor());
-        mSelectedColorCal0=Integer.valueOf(vehicle.getColor());
+        mSelectedColorCal0 = Integer.valueOf(vehicle.getColor());
         colorBox.setBackgroundColor(color);
         colorBox.setHintTextColor(color);
         license.setText(vehicle.getLicensePlate());

@@ -58,7 +58,6 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
@@ -109,15 +108,14 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                 } else {
                     if (currentMode.equals(mode.DRIVERS_LIST.name())) {
                         intent.putExtra(MODE, mode.UPDATE_DRIVER.name());
-                    } else if(currentMode.equals(mode.UPDATE_PASS_DRIVERS.name())) {
+                    } else if (currentMode.equals(mode.UPDATE_PASS_DRIVERS.name())) {
                         intent = new Intent(DriversActivity.this, PassActivity.class);
                         intent.putExtra("Vehicle", pastIntent.getSerializableExtra("Vehicle"));
                         intent.putExtra(MODE, mode.CREATE_PASS.name());
+                    } else {
+                        intent = new Intent(DriversActivity.this, VehiclesActivity.class);
+                        intent.putExtra(MODE, mode.VEHICLES.name());
                     }
-                        else{
-                            intent = new Intent(DriversActivity.this, VehiclesActivity.class);
-                            intent.putExtra(MODE, mode.VEHICLES.name());
-                        }
                     intent.putExtra("Driver", (Serializable) adapter.getItem(position));
                 }
                 startActivity(intent);

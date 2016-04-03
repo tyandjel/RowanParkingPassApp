@@ -30,11 +30,20 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
      */
     public PassArrayAdapter(List<Pass> l, Context c, boolean searchMode) {
         this.searchMode = searchMode;
-        if (!l.isEmpty()) {
-            makePassesList(l);
+        if (searchMode) {
+            if (!l.isEmpty()) {
+                makeSearchPassesList(l);
 
+            } else {
+                makeSearchPassesList(new ArrayList<Pass>());
+            }
         } else {
-            makePassesList(new ArrayList<Pass>());
+            if (!l.isEmpty()) {
+                makePassesList(l);
+
+            } else {
+                makePassesList(new ArrayList<Pass>());
+            }
         }
         setContextLayout(c, layout);
         getFilter();
@@ -52,7 +61,15 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
     public void makePassesList(List<Pass> p) {
         passesList.add(new Pass()); // adds empty place holder to position 0
         passesList.addAll(p);
-        filteredPassesList.add(0, null);
+        filteredPassesList.add(0, new Pass());
+        filteredPassesList.addAll(p);
+    }
+
+    /**
+     * This is for creating the content for a list of Passes in listview for searching
+     */
+    public void makeSearchPassesList(List<Pass> p) {
+        passesList.addAll(p);
         filteredPassesList.addAll(p);
     }
 

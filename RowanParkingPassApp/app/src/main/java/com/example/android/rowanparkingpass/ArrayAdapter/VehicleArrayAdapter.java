@@ -13,11 +13,9 @@ import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by John on 3/6/2016.
- */
 public class VehicleArrayAdapter extends ListViewArrayAdapter {
 
+    private int lastPos = 0;
     private List<Vehicle> vehicleList = new ArrayList<>();
     private ArrayList<Vehicle> filteredVehicleList = new ArrayList<>();
     private VehicleFilter vehicleFilter;
@@ -62,7 +60,7 @@ public class VehicleArrayAdapter extends ListViewArrayAdapter {
      */
 
     public int getCount() {
-        return vehicleList.size();
+        return filteredVehicleList.size();
     }
 
 
@@ -75,7 +73,7 @@ public class VehicleArrayAdapter extends ListViewArrayAdapter {
 
     @Override
     public Object getItem(int position) {
-        return vehicleList.get(position);
+        return filteredVehicleList.get(position);
     }
 
 
@@ -131,7 +129,7 @@ public class VehicleArrayAdapter extends ListViewArrayAdapter {
             carColorText.setText("");
         } else {
             newVehicle.setText("");
-            Vehicle cVehicle = vehicleList.get(position);
+            Vehicle cVehicle = filteredVehicleList.get(position);
             carText.setText(cVehicle.getYear() + " " + cVehicle.getMake() + " " + cVehicle.getModel());
             plateText.setText(cVehicle.getVehicleState() + " " + cVehicle.getLicensePlate());
             carColor.setTextColor(Integer.parseInt(cVehicle.getColor()));

@@ -1,6 +1,8 @@
 package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +18,10 @@ import android.widget.SearchView;
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
+import com.example.android.rowanparkingpass.personinfo.Vehicle;
+import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
 import java.io.Serializable;
@@ -47,34 +52,43 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
             inflator.inflate(R.menu.menu_home_page, menu);
         } else {
             inflator.inflate(R.menu.menu_search_home, menu);
+            //Will be used for searching through passes
+            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            searchMenuItem = menu.findItem(R.id.action_search);
+            searchView = (SearchView) searchMenuItem.getActionView();
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setSubmitButtonEnabled(false);
+            searchView.setOnQueryTextListener(this);
+            searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View v) {
+                    Utilities.hideSoftKeyboard(PassesActivity.this);
+                    searchView.setQuery("", false);
+                }
+            });
         }
-        //Will be used for searching through passes
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        searchMenuItem = menu.findItem(R.id.action_search);
-//        searchView = (SearchView) searchMenuItem.getActionView();
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setSubmitButtonEnabled(false);
-//        searchView.setOnQueryTextListener(this);
-//        searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-//            @Override
-//            public void onViewAttachedToWindow(View v) {
-//            }
-//
-//            @Override
-//            public void onViewDetachedFromWindow(View v) {
-//                Utilities.hideSoftKeyboard(PassesActivity.this);
-//                searchView.setQuery("", false);
-//            }
-//        });
         return true;
     }
 
     private List<Pass> buildList() {
-        ArrayList<Pass> listOfAllPasses = null;
+        ArrayList<Pass> listOfAllPasses;
         if (currentMode.equals(mode.HOME_PAGE.name())) {
             listOfAllPasses = db.getRequestDetails();
         } else {
-            //TODO: Get list of Passes with just Nmae and Vehicle Info from server not local db
+            //TODO: Get list of Passes with current date only with just Name and Vehicle Info from server not local db
+            listOfAllPasses = new ArrayList<>();
+            Driver d = new Driver(-1, "Fake", "Name1", "-1", "-1", "-1", "-1");
+            Driver d2 = new Driver(-2, "Fake", "Name2", "-1", "-1", "-1", "-1");
+            Vehicle v = new Vehicle(-1, "Fake Make", "Fake Model", 2008, "-1", "Fake State", "ABC123");
+            Vehicle v2 = new Vehicle(-1, "Fake Make", "Fake Model", 2099, "-1", "Fake State", "DEF456");
+            Pass p = new Pass(-1, d, v, "Date1", "Date2");
+            Pass p2 = new Pass(-2, d2, v2, "Date1", "Date2");
+            listOfAllPasses.add(p);
+            listOfAllPasses.add(p2);
         }
         Log.d(TAG, "BUILD LIST");
         if (listOfAllPasses == null) {
@@ -95,11 +109,6 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 // Do something in response to the click
-                //Close search view if its visible
-//                if (searchView.isShown()) {
-//                    searchMenuItem.collapseActionView();
-//                    searchView.setQuery("", false);
-//                }
                 if (currentMode.equals(mode.HOME_PAGE.name())) {
                     Intent intent;
                     if (position == 0) {
@@ -112,6 +121,12 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
                         intent.putExtra("Pass", (Serializable) adapter.getItem(position));
                         startActivity(intent);
                     }
+                } else {
+                    //Close search view if its visible
+                    if (searchView.isShown()) {
+                        searchMenuItem.collapseActionView();
+                        searchView.setQuery("", false);
+                    }
                 }
             }
         };
@@ -119,10 +134,6 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
         AdapterView.OnItemLongClickListener mMessageLongClickedHandler = new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView parent, View v, final int position, long id) {
                 //Close search view if its visible
-//                if (searchView.isShown()) {
-//                    searchMenuItem.collapseActionView();
-//                    searchView.setQuery("", false);
-//                }
                 if (currentMode.equals(mode.HOME_PAGE.name())) {
                     if (position != 0) {
                         final Pass pass = (Pass) listView.getItemAtPosition(position);
@@ -144,6 +155,11 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
                         });
                         alertDialog.show();
                     }
+                } else {
+                    if (searchView.isShown()) {
+                        searchMenuItem.collapseActionView();
+                        searchView.setQuery("", false);
+                    }
                 }
                 return true;
 
@@ -160,6 +176,22 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
             adapter = new PassArrayAdapter(p, this, true);
         }
         listView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                searchView.requestFocus();
+                break;
+            case R.id.action_home:
+                Intent intent = new Intent(this, PassesActivity.class);
+                intent.putExtra(MODE, mode.HOME_PAGE.name());
+                startActivity(intent);
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -34,11 +34,11 @@ public abstract class ListActivity extends BaseActivity {
                 setTitle("Your Passes");
             } else if (currentMode.equals(mode.PASS_SEARCH.name())) {
                 setTitle("Find Passes");
-            } else if (currentMode.equals(mode.DRIVERS.name())) {
+            } else if (currentMode.equals(mode.DRIVERS.name()) || currentMode.equals(mode.UPDATE_PASS_DRIVERS.name())) {
                 setTitle("Select a Driver");
             } else if (currentMode.equals(mode.DRIVERS_LIST.name())) {
                 setTitle("Your Drivers");
-            } else if (currentMode.equals(mode.VEHICLES.name())) {
+            } else if (currentMode.equals(mode.VEHICLES.name()) || currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
                 setTitle("Select a Vehicle");
             } else if (currentMode.equals(mode.VEHICLES_LIST.name())) {
                 setTitle("Your Vehicles");
@@ -107,10 +107,14 @@ public abstract class ListActivity extends BaseActivity {
                 //TODO: Will check to see if person logged in is allowed to search through passes. If so then go to search pass screen
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
                 alertDialog.setTitle("Search Through Passes");
-                alertDialog.setMessage("Not functional yet");
+                alertDialog.setMessage("Must check if admin account.");
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        final Intent intent = new Intent(ListActivity.this, PassesActivity.class);
+                        intent.putExtra(MODE, mode.PASS_SEARCH.name());
+                        startActivity(intent);
+                        finish();
                     }
                 });
                 alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

@@ -73,7 +73,18 @@ public class CreateDriverActivity extends BaseActivity {
         // Change to new activity
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Log.d(TAG, "onClick: Cancelbtn");
+                Intent intent = new Intent(CreateDriverActivity.this, DriversActivity.class);
+                if (currentMode.equals(mode.UPDATE_DRIVER.name())) {
+                    intent.putExtra(MODE, mode.DRIVERS_LIST.name());
+                } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
+                    intent = new Intent(CreateDriverActivity.this, PassActivity.class);
+                    intent.putExtra(MODE, mode.CREATE_PASS.name());
+                    intent.putExtra("Driver", driver);
+                    intent.putExtra("Vehicle", vehicle);
+                } else {
+                    intent.putExtra(MODE, mode.DRIVERS.name());
+                }
+                startActivity(intent);
                 finish();
             }
         });

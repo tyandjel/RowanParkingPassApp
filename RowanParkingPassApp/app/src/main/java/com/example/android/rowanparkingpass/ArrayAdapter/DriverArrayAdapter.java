@@ -129,11 +129,8 @@ public class DriverArrayAdapter extends ListViewArrayAdapter {
             driver.setText(cDriver.getName());
             driverAddress.setText(cDriver.getStreet());
             driverTownCity.setText(cDriver.getTown() + ", " + cDriver.getState() + " " + cDriver.getZipCode());
-
-
         }
         return animateList(position, convertView);
-
     }
 
 
