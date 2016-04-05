@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -145,7 +146,7 @@ public class LoginPageActivity extends BaseActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("https://www.google.com");
                     HttpsURLConnection urlc = (HttpsURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -181,7 +182,7 @@ public class LoginPageActivity extends BaseActivity {
         private ProgressDialog pDialog;
 
         private static final String USER_KEY = "user";
-        private static final String KEY_SUCCESS = "success";
+        private static final String KEY_SUCCESS = "FLAG";
         private static final String KEY_USER_ID = "user_id";
         private static final String KEY_USER_NAME = "user_name";
         private static final String KEY_IS_ADMIN = "is_admin";
@@ -216,22 +217,22 @@ public class LoginPageActivity extends BaseActivity {
                 /*
                 Called when the activity is first created.
                 */
-                if (json.getString(KEY_SUCCESS) != null) {
+//                if (json.getString(KEY_SUCCESS) != null) {
 
                     String res = json.getString(KEY_SUCCESS);
 
-                    if (Integer.parseInt(res) == 1) {
+                    if (res.equals("True")) {
                         pDialog.setMessage("Loading User Space");
                         pDialog.setTitle("Getting Data");
-                        DatabaseHandlerUser db = new DatabaseHandlerUser(getApplicationContext());
-                        JSONObject json_user = json.getJSONObject(USER_KEY);
+//                        DatabaseHandlerUser db = new DatabaseHandlerUser(getApplicationContext());
+//                        JSONObject json_user = json.getJSONObject(USER_KEY);
                         /**
                          * Clear all previous data in SQlite database.
                          **/
-                        UserFunctionsUsers logout = new UserFunctionsUsers();
-                        logout.logoutUser(getApplicationContext());
+//                        UserFunctionsUsers logout = new UserFunctionsUsers();
+//                        logout.logoutUser(getApplicationContext());
 
-                        db.addUser(json_user.getString(KEY_USER_ID), json_user.getString(KEY_USER_NAME), json_user.getInt(KEY_IS_ADMIN), json_user.getInt(KEY_SYNC));
+                        //db.addUser(json_user.getString(KEY_USER_ID), json_user.getString(KEY_USER_NAME), json_user.getInt(KEY_IS_ADMIN), json_user.getInt(KEY_SYNC));
                         /**
                          *If JSON array details are stored in SQlite it launches the User Panel.
                          **/
@@ -250,7 +251,7 @@ public class LoginPageActivity extends BaseActivity {
                         pDialog.dismiss();
                         loginErrorMsg.setText(R.string.incorrect_username_password);
                     }
-                }
+//                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

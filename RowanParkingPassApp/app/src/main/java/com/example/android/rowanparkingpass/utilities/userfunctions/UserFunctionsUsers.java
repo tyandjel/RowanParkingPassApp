@@ -12,9 +12,9 @@ import java.util.HashMap;
 public class UserFunctionsUsers extends UserFunctionsBase {
 
     //URL of the PHP API
-    private static final String LOGIN_URL = IP_ADDRESS_URL + DATABASE_NAME;
+    private static final String LOGIN_URL = IP_ADDRESS_URL + "/check_cas_auth.php";
 
-    private static final String LOGIN_TAG = "login";
+//    private static final String LOGIN_TAG = "login";
 
     private static final String EMAIL_KEY = "email";
     private static final String PASSWORD_KEY = "password";
@@ -34,7 +34,7 @@ public class UserFunctionsUsers extends UserFunctionsBase {
     public JSONObject loginUser(String email, String password) {
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
-        params.put(TAG_KEY, LOGIN_TAG);
+//        params.put(TAG_KEY, LOGIN_TAG);
         params.put(EMAIL_KEY, email);
         params.put(PASSWORD_KEY, password);
         // Return JsonObject

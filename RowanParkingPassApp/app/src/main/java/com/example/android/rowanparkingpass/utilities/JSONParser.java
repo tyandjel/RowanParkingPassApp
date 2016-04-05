@@ -109,11 +109,11 @@ public class JSONParser {
 
         }
 
+        result = new StringBuilder();
         try {
             //Receive the response from the server
             InputStream in = new BufferedInputStream(conn.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            result = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 result.append(line);
@@ -129,6 +129,8 @@ public class JSONParser {
 
         // try parse the string to a JSON object
         try {
+            int j =1;
+            Log.d("RESULT: " ,result.toString());
             jObj = new JSONObject(result.toString());
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
