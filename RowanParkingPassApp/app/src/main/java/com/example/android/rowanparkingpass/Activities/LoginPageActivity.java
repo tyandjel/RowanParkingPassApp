@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.utilities.NetworkCheck;
+import com.example.android.rowanparkingpass.utilities.NetworkCheckLogin;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
 
@@ -23,9 +23,9 @@ import org.json.JSONObject;
 
 public class LoginPageActivity extends BaseActivity {
 
-    private EditText inputUserName;
-    private EditText inputPassword;
-    private TextView loginErrorMsg;
+    private static EditText inputUserName;
+    private static EditText inputPassword;
+    private static TextView loginErrorMsg;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class LoginPageActivity extends BaseActivity {
             public void onClick(View view) {
 
                 if ((!inputUserName.getText().toString().equals("")) && (!inputPassword.getText().toString().equals(""))) {
-                    new NetworkCheck().NetAsync(view, LoginPageActivity.this, ProcessLogin.class.getName());
+                    new NetworkCheckLogin().NetAsync(view, LoginPageActivity.this);
                 } else if ((!inputUserName.getText().toString().equals(""))) {
                     Toast.makeText(getApplicationContext(),
                             "Password field empty", Toast.LENGTH_SHORT).show();
@@ -103,6 +103,10 @@ public class LoginPageActivity extends BaseActivity {
                 setupUI(innerView);
             }
         }
+    }
+
+    public void executeProcessLogin(){
+        new ProcessLogin().execute();
     }
 
     /**
