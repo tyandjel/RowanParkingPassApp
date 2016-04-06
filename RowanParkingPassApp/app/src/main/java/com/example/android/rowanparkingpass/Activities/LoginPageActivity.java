@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,8 +147,8 @@ public class LoginPageActivity extends BaseActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("https://www.google.com");
-                    HttpsURLConnection urlc = (HttpsURLConnection) url.openConnection();
+                    URL url = new URL("http://www.google.com");
+                    HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
                     if (urlc.getResponseCode() == 200) {
@@ -221,7 +222,7 @@ public class LoginPageActivity extends BaseActivity {
 
                     String res = json.getString(KEY_SUCCESS);
 
-                    if (res.equals("True")) {
+                    if (res.equals("true")) {
                         pDialog.setMessage("Loading User Space");
                         pDialog.setTitle("Getting Data");
 //                        DatabaseHandlerUser db = new DatabaseHandlerUser(getApplicationContext());
@@ -236,7 +237,9 @@ public class LoginPageActivity extends BaseActivity {
                         /**
                          *If JSON array details are stored in SQlite it launches the User Panel.
                          **/
-                        Intent upanel = new Intent(getApplicationContext(), ListActivity.class);
+                        Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
+
+                        upanel.putExtra(MODE, mode.HOME_PAGE.name());
 
                         upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         pDialog.dismiss();

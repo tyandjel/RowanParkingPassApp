@@ -12,19 +12,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class JSONParser {
 
     public static String POST = "POST";
     public static String GET = "GET";
     String charset = "UTF-8";
-    HttpsURLConnection conn;
+    HttpURLConnection conn;
     DataOutputStream wr;
     StringBuilder result;
     URL urlObj;
@@ -34,6 +42,8 @@ public class JSONParser {
 
     public JSONObject makeHttpRequest(String url, String method,
                                       HashMap<String, String> params) {
+
+        //disableSSLCertificateChecking();
 
         sbParams = new StringBuilder();
         int i = 0;
@@ -56,7 +66,7 @@ public class JSONParser {
             try {
                 urlObj = new URL(url);
 
-                conn = (HttpsURLConnection) urlObj.openConnection();
+                conn = (HttpURLConnection) urlObj.openConnection();
 
                 conn.setDoOutput(true);
 
@@ -67,7 +77,7 @@ public class JSONParser {
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
 
-                conn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
+                //conn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
 
                 conn.connect();
 
@@ -91,7 +101,7 @@ public class JSONParser {
             try {
                 urlObj = new URL(url);
 
-                conn = (HttpsURLConnection) urlObj.openConnection();
+                conn = (HttpURLConnection) urlObj.openConnection();
 
                 conn.setDoOutput(false);
 
@@ -116,12 +126,14 @@ public class JSONParser {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
             while ((line = reader.readLine()) != null) {
+                Log.d("LINE: ", line.toString());
                 result.append(line);
             }
 
             Log.d("JSON Parser", "result: " + result.toString());
 
         } catch (IOException e) {
+            Log.d("ERROR: ", e.getMessage());
             e.printStackTrace();
         }
 
@@ -138,5 +150,39 @@ public class JSONParser {
 
         // return JSON Object
         return jObj;
+    }
+
+    /**
+     * Disables the SSL certificate checking for new instances of {@link HttpsURLConnection} This has been created to
+     * aid testing on a local box, not for use on production.
+     */
+    private static void disableSSLCertificateChecking() {
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                // Not implemented
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                // Not implemented
+            }
+        } };
+
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }

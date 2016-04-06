@@ -16,7 +16,7 @@ public class UserFunctionsUsers extends UserFunctionsBase {
 
 //    private static final String LOGIN_TAG = "login";
 
-    private static final String EMAIL_KEY = "email";
+    private static final String EMAIL_KEY = "username";
     private static final String PASSWORD_KEY = "password";
 
     // constructor
