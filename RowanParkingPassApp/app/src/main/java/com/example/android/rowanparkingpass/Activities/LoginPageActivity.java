@@ -6,7 +6,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.ListActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.utilities.NetworkCheck;
 import com.example.android.rowanparkingpass.utilities.Utilities;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
 
 import org.json.JSONException;
@@ -29,11 +27,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
-
 public class LoginPageActivity extends BaseActivity {
 
-    private EditText inputEmail;
+    private EditText inputUserName;
     private EditText inputPassword;
     private TextView loginErrorMsg;
 
@@ -44,7 +40,7 @@ public class LoginPageActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         setupUI(findViewById(R.id.parent));
 
-        inputEmail = (EditText) findViewById(R.id.username);
+        inputUserName = (EditText) findViewById(R.id.username);
         inputPassword = (EditText) findViewById(R.id.pword);
         Button btnLogin = (Button) findViewById(R.id.createdmainmenu);
         Button btnForgotPassword = (Button) findViewById(R.id.forgotpass);
@@ -66,9 +62,10 @@ public class LoginPageActivity extends BaseActivity {
 
             public void onClick(View view) {
 
-                if ((!inputEmail.getText().toString().equals("")) && (!inputPassword.getText().toString().equals(""))) {
-                    NetAsync(view);
-                } else if ((!inputEmail.getText().toString().equals(""))) {
+                if ((!inputUserName.getText().toString().equals("")) && (!inputPassword.getText().toString().equals(""))) {
+                    new NetworkCheck().NetAsync(view, LoginPageActivity.this, ProcessLogin.class.getName());
+                    //NetAsync(view);
+                } else if ((!inputUserName.getText().toString().equals(""))) {
                     Toast.makeText(getApplicationContext(),
                             "Password field empty", Toast.LENGTH_SHORT).show();
                 } else if ((!inputPassword.getText().toString().equals(""))) {
@@ -147,7 +144,7 @@ public class LoginPageActivity extends BaseActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://www.google.com");
+                    URL url = new URL("http://saunderspc.ddns.net");
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();
@@ -175,27 +172,22 @@ public class LoginPageActivity extends BaseActivity {
     }
 
     /**
-     * Async Task to get and send data to My Sql database through JSON respone.
+     * Async Task to check login credentials and login the user through JSON response.
      */
     private class ProcessLogin extends AsyncTask<String, JSONObject, JSONObject> {
 
-        private String email, password;
+        private String userName, password;
         private ProgressDialog pDialog;
 
-        private static final String USER_KEY = "user";
         private static final String KEY_SUCCESS = "FLAG";
-        private static final String KEY_USER_ID = "user_id";
-        private static final String KEY_USER_NAME = "user_name";
-        private static final String KEY_IS_ADMIN = "is_admin";
-        private static final String KEY_SYNC = "sync";
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            inputEmail = (EditText) findViewById(R.id.username);
+            inputUserName = (EditText) findViewById(R.id.username);
             inputPassword = (EditText) findViewById(R.id.pword);
-            email = inputEmail.getText().toString();
+            userName = inputUserName.getText().toString();
             password = inputPassword.getText().toString();
             pDialog = new ProgressDialog(LoginPageActivity.this);
             pDialog.setTitle("Contacting Servers");
@@ -209,7 +201,7 @@ public class LoginPageActivity extends BaseActivity {
         protected JSONObject doInBackground(String... args) {
             UserFunctionsUsers userFunction = new UserFunctionsUsers();
             // Return JsonObject
-            return userFunction.loginUser(email, password);
+            return userFunction.loginUser(userName, password);
         }
 
         protected void onPostExecute(JSONObject json) {
@@ -218,43 +210,25 @@ public class LoginPageActivity extends BaseActivity {
                 /*
                 Called when the activity is first created.
                 */
-//                if (json.getString(KEY_SUCCESS) != null) {
+                String res = json.getString(KEY_SUCCESS);
 
-                    String res = json.getString(KEY_SUCCESS);
-
-                    if (res.equals("true")) {
-                        pDialog.setMessage("Loading User Space");
-                        pDialog.setTitle("Getting Data");
-//                        DatabaseHandlerUser db = new DatabaseHandlerUser(getApplicationContext());
-//                        JSONObject json_user = json.getJSONObject(USER_KEY);
-                        /**
-                         * Clear all previous data in SQlite database.
-                         **/
-//                        UserFunctionsUsers logout = new UserFunctionsUsers();
-//                        logout.logoutUser(getApplicationContext());
-
-                        //db.addUser(json_user.getString(KEY_USER_ID), json_user.getString(KEY_USER_NAME), json_user.getInt(KEY_IS_ADMIN), json_user.getInt(KEY_SYNC));
-                        /**
-                         *If JSON array details are stored in SQlite it launches the User Panel.
-                         **/
-                        Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
-
-                        upanel.putExtra(MODE, mode.HOME_PAGE.name());
-
-                        upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        pDialog.dismiss();
-                        startActivity(upanel);
-                        /**
-                         * Close Login Screen
-                         **/
-                        finish();
-
-                    } else {
-
-                        pDialog.dismiss();
-                        loginErrorMsg.setText(R.string.incorrect_username_password);
-                    }
-//                }
+                if (res.equals("true")) {
+                    pDialog.setMessage("Loading User Space");
+                    pDialog.setTitle("Getting Data");
+                    USER = userName;
+                    Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
+                    upanel.putExtra(MODE, mode.HOME_PAGE.name());
+                    upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    pDialog.dismiss();
+                    startActivity(upanel);
+                    /**
+                     * Close Login Screen
+                     **/
+                    finish();
+                } else {
+                    pDialog.dismiss();
+                    loginErrorMsg.setText(R.string.incorrect_username_password);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

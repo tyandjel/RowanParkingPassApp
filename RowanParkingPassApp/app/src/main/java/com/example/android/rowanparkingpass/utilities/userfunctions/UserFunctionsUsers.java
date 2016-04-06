@@ -34,7 +34,6 @@ public class UserFunctionsUsers extends UserFunctionsBase {
     public JSONObject loginUser(String email, String password) {
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
-//        params.put(TAG_KEY, LOGIN_TAG);
         params.put(EMAIL_KEY, email);
         params.put(PASSWORD_KEY, password);
         // Return JsonObject
@@ -42,12 +41,10 @@ public class UserFunctionsUsers extends UserFunctionsBase {
     }
 
     /**
-     * Function to logout user
-     * Resets the temporary data stored in SQLite Database
+     * Function to check if admin
      */
-    public boolean logoutUser(Context context) {
-        DatabaseHandlerUser db = new DatabaseHandlerUser(context);
-        db.resetTables();
+    public boolean isAdmin(Context context) {
+        //TODO: Check if current user is admin
         return true;
     }
 
