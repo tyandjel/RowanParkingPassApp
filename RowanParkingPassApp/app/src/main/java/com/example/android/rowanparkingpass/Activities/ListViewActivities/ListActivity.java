@@ -1,7 +1,5 @@
 package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +8,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
 import com.example.android.rowanparkingpass.Activities.SettingActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.ListViewArrayAdapter;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
 
 public abstract class ListActivity extends BaseActivity {
     protected Intent pastIntent;
@@ -105,25 +105,15 @@ public abstract class ListActivity extends BaseActivity {
             // action with ID action_search_pass was selected
             case R.id.action_search_pass:
                 //TODO: Will check to see if person logged in is allowed to search through passes. If so then go to search pass screen
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-                alertDialog.setTitle("Search Through Passes");
-                alertDialog.setMessage("Must check if admin account.");
-                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        final Intent intent = new Intent(ListActivity.this, PassesActivity.class);
-                        intent.putExtra(MODE, mode.PASS_SEARCH.name());
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do nothing
-                    }
-                });
-                alertDialog.show();
+                if (new UserFunctionsUsers().isAdmin()) {
+                    final Intent intent = new Intent(ListActivity.this, PassesActivity.class);
+                    intent.putExtra(MODE, mode.PASS_SEARCH.name());
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Don't Have Admin Privileges", Toast.LENGTH_LONG).show();
+                }
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:

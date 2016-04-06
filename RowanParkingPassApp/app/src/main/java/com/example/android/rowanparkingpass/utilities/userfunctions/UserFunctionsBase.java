@@ -2,12 +2,12 @@ package com.example.android.rowanparkingpass.utilities.userfunctions;
 
 import com.example.android.rowanparkingpass.utilities.JSONParser;
 
-public class UserFunctionsBase {
+public abstract class UserFunctionsBase {
 
     JSONParser jsonParser;
 
     //URL of the PHP API
-    static final String IP_ADDRESS_URL = "http://saunderspc.ddns.net"; // computer ip address
+    public static final String IP_ADDRESS_URL = "http://saunderspc.ddns.net"; // computer ip address
     static final String DATABASE_NAME = "Parking/";
 
     static final String TAG_KEY = "tag";

@@ -2,8 +2,6 @@ package com.example.android.rowanparkingpass.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -22,10 +20,6 @@ import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunction
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class LoginPageActivity extends BaseActivity {
 
@@ -64,7 +58,6 @@ public class LoginPageActivity extends BaseActivity {
 
                 if ((!inputUserName.getText().toString().equals("")) && (!inputPassword.getText().toString().equals(""))) {
                     new NetworkCheck().NetAsync(view, LoginPageActivity.this, ProcessLogin.class.getName());
-                    //NetAsync(view);
                 } else if ((!inputUserName.getText().toString().equals(""))) {
                     Toast.makeText(getApplicationContext(),
                             "Password field empty", Toast.LENGTH_SHORT).show();
@@ -112,65 +105,6 @@ public class LoginPageActivity extends BaseActivity {
         }
     }
 
-    public void NetAsync(View view) {
-        new NetCheck().execute();
-    }
-
-    /**
-     * Async Task to check whether internet connection is working.
-     */
-
-    private class NetCheck extends AsyncTask<String, Boolean, Boolean> {
-        private ProgressDialog nDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            nDialog = new ProgressDialog(LoginPageActivity.this);
-            nDialog.setTitle("Checking Network");
-            nDialog.setMessage("Loading..");
-            nDialog.setIndeterminate(false);
-            nDialog.setCancelable(true);
-            nDialog.show();
-        }
-
-        @Override
-        protected Boolean doInBackground(String... args) {
-
-            /**
-             * Gets current device state and checks for working internet connection by trying Google.
-             **/
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = cm.getActiveNetworkInfo();
-            if (netInfo != null && netInfo.isConnected()) {
-                try {
-                    URL url = new URL("http://saunderspc.ddns.net");
-                    HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
-                    urlc.setConnectTimeout(3000);
-                    urlc.connect();
-                    if (urlc.getResponseCode() == 200) {
-                        return true;
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return false;
-
-        }
-
-        @Override
-        protected void onPostExecute(Boolean th) {
-            if (th) {
-                nDialog.dismiss();
-                new ProcessLogin().execute();
-            } else {
-                nDialog.dismiss();
-                loginErrorMsg.setText(R.string.error_in_network_connection);
-            }
-        }
-    }
-
     /**
      * Async Task to check login credentials and login the user through JSON response.
      */
@@ -180,6 +114,7 @@ public class LoginPageActivity extends BaseActivity {
         private ProgressDialog pDialog;
 
         private static final String KEY_SUCCESS = "FLAG";
+        private static final String KEY_ADMIN = "ADMIN";
 
         @Override
         protected void onPreExecute() {
@@ -216,6 +151,7 @@ public class LoginPageActivity extends BaseActivity {
                     pDialog.setMessage("Loading User Space");
                     pDialog.setTitle("Getting Data");
                     USER = userName;
+                    ADMIN = json.getString(KEY_ADMIN);
                     Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

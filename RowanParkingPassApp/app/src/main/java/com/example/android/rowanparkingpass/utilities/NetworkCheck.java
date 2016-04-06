@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsBase;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -57,7 +58,7 @@ public class NetworkCheck extends BaseActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL("http://saunderspc.ddns.net");
+                    URL url = new URL(UserFunctionsBase.IP_ADDRESS_URL);
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();

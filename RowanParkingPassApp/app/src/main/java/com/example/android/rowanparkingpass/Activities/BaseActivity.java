@@ -1,6 +1,5 @@
 package com.example.android.rowanparkingpass.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 
@@ -30,6 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static final String TAG = "tag";
     public static final String MODE = "mode";
     public static String USER = "";
+    public static String ADMIN = "";
     public ProgressDialog nDialog;
 
     public static String currentMode;
@@ -39,8 +39,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
-    
-    public void showNetworkDialog(){
+
+    public void showNetworkDialog() {
 
         nDialog = new ProgressDialog(this);
         nDialog.setTitle("Checking Network");
@@ -51,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void dismissNetworkDialog(){
+    public void dismissNetworkDialog() {
         nDialog.dismiss();
     }
 }

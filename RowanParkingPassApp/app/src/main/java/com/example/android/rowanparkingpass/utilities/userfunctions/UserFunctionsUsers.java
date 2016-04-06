@@ -2,8 +2,8 @@ package com.example.android.rowanparkingpass.utilities.userfunctions;
 
 import android.content.Context;
 
+import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.utilities.JSONParser;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerUser;
 
 import org.json.JSONObject;
 
@@ -18,6 +18,7 @@ public class UserFunctionsUsers extends UserFunctionsBase {
 
     private static final String EMAIL_KEY = "username";
     private static final String PASSWORD_KEY = "password";
+
 
     // constructor
     public UserFunctionsUsers() {
@@ -43,9 +44,11 @@ public class UserFunctionsUsers extends UserFunctionsBase {
     /**
      * Function to check if admin
      */
-    public boolean isAdmin(Context context) {
-        //TODO: Check if current user is admin
-        return true;
+    public boolean isAdmin() {
+        if (BaseActivity.ADMIN.equals("TRUE")) {
+            return true;
+        }
+        return false;
     }
 
 }
