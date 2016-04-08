@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoBase;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel.UserFunctionsBase;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -52,7 +52,7 @@ public class NetworkCheckLogin extends BaseActivity {
             NetworkInfo netInfo = cm.getActiveNetworkInfo();
             if (netInfo != null && netInfo.isConnected()) {
                 try {
-                    URL url = new URL(UserFunctionsBase.IP_ADDRESS_URL);
+                    URL url = new URL(SendInfoBase.IP_ADDRESS_URL);
                     HttpURLConnection urlc = (HttpURLConnection) url.openConnection();
                     urlc.setConnectTimeout(3000);
                     urlc.connect();

@@ -1,6 +1,5 @@
 package com.example.android.rowanparkingpass.Networking;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -20,8 +19,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
-
 /**
  * {example of sending a driver
  * SaveData.makeSendInfo(makejson(driver),url);
@@ -33,25 +30,20 @@ import java.net.URL;
  */
 public class SendToServer {
 
-
     private static final String LOG_TAG = SendToServer.class.getSimpleName();
-
-    private static Context context;
     private JSONObject jsonObject;
 
-
-    public SendToServer(){
+    public SendToServer() {
 
     }
-    private  JSONObject send() {
+
+    public JSONObject send() {
         SendJSON api = new SendJSON();
-         api.execute();
+        api.execute();
         return jsonObject;
     }
 
-    public  class SendJSON extends AsyncTask<Void, Void, JSONObject>  {
-
-
+    public class SendJSON extends AsyncTask<Void, Void, JSONObject> {
 
         private JSONObject sendJSon(String output, String urlOut) throws Exception {
             JSONObject jObj = null;
@@ -87,54 +79,45 @@ public class SendToServer {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        Log.d("LINE: ", line.toString());
+                        Log.d("LINE: ", line);
                         result.append(line);
                     }
                     Log.d("JSON Parser", "result: " + result.toString());
-
                 } catch (IOException e) {
                     Log.d("ERROR: ", e.getMessage());
                     e.printStackTrace();
                 }
                 try {
-                    int j =1;
-                    Log.d("RESULT: " ,result.toString());
+                    Log.d("RESULT: ", result.toString());
                     jObj = new JSONObject(result.toString());
                 } catch (JSONException e) {
                     Log.e("JSON Parser", "Error parsing data " + e.toString());
                 }
-
-                // return JSON Object
                 Log.d(LOG_TAG, urlOut + " Sent String " + output);
-
                 connection.disconnect();
-
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.d(urlOut + " Error ", output + " exception: " + e);
                 throw new Exception();
             }
+            // return JSON Object
             return jObj;
-
         }
-
 
         @Override
         protected JSONObject doInBackground(Void... params) {
             SendInfoModel tempSendInfo = SaveData.remove();
             try {
-                while(SaveData.peek()!= null) {
-                    jsonObject=sendJSon(tempSendInfo.getJson().toString(),tempSendInfo.getUrl());
-            return jsonObject;
+                if (SaveData.peek() != null) {
+                    jsonObject = sendJSon(tempSendInfo.getJson().toString(), tempSendInfo.getUrl());
+                    return jsonObject;
                 }
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 SaveData.addSendInfo(tempSendInfo);
                 Log.d("doInBackground: ", e.toString());
             }
             return null;
         }
     }
-
 }
 

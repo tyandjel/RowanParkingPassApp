@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -31,6 +32,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         changePassword.setOnClickListener(this);
         syncNow.setOnClickListener(this);
+
+        syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(SettingActivity.this, "Sync is " + (isChecked ? "on" : "off"),
+                        Toast.LENGTH_SHORT).show();
+                //TODO write to syncOn file
+            }
+        });
     }
 
     @Override

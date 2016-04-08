@@ -16,16 +16,18 @@ import java.io.Serializable;
  */
 public class ReadWrite implements Serializable {
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public static void writeOut(SaveData saveData, Context context) throws IOException {
+    public static final String SYNC_ON_FILE = "syncOn.txt";
+    public static final String ADMIN_FILE = "admin.txt";
 
-        try (FileOutputStream fos = context.openFileOutput("Scans.ser", Context.MODE_PRIVATE)) {
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static void writeOut(SaveData saveData, String fileName, Context context) throws IOException {
+
+        try (FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE)) {
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(saveData);
             os.close();
             fos.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
     }

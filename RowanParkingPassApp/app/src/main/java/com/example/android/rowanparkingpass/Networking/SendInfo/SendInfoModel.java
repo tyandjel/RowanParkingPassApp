@@ -7,10 +7,10 @@ import org.json.JSONObject;
  */
 public class SendInfoModel {
     private String url = "";
-    private JSONObject json =null;
+    private JSONObject json = null;
 
-    public SendInfoModel(JSONObject j, String u){
-        url =u;
+    public SendInfoModel(JSONObject j, String u) {
+        url = u;
         json = j;
     }
 

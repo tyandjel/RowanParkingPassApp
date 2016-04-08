@@ -29,7 +29,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static final String TAG = "tag";
     public static final String MODE = "mode";
     public static String USER = "";
-    public static String ADMIN = "";
     public ProgressDialog nDialog;
 
     public static String currentMode;

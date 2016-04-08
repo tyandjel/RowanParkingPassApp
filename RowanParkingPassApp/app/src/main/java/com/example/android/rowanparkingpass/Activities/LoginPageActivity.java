@@ -13,10 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
-import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.Networking.NetworkCheckLogin;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
+import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.Utilities;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel.UserFunctionsUsers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -105,7 +105,7 @@ public class LoginPageActivity extends BaseActivity {
         }
     }
 
-    public void executeProcessLogin(){
+    public void executeProcessLogin() {
         new ProcessLogin().execute();
     }
 
@@ -138,7 +138,7 @@ public class LoginPageActivity extends BaseActivity {
 
         @Override
         protected JSONObject doInBackground(String... args) {
-            UserFunctionsUsers userFunction = new UserFunctionsUsers();
+            SendInfoUsers userFunction = new SendInfoUsers();
             // Return JsonObject
             return userFunction.loginUser(userName, password);
         }

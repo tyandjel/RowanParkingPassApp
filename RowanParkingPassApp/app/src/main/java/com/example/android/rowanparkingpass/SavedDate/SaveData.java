@@ -12,23 +12,26 @@ import java.util.Queue;
  * Information that is saved when the activity is closed
  * Saves the current location, server password, and a list of pending taps
  */
-public abstract class SaveData implements Serializable{
-    private static Queue<SendInfoModel>  sendInfos=new LinkedList<>();
+public abstract class SaveData implements Serializable {
+    private static Queue<SendInfoModel> sendInfos = new LinkedList<>();
 
-    public void makeSendInfo(JSONObject j, String u){
-        addSendInfo(new SendInfoModel(j,u));
-    }
-    public static boolean addSendInfo(SendInfoModel s){
-       return sendInfos.add(s);
+    public static void makeSendInfo(JSONObject j, String u) {
+        addSendInfo(new SendInfoModel(j, u));
     }
 
-    public static SendInfoModel peek(){
+    public static boolean addSendInfo(SendInfoModel s) {
+        return sendInfos.add(s);
+    }
+
+    public static SendInfoModel peek() {
         return sendInfos.peek();
     }
-    public static SendInfoModel remove(){
+
+    public static SendInfoModel remove() {
         return sendInfos.remove();
     }
-    public static int size(){
+
+    public static int size() {
         return sendInfos.size();
     }
 

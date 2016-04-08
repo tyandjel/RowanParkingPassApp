@@ -1,5 +1,7 @@
 package com.example.android.rowanparkingpass.Networking.SendInfo;
 
+import com.example.android.rowanparkingpass.Networking.SendToServer;
+import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.utilities.JSONParser;
 
 import org.json.JSONObject;
@@ -11,13 +13,7 @@ public class SendInfoVehicle extends SendInfoBase {
     //URL of the PHP API
     private static final String VEHICLE_URL = IP_ADDRESS_URL + DATABASE_NAME;
 
-    private static final String ADD_VEHICLE_TAG = "add_vehicle";
-    private static final String UPDATE_VEHICLE_TAG = "update_vehicle";
-    private static final String DELETE_VEHICLE_TAG = "delete_vehicle";
-    private static final String SYNC_VEHICLES_TAG = "sync_vehicles";
-
     private static final String USER_ID_KEY = "user_id";
-    private static final String VEHICLE_LIST_KEY = "vehicle_list";
     private static final String VEHICLE_ID_KEY = "vehicle_id";
     private static final String MAKE_KEY = "make";
     private static final String MODEL_KEY = "model";
@@ -43,17 +39,21 @@ public class SendInfoVehicle extends SendInfoBase {
      * @return JSONObject of whether vehicle was added successfully along with vehicle id
      */
     public JSONObject addVehicle(String make, String model, String year, String state, String color, String license) {
+        final String url = IP_ADDRESS_URL + "/create_vehicle.php";
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
-        params.put(TAG_KEY, ADD_VEHICLE_TAG);
         params.put(MAKE_KEY, make);
         params.put(MODEL_KEY, model);
         params.put(YEAR_KEY, year);
         params.put(STATE_KEY, state);
         params.put(COLOR_KEY, color);
         params.put(LICENSE_KEY, license);
+
+        JSONObject json = new JSONObject(params);
+        SaveData.makeSendInfo(json, url);
         // Return JsonObject
-        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
     }
 
     /**
@@ -69,9 +69,9 @@ public class SendInfoVehicle extends SendInfoBase {
      * @return JSONObject of whether vehicle was updated successfully
      */
     public JSONObject updateVehicle(String vehicleId, String make, String model, String year, String state, String color, String license) {
+        final String url = IP_ADDRESS_URL + "/update_vehicle.php";
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
-        params.put(TAG_KEY, UPDATE_VEHICLE_TAG);
         params.put(VEHICLE_ID_KEY, vehicleId);
         params.put(MAKE_KEY, make);
         params.put(MODEL_KEY, model);
@@ -79,8 +79,12 @@ public class SendInfoVehicle extends SendInfoBase {
         params.put(STATE_KEY, state);
         params.put(COLOR_KEY, color);
         params.put(LICENSE_KEY, license);
+
+        JSONObject json = new JSONObject(params);
+        SaveData.makeSendInfo(json, url);
         // Return JsonObject
-        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
     }
 
     /**
@@ -90,12 +94,16 @@ public class SendInfoVehicle extends SendInfoBase {
      * @return JSONObject of whether the vehicle was deleted successfully
      */
     public JSONObject deleteVehicle(String vehicleId) {
+        final String url = IP_ADDRESS_URL + "/delete_vehicle.php";
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
-        params.put(TAG_KEY, DELETE_VEHICLE_TAG);
         params.put(VEHICLE_ID_KEY, vehicleId);
+
+        JSONObject json = new JSONObject(params);
+        SaveData.makeSendInfo(json, url);
         // Return JsonObject
-        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
     }
 
 //    /**
@@ -142,8 +150,6 @@ public class SendInfoVehicle extends SendInfoBase {
      */
     public JSONObject syncVehicles(String userId) {
         HashMap<String, String> params = new HashMap<>();
-
-        params.put(TAG_KEY, SYNC_VEHICLES_TAG);
         params.put(USER_ID_KEY, userId);
 
         return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);

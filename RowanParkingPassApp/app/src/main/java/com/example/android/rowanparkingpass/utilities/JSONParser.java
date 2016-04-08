@@ -23,7 +23,6 @@ import java.util.HashMap;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
@@ -141,8 +140,8 @@ public class JSONParser {
 
         // try parse the string to a JSON object
         try {
-            int j =1;
-            Log.d("RESULT: " ,result.toString());
+            int j = 1;
+            Log.d("RESULT: ", result.toString());
             jObj = new JSONObject(result.toString());
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
@@ -157,7 +156,7 @@ public class JSONParser {
      * aid testing on a local box, not for use on production.
      */
     private static void disableSSLCertificateChecking() {
-        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
             public X509Certificate[] getAcceptedIssuers() {
                 return null;
             }
@@ -171,7 +170,7 @@ public class JSONParser {
             public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
                 // Not implemented
             }
-        } };
+        }};
 
         try {
             SSLContext sc = SSLContext.getInstance("TLS");

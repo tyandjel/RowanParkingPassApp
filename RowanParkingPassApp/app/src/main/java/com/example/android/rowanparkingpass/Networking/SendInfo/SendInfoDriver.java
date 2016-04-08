@@ -1,5 +1,7 @@
 package com.example.android.rowanparkingpass.Networking.SendInfo;
 
+import com.example.android.rowanparkingpass.Networking.SendToServer;
+import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.utilities.JSONParser;
 
 import org.json.JSONObject;
@@ -11,12 +13,6 @@ public class SendInfoDriver extends SendInfoBase {
     //URL of the PHP API
     private static final String DRIVER_URL = IP_ADDRESS_URL + DATABASE_NAME;
 
-    private static final String ADD_DRIVER_TAG = "add_driver";
-    private static final String UPDATE_DRIVER_TAG = "update_driver";
-    private static final String DELETE_DRIVER_TAG = "delete_driver";
-    private static final String SYNC_DRIVERS_TAG = "sync_drivers";
-
-    private static final String DRIVER_LIST_KEY = "driver_list";
     private static final String USER_ID_KEY = "user_id";
     private static final String DRIVER_ID_KEY = "driver_id";
     private static final String FULL_NAME_KEY = "full_name";
@@ -42,17 +38,20 @@ public class SendInfoDriver extends SendInfoBase {
      * @return JSONObject of whether driver was added successfully along with driver id
      */
     public JSONObject addDriver(String firstName, String lastName, String street, String city, String state, String zip) {
+        final String url = IP_ADDRESS_URL + "/add_driver.php";
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
-        params.put(TAG_KEY, ADD_DRIVER_TAG);
         params.put(FULL_NAME_KEY, firstName + " " + lastName);
         params.put(STREET_KEY, street);
         params.put(CITY_KEY, city);
         params.put(STATE_KEY, state);
         params.put(ZIP_KEY, zip);
-        // Return JsonObject
 
-        return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
+        JSONObject json = new JSONObject(params);
+        SaveData.makeSendInfo(json, url);
+        // Return JsonObject
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
     }
 
     /**
@@ -69,16 +68,20 @@ public class SendInfoDriver extends SendInfoBase {
      */
     public JSONObject updateDriver(String driverId, String firstName, String lastName, String street, String city, String state, String zip) {
         // Building Parameters
+        final String url = IP_ADDRESS_URL + "/update_driver.php";
         HashMap<String, String> params = new HashMap<>();
-        params.put(TAG_KEY, UPDATE_DRIVER_TAG);
         params.put(DRIVER_ID_KEY, driverId);
         params.put(FULL_NAME_KEY, firstName + " " + lastName);
         params.put(STREET_KEY, street);
         params.put(CITY_KEY, city);
         params.put(STATE_KEY, state);
         params.put(ZIP_KEY, zip);
+
+        JSONObject json = new JSONObject(params);
+        SaveData.makeSendInfo(json, url);
         // Return JsonObject
-        return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
     }
 
     /**
@@ -88,12 +91,16 @@ public class SendInfoDriver extends SendInfoBase {
      * @return JSONObject of whether the driver was deleted successfully
      */
     public JSONObject deleteDriver(String driverId) {
+        final String url = IP_ADDRESS_URL + "/delete_driver.php";
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
-        params.put(TAG_KEY, DELETE_DRIVER_TAG);
         params.put(DRIVER_ID_KEY, driverId);
+
+        JSONObject json = new JSONObject(params);
+        SaveData.makeSendInfo(json, url);
         // Return JsonObject
-        return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
     }
 
 //    /**
@@ -138,8 +145,6 @@ public class SendInfoDriver extends SendInfoBase {
      */
     public JSONObject syncVehicles(String userId) {
         HashMap<String, String> params = new HashMap<>();
-
-        params.put(TAG_KEY, SYNC_DRIVERS_TAG);
         params.put(USER_ID_KEY, userId);
 
         return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
