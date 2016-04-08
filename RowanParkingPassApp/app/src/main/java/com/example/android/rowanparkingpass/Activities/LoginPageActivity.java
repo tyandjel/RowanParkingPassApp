@@ -14,9 +14,9 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.utilities.NetworkCheckLogin;
+import com.example.android.rowanparkingpass.Networking.NetworkCheckLogin;
 import com.example.android.rowanparkingpass.utilities.Utilities;
-import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel.UserFunctionsUsers;
 
 import org.json.JSONException;
 import org.json.JSONObject;

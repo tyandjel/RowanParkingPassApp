@@ -1,8 +1,8 @@
-package com.example.android.rowanparkingpass.utilities.userfunctions;
+package com.example.android.rowanparkingpass.Networking.SendInfo;
 
 import com.example.android.rowanparkingpass.utilities.JSONParser;
 
-public abstract class UserFunctionsBase {
+public abstract class SendInfoBase {
 
     JSONParser jsonParser;
 
@@ -13,7 +13,7 @@ public abstract class UserFunctionsBase {
     static final String TAG_KEY = "tag";
 
     // constructor
-    public UserFunctionsBase() {
+    public SendInfoBase() {
         jsonParser = new JSONParser();
     }
 }

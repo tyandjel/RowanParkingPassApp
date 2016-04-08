@@ -1,6 +1,4 @@
-package com.example.android.rowanparkingpass.utilities.userfunctions;
-
-import android.content.Context;
+package com.example.android.rowanparkingpass.Networking.SendInfo;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.utilities.JSONParser;
@@ -9,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class UserFunctionsUsers extends UserFunctionsBase {
+public class SendInfoUsers extends SendInfoBase {
 
     //URL of the PHP API
     private static final String LOGIN_URL = IP_ADDRESS_URL + "/check_cas_auth.php";
@@ -21,7 +19,7 @@ public class UserFunctionsUsers extends UserFunctionsBase {
 
 
     // constructor
-    public UserFunctionsUsers() {
+    public SendInfoUsers() {
         super();
     }
 

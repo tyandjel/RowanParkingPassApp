@@ -15,7 +15,7 @@ import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
 import com.example.android.rowanparkingpass.Activities.SettingActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.ListViewArrayAdapter;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsUsers;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel.UserFunctionsUsers;
 
 public abstract class ListActivity extends BaseActivity {
     protected Intent pastIntent;

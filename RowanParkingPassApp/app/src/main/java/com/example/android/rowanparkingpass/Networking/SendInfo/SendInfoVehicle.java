@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass.utilities.userfunctions;
+package com.example.android.rowanparkingpass.Networking.SendInfo;
 
 import com.example.android.rowanparkingpass.utilities.JSONParser;
 
@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class UserFunctionsVehicle extends UserFunctionsBase {
+public class SendInfoVehicle extends SendInfoBase {
 
     //URL of the PHP API
     private static final String VEHICLE_URL = IP_ADDRESS_URL + DATABASE_NAME;
@@ -27,7 +27,7 @@ public class UserFunctionsVehicle extends UserFunctionsBase {
     private static final String LICENSE_KEY = "license";
 
     // constructor
-    public UserFunctionsVehicle() {
+    public SendInfoVehicle() {
         super();
     }
 

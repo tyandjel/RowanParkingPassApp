@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass.utilities;
+package com.example.android.rowanparkingpass.Networking;
 
 import android.app.Activity;
 import android.net.ConnectivityManager;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.utilities.userfunctions.UserFunctionsBase;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel.UserFunctionsBase;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
