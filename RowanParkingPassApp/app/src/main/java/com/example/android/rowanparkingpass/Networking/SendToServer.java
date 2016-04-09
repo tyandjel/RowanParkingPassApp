@@ -82,7 +82,7 @@ public class SendToServer {
                         Log.d("LINE: ", line);
                         result.append(line);
                     }
-                    Log.d("JSON Parser", "result: " + result.toString());
+                    Log.d("JSON Parser2", "result: " + result.toString());
                 } catch (IOException e) {
                     Log.d("ERROR: ", e.getMessage());
                     e.printStackTrace();

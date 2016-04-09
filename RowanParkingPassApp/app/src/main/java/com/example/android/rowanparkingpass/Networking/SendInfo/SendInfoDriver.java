@@ -14,12 +14,12 @@ public class SendInfoDriver extends SendInfoBase {
     private static final String DRIVER_URL = IP_ADDRESS_URL + DATABASE_NAME;
 
     private static final String USER_ID_KEY = "user_id";
-    private static final String DRIVER_ID_KEY = "driver_id";
-    private static final String FULL_NAME_KEY = "full_name";
-    private static final String STREET_KEY = "street";
-    private static final String CITY_KEY = "city";
-    private static final String STATE_KEY = "state";
-    private static final String ZIP_KEY = "zip";
+    private static final String DRIVER_ID_KEY = ":driver_id";
+    private static final String FULL_NAME_KEY = ":full_name";
+    private static final String STREET_KEY = ":street";
+    private static final String CITY_KEY = ":city";
+    private static final String STATE_KEY = ":state";
+    private static final String ZIP_KEY = ":zip";
 
     // constructor
     public SendInfoDriver() {
@@ -38,7 +38,8 @@ public class SendInfoDriver extends SendInfoBase {
      * @return JSONObject of whether driver was added successfully along with driver id
      */
     public JSONObject addDriver(String firstName, String lastName, String street, String city, String state, String zip) {
-        final String url = IP_ADDRESS_URL + "/add_driver.php";
+//        final String url = IP_ADDRESS_URL + "/add_driver.php";
+        final String url = IP_ADDRESS_URL + "/test.php";
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
         params.put(FULL_NAME_KEY, firstName + " " + lastName);
@@ -50,8 +51,8 @@ public class SendInfoDriver extends SendInfoBase {
         JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(json, url);
         // Return JsonObject
-        return new SendToServer().send();
-//        return jsonParser.makeHttpRequest(DRIVER_URL, JSONParser.POST, params);
+//        return new SendToServer().send();
+        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 
     /**

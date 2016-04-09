@@ -14,13 +14,13 @@ public class SendInfoVehicle extends SendInfoBase {
     private static final String VEHICLE_URL = IP_ADDRESS_URL + DATABASE_NAME;
 
     private static final String USER_ID_KEY = "user_id";
-    private static final String VEHICLE_ID_KEY = "vehicle_id";
-    private static final String MAKE_KEY = "make";
-    private static final String MODEL_KEY = "model";
-    private static final String YEAR_KEY = "year";
-    private static final String STATE_KEY = "state";
-    private static final String COLOR_KEY = "color";
-    private static final String LICENSE_KEY = "license";
+    private static final String VEHICLE_ID_KEY = ":vehicle_id";
+    private static final String MAKE_KEY = ":make";
+    private static final String MODEL_KEY = ":model";
+    private static final String YEAR_KEY = ":year";
+    private static final String STATE_KEY = ":state";
+    private static final String COLOR_KEY = ":color";
+    private static final String LICENSE_KEY = ":license";
 
     // constructor
     public SendInfoVehicle() {

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.Networking.NetworkCheckLogin;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.Utilities;
@@ -65,6 +66,7 @@ public class LoginPageActivity extends BaseActivity {
                     Toast.makeText(getApplicationContext(),
                             "Email field empty", Toast.LENGTH_SHORT).show();
                 } else {
+
                     //TODO Remove next line
 
                     //Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
@@ -118,7 +120,7 @@ public class LoginPageActivity extends BaseActivity {
         private ProgressDialog pDialog;
 
         private static final String KEY_SUCCESS = "FLAG";
-        private static final String KEY_ADMIN = "ADMIN";
+        private static final String KEY_COOKIE = "GDHR";
 
         @Override
         protected void onPreExecute() {
@@ -150,12 +152,12 @@ public class LoginPageActivity extends BaseActivity {
                 Called when the activity is first created.
                 */
                 String res = json.getString(KEY_SUCCESS);
+                BaseActivity.COOKIE = json.getString(KEY_COOKIE);
 
                 if (res.equals("true")) {
                     pDialog.setMessage("Loading User Space");
                     pDialog.setTitle("Getting Data");
                     USER = userName;
-                    ADMIN = json.getString(KEY_ADMIN);
                     Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -169,7 +171,8 @@ public class LoginPageActivity extends BaseActivity {
                     pDialog.dismiss();
                     loginErrorMsg.setText(R.string.incorrect_username_password);
                 }
-            } catch (JSONException e) {
+            } catch (JSONException | NullPointerException e) {
+                loginErrorMsg.setText(e.getMessage());
                 e.printStackTrace();
             }
         }

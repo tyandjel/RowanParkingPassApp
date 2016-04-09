@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,12 +18,15 @@ import android.widget.SearchView;
 
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -77,6 +81,16 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
     private List<Pass> buildList() {
         ArrayList<Pass> listOfAllPasses;
         if (currentMode.equals(mode.HOME_PAGE.name())) {
+            new AsyncTask<Void, JSONObject, JSONObject>(){
+
+                @Override
+                protected JSONObject doInBackground(Void... params) {
+                    SendInfoDriver sendInfoDriver = new SendInfoDriver();
+                    JSONObject json = sendInfoDriver.addDriver("TYLER", "ANDJEL", "13", "SHAMONG", "NJ", "08088");
+                    Log.d("SESSION: ", json.toString());
+                    return json;
+                }
+            }.execute();
             listOfAllPasses = db.getRequestDetails();
         } else {
             //TODO: Get list of Passes with current date only with just Name and Vehicle Info from server not local db
@@ -90,7 +104,6 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
             listOfAllPasses.add(p);
             listOfAllPasses.add(p2);
         }
-        Log.d(TAG, "BUILD LIST");
         if (listOfAllPasses == null) {
             listOfAllPasses = new ArrayList<>();
         }

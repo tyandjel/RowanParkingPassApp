@@ -2,6 +2,8 @@ package com.example.android.rowanparkingpass.utilities;
 
 import android.util.Log;
 
+import com.example.android.rowanparkingpass.Activities.BaseActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +21,12 @@ import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -73,13 +80,16 @@ public class JSONParser {
 
                 conn.setRequestProperty("Accept-Charset", charset);
 
+                if (!BaseActivity.COOKIE.equals("")) {
+                    conn.setRequestProperty("Cookie", "PHPSESSID=" + BaseActivity.COOKIE);
+                    Log.d("COOKIE", BaseActivity.COOKIE);
+                }
+
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
 
                 //conn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
-
                 conn.connect();
-
                 paramsString = sbParams.toString();
 
                 wr = new DataOutputStream(conn.getOutputStream());
@@ -130,6 +140,15 @@ public class JSONParser {
             }
 
             Log.d("JSON Parser", "result: " + result.toString());
+//            Log.d("SESSION:", conn.getHeaderField("Set-Cookie:"));
+            Map<String, List<String>> m = conn.getHeaderFields();
+            Set keys = m.keySet();
+
+            for (Iterator j = keys.iterator(); j.hasNext(); ) {
+                String key = (String) j.next();
+                List<String> value = m.get(key);
+                Log.d("HEADER", key + " = " + Arrays.asList(value));
+            }
 
         } catch (IOException e) {
             Log.d("ERROR: ", e.getMessage());
