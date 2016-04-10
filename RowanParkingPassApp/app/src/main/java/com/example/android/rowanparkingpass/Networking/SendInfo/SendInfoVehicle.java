@@ -1,17 +1,27 @@
 package com.example.android.rowanparkingpass.Networking.SendInfo;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.JSONParser;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SendInfoVehicle extends SendInfoBase {
 
     //URL of the PHP API
     private static final String VEHICLE_URL = IP_ADDRESS_URL + DATABASE_NAME;
+    private static final String MODIFY_VEHICLE_URL = IP_ADDRESS_URL + "/modify_vehicle.php";
 
     private static final String USER_ID_KEY = "user_id";
     private static final String VEHICLE_ID_KEY = ":vehicle_id";
@@ -39,7 +49,9 @@ public class SendInfoVehicle extends SendInfoBase {
      * @return JSONObject of whether vehicle was added successfully along with vehicle id
      */
     public JSONObject addVehicle(String make, String model, String year, String state, String color, String license) {
-        final String url = IP_ADDRESS_URL + "/create_vehicle.php";
+        // Return FLAG - successful?
+        // Return id - id of vehicle
+        // send state as num - start at 0
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
         params.put(MAKE_KEY, make);
@@ -50,10 +62,10 @@ public class SendInfoVehicle extends SendInfoBase {
         params.put(LICENSE_KEY, license);
 
         JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, url);
+        SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
         // Return JsonObject
-        return new SendToServer().send();
-//        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
+//        return new SendToServer().send();
+        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
     }
 
     /**
@@ -69,9 +81,9 @@ public class SendInfoVehicle extends SendInfoBase {
      * @return JSONObject of whether vehicle was updated successfully
      */
     public JSONObject updateVehicle(String vehicleId, String make, String model, String year, String state, String color, String license) {
-        final String url = IP_ADDRESS_URL + "/update_vehicle.php";
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
+        params.put(KILL_KEY, "0");
         params.put(VEHICLE_ID_KEY, vehicleId);
         params.put(MAKE_KEY, make);
         params.put(MODEL_KEY, model);
@@ -81,10 +93,10 @@ public class SendInfoVehicle extends SendInfoBase {
         params.put(LICENSE_KEY, license);
 
         JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, url);
+        SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
         // Return JsonObject
-        return new SendToServer().send();
-//        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
+//        return new SendToServer().send();
+        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
     }
 
     /**
@@ -94,16 +106,16 @@ public class SendInfoVehicle extends SendInfoBase {
      * @return JSONObject of whether the vehicle was deleted successfully
      */
     public JSONObject deleteVehicle(String vehicleId) {
-        final String url = IP_ADDRESS_URL + "/delete_vehicle.php";
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
+        params.put(KILL_KEY, "1");
         params.put(VEHICLE_ID_KEY, vehicleId);
 
         JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, url);
+        SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
         // Return JsonObject
-        return new SendToServer().send();
-//        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
+//        return new SendToServer().send();
+        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
     }
 
 //    /**
@@ -145,14 +157,25 @@ public class SendInfoVehicle extends SendInfoBase {
     /**
      * Syncs the local database of vehicles with server side
      *
-     * @param userId user's user id
      * @return JSONObject whether vehicles were successfully synced and all vehicles associated with the user id
      */
-    public JSONObject syncVehicles(String userId) {
+    public JSONObject syncVehicles( Context context) {
+        // Send everything to server
+        // Get need stuff back
+        // Return json array of objects
+        final String url = IP_ADDRESS_URL + "/sync_vehicles.php";
+        DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(context);
+        ArrayList<Vehicle> listOfDriver = db.getVehicles();
+        StringBuilder sb = new StringBuilder("[");
+        for (Vehicle v : listOfDriver){
+            sb.append(v.toString());
+            sb.append(",");
+        }
+        String s = sb.substring(0,sb.length()-1) + "]";
         HashMap<String, String> params = new HashMap<>();
-        params.put(USER_ID_KEY, userId);
-
-        return jsonParser.makeHttpRequest(VEHICLE_URL, JSONParser.POST, params);
+        params.put("json_obj", s);
+        Log.d("json_obj", s);
+        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 
 }

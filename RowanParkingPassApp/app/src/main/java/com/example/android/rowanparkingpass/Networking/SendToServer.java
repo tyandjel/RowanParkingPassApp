@@ -3,6 +3,7 @@ package com.example.android.rowanparkingpass.Networking;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 
@@ -18,6 +19,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * {example of sending a driver
@@ -56,6 +62,11 @@ public class SendToServer {
                 connection.setReadTimeout(10000); // 10 seconds
                 connection.setConnectTimeout(15000); // 15 seconds
 
+                if (!BaseActivity.COOKIE.equals("")) {
+                    connection.setRequestProperty("Cookie", "PHPSESSID=" + BaseActivity.COOKIE);
+                    Log.d("COOKIE", BaseActivity.COOKIE);
+                }
+
                 connection.setDoOutput(true); // You need to set it to true  if you want to send (output) a request body
                 connection.connect();
 
@@ -83,6 +94,14 @@ public class SendToServer {
                         result.append(line);
                     }
                     Log.d("JSON Parser2", "result: " + result.toString());
+                    Map<String, List<String>> m = connection.getHeaderFields();
+                    Set keys = m.keySet();
+
+                    for (Iterator j = keys.iterator(); j.hasNext(); ) {
+                        String key = (String) j.next();
+                        List<String> value = m.get(key);
+                        Log.d("HEADER", key + " = " + Arrays.asList(value));
+                    }
                 } catch (IOException e) {
                     Log.d("ERROR: ", e.getMessage());
                     e.printStackTrace();

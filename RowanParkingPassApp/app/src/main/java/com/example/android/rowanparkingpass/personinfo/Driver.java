@@ -80,8 +80,6 @@ public class Driver implements Serializable {
 
     @Override
     public String toString() {
-        return "Driver{" +
-                "name='" + firstName + " " + lastName + '\'' +
-                '}';
+        return "{\"driver_id\":" + driverId + ",\"street\":\"" + street + "\",\"city\":\"" + town + "\",\"full_name\":\"" + getName() + "\",\"zip_code\":" + zipCode + "}";
     }
 }

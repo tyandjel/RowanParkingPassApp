@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.Networking.NetworkCheckLogin;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.Utilities;
@@ -152,9 +151,9 @@ public class LoginPageActivity extends BaseActivity {
                 Called when the activity is first created.
                 */
                 String res = json.getString(KEY_SUCCESS);
-                BaseActivity.COOKIE = json.getString(KEY_COOKIE);
 
                 if (res.equals("true")) {
+                    BaseActivity.COOKIE = json.getString(KEY_COOKIE);
                     pDialog.setMessage("Loading User Space");
                     pDialog.setTitle("Getting Data");
                     USER = userName;

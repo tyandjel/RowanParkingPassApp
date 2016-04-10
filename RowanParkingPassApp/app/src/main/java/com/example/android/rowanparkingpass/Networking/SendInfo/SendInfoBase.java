@@ -11,6 +11,7 @@ public abstract class SendInfoBase {
     static final String DATABASE_NAME = "Parking/";
 
     static final String TAG_KEY = "tag";
+    static final String KILL_KEY = "kill";
 
     // constructor
     public SendInfoBase() {
