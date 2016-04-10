@@ -16,7 +16,7 @@ function updateDriver()
 	$zip = $_POST["zip"];
 	$full_name = $_Post["full_name"];
 	
-	$query = "Update Driver set street = $street, city = $city, state = $state, full_name = $full_name) Where driver_id = $driver_id;
+	$query = "Update Driver set street = $street, city = $city, state = $state, full_name = $full_name) Where driver_id = $driver_id";
 	mysqli_query($db,$query) or die (mysqli_error($db));
 	mysqli_close($connect);
 	
