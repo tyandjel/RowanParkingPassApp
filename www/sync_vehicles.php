@@ -8,19 +8,22 @@ function extract_ID_ARRAY($obj_rows,$col_name){
     }
     return $returnMe;
 }
-
+if(empty($_POST)){
+    echo '{"FLAG":false,"ERR":1}';# Not post
+    goto ERR;
+}
+$WAWA = $_POST["json_obj"];
 if(!empty($_SESSION['user'])){
-    if( empty($_POST) || empty($_POST["JSON_PARAM1"])){
+    if( empty($WAWA)){
+        echo '{"FLAG":false,"ERR":2}';# Check parameters
         goto ERR;
         //goto CONT;
     }
-
-    $P_OBJ = json_decode($PARAM1);
+    $P_OBJ = json_decode($WAWA);
     $array_ids = extract_ID_ARRAY($P_OBJ,'vehicle_id');
-    echo json_encode($array_ids);
     $qMarks = str_repeat('?,', count($array_ids));
     $qMarks = rtrim($qMarks,",");
-	$array_ids[] = 1; // This will be users ID
+	$array_ids[] = $_SESSION['user']['user_id']; // This will be users ID
     $query = "
             SELECT
             *
@@ -33,7 +36,7 @@ if(!empty($_SESSION['user'])){
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-		echo $ex;
+		echo '{"FLAG":false,"ERR":3}';# Database error
         goto ERR;
     }
     $row  = $stmt->fetchAll();
@@ -48,13 +51,14 @@ if(!empty($_SESSION['user'])){
 
         $array_ids = array(':vehicle_id'=>$Trow->{'vehicle_id'},':make'=>$Trow->{'make'},':model'=>$Trow->{'model'},
                            ':license'=>$Trow->{'license'},':state'=>$Trow->{'state'},':color'=>$Trow->{'color'},':year'=>$Trow->{'year'});
-        echo json_encode($array_ids);
+
         // IF id =0 this forces auto increment. DO NO LET!!
         try {
             $stmt   = $db->prepare($query);
             $result = $stmt->execute($array_ids);
         }
         catch (PDOException $ex) {
+            echo '{"FLAG":false,"ERR":3}';# Database error
             goto ERR;
         }
 		
@@ -65,23 +69,23 @@ if(!empty($_SESSION['user'])){
             ON DUPLICATE KEY UPDATE
             vehicle_id=:vehicle_id,user_id=:user_id";
 
-        $array_ids = array(':vehicle_id'=>$Trow->{'vehicle_id'},:'user_id'=>$_SESSION['user']['is_admin']);
-        echo json_encode($array_ids);
+        $array_ids = array(':vehicle_id'=>$Trow->{'vehicle_id'},':user_id'=>$_SESSION['user']['user_id']);
         // IF id =0 this forces auto increment. DO NO LET!!
         try {
             $stmt   = $db->prepare($query);
             $result = $stmt->execute($array_ids);
         }
         catch (PDOException $ex) {
+            echo '{"FLAG":false,"ERR":3}';# Database error
             goto ERR;
         }
     }
 	
-    die(json_encode($row));
-else{
+    die('{"JSONS":"'.urlencode(json_encode($row)).'"}');
+}else{
+    print '{"FLAG":false,"ERR":0}'; # Not Logged in
     goto ERR;
 }
 die();
 ERR:
-die('{"FLAG":false,"ERR":2}');
 header("HTTP/1.1 500 Internal Server Error");
