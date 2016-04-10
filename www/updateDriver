@@ -1,0 +1,23 @@
+<?php
+
+if($_Server["REQUEST_METHOD"]) == "POST"){
+	require 'Common.php';
+	updateDriver();
+}
+
+function updateDriver()
+{
+	global $db;
+	
+	$driver_id = $_POST["driver_id"];
+	$street = $_POST["street"];
+	$city = $_POST["city"];
+	$state = $_POST["state"];
+	$zip = $_POST["zip"];
+	$full_name = $_Post["full_name"];
+	
+	$query = "Update Driver set street = $street, city = $city, state = $state, full_name = $full_name) Where driver_id = $driver_id;
+	mysqli_query($db,$query) or die (mysqli_error($db));
+	mysqli_close($connect);
+	
+}
