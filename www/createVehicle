@@ -16,7 +16,7 @@ function createVehicle()
 	$license = $_POST["license"];
 	$state = $_Post["state"];
 	
-	$query = "Insert into Vehicles(make,model,license,state,color,year) values ($make,$model,$license,$state,$color,$year);
+	$query = "Insert into Vehicles(make,model,license,state,color,year) values ($make,$model,$license,$state,$color,$year)";
 	mysqli_query($db,$query) or die (mysqli_error($db));
 	mysqli_close($connect);
 	
