@@ -1,0 +1,25 @@
+<?php
+
+if($_Server["REQUEST_METHOD"]) == "POST"){
+	require 'common.php';
+	updateVehicle();
+}
+
+function updateVehicle()
+{
+	global $db;
+	
+	$vehicle_id = $_POST["vehicle_id"];
+	$make = $_POST["make"];
+	$model = $_POST["model"];
+	$year = $_POST["year"];
+	$color = $_POST["color"];
+	$license = $_POST["license"];
+	$state = $_Post["state"];
+	
+	$query = "Update Vehicles set make = $make, model = $model, license = $license,state = $state, color = $color, year = $year
+	            Where vehicle_id = $vehicle_id";
+	mysqli_query($db,$query) or die (mysqli_error($db));
+	mysqli_close($connect);
+	
+}
