@@ -87,11 +87,11 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
                 protected JSONObject doInBackground(Void... params) {
                     SendInfoDriver sendInfoDriver = new SendInfoDriver();
                     JSONObject json = sendInfoDriver.addDriver("TYLER", "ANDJEL", "13", "SHAMONG", "NJ", "08088");
-                    Log.d("SESSION: ", json.toString());
+                    //Log.d("SESSION: ", json.toString());
                     return json;
                 }
             }.execute();
-            listOfAllPasses = db.getRequestDetails();
+            listOfAllPasses = db.getPasses();
         } else {
             //TODO: Get list of Passes with current date only with just Name and Vehicle Info from server not local db
             listOfAllPasses = new ArrayList<>();

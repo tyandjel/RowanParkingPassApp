@@ -45,6 +45,39 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
         onCreate(db);
     }
 
+    public ArrayList<Pass> getPasses() {
+        ArrayList<Pass> rows = new ArrayList<>();
+        HashMap<String, String> pass = new HashMap<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
+        // Move to first row
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast() && cursor.getCount() > 0) {
+            pass.put(PassContract.PassEntry.COLUMN_REQUEST_ID, cursor.getString(0));
+            pass.put(PassContract.PassEntry.COLUMN_VEHICLE_ID, cursor.getString(1));
+            pass.put(PassContract.PassEntry.COLUMN_DRIVER_ID, cursor.getString(2));
+            pass.put(PassContract.PassEntry.COLUMN_START_DATE, cursor.getString(3));
+            pass.put(PassContract.PassEntry.COLUMN_END_DATE, cursor.getString(4));
+
+            Log.d("TAG", "BEFORE D");
+            // Get driver
+            Driver d = new DatabaseHandlerDrivers(context).getDriver(pass.get(PassContract.PassEntry.COLUMN_DRIVER_ID));
+            Log.d("TAG", "BEFORE V");
+            // Get vehicle
+            Vehicle v = new DatabaseHandlerVehicles(context).getVehicle(pass.get(PassContract.PassEntry.COLUMN_VEHICLE_ID));
+            Log.d("TAG", "BEFORE R");
+            rows.add(new Pass(Integer.parseInt(pass.get(PassContract.PassEntry.COLUMN_REQUEST_ID)), d, v, pass.get(PassContract.PassEntry.COLUMN_START_DATE), pass.get(PassContract.PassEntry.COLUMN_END_DATE)));
+            pass.clear();
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        // return passes
+        return rows;
+    }
+
     /**
      * Storing pass details in database
      */
