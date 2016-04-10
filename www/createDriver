@@ -15,7 +15,7 @@ function createDriver()
 	$zip = $_POST["zip"];
 	$full_name = $_Post["full_name"];
 	
-	$query = "Insert into Driver(street,city,state,full_name,zip) values ($street,$city,$state,$full_name);
+	$query = "Insert into Driver(street,city,state,full_name,zip) values ($street,$city,$state,$full_name)";
 	mysqli_query($db,$query) or die (mysqli_error($db));
 	mysqli_close($connect);
 	
