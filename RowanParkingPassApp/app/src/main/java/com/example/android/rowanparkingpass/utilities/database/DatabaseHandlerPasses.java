@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
@@ -18,17 +19,12 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
             "DROP TABLE IF EXISTS " + PassContract.PassEntry.TABLE_NAME;
     private static final String SQL_SELECT_ALL_ENTRIES =
             "SELECT * FROM " + PassContract.PassEntry.TABLE_NAME;
-    private static final String SQL_SELECT_DRIVER =
-            "SELECT * FROM " + DriverContract.DriverEntry.TABLE_NAME +
-                    " WHERE " + DriverContract.DriverEntry.COLUMN_DRIVER_ID +
-                    " = " + PassContract.PassEntry.COLUMN_DRIVER_ID;
-    private static final String SQL_SELECT_VEHICLE =
-            "SELECT * FROM " + VehicleContract.VehicleEntry.TABLE_NAME +
-                    " WHERE " + VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID +
-                    " = " + PassContract.PassEntry.COLUMN_VEHICLE_ID;
+
+    Context context;
 
     public DatabaseHandlerPasses(Context context) {
         super(context);
+        this.context = context;
     }
 
     // Creating Tables
@@ -49,6 +45,39 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
         onCreate(db);
     }
 
+    public ArrayList<Pass> getPasses() {
+        ArrayList<Pass> rows = new ArrayList<>();
+        HashMap<String, String> pass = new HashMap<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
+        // Move to first row
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast() && cursor.getCount() > 0) {
+            pass.put(PassContract.PassEntry.COLUMN_REQUEST_ID, cursor.getString(0));
+            pass.put(PassContract.PassEntry.COLUMN_VEHICLE_ID, cursor.getString(1));
+            pass.put(PassContract.PassEntry.COLUMN_DRIVER_ID, cursor.getString(2));
+            pass.put(PassContract.PassEntry.COLUMN_START_DATE, cursor.getString(3));
+            pass.put(PassContract.PassEntry.COLUMN_END_DATE, cursor.getString(4));
+
+            Log.d("TAG", "BEFORE D");
+            // Get driver
+            Driver d = new DatabaseHandlerDrivers(context).getDriver(pass.get(PassContract.PassEntry.COLUMN_DRIVER_ID));
+            Log.d("TAG", "BEFORE V");
+            // Get vehicle
+            Vehicle v = new DatabaseHandlerVehicles(context).getVehicle(pass.get(PassContract.PassEntry.COLUMN_VEHICLE_ID));
+            Log.d("TAG", "BEFORE R");
+            rows.add(new Pass(Integer.parseInt(pass.get(PassContract.PassEntry.COLUMN_REQUEST_ID)), d, v, pass.get(PassContract.PassEntry.COLUMN_START_DATE), pass.get(PassContract.PassEntry.COLUMN_END_DATE)));
+            pass.clear();
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        // return passes
+        return rows;
+    }
+
     /**
      * Storing pass details in database
      */
@@ -63,6 +92,55 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
         // Inserting Row
         db.insert(PassContract.PassEntry.TABLE_NAME, null, values);
         db.close(); // Closing database connection
+    }
+
+    /**
+     * Delete pass from database based on requestID
+     *
+     * @param requestID the request id
+     */
+    public void deleteRequestRequestID(String requestID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_REQUEST_ID.toString() + "=" + requestID, null);
+    }
+
+    /**
+     * Delete pass from database based on driverID
+     *
+     * @param driverID the driver id
+     */
+    public void deleteRequestDriverID(String driverID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_DRIVER_ID.toString() + "=" + driverID, null);
+
+    }
+
+    /**
+     * Delete pass from database based on vehicle id
+     *
+     * @param vehicleID the vehicle id
+     */
+    public void deleteRequestVehicleID(String vehicleID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleID, null);
+
+    }
+
+    /**
+     * Delete pass from database based on driver id and vehicle id
+     *
+     * @param driverID  the driver id
+     * @param vehicleID the vehicle id
+     */
+    public void deleteRequestDriverIDVehicleID(String driverID, String vehicleID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(PassContract.PassEntry.TABLE_NAME,
+                PassContract.PassEntry.COLUMN_DRIVER_ID.toString() + "=" + driverID + " AND "
+                        + PassContract.PassEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleID, null);
     }
 
     /**
@@ -81,64 +159,17 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
             pass.put(PassContract.PassEntry.COLUMN_REQUEST_ID, cursor.getString(0));
             pass.put(PassContract.PassEntry.COLUMN_VEHICLE_ID, cursor.getString(1));
             pass.put(PassContract.PassEntry.COLUMN_DRIVER_ID, cursor.getString(2));
-            pass.put(PassContract.PassEntry.COLUMN_START_DATE, cursor.getString(4));
-            pass.put(PassContract.PassEntry.COLUMN_END_DATE, cursor.getString(5));
+            pass.put(PassContract.PassEntry.COLUMN_START_DATE, cursor.getString(3));
+            pass.put(PassContract.PassEntry.COLUMN_END_DATE, cursor.getString(4));
 
-            HashMap<String, String> obj = new HashMap<>();
-            // Get Driver Info
-
-            SQLiteDatabase driverDB = this.getReadableDatabase();
-            Cursor cursorDriver = driverDB.rawQuery(SQL_SELECT_DRIVER, null);
-            cursorDriver.moveToFirst();
-            String firstName = "";
-            String lastName = "";
-            if (!cursor.isAfterLast()) {
-                obj.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(1));
-                obj.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(2));
-                obj.put(DriverContract.DriverEntry.COLUMN_CITY, cursor.getString(3));
-                obj.put(DriverContract.DriverEntry.COLUMN_STATE, cursor.getString(4));
-                obj.put(DriverContract.DriverEntry.COLUMN_ZIP, cursor.getString(5));
-                // Split the full name
-                String[] fullName = obj.get(DriverContract.DriverEntry.COLUMN_FULL_NAME).split(" ");
-                firstName = fullName[0];
-                for (int i = 1; i < fullName.length - 1; i++) {
-                    lastName += fullName[i];
-                }
-            }
-            Driver d = new Driver(Integer.parseInt(PassContract.PassEntry.COLUMN_DRIVER_ID), firstName, lastName,
-                    obj.get(DriverContract.DriverEntry.COLUMN_STREET),
-                    obj.get(DriverContract.DriverEntry.COLUMN_CITY),
-                    obj.get(DriverContract.DriverEntry.COLUMN_STATE),
-                    obj.get(DriverContract.DriverEntry.COLUMN_ZIP));
-            obj.clear();
-            cursorDriver.close();
-            driverDB.close();
-
-            // Get Vehicle Info
-
-            SQLiteDatabase vehicleDB = this.getReadableDatabase();
-            Cursor cursorVehicle = vehicleDB.rawQuery(SQL_SELECT_VEHICLE, null);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                obj.put(VehicleContract.VehicleEntry.COLUMN_MAKE, cursor.getString(1));
-                obj.put(VehicleContract.VehicleEntry.COLUMN_MODEL, cursor.getString(2));
-                obj.put(VehicleContract.VehicleEntry.COLUMN_YEAR, cursor.getString(3));
-                obj.put(VehicleContract.VehicleEntry.COLUMN_STATE, cursor.getString(4));
-                obj.put(VehicleContract.VehicleEntry.COLUMN_COLOR, cursor.getString(5));
-                obj.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, cursor.getString(6));
-            }
-            Vehicle v = new Vehicle(Integer.parseInt(PassContract.PassEntry.COLUMN_VEHICLE_ID),
-                    obj.get(VehicleContract.VehicleEntry.COLUMN_MAKE),
-                    obj.get(VehicleContract.VehicleEntry.COLUMN_MODEL),
-                    Integer.parseInt(obj.get(VehicleContract.VehicleEntry.COLUMN_YEAR)),
-                    obj.get(VehicleContract.VehicleEntry.COLUMN_STATE),
-                    obj.get(VehicleContract.VehicleEntry.COLUMN_COLOR),
-                    obj.get(VehicleContract.VehicleEntry.COLUMN_LICENSE));
-            obj.clear();
-            cursorVehicle.close();
-            vehicleDB.close();
-
-            rows.add(new Pass(d, v, pass.get(PassContract.PassEntry.COLUMN_START_DATE), pass.get(PassContract.PassEntry.COLUMN_END_DATE)));
+            Log.d("TAG", "BEFORE D");
+            // Get driver
+            Driver d = new DatabaseHandlerDrivers(context).getDriver(pass.get(PassContract.PassEntry.COLUMN_DRIVER_ID));
+            Log.d("TAG", "BEFORE V");
+            // Get vehicle
+            Vehicle v = new DatabaseHandlerVehicles(context).getVehicle(pass.get(PassContract.PassEntry.COLUMN_VEHICLE_ID));
+            Log.d("TAG", "BEFORE R");
+            rows.add(new Pass(Integer.parseInt(pass.get(PassContract.PassEntry.COLUMN_REQUEST_ID)), d, v, pass.get(PassContract.PassEntry.COLUMN_START_DATE), pass.get(PassContract.PassEntry.COLUMN_END_DATE)));
             pass.clear();
             cursor.moveToNext();
         }

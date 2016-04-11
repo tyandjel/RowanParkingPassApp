@@ -5,30 +5,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
+import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class PassActivity extends BaseActivity implements View.OnClickListener {
 
-    private DatabaseHandlerDrivers dbDriverss;
-    private DatabaseHandlerVehicles dbVehicles;
-
-    //private Spinner visitorList;
-    //private Spinner vehicleList;
-
-    private ArrayAdapter<Driver> driverArrayAdapter;
-    private ArrayAdapter<Vehicle> vehicleArrayAdapter;
+    private Driver driver;
+    private Vehicle vehicle;
 
     private SimpleDateFormat dateFormatter;
     private DatePickerDialog startDatePickerDialog;
@@ -37,31 +38,32 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
     private EditText startDate;
     private EditText endDate;
 
-    //    private Button newVisitor;
-//    private Button newVehicle;
     private Button createPass;
     private Button mainMenu;
+
+    private DatabaseHandlerPasses db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass);
 
-        //Get this from database
-        Driver[] drivers = new Driver[]{new Driver(0, "Tyler", "Andjel", "13 Yorktown Dr.", "Shamong", "NJ", "08088"),
-                new Driver(1, "John", "Doe", "1 Main St.", "Main", "NJ", "08088")};
-        //Get this from database
-        Vehicle[] vehicles = new Vehicle[]{new Vehicle(1, "Hyandai", "Sonnata", 2007, "Gray", "NJ", "DBA-TBA"),
-                new Vehicle(2, "Ford", "Mustang", 2015, "Red", "PA", "DTP-TXV")};
+        Intent pastIntent = getIntent();
+        currentMode = pastIntent.getStringExtra(MODE);
 
-        //visitorList = (Spinner) findViewById(R.id.createdriverspinner);
-        //vehicleList = (Spinner) findViewById(R.id.createvehiclespinner);
+        db = new DatabaseHandlerPasses(getApplicationContext());
 
-        driverArrayAdapter = new ArrayAdapter<Driver>(this, android.R.layout.simple_spinner_item, drivers);
-        vehicleArrayAdapter = new ArrayAdapter<Vehicle>(this, android.R.layout.simple_spinner_item, vehicles);
+        Pass pass = (Pass) pastIntent.getSerializableExtra("Pass");
+        if (pass == null) {
+            driver = (Driver) pastIntent.getSerializableExtra("Driver");
+            vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
+        } else {
+            driver = pass.getDriver();
+            vehicle = pass.getVehicle();
+        }
 
-        //visitorList.setAdapter(driverArrayAdapter);
-        //vehicleList.setAdapter(vehicleArrayAdapter);
+        setDriverView();
+        setVehicleView();
 
         dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -77,6 +79,12 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar.set(year, month, day);
+
+        startDate.setText(dateFormatter.format(calendar.getTime()));
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        endDate.setText(dateFormatter.format(calendar.getTime()));
+
 
         startDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -84,6 +92,17 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 startDate.setText(dateFormatter.format(newDate.getTime()));
+                try {
+                    Date d = newDate.getTime();
+                    Date d2 = dateFormatter.parse(endDate.getText().toString());
+                    if (d.after(d2)) {
+                        newDate.add(Calendar.DAY_OF_MONTH, 1);
+                        endDate.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                } catch (ParseException pe) {
+                    pe.printStackTrace();
+                }
+
             }
         }, year, month, day);
 
@@ -93,60 +112,132 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 endDate.setText(dateFormatter.format(newDate.getTime()));
+                try {
+                    Date d = newDate.getTime();
+                    Date d2 = dateFormatter.parse(startDate.getText().toString());
+                    if (d.before(d2)) {
+                        newDate.add(Calendar.DAY_OF_MONTH, -1);
+                        startDate.setText(dateFormatter.format(newDate.getTime()));
+                    }
+                } catch (ParseException pe) {
+                    pe.printStackTrace();
+                }
             }
         }, year, month, day);
 
-
-//        newVisitor = (Button) findViewById(R.id.createnewdriverbtn);
-//        newVehicle = (Button) findViewById(R.id.createnewvehiclebtn);
         createPass = (Button) findViewById(R.id.createPassButton);
         mainMenu = (Button) findViewById(R.id.goMainMenuButton);
 
-//        newVisitor.setOnClickListener(this);
-//        newVehicle.setOnClickListener(this);
         createPass.setOnClickListener(this);
         mainMenu.setOnClickListener(this);
+    }
+
+    public void setDriverView() {
+        View driverView = findViewById(R.id.driver_view);
+        driverView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PassActivity.this, DriversActivity.class);
+                intent.putExtra(MODE, mode.UPDATE_PASS_DRIVERS.name());
+                intent.putExtra("Driver", driver);
+                intent.putExtra("Vehicle", vehicle);
+                startActivity(intent);
+                finish();
+            }
+        });
+        driverView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(PassActivity.this, CreateDriverActivity.class);
+                intent.putExtra(MODE, mode.UPDATE_PASS_DRIVER.name());
+                intent.putExtra("Driver", driver);
+                intent.putExtra("Vehicle", vehicle);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+        });
+        // Set up text views for driver info
+        TextView newDriver = (TextView) findViewById(R.id.new_visitor_text_view);
+        TextView name = (TextView) findViewById(R.id.driver_text_view);
+        TextView driverAddress = (TextView) findViewById(R.id.address_text_view);
+        TextView driverTownCity = (TextView) findViewById(R.id.town_city_text_view);
+        newDriver.setText("");
+        name.setText(driver.getName());
+        driverAddress.setText(driver.getStreet());
+        driverTownCity.setText(driver.getTown() + ", " + driver.getState() + " " + driver.getZipCode());
+    }
+
+    public void setVehicleView() {
+        View vehicleView = findViewById(R.id.vehicle_view);
+        vehicleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PassActivity.this, VehiclesActivity.class);
+                intent.putExtra(MODE, mode.UPDATE_PASS_VEHICLE.name());
+                intent.putExtra("Driver", (Serializable) driver);
+                startActivity(intent);
+                finish();
+            }
+        });
+        vehicleView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(PassActivity.this, CreateVehicleActivity.class);
+                intent.putExtra(MODE, mode.UPDATE_PASS_VEHICLE.name());
+                intent.putExtra("Driver", (Serializable) driver);
+                intent.putExtra("Vehicle", (Serializable) vehicle);
+                startActivity(intent);
+                finish();
+                return true;
+            }
+        });
+        // Set up text views for vehicle info
+        TextView newVehicle = (TextView) findViewById(R.id.new_vehicle_text_view);
+        TextView carText = (TextView) findViewById(R.id.car_text_view);
+        TextView plateText = (TextView) findViewById(R.id.plate_text_view);
+        TextView carColor = (TextView) findViewById(R.id.car_color);
+        newVehicle.setText("");
+        carText.setText(vehicle.getYear() + " " + vehicle.getMake() + " " + vehicle.getModel());
+        plateText.setText(vehicle.getVehicleState() + " " + vehicle.getLicensePlate());
+        carColor.setText("");
+        carColor.setTextColor(Integer.parseInt(vehicle.getColor()));
+        carColor.setBackgroundColor(Integer.parseInt(vehicle.getColor()));
 
     }
 
     @Override
     public void onClick(View view) {
         Intent intent;
-//        if (view == newVisitor) {
-//            //TODO change so it knows to go to show drivers
-//            intent = new Intent(getApplicationContext(), ListActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(intent);
-//            finish();
-//        } else if (view == newVehicle) {
-//            //TODO change so it knows to go to show vehicles
-//            intent = new Intent(getApplicationContext(), ListActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(intent);
-//            finish();
-       /* } else*/
         if (view == startDate) {
             // Select Pass Start Date using a date selector
             startDatePickerDialog.show();
         } else if (view == endDate) {
             // Select Pass End Date using a date selector
             endDatePickerDialog.show();
-        } else if (view == createPass) {
-            //TODO add pass to remote database, send email, and may be able to get rid of createdPass
-//            Pass createdPass = new Pass(driverArrayAdapter.getItem(visitorList.getSelectedItemPosition()),
-//                    vehicleArrayAdapter.getItem(vehicleList.getSelectedItemPosition()),
-//                    startDate.getText().toString(), endDate.getText().toString());
-            intent = new Intent(getApplicationContext(), HomePageActivity.class);
-//            intent.putExtra("pass", createdPass);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        } else if (view == mainMenu) {
-            // Goes back to main menu
-            intent = new Intent(getApplicationContext(), HomePageActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+        } else {
+            if (view == createPass) {
+                //TODO add pass to remote database, send email
+                Pass createdPass = new Pass(1, driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
+                if (createdPass.getDriver().getDriverId() != -1 || createdPass.getVehicle().getVehicleId() != -1) {
+                    db.deleteRequestDriverIDVehicleID(String.valueOf(createdPass.getDriver().getDriverId()), String.valueOf(createdPass.getVehicle().getVehicleId()));
+                    db.addRequest(createdPass.getRequestID(), createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
+                } else {
+                    Toast.makeText(getApplicationContext(), "A temporary driver and/or vehicle was used. Pass will not be stored locally.", Toast.LENGTH_LONG).show();
+                }
+                intent = new Intent(getApplicationContext(), PassesActivity.class);
+                intent.putExtra(MODE, mode.HOME_PAGE.name());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            } else if (view == mainMenu) {
+                // Goes back to main menu
+                intent = new Intent(getApplicationContext(), PassesActivity.class);
+                intent.putExtra(MODE, mode.HOME_PAGE.name());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 

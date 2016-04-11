@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
@@ -14,7 +15,7 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + VehicleContract.VehicleEntry.TABLE_NAME + " (" +
-                    VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + VehicleContract.INTEGER_TYPE + " PRIMARY KEY," +
+                    VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + VehicleContract.INTEGER_TYPE + " PRIMARY KEY AUTO_INCREMENT," +
                     VehicleContract.VehicleEntry.COLUMN_MAKE + VehicleContract.TEXT_TYPE + VehicleContract.COMMA_SEP +
                     VehicleContract.VehicleEntry.COLUMN_MODEL + VehicleContract.TEXT_TYPE + VehicleContract.COMMA_SEP +
                     VehicleContract.VehicleEntry.COLUMN_YEAR + VehicleContract.INTEGER_TYPE + VehicleContract.COMMA_SEP +
@@ -65,6 +66,23 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     }
 
     /**
+     * Storing vehicle details in database
+     */
+    public void addVehicle(int year, String make, String model, String state, String color, String license) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(VehicleContract.VehicleEntry.COLUMN_MAKE, make); // Car Make
+        values.put(VehicleContract.VehicleEntry.COLUMN_MODEL, model); // Car Model
+        values.put(VehicleContract.VehicleEntry.COLUMN_YEAR, year); // Car Year
+        values.put(VehicleContract.VehicleEntry.COLUMN_STATE, state); // Car State
+        values.put(VehicleContract.VehicleEntry.COLUMN_COLOR, color); // Car Color
+        values.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, license); // Car License Plate
+        // Inserting Row
+        db.insert(VehicleContract.VehicleEntry.TABLE_NAME, null, values);
+        db.close(); // Closing database connection
+    }
+
+    /**
      * Update vehicle details in database
      */
     public void updateVehicle(int vehicleId, int year, String make, String model, String state, String color, String license) {
@@ -78,6 +96,44 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         values.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, license); // Car License Plate
         // Update Row
         db.update(VehicleContract.VehicleEntry.TABLE_NAME, values, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + "=" + vehicleId, null);
+    }
+
+    public void deleteVehicle(String vehicleId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Delete Row
+        db.delete(VehicleContract.VehicleEntry.TABLE_NAME, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleId, null);
+    }
+
+    public Vehicle getVehicle(String id) {
+        final String SQL_SELECT_VEHICLE =
+                "SELECT * FROM " + VehicleContract.VehicleEntry.TABLE_NAME +
+                        " WHERE " + VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID +
+                        " = " + id;
+        HashMap<String, String> obj = new HashMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SQL_SELECT_VEHICLE, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast() && cursor.getCount() > 0) {
+            obj.put(VehicleContract.VehicleEntry.COLUMN_MAKE, cursor.getString(1));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_MODEL, cursor.getString(2));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_YEAR, cursor.getString(3));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_STATE, cursor.getString(4));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_COLOR, cursor.getString(5));
+            obj.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, cursor.getString(6));
+            cursor.moveToNext();
+        }
+        Log.d("TAG", "DB HANDLER VEHICLES");
+        Vehicle vehicle = new Vehicle(Integer.parseInt(id),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_MAKE),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_MODEL),
+                Integer.parseInt(obj.get(VehicleContract.VehicleEntry.COLUMN_YEAR)),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_COLOR),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_STATE),
+                obj.get(VehicleContract.VehicleEntry.COLUMN_LICENSE));
+        obj.clear();
+        cursor.close();
+        db.close();
+        return vehicle;
     }
 
     /**
@@ -103,8 +159,8 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
                     vehicle.get(VehicleContract.VehicleEntry.COLUMN_MAKE),
                     vehicle.get(VehicleContract.VehicleEntry.COLUMN_MODEL),
                     Integer.parseInt(vehicle.get(VehicleContract.VehicleEntry.COLUMN_YEAR)),
-                    vehicle.get(VehicleContract.VehicleEntry.COLUMN_STATE),
                     vehicle.get(VehicleContract.VehicleEntry.COLUMN_COLOR),
+                    vehicle.get(VehicleContract.VehicleEntry.COLUMN_STATE),
                     vehicle.get(VehicleContract.VehicleEntry.COLUMN_LICENSE)));
             vehicle.clear();
             cursor.moveToNext();

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background">
@@ -33,10 +34,10 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:digits="@string/safe_characters"
             android:hint="@string/full_name_hint"
             android:inputType="textPersonName"
-            android:textColor="@color/textColor2"
-            android:textIsSelectable="true" />
+            android:textColor="@color/textColor2" />
     </TableRow>
 
     <TableRow
@@ -63,10 +64,10 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:digits="@string/safe_characters"
             android:hint="@string/street_hint"
             android:inputType="textPostalAddress"
-            android:textColor="@color/textColor2"
-            android:textIsSelectable="true" />
+            android:textColor="@color/textColor2" />
     </TableRow>
 
     <TableRow
@@ -93,9 +94,9 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:digits="@string/safe_characters"
             android:hint="@string/city_hint"
-            android:textColor="@color/textColor2"
-            android:textIsSelectable="true" />
+            android:textColor="@color/textColor2" />
     </TableRow>
 
     <TableRow
@@ -153,8 +154,7 @@
             android:hint="@string/zip_code_hint"
             android:inputType="number"
             android:maxLength="5"
-            android:textColor="@color/textColor2"
-            android:textIsSelectable="true" />
+            android:textColor="@color/textColor2" />
     </TableRow>
 
     <TableRow

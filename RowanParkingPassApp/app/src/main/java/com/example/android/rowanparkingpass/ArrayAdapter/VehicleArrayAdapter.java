@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import com.example.android.rowanparkingpass.R;
@@ -13,12 +13,12 @@ import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by John on 3/6/2016.
- */
-public class VehicleArrayAdapter extends BaseAdapter {
+public class VehicleArrayAdapter extends ListViewArrayAdapter {
 
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private int lastPos = 0;
+    private List<Vehicle> vehicleList = new ArrayList<>();
+    private ArrayList<Vehicle> filteredVehicleList = new ArrayList<>();
+    private VehicleFilter vehicleFilter;
 
     private Context context;
     LayoutInflater myInflater;
@@ -35,14 +35,17 @@ public class VehicleArrayAdapter extends BaseAdapter {
             makeVehiclesList(new ArrayList<Vehicle>());
         }
         myInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        getFilter();
     }
 
     /**
      * This is for creating the content for a list of drivers in listview
      */
     public void makeVehiclesList(List<Vehicle> v) {
-        vehicles.add(0, null); // adds empty place holder to position 0
-        vehicles.addAll(v);
+        vehicleList.add(0, null); // adds empty place holder to position 0
+        vehicleList.addAll(v);
+        filteredVehicleList.add(0, null);
+        filteredVehicleList.addAll(v);
     }
 
     private void inflateLayout() {
@@ -57,7 +60,7 @@ public class VehicleArrayAdapter extends BaseAdapter {
      */
 
     public int getCount() {
-        return vehicles.size();
+        return filteredVehicleList.size();
     }
 
 
@@ -70,7 +73,7 @@ public class VehicleArrayAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return vehicles.get(position);
+        return filteredVehicleList.get(position);
     }
 
 
@@ -84,7 +87,6 @@ public class VehicleArrayAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
 
 
     /**
@@ -108,26 +110,75 @@ public class VehicleArrayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-            if (convertView == null){
-                convertView = myInflater.inflate(R.layout.view_vehicle, parent, false);
-            }
+        if (convertView == null) {
+            convertView = myInflater.inflate(R.layout.view_vehicle, parent, false);
+        }
 
         TextView newVehicle = (TextView) convertView.findViewById(R.id.new_vehicle_text_view);
         TextView carText = (TextView) convertView.findViewById(R.id.car_text_view);
         TextView plateText = (TextView) convertView.findViewById(R.id.plate_text_view);
+        TextView carColor = (TextView) convertView.findViewById(R.id.car_color);
+        TextView carColorText = (TextView) convertView.findViewById(R.id.car_color_text);
 
-        if (position == 0) {
+        if (position == 0 && getItem(0) == null) {
             newVehicle.setText("+ Create New Vehicle");
             carText.setText("");
             plateText.setText("");
+            carColor.setText("");
+            carColor.setBackgroundColor(0);
+            carColorText.setText("");
         } else {
             newVehicle.setText("");
-            Vehicle cVehicle = vehicles.get(position);
-            carText.setText(cVehicle.getYear() + " " + cVehicle.getMake() + " " + cVehicle.getModel() + " " + cVehicle.getColor());
-            plateText.setText(cVehicle.getLicensePlate());
+            Vehicle cVehicle = filteredVehicleList.get(position);
+            carText.setText(cVehicle.getYear() + " " + cVehicle.getMake() + " " + cVehicle.getModel());
+            plateText.setText(cVehicle.getVehicleState() + " " + cVehicle.getLicensePlate());
+            carColor.setTextColor(Integer.parseInt(cVehicle.getColor()));
+            carColor.setBackgroundColor(Integer.parseInt(cVehicle.getColor()));
         }
 
-        return convertView;
+        return animateList(position, convertView);
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (vehicleFilter == null) {
+            vehicleFilter = new VehicleFilter();
+        }
+        return vehicleFilter;
+    }
+
+    private class VehicleFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            if (constraint != null && constraint.length() > 0) {
+                ArrayList<Vehicle> tempList = new ArrayList<Vehicle>();
+
+                // search content in friend list
+                for (Vehicle vehicle : vehicleList) {
+                    if (vehicle != null) {
+                        if (vehicle.getCarInfo().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            tempList.add(vehicle);
+                        }
+                    }
+                }
+
+                filterResults.count = tempList.size();
+                filterResults.values = tempList;
+            } else {
+                filterResults.count = vehicleList.size();
+                filterResults.values = vehicleList;
+            }
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredVehicleList = (ArrayList<Vehicle>) results.values;
+            notifyDataSetChanged();
+        }
     }
 }
 

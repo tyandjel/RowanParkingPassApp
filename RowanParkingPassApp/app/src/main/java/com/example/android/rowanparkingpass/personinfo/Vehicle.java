@@ -79,18 +79,11 @@ public class Vehicle implements Serializable {
     }
 
     public String getCarInfo() {
-        return color + " " + year + " " + make + " " + model;
+        return year + " " + make + " " + model + " " + vehicleState + " " + licensePlate;
     }
 
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "make='" + make + '\'' +
-                ", model='" + model + '\'' +
-                ", year=" + year +
-                ", color=" + color +
-                ", vehicleState='" + vehicleState + '\'' +
-                ", licensePlate='" + licensePlate + '\'' +
-                '}';
+        return ("{`vehicle_id`:" + vehicleId + ",`make`:`" + make + "`,`model`:`" + model + "`,`license`:`" + licensePlate + "`,`state`:" + 1 + ",`color`:" + color + ",`year`:" + year + "}").replace("`", "\"");
     }
 }

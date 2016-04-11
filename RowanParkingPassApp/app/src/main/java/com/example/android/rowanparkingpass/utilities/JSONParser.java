@@ -2,6 +2,8 @@ package com.example.android.rowanparkingpass.utilities;
 
 import android.util.Log;
 
+import com.example.android.rowanparkingpass.Activities.BaseActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,19 +14,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class JSONParser {
 
     public static String POST = "POST";
     public static String GET = "GET";
     String charset = "UTF-8";
-    HttpsURLConnection conn;
+    HttpURLConnection conn;
     DataOutputStream wr;
     StringBuilder result;
     URL urlObj;
@@ -34,6 +48,8 @@ public class JSONParser {
 
     public JSONObject makeHttpRequest(String url, String method,
                                       HashMap<String, String> params) {
+
+        //disableSSLCertificateChecking();
 
         sbParams = new StringBuilder();
         int i = 0;
@@ -56,7 +72,7 @@ public class JSONParser {
             try {
                 urlObj = new URL(url);
 
-                conn = (HttpsURLConnection) urlObj.openConnection();
+                conn = (HttpURLConnection) urlObj.openConnection();
 
                 conn.setDoOutput(true);
 
@@ -64,13 +80,16 @@ public class JSONParser {
 
                 conn.setRequestProperty("Accept-Charset", charset);
 
+                if (!BaseActivity.COOKIE.equals("")) {
+                    conn.setRequestProperty("Cookie", "PHPSESSID=" + BaseActivity.COOKIE);
+                    Log.d("COOKIE", BaseActivity.COOKIE);
+                }
+
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
 
-                conn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
-
+                //conn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
                 conn.connect();
-
                 paramsString = sbParams.toString();
 
                 wr = new DataOutputStream(conn.getOutputStream());
@@ -91,7 +110,7 @@ public class JSONParser {
             try {
                 urlObj = new URL(url);
 
-                conn = (HttpsURLConnection) urlObj.openConnection();
+                conn = (HttpURLConnection) urlObj.openConnection();
 
                 conn.setDoOutput(false);
 
@@ -109,19 +128,30 @@ public class JSONParser {
 
         }
 
+        result = new StringBuilder();
         try {
             //Receive the response from the server
             InputStream in = new BufferedInputStream(conn.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            result = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
+                Log.d("LINE: ", line.toString());
                 result.append(line);
             }
 
             Log.d("JSON Parser", "result: " + result.toString());
+//            Log.d("SESSION:", conn.getHeaderField("Set-Cookie:"));
+            Map<String, List<String>> m = conn.getHeaderFields();
+            Set keys = m.keySet();
+
+            for (Iterator j = keys.iterator(); j.hasNext(); ) {
+                String key = (String) j.next();
+                List<String> value = m.get(key);
+                Log.d("HEADER", key + " = " + Arrays.asList(value));
+            }
 
         } catch (IOException e) {
+            Log.d("ERROR: ", e.getMessage());
             e.printStackTrace();
         }
 
@@ -129,6 +159,8 @@ public class JSONParser {
 
         // try parse the string to a JSON object
         try {
+            int j = 1;
+            Log.d("RESULT: ", result.toString());
             jObj = new JSONObject(result.toString());
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
@@ -136,5 +168,39 @@ public class JSONParser {
 
         // return JSON Object
         return jObj;
+    }
+
+    /**
+     * Disables the SSL certificate checking for new instances of {@link HttpsURLConnection} This has been created to
+     * aid testing on a local box, not for use on production.
+     */
+    private static void disableSSLCertificateChecking() {
+        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() {
+                return null;
+            }
+
+            @Override
+            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                // Not implemented
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                // Not implemented
+            }
+        }};
+
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }

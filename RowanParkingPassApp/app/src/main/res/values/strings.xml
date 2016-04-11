@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">Rowan Car Pass</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -39,7 +39,7 @@
     <string name="year">Year</string>
     <string name="year_hint">1986</string>
     <string name="color">Color</string>
-    <string name="color_hint">Black</string>
+    <string name="color_hint">Choose a Color</string>
     <string name="license">License</string>
     <string name="license_hint">#######</string>
     <string name="create_vehicle">Create Vehicle</string>
@@ -54,10 +54,18 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_search">Search</string>
+    <string name="menu_pass_search">Pass Search</string>
     <string name="menu_delete">Delete</string>
     <string name="menu_home">Main Menu</string>
 
     <string name="error_in_network_connection">Error in Network Connection</string>
     <string name="incorrect_username_password">Incorrect Username/Password</string>
+
+    <string name="color_picker_default_title">Select a Car Color</string>
+    <string name="color_swatch_description">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
+    <string name="color_swatch_description_selected">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
+    <string name="pref_config">Color Picker</string>
+
+    <string name="safe_characters">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ėęěĕəèéêëēŕřþťțţýùúûüūůűųìíîïīįıòóôõöøőœàáâãäåæāăąß§śšşďđ ģğķĺļľłźżžçćčñńņňÈÉÊËĒĖĘĚĔƏŔŘÞŤȚŢÝÙÚÛÜŪŮŰŲÌÍÎÏĪĮİÒÓÔÕÖØŐŐŒÀÁÂÃÄÅÆĀĂĄß§ŚŠŞĎĐĢĞĶĹĻĽŁŹŻŽÇĆČÑŃŅŇ. </string>
 
 </resources>

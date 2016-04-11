@@ -6,9 +6,55 @@
     <color name="colorAccent">#FF4081</color>
     <color name="textColor">#FFEE00</color>
     <color name="textColor2">#7dffff</color>
-    <color name="white">#FFFFFF</color>
     <color name="background">#764502</color>
     <color name="buttonpressed">#FFEE00</color>
+    <color name="white">#FFFFFF</color>
     <color name="listViewObjects">#FF4D3601</color>
+
+    <color name="Red">#ff0000</color>
+    <color name="Light_Orange">#ffbf00</color>
+    <color name="Orange">#ff8000</color>
+    <color name="Yellow">#ffff00</color>
+    <color name="Gold">#ffd700</color>
+    <color name="Light_Green">#bfff00</color>
+    <color name="Green">#00ff00</color>
+    <color name="Dark_Green">#088a08</color>
+    <color name="Light_Blue">#00ffff</color>
+    <color name="Blue">#00bfff</color>
+    <color name="Dark_Blue">#0000ff</color>
+    <color name="Purple">#bf00ff</color>
+    <color name="Violette">#ff00ff</color>
+    <color name="Hot_Pink">#ff0080</color>
+    <color name="Pink">#ff0040</color>
+    <color name="Tan">#d2b48c</color>
+    <color name="Brown">#3b170b</color>
+    <color name="Silver">#d8d8d8</color>
+    <color name="Gray">#848484</color>
+    <color name="White">#ffffff</color>
+    <color name="Black">#000000</color>
+
+    <array name="default_color_choice_values" translatable="false">
+        <item>@color/Red</item>
+        <item>@color/Light_Orange</item>
+        <item>@color/Orange</item>
+        <item>@color/Yellow</item>
+        <item>@color/Gold</item>
+        <item>@color/Light_Green</item>
+        <item>@color/Green</item>
+        <item>@color/Dark_Green</item>
+        <item>@color/Light_Blue</item>
+        <item>@color/Blue</item>
+        <item>@color/Dark_Blue</item>
+        <item>@color/Purple</item>
+        <item>@color/Violette</item>
+        <item>@color/Hot_Pink</item>
+        <item>@color/Pink</item>
+        <item>@color/Tan</item>
+        <item>@color/Brown</item>
+        <item>@color/Silver</item>
+        <item>@color/Gray</item>
+        <item>@color/White</item>
+        <item>@color/Black</item>
+    </array>
 
 </resources>

@@ -57,6 +57,23 @@ CREATE TABLE `Vehicles` (
   PRIMARY KEY (`vehicle_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+DROP TABLE IF EXISTS `User_Driver`;
+CREATE TABLE 'User_Driver' (
+ `user_id` int(10) unsigned NOT NULL
+ `driver_id` int(10) unsigned NOT NULL
+ PRIMARY KEY ('user_id','driver_id')
+ FOREIGN KEY ('user_id') REFERENCES User ('user_id')
+ FOREIGN KEY ('driver_id') REFERENCES Driver ('driver_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin; 
+
+DROP TABLE IF EXISTS `User_Vehicles`;
+CREATE TABLE 'User_Vehicles' (
+ `user_id` int(10) unsigned NOT NULL
+ `vehicle_id` int(10) unsigned NOT NULL
+ PRIMARY KEY ('user_id','vehicle_id')
+ FOREIGN KEY ('user_id') REFERENCES User ('user_id')
+ FOREIGN KEY ('vehicle_id') REFERENCES Vehicles ('vehicle_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin; 
 
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (

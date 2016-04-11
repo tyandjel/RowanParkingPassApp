@@ -66,8 +66,10 @@ public class RowanWebPageActivity extends BaseActivity {
                 Toast.makeText(this, "Home selected", Toast.LENGTH_SHORT).show();
                 if (currentMode.equals(mode.CHANGE_PASSWORD.name())) {
                     myIntent = new Intent(this, SettingActivity.class);
+                    myIntent.putExtra(MODE, mode.SETTINGS.name());
                 } else {
                     myIntent = new Intent(this, LoginPageActivity.class);
+                    myIntent.putExtra(MODE, mode.LOGIN.name());
                 }
                 startActivity(myIntent);
                 finish();

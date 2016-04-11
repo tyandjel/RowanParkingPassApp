@@ -7,9 +7,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
@@ -30,6 +32,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         changePassword.setOnClickListener(this);
         syncNow.setOnClickListener(this);
+
+        syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Toast.makeText(SettingActivity.this, "Sync is " + (isChecked ? "on" : "off"),
+                        Toast.LENGTH_SHORT).show();
+                //TODO write to syncOn file
+            }
+        });
     }
 
     @Override
@@ -48,7 +59,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             // action with ID action_drivers was selected
             case R.id.action_home:
                 Toast.makeText(this, "Home Selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, HomePageActivity.class);
+                myIntent = new Intent(this, PassesActivity.class);
                 myIntent.putExtra(MODE, mode.HOME_PAGE);
                 startActivity(myIntent);
                 break;
