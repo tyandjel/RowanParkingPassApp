@@ -79,7 +79,7 @@ if(!empty($_SESSION['user'])){
         }
     }
 	
-    die(json_encode($row));
+    die('{"JSONS":"'.urlencode(json_encode($row)).'"}');
 }else{
     print '{"FLAG":false,"ERR":0}'; # Not Logged in
     goto ERR;
