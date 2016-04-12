@@ -28,7 +28,8 @@ if($_SESSION['user'] && $_POST && $_POST[':vehicle_id'] && $_POST[':driver_id'] 
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        goto ERR;
+        echo '{"FLAG":false,"ERR":3}';
+		goto ERR;
     }
     $row  = $stmt->fetch();
 	if(!$row){
@@ -48,7 +49,8 @@ if($_SESSION['user'] && $_POST && $_POST[':vehicle_id'] && $_POST[':driver_id'] 
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        goto ERR;
+        echo '{"FLAG":false,"ERR":3}';
+		goto ERR;
     }
     $row  = $stmt->fetch();
 	if(!$row){
@@ -74,7 +76,7 @@ if($_SESSION['user'] && $_POST && $_POST[':vehicle_id'] && $_POST[':driver_id'] 
 			$result = $stmt->execute($array_ids);
 		}
 		catch (PDOException $ex) {
-			echo $ex;
+			echo '{"FLAG":false,"ERR":3}';
 			goto ERR;
 		}
 		$temp = $stmt->fetch(PDO::FETCH_ASSOC);
