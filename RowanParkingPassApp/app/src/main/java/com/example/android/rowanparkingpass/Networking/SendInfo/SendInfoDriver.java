@@ -58,10 +58,10 @@ public class SendInfoDriver extends SendInfoBase {
         params.put(ZIP_KEY, zip);
 
         JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
+        //SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
         // Return JsonObject
-//        return new SendToServer().send();
-        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
+      // return new SendToServer().send();
+   return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
     }
 
     /**

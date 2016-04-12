@@ -16,7 +16,10 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Passes
 import com.example.android.rowanparkingpass.Networking.NetworkCheckLogin;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.Tests.Tests;
 import com.example.android.rowanparkingpass.utilities.Utilities;
+
+import junit.framework.Test;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +36,6 @@ public class LoginPageActivity extends BaseActivity {
 
         setContentView(R.layout.activity_login);
         setupUI(findViewById(R.id.parent));
-
         inputUserName = (EditText) findViewById(R.id.username);
         inputPassword = (EditText) findViewById(R.id.pword);
         Button btnLogin = (Button) findViewById(R.id.createdmainmenu);

@@ -43,11 +43,13 @@ public class SendToServer {
 
     }
 
+
     public JSONObject send() {
         SendJSON api = new SendJSON();
         api.execute();
         return jsonObject;
     }
+
 
     public class SendJSON extends AsyncTask<Void, Void, JSONObject> {
 
@@ -133,7 +135,8 @@ public class SendToServer {
                 }
             } catch (Exception e) {
                 SaveData.addSendInfo(tempSendInfo);
-                Log.d("doInBackground: ", e.toString());
+                Log.d("Send to server failed: ", e.toString());
+                Log.d("Queue Size:", String.valueOf(SaveData.size()));
             }
             return null;
         }

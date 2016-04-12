@@ -21,7 +21,10 @@ import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoPass;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
+import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.Tests.Tests;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
@@ -85,38 +88,11 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
 
     private List<Pass> buildList() {
         ArrayList<Pass> listOfAllPasses;
-        if (currentMode.equals(mode.HOME_PAGE.name())) {
-            new AsyncTask<Void, JSONObject, JSONObject>(){
 
-                @Override
-                protected JSONObject doInBackground(Void... params) {
-                    SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
-                    JSONObject json = sendInfoVehicle.syncVehicles(getApplicationContext());
-                    JSONArray jsonArray;
-                    try {
-                        String s = (String) json.get("JSONS");
-                        s = URLDecoder.decode(s);
-                        Log.d("S", s);
-                        jsonArray = new JSONArray(s);
-                        Log.d("JSON ARRAY", jsonArray.toString());
-                        for(int i = 0; i < jsonArray.length(); i++){
-                            //[{"model":"zaz","color":"1","state":"23","user_id":"10","year":"1945","license":"bingling","vehicle_id":"3","make":"me a sammich"}
-                           JSONObject jsonObj = (JSONObject) jsonArray.get(i);
-                            Log.d("JSONOBJ", jsonObj.toString());
-                            //TODO: FOR SYNC actually call gets and put new vehicles/drivers in database
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-//                    SendInfoDriver sendInfoDriver = new SendInfoDriver();
-//                    JSONObject json = sendInfoDriver.syncVehicles(getApplicationContext());
-//                    SendInfoPass sendInfoPass = new SendInfoPass();
-//                    JSONObject json = sendInfoPass.addPass("1", "1", "01/22/2015", "01/23/2015");
-                    //Log.d("SESSION: ", json.toString());
-                    return json;
-                }
-            }.execute();
+        if (currentMode.equals(mode.HOME_PAGE.name())) {
             listOfAllPasses = db.getPasses();
+            new Tests();
+
         } else {
             //TODO: Get list of Passes with current date only with just Name and Vehicle Info from server not local db
             listOfAllPasses = new ArrayList<>();
