@@ -34,6 +34,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         changePassword.setOnClickListener(this);
         syncNow.setOnClickListener(this);
 
+        syncSwitch.setChecked(SaveData.getSync());
         syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -64,7 +65,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.action_home:
                 Toast.makeText(this, "Home Selected", Toast.LENGTH_SHORT).show();
                 myIntent = new Intent(this, PassesActivity.class);
-                myIntent.putExtra(MODE, mode.HOME_PAGE);
+                myIntent.putExtra(MODE, mode.HOME_PAGE.name());
                 startActivity(myIntent);
                 break;
             default:
