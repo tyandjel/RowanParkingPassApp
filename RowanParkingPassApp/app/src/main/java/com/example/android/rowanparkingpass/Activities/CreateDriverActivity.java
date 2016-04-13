@@ -1,5 +1,6 @@
 package com.example.android.rowanparkingpass.Activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -39,7 +40,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class CreateDriverActivity extends BaseActivity {
-
+public static CreateDriverActivity getTest(){
+    return   test;
+}
     private static final String TEMP_DRIVER = "temp";
 
     EditText fullName;
@@ -53,7 +56,7 @@ public class CreateDriverActivity extends BaseActivity {
     Driver driver;
     Vehicle vehicle;
     Context context;
-
+      private static CreateDriverActivity test ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +77,7 @@ public class CreateDriverActivity extends BaseActivity {
         vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
 
         Button cancel = (Button) findViewById(R.id.cancelDriverButton);
-
+        test = this;
         // Change to new activity
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -111,8 +114,7 @@ public class CreateDriverActivity extends BaseActivity {
                     if (currentMode.equals(mode.UPDATE_DRIVER.name())) { // checks if ur updating a driver
                         intent = new Intent(CreateDriverActivity.this, DriversActivity.class);
                         if (SaveData.getSync()) {
-                            SendInfoDriver sendInfoDriver = new SendInfoDriver();
-                            sendInfoDriver.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                            syncUpdateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         }
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
@@ -124,8 +126,8 @@ public class CreateDriverActivity extends BaseActivity {
                         intent.putExtra("Driver", d);
                         intent.putExtra("Vehicle", vehicle);
                         if (SaveData.getSync()) {
-                            SendInfoDriver sendInfoDriver = new SendInfoDriver();
-                            sendInfoDriver.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+
+                            syncUpdateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         }
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
@@ -139,16 +141,7 @@ public class CreateDriverActivity extends BaseActivity {
                         // add new driver
                         if (saveInfo.isChecked()) {
                             if (SaveData.getSync()) {
-                                SendInfoDriver sendInfoDriver = new SendInfoDriver();
-                                JSONObject json = sendInfoDriver.addDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
-                                try {
-                                    String flag = json.getString("FLAG");
-                                    String id = json.getString("id");
-                                    db.addDriver(Integer.parseInt(id), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
-                                } catch (JSONException e) {
-                                    db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
-                                    e.printStackTrace();
-                                }
+                                syncNewDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                             } else {
                                 db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                             }
@@ -255,6 +248,42 @@ public class CreateDriverActivity extends BaseActivity {
         return true;
     }
 
+    public String syncUpdateDriver(String id,String name, String street, String city, String state, String zip){
+        String flag = "-1";
+        SendInfoDriver sendInfoDriver = new SendInfoDriver();
+        JSONObject json = sendInfoDriver.updateDriver(id,name,street,city,state,zip);
+        try {
+             flag = json.getString("FLAG");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return flag;
+
+    }
+
+    /**
+     *
+     * @param name
+     * @param street
+     * @param city
+     * @param state
+     * @param zip
+     * returns a string of the id or -400 if there was an error
+     */
+    public String syncNewDriver(String name, String street, String city, String state, String zip){
+    String id = "-400";
+    SendInfoDriver sendInfoDriver = new SendInfoDriver();
+    JSONObject json = sendInfoDriver.addDriver(name,street,city,state,zip);
+    try {
+        String flag = json.getString("FLAG");
+         id = json.getString("id");
+        db.addDriver(Integer.parseInt(id), name,street,city,state,zip);
+    } catch (JSONException e) {
+        db.addDriver(name,street,city,state,zip);
+        e.printStackTrace();
+    }
+        return id;
+}
     public void setupUI(View view) {
 
         //Set up touch listener for non-text box views to hide keyboard.

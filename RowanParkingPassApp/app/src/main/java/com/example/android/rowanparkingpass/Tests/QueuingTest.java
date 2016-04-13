@@ -15,9 +15,7 @@ public class QueuingTest {
         try{
 
             SendInfoDriver d = new SendInfoDriver();
-            d.addDriver("John", "saunders", "312 Roselle Dr.", "Millville","10","08028") ;
-            d.addDriver("John", "saunders", "312 Roselle Dr.", "Millville","10","08028") ;
-            d.addDriver("John", "saunders", "312 Roselle Dr.", "Millville","10","08028") ;
+            d.addDriver("John saunders", "312 Roselle Dr.", "Millville","10","08028") ;
             return true;
         }
         catch (Exception e){

@@ -40,12 +40,12 @@ public class SendInfoDriver extends SendInfoBase {
      * @param zip       driver zip code
      * @return JSONObject of whether driver was added successfully along with driver id
      */
-    public JSONObject addDriver(String firstName, String lastName, String street, String city, String state, String zip) {
+    public JSONObject addDriver(String name, String street, String city, String state, String zip) {
         // Return FLAG - true/false
         // Return id
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
-        params.put(FULL_NAME_KEY, firstName + " " + lastName);
+        params.put(FULL_NAME_KEY, name);
         params.put(STREET_KEY, street);
         params.put(CITY_KEY, city);
         params.put(STATE_KEY, state);
