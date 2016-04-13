@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.Sync.SyncDrivers;
+import com.example.android.rowanparkingpass.Sync.SyncVehicles;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
@@ -40,10 +42,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(SettingActivity.this, "Sync is " + (isChecked ? "on" : "off"),
                         Toast.LENGTH_SHORT).show();
-               if (isChecked){
-                   SaveData.setSync(true);
-               }else
-                   SaveData.setSync(false);
+                if (isChecked) {
+                    SaveData.setSync(true);
+                } else
+                    SaveData.setSync(false);
             }
         });
     }
@@ -87,6 +89,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.syncNowButton:
                 Toast.makeText(this, "Sync now was clicked", Toast.LENGTH_SHORT).show();
+                SyncDrivers syncDrivers = new SyncDrivers();
+                SyncVehicles syncVehicles = new SyncVehicles();
+                syncDrivers.sync(getApplicationContext());
+                syncVehicles.sync(getApplicationContext());
                 break;
             default:
                 break;

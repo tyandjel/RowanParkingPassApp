@@ -111,8 +111,8 @@ public class CreateDriverActivity extends BaseActivity {
                     if (currentMode.equals(mode.UPDATE_DRIVER.name())) { // checks if ur updating a driver
                         intent = new Intent(CreateDriverActivity.this, DriversActivity.class);
                         if (SaveData.getSync()) {
-                            SendInfoDriver s = new SendInfoDriver();
-                            s.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                            SendInfoDriver sendInfoDriver = new SendInfoDriver();
+                            sendInfoDriver.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         }
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
@@ -124,8 +124,8 @@ public class CreateDriverActivity extends BaseActivity {
                         intent.putExtra("Driver", d);
                         intent.putExtra("Vehicle", vehicle);
                         if (SaveData.getSync()) {
-                            SendInfoDriver s = new SendInfoDriver();
-                            s.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                            SendInfoDriver sendInfoDriver = new SendInfoDriver();
+                            sendInfoDriver.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         }
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
@@ -139,8 +139,8 @@ public class CreateDriverActivity extends BaseActivity {
                         // add new driver
                         if (saveInfo.isChecked()) {
                             if (SaveData.getSync()) {
-                                SendInfoDriver s = new SendInfoDriver();
-                                JSONObject json = s.addDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                                SendInfoDriver sendInfoDriver = new SendInfoDriver();
+                                JSONObject json = sendInfoDriver.addDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                                 try {
                                     String flag = json.getString("FLAG");
                                     String id = json.getString("id");

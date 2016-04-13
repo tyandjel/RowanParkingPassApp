@@ -141,8 +141,8 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if(SaveData.getSync()){
-                                SendInfoDriver s = new SendInfoDriver();
-                                s.deleteDriver(String.valueOf(driver.getDriverId()));
+                                SendInfoDriver sendInfoDriver = new SendInfoDriver();
+                                sendInfoDriver.deleteDriver(String.valueOf(driver.getDriverId()));
                             }
                             db.deleteDriver(String.valueOf(driver.getDriverId()));
                             new DatabaseHandlerPasses(context).deleteRequestDriverID(String.valueOf(driver.getDriverId()));

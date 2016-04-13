@@ -22,9 +22,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
@@ -143,8 +141,8 @@ public class CreateVehicleActivity extends BaseActivity {
                         // updates driver in database
                         Vehicle vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
                         if (SaveData.getSync()) {
-                            SendInfoVehicle s = new SendInfoVehicle();
-                            s.updateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                            SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
+                            sendInfoVehicle.updateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                         }
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
@@ -154,8 +152,8 @@ public class CreateVehicleActivity extends BaseActivity {
                         intent.putExtra("Driver", driver);
                         intent.putExtra("Vehicle", v2);
                         if (SaveData.getSync()) {
-                            SendInfoVehicle s = new SendInfoVehicle();
-                            s.updateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                            SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
+                            sendInfoVehicle.updateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                         }
                         // updates driver in database
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
@@ -169,8 +167,8 @@ public class CreateVehicleActivity extends BaseActivity {
                         // add new vehicle
                         if (saveInfo.isChecked()) {
                             if (SaveData.getSync()) {
-                                SendInfoVehicle s = new SendInfoVehicle();
-                                JSONObject json = s.addVehicle(year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                                SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
+                                JSONObject json = sendInfoVehicle.addVehicle(year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                                 try {
                                     String flag = json.getString("FLAG");
                                     String id = json.getString("id");

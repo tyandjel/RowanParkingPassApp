@@ -5,13 +5,9 @@ import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
-import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
-import com.example.android.rowanparkingpass.utilities.JSONParser;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -19,11 +15,8 @@ import java.util.HashMap;
 
 public class SendInfoVehicle extends SendInfoBase {
 
-    //URL of the PHP API
-    private static final String VEHICLE_URL = IP_ADDRESS_URL + DATABASE_NAME;
     private static final String MODIFY_VEHICLE_URL = IP_ADDRESS_URL + "/modify_vehicle.php";
 
-    private static final String USER_ID_KEY = "user_id";
     private static final String VEHICLE_ID_KEY = ":vehicle_id";
     private static final String MAKE_KEY = ":make";
     private static final String MODEL_KEY = ":model";
@@ -64,8 +57,8 @@ public class SendInfoVehicle extends SendInfoBase {
         JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
         // Return JsonObject
-//        return new SendToServer().send();
-        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
     }
 
     /**
@@ -95,8 +88,8 @@ public class SendInfoVehicle extends SendInfoBase {
         JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
         // Return JsonObject
-//        return new SendToServer().send();
-        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
     }
 
     /**
@@ -114,8 +107,8 @@ public class SendInfoVehicle extends SendInfoBase {
         JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
         // Return JsonObject
-//        return new SendToServer().send();
-        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
     }
 
 //    /**
@@ -159,7 +152,7 @@ public class SendInfoVehicle extends SendInfoBase {
      *
      * @return JSONObject whether vehicles were successfully synced and all vehicles associated with the user id
      */
-    public JSONObject syncVehicles( Context context) {
+    public JSONObject syncVehicles(Context context) {
         // Send everything to server
         // Get need stuff back
         // Return json array of objects
@@ -167,15 +160,19 @@ public class SendInfoVehicle extends SendInfoBase {
         DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(context);
         ArrayList<Vehicle> listOfDriver = db.getVehicles();
         StringBuilder sb = new StringBuilder("[");
-        for (Vehicle v : listOfDriver){
+        for (Vehicle v : listOfDriver) {
             sb.append(v.toString());
             sb.append(",");
         }
-        String s = sb.substring(0,sb.length()-1) + "]";
+        String s = sb.substring(0, sb.length() - 1) + "]";
         HashMap<String, String> params = new HashMap<>();
         params.put("json_obj", s);
         Log.d("json_obj", s);
-        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
+        JSONObject json = new JSONObject(params);
+        SaveData.makeSendInfo(json, url);
+        // Return JsonObject
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 
 }

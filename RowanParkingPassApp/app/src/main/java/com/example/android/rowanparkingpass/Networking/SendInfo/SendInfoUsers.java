@@ -42,15 +42,4 @@ public class SendInfoUsers extends SendInfoBase {
         //TODO
         return true;
     }
-
-    /**
-     * Checks if the user has sync on or off
-     *
-     * @return true if sync is on in the settings
-     */
-    public boolean isSyncOn() {
-        //TODO
-        return true;
-    }
-
 }

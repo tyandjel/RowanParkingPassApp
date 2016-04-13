@@ -6,23 +6,17 @@ import android.util.Log;
 import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
-import com.example.android.rowanparkingpass.utilities.JSONParser;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SendInfoDriver extends SendInfoBase {
 
-    //URL of the PHP API
-    private static final String DRIVER_URL = IP_ADDRESS_URL + DATABASE_NAME;
     private static final String MODIFY_DRIVER_URL = IP_ADDRESS_URL + "/modify_driver.php";
 
-    private static final String USER_ID_KEY = "user_id";
     private static final String DRIVER_ID_KEY = ":driver_id";
     private static final String FULL_NAME_KEY = ":full_name";
     private static final String STREET_KEY = ":street";
@@ -58,22 +52,21 @@ public class SendInfoDriver extends SendInfoBase {
         params.put(ZIP_KEY, zip);
 
         JSONObject json = new JSONObject(params);
-        //SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
+        SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
         // Return JsonObject
-      // return new SendToServer().send();
-   return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
     }
 
     /**
      * Update a driver
      *
-     * @param driverId  vehicle id
-     * @param firstName driver full name
-     * @param lastName  last name
-     * @param street    driver street they live on
-     * @param city      driver city they live in
-     * @param state     driver state they are from
-     * @param zip       driver zip code
+     * @param driverId vehicle id
+     * @param name     driver full name
+     * @param street   driver street they live on
+     * @param city     driver city they live in
+     * @param state    driver state they are from
+     * @param zip      driver zip code
      * @return JSONObject of whether driver was updated successfully
      */
     public JSONObject updateDriver(String driverId, String name, String street, String city, String state, String zip) {
@@ -92,8 +85,8 @@ public class SendInfoDriver extends SendInfoBase {
         JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
         // Return JsonObject
-//        return new SendToServer().send();
-        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
     }
 
     /**
@@ -112,8 +105,8 @@ public class SendInfoDriver extends SendInfoBase {
         JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
         // Return JsonObject
-//        return new SendToServer().send();
-        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
     }
 
 //    /**
@@ -155,7 +148,7 @@ public class SendInfoDriver extends SendInfoBase {
      *
      * @return JSONObject whether drivers were successfully synced and all vehicles associated with the user id
      */
-    public JSONObject syncDrivers( Context context) {
+    public JSONObject syncDrivers(Context context) {
         // Send everything to server
         // Get need stuff back
         // Return json array of objects
@@ -163,16 +156,20 @@ public class SendInfoDriver extends SendInfoBase {
         DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(context);
         ArrayList<Driver> listOfDriver = db.getDrivers();
         StringBuilder sb = new StringBuilder("[");
-        for (Driver d : listOfDriver){
+        for (Driver d : listOfDriver) {
             sb.append(d.toString());
             sb.append(",");
         }
-        String s = sb.substring(0,sb.length()-1) + "]";
+        String s = sb.substring(0, sb.length() - 1) + "]";
         HashMap<String, String> params = new HashMap<>();
         params.put("LIST", s);
         Log.d("LIST", s);
 
-        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
+        JSONObject json = new JSONObject(params);
+        SaveData.makeSendInfo(json, url);
+        // Return JsonObject
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 
 }

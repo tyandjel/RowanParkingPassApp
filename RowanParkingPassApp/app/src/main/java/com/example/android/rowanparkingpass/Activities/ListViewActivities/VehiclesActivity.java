@@ -129,9 +129,9 @@ public class VehiclesActivity extends ListActivity implements SearchView.OnQuery
                     alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if(SaveData.getSync()){
-                                SendInfoVehicle s = new SendInfoVehicle();
-                                s.deleteVehicle(String.valueOf(vehicle.getVehicleId()));
+                            if (SaveData.getSync()) {
+                                SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
+                                sendInfoVehicle.deleteVehicle(String.valueOf(vehicle.getVehicleId()));
                             }
                             db.deleteVehicle(String.valueOf(vehicle.getVehicleId()));
                             new DatabaseHandlerPasses(context).deleteRequestVehicleID(String.valueOf(vehicle.getVehicleId()));

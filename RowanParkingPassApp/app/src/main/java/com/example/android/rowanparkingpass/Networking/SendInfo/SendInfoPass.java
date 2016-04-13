@@ -1,7 +1,7 @@
 package com.example.android.rowanparkingpass.Networking.SendInfo;
 
+import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
-import com.example.android.rowanparkingpass.utilities.JSONParser;
 
 import org.json.JSONObject;
 
@@ -43,8 +43,8 @@ public class SendInfoPass extends SendInfoBase {
         JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(json, url);
         // Return JsonObject
-//        return new SendToServer().send();
-        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 
 }

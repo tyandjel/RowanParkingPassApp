@@ -5,9 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,12 +16,7 @@ import android.widget.SearchView;
 
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoPass;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
-import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.Tests.Tests;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
@@ -31,12 +24,7 @@ import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.Serializable;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
