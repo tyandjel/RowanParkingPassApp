@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedDate.SaveData;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
@@ -38,7 +39,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Toast.makeText(SettingActivity.this, "Sync is " + (isChecked ? "on" : "off"),
                         Toast.LENGTH_SHORT).show();
-                //TODO write to syncOn file
+               if (isChecked){
+                   SaveData.setSync(true);
+               }else
+                   SaveData.setSync(false);
             }
         });
     }

@@ -1,5 +1,8 @@
 package com.example.android.rowanparkingpass.Activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -19,8 +22,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.States;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
@@ -28,7 +35,11 @@ import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerDialog;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerSwatch;
 import com.example.android.rowanparkingpass.utilities.colorpicker.Utils;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -49,6 +60,7 @@ public class CreateVehicleActivity extends BaseActivity {
     private Button cancel;
     private Spinner state;
     private DatabaseHandlerVehicles db;
+    private Context context;
 
 
     @Override
@@ -86,6 +98,7 @@ public class CreateVehicleActivity extends BaseActivity {
         state.setAdapter(spinnerAdapter);
         cancel = (Button) findViewById(R.id.cancelVehicleButton);
         createVehicle = (Button) findViewById(R.id.createVehicleButton);
+        context = getApplicationContext();
 
     }
 
@@ -129,6 +142,10 @@ public class CreateVehicleActivity extends BaseActivity {
                         intent.putExtra(MODE, mode.VEHICLES_LIST.name()); // tells the intent that it has to use the update driver list logic
                         // updates driver in database
                         Vehicle vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
+                        if (SaveData.getSync()) {
+                            SendInfoVehicle s = new SendInfoVehicle();
+                            s.updateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                        }
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
                         intent = new Intent(CreateVehicleActivity.this, PassActivity.class);
@@ -136,6 +153,10 @@ public class CreateVehicleActivity extends BaseActivity {
                         Vehicle v2 = new Vehicle(vehicle.getVehicleId(), make.getText().toString(), model.getText().toString(), Integer.parseInt(year.getText().toString()), String.valueOf(mSelectedColorCal0), state.getSelectedItem().toString(), license.getText().toString());
                         intent.putExtra("Driver", driver);
                         intent.putExtra("Vehicle", v2);
+                        if (SaveData.getSync()) {
+                            SendInfoVehicle s = new SendInfoVehicle();
+                            s.updateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                        }
                         // updates driver in database
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else { // if not Updating then u are creating a driver
@@ -147,8 +168,20 @@ public class CreateVehicleActivity extends BaseActivity {
                         }
                         // add new vehicle
                         if (saveInfo.isChecked()) {
-                            db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
-                            //Todo: add ID to addVehicle later
+                            if (SaveData.getSync()) {
+                                SendInfoVehicle s = new SendInfoVehicle();
+                                JSONObject json = s.addVehicle(year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                                try {
+                                    String flag = json.getString("FLAG");
+                                    String id = json.getString("id");
+                                    db.addVehicle(Integer.parseInt(id), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                                } catch (JSONException e) {
+                                    db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                            }
                             intent.putExtra(MODE, mode.CREATE_PASS.name());
                             ArrayList<Vehicle> vehicles = db.getVehicles();
                             intent.putExtra("Vehicle", vehicles.get(vehicles.size() - 1));
@@ -233,6 +266,33 @@ public class CreateVehicleActivity extends BaseActivity {
         switch (item.getItemId()) {
             // action with ID action_delete was selected
             case R.id.action_delete:
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(CreateVehicleActivity.this);
+                alertDialog.setTitle("Delete Driver?");
+                alertDialog.setMessage(vehicle.getCarInfo());
+                alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent myIntent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class);
+                        myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
+                        if (SaveData.getSync()) {
+                            SendInfoVehicle s = new SendInfoVehicle();
+                            s.deleteVehicle(String.valueOf(vehicle.getVehicleId()));
+                        }
+                        // delete driver from database
+                        db.deleteVehicle(String.valueOf(driver.getDriverId()));
+                        new DatabaseHandlerPasses(context).deleteRequestVehicleID(String.valueOf(vehicle.getVehicleId()));
+                        startActivity(myIntent);
+                        finish();
+                    }
+                });
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing
+                    }
+                });
+                alertDialog.show();
+
                 Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
                 myIntent = new Intent(this, VehiclesActivity.class);
                 myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());

@@ -95,6 +95,21 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
     }
 
     /**
+     * Storing pass details in database
+     */
+    public void addRequest(int vehicleId, int driverId, String startDate, String endDate) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(PassContract.PassEntry.COLUMN_VEHICLE_ID, vehicleId); // Vehicle Id
+        values.put(PassContract.PassEntry.COLUMN_DRIVER_ID, driverId); // Driver Id
+        values.put(PassContract.PassEntry.COLUMN_START_DATE, startDate); // Start Date
+        values.put(PassContract.PassEntry.COLUMN_END_DATE, endDate); // End Date
+        // Inserting Row
+        db.insert(PassContract.PassEntry.TABLE_NAME, null, values);
+        db.close(); // Closing database connection
+    }
+
+    /**
      * Delete pass from database based on requestID
      *
      * @param requestID the request id

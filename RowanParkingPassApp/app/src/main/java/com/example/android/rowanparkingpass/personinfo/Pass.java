@@ -18,6 +18,13 @@ public class Pass implements Serializable {
         this.toDate = toDate;
     }
 
+    public Pass( Driver driver, Vehicle vehicle, String fromDate, String toDate) {
+        this.driver = driver;
+        this.vehicle = vehicle;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+    }
+
     public Pass() {
         requestID = -1;
         driver = new Driver(-1, "-1", "-1", "-1", "-1", "-1", "-1");

@@ -17,7 +17,9 @@ import android.widget.SearchView;
 import com.example.android.rowanparkingpass.Activities.CreateVehicleActivity;
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.VehicleArrayAdapter;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
@@ -127,6 +129,10 @@ public class VehiclesActivity extends ListActivity implements SearchView.OnQuery
                     alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            if(SaveData.getSync()){
+                                SendInfoVehicle s = new SendInfoVehicle();
+                                s.deleteVehicle(String.valueOf(vehicle.getVehicleId()));
+                            }
                             db.deleteVehicle(String.valueOf(vehicle.getVehicleId()));
                             new DatabaseHandlerPasses(context).deleteRequestVehicleID(String.valueOf(vehicle.getVehicleId()));
                             makeAdapter(db.getVehicles());

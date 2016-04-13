@@ -76,14 +76,14 @@ public class SendInfoDriver extends SendInfoBase {
      * @param zip       driver zip code
      * @return JSONObject of whether driver was updated successfully
      */
-    public JSONObject updateDriver(String driverId, String firstName, String lastName, String street, String city, String state, String zip) {
+    public JSONObject updateDriver(String driverId, String name, String street, String city, String state, String zip) {
         //Return FLAG
         //
         // Building Parameters
         HashMap<String, String> params = new HashMap<>();
         params.put(KILL_KEY, "0");
         params.put(DRIVER_ID_KEY, driverId);
-        params.put(FULL_NAME_KEY, firstName + " " + lastName);
+        params.put(FULL_NAME_KEY, name);
         params.put(STREET_KEY, street);
         params.put(CITY_KEY, city);
         params.put(STATE_KEY, state);
@@ -155,7 +155,7 @@ public class SendInfoDriver extends SendInfoBase {
      *
      * @return JSONObject whether drivers were successfully synced and all vehicles associated with the user id
      */
-    public JSONObject syncVehicles( Context context) {
+    public JSONObject syncDrivers( Context context) {
         // Send everything to server
         // Get need stuff back
         // Return json array of objects

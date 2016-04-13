@@ -23,13 +23,18 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.States;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -105,6 +110,10 @@ public class CreateDriverActivity extends BaseActivity {
                     Intent intent;
                     if (currentMode.equals(mode.UPDATE_DRIVER.name())) { // checks if ur updating a driver
                         intent = new Intent(CreateDriverActivity.this, DriversActivity.class);
+                        if (SaveData.getSync()) {
+                            SendInfoDriver s = new SendInfoDriver();
+                            s.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                        }
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         finish();
@@ -114,6 +123,10 @@ public class CreateDriverActivity extends BaseActivity {
                         Driver d = new Driver(driver.getDriverId(), fullName.getText().toString(), "", street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         intent.putExtra("Driver", d);
                         intent.putExtra("Vehicle", vehicle);
+                        if (SaveData.getSync()) {
+                            SendInfoDriver s = new SendInfoDriver();
+                            s.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                        }
                         // updates driver in database
                         db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                     } else { // if not Updating then u are creating a driver
@@ -125,8 +138,20 @@ public class CreateDriverActivity extends BaseActivity {
                         }
                         // add new driver
                         if (saveInfo.isChecked()) {
-                            db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
-                            //Todo: add ID to addDriver later
+                            if (SaveData.getSync()) {
+                                SendInfoDriver s = new SendInfoDriver();
+                                JSONObject json = s.addDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                                try {
+                                    String flag = json.getString("FLAG");
+                                    String id = json.getString("id");
+                                    db.addDriver(Integer.parseInt(id), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                                } catch (JSONException e) {
+                                    db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                            }
                             intent.putExtra(MODE, mode.VEHICLES.name());
                             ArrayList<Driver> drivers = db.getDrivers();
                             intent.putExtra("Driver", drivers.get(drivers.size() - 1)); // gets newest driver just made in teh database to send
@@ -205,6 +230,10 @@ public class CreateDriverActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent myIntent = new Intent(CreateDriverActivity.this, DriversActivity.class);
                         myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
+                        if(SaveData.getSync()){
+                            SendInfoDriver s = new SendInfoDriver();
+                            s.deleteDriver(String.valueOf(driver.getDriverId()));
+                        }
                         // delete driver from database
                         db.deleteDriver(String.valueOf(driver.getDriverId()));
                         new DatabaseHandlerPasses(context).deleteRequestDriverID(String.valueOf(driver.getDriverId()));

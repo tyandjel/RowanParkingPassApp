@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoPass;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
@@ -217,11 +219,15 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             endDatePickerDialog.show();
         } else {
             if (view == createPass) {
-                //TODO add pass to remote database, send email
-                Pass createdPass = new Pass(1, driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
+                //TODO What if send temp vehicle/driver (-1)
+                //TODO Temp driver created the pass is still created with null null null
+
+                SendInfoPass s = new SendInfoPass();
+                s.addPass(String.valueOf(vehicle.getVehicleId()), String.valueOf(driver.getDriverId()), startDate.getText().toString(), endDate.getText().toString());
+                Pass createdPass = new Pass( driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
                 if (createdPass.getDriver().getDriverId() != -1 || createdPass.getVehicle().getVehicleId() != -1) {
                     db.deleteRequestDriverIDVehicleID(String.valueOf(createdPass.getDriver().getDriverId()), String.valueOf(createdPass.getVehicle().getVehicleId()));
-                    db.addRequest(createdPass.getRequestID(), createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
+                    db.addRequest( createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
                 } else {
                     Toast.makeText(getApplicationContext(), "A temporary driver and/or vehicle was used. Pass will not be stored locally.", Toast.LENGTH_LONG).show();
                 }
