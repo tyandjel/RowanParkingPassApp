@@ -46,7 +46,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
     private DatabaseHandlerPasses db;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass);
 

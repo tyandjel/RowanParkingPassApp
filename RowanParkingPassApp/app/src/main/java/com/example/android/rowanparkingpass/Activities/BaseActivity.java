@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.SavedDate.ReadWrite;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
@@ -60,10 +61,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         try {
             saveData= ReadWrite.readIn(getApplicationContext(),ReadWrite.saveDateFile);
+            Toast.makeText(this, "Loaded",Toast.LENGTH_SHORT).show();
         }
         catch(ClassNotFoundException e){
             e.getMessage();
@@ -77,6 +79,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onPause();
         try {
             ReadWrite.writeOut(saveData, ReadWrite.saveDateFile, getApplicationContext());
+            Toast.makeText(this, "Saved",Toast.LENGTH_SHORT).show();
+
         }
         catch(IOException e){
             e.getMessage();
