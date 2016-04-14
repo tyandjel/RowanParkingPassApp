@@ -63,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try {
+       /* try {
             saveData= ReadWrite.readIn(getApplicationContext(),ReadWrite.saveDateFile);
             Toast.makeText(this, "Loaded",Toast.LENGTH_SHORT).show();
         }
@@ -71,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.getMessage();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 

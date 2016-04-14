@@ -14,7 +14,7 @@ import com.example.android.rowanparkingpass.SavedDate.ReadWrite;
  */
 public class Tests extends BaseActivity {
     public Tests(){
-        //Log.d(String.valueOf(QueuingTest.testQueue()),"Queue test result: ");
+        Log.d(String.valueOf(QueuingTest.testQueue()),"Queue test result: ");
        // testSyncDriver();
        // ReadWriteTest t = new ReadWriteTest();
        // t.testWrite();

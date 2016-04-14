@@ -129,7 +129,7 @@ public class SendToServer {
         protected JSONObject doInBackground(Void... params) {
             SendInfoModel tempSendInfo = SaveData.remove();
             try {
-                if (SaveData.peek() != null) {
+                if (tempSendInfo != null) {
                     jsonObject = sendJSon(tempSendInfo.getJson().toString(), tempSendInfo.getUrl());
                     return jsonObject;
                 }
