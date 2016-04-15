@@ -1,6 +1,5 @@
 package com.example.android.rowanparkingpass.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,10 +16,7 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Passes
 import com.example.android.rowanparkingpass.Networking.NetworkCheckLogin;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.Tests.Tests;
 import com.example.android.rowanparkingpass.utilities.Utilities;
-
-import junit.framework.Test;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -165,10 +161,8 @@ public class LoginPageActivity extends BaseActivity {
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     pDialog.dismiss();
                     startActivity(upanel);
-                    /**
-                     * Close Login Screen
-                     **/
-                    finish();
+                    // Start SendInfoTimer guy
+                    //timer.sendInfo();
                 } else {
                     pDialog.dismiss();
                     loginErrorMsg.setText(R.string.incorrect_username_password);

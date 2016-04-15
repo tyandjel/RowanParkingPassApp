@@ -14,19 +14,19 @@ import com.example.android.rowanparkingpass.SavedDate.ReadWrite;
  */
 public class Tests extends BaseActivity {
     public Tests(){
-        Log.d(String.valueOf(QueuingTest.testQueue()),"Queue test result: ");
-       // testSyncDriver();
+        Log.d(String.valueOf(QueuingTest.testQueue(new QueuingTest())),"Queue test result: ");
+        //testSyncDriver();
        // ReadWriteTest t = new ReadWriteTest();
        // t.testWrite();
        // t.testRead();
     }
 
-    public void testSyncDriver(){
-        new Intent(getApplicationContext(), CreateDriverActivity.class);
-        CreateDriverActivity d = CreateDriverActivity.getTest();
-        Log.d("SyncAddDriver", String.valueOf(SyncingTest.testAddDriver(d)));
-        Log.d("SyncUpdateDriver", String.valueOf(SyncingTest.testUpdateDriver(d)));
-
-    }
+//    public void testSyncDriver(){
+//        new Intent(getApplicationContext(), CreateDriverActivity.class);
+//        //CreateDriverActivity d = CreateDriverActivity.getTest();
+//        Log.d("SyncAddDriver", String.valueOf(SyncingTest.testAddDriver(d)));
+//        Log.d("SyncUpdateDriver", String.valueOf(SyncingTest.testUpdateDriver(d)));
+//
+//    }
 
 }

@@ -79,7 +79,7 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
 
         if (currentMode.equals(mode.HOME_PAGE.name())) {
             listOfAllPasses = db.getPasses();
-            new Tests();
+            //new Tests();
 
         } else {
             //TODO: Get list of Passes with current date only with just Name and Vehicle Info from server not local db
@@ -125,9 +125,13 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
                     }
                 } else {
                     //Close search view if its visible
-                    if (searchView.isShown()) {
-                        searchMenuItem.collapseActionView();
-                        searchView.setQuery("", false);
+                    try {
+                        if (searchView.isShown()) {
+                            searchMenuItem.collapseActionView();
+                            searchView.setQuery("", false);
+                        }
+                    }catch (NullPointerException npe){
+                        npe.printStackTrace();
                     }
                 }
             }

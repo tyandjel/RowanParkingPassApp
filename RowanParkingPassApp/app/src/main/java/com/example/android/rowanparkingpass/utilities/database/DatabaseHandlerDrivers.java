@@ -67,7 +67,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     /**
      * Storing Driver details in database
      */
-    public void addDriver(String fullName, String street, String city, String state, String zip) {
+    public int addDriver(String fullName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, fullName); // Full Name
@@ -76,8 +76,9 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
         values.put(DriverContract.DriverEntry.COLUMN_STATE, state); // State
         values.put(DriverContract.DriverEntry.COLUMN_ZIP, zip); // Zip
         // Inserting Row
-        db.insert(DriverContract.DriverEntry.TABLE_NAME, null, values);
+        int id = (int) db.insert(DriverContract.DriverEntry.TABLE_NAME, null, values);
         db.close(); // Closing database connection
+        return id;
     }
 
     /**
@@ -93,6 +94,14 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
         values.put(DriverContract.DriverEntry.COLUMN_ZIP, zip); // Zip
         // Update Row
         db.update(DriverContract.DriverEntry.TABLE_NAME, values, DriverContract.DriverEntry.COLUMN_DRIVER_ID + "=" + driverId, null);
+    }
+
+    public void updateDriverWithID(int oldID, int newID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(DriverContract.DriverEntry.COLUMN_DRIVER_ID, newID);
+        // Update Row
+        db.update(DriverContract.DriverEntry.TABLE_NAME, values, DriverContract.DriverEntry.COLUMN_DRIVER_ID + "=" + oldID, null);
     }
 
     /**

@@ -60,6 +60,7 @@ public class CreateVehicleActivity extends BaseActivity {
     private DatabaseHandlerVehicles db;
     private Context context;
 
+    //TODO: Create method for adding/syncing like in Driver. And do the id thing like in driver.
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

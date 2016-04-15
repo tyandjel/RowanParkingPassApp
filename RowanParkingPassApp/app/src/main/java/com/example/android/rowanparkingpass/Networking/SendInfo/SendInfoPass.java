@@ -40,8 +40,7 @@ public class SendInfoPass extends SendInfoBase {
         params.put(START_DATE_KEY, startDate);
         params.put(END_DATE_KEY, endDate);
 
-        JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, url);
+        SaveData.makeSendInfo(params, url);
         // Return JsonObject
         return new SendToServer().send();
 //        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);

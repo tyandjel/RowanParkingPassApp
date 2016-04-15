@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
+import com.example.android.rowanparkingpass.utilities.JSONParser;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import org.json.JSONObject;
@@ -53,9 +54,14 @@ public class SendInfoVehicle extends SendInfoBase {
         params.put(STATE_KEY, state);
         params.put(COLOR_KEY, color);
         params.put(LICENSE_KEY, license);
+        /**
+         *  SendInfoModel sendInfoModel= new SendInfoModel(params, MODIFY_VEHICLE_URL, id);
+         sendInfoModel.setIsVehicle();
+         SaveData.addSendInfo(sendInfoModel);
+         */
+        //// TODO: 4/15/2016 make above work
 
-        JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
+        SaveData.makeSendInfo(params, MODIFY_VEHICLE_URL);
         // Return JsonObject
         return new SendToServer().send();
 //        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
@@ -85,8 +91,7 @@ public class SendInfoVehicle extends SendInfoBase {
         params.put(COLOR_KEY, color);
         params.put(LICENSE_KEY, license);
 
-        JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
+        SaveData.makeSendInfo(params, MODIFY_VEHICLE_URL);
         // Return JsonObject
         return new SendToServer().send();
 //        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
@@ -104,8 +109,7 @@ public class SendInfoVehicle extends SendInfoBase {
         params.put(KILL_KEY, "1");
         params.put(VEHICLE_ID_KEY, vehicleId);
 
-        JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, MODIFY_VEHICLE_URL);
+        SaveData.makeSendInfo(params, MODIFY_VEHICLE_URL);
         // Return JsonObject
         return new SendToServer().send();
 //        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
@@ -168,11 +172,10 @@ public class SendInfoVehicle extends SendInfoBase {
         HashMap<String, String> params = new HashMap<>();
         params.put("json_obj", s);
         Log.d("json_obj", s);
-        JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, url);
+        SaveData.makeSendInfo(params, url);
         // Return JsonObject
-        return new SendToServer().send();
-//        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
+//        return new SendToServer().send();
+        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 
 }

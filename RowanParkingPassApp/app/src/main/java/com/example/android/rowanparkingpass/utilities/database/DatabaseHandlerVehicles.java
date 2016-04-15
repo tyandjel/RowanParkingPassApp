@@ -68,7 +68,7 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
     /**
      * Storing vehicle details in database
      */
-    public void addVehicle(int year, String make, String model, String state, String color, String license) {
+    public int addVehicle(int year, String make, String model, String state, String color, String license) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(VehicleContract.VehicleEntry.COLUMN_MAKE, make); // Car Make
@@ -78,8 +78,9 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         values.put(VehicleContract.VehicleEntry.COLUMN_COLOR, color); // Car Color
         values.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, license); // Car License Plate
         // Inserting Row
-        db.insert(VehicleContract.VehicleEntry.TABLE_NAME, null, values);
+        int id = (int) db.insert(VehicleContract.VehicleEntry.TABLE_NAME, null, values);
         db.close(); // Closing database connection
+        return id;
     }
 
     /**
@@ -96,6 +97,14 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         values.put(VehicleContract.VehicleEntry.COLUMN_LICENSE, license); // Car License Plate
         // Update Row
         db.update(VehicleContract.VehicleEntry.TABLE_NAME, values, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + "=" + vehicleId, null);
+    }
+
+    public void updateVehicleWithID(int oldID, int newID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID, newID);
+        // Update Row
+        db.update(VehicleContract.VehicleEntry.TABLE_NAME, values, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + "=" + oldID, null);
     }
 
     public void deleteVehicle(String vehicleId) {

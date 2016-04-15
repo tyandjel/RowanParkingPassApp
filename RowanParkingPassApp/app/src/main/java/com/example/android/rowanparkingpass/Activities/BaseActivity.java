@@ -8,8 +8,10 @@ import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.SavedDate.ReadWrite;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.utilities.SendInfoTimer;
 
 import java.io.IOException;
+import java.util.Timer;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -40,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static String COOKIE = "";
     public ProgressDialog nDialog;
     protected SaveData saveData;
+    public static SendInfoTimer timer = new SendInfoTimer();
 
     public static String currentMode;
 

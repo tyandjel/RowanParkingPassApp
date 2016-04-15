@@ -1,10 +1,13 @@
 package com.example.android.rowanparkingpass.SavedDate;
 
+import android.util.Log;
+
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel;
 
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -25,13 +28,19 @@ public  class SaveData implements Serializable {
         return sync;
     }
 
-    public static void makeSendInfo(JSONObject j, String u) {
+    public static void makeSendInfo(HashMap<String, String> j, String u) {
         addSendInfo(new SendInfoModel(j, u));
+    }
+    public static void makeSendInfo(HashMap<String, String> j, String u, int id) {
+
+        addSendInfo(new SendInfoModel(j, u,id));
     }
 
     public static boolean addSendInfo(SendInfoModel s) {
+        Log.d("Added To Que", s.toString());
         return sendInfos.add(s);
     }
+
     public  static Queue<SendInfoModel> getQueue(){
         return sendInfos;
     }
@@ -41,6 +50,8 @@ public  class SaveData implements Serializable {
     }
 
     public static SendInfoModel remove() {
+
+        Log.d("remove from Que", sendInfos.toString());
         return sendInfos.remove();
     }
 

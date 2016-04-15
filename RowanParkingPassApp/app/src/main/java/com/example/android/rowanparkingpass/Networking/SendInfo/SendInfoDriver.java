@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.utilities.JSONParser;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
 import org.json.JSONObject;
@@ -32,15 +33,13 @@ public class SendInfoDriver extends SendInfoBase {
     /**
      * Adds a driver to the server side database
      *
-     * @param firstName first name
-     * @param lastName  last name
-     * @param street    driver street they live on
-     * @param city      driver city they live in
-     * @param state     driver state they are from
-     * @param zip       driver zip code
+     * @param street driver street they live on
+     * @param city   driver city they live in
+     * @param state  driver state they are from
+     * @param zip    driver zip code
      * @return JSONObject of whether driver was added successfully along with driver id
      */
-    public JSONObject addDriver(String name, String street, String city, String state, String zip) {
+    public JSONObject addDriver(int id, String name, String street, String city, String state, String zip) {
         // Return FLAG - true/false
         // Return id
         // Building Parameters
@@ -50,9 +49,9 @@ public class SendInfoDriver extends SendInfoBase {
         params.put(CITY_KEY, city);
         params.put(STATE_KEY, state);
         params.put(ZIP_KEY, zip);
-
-        JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
+        SendInfoModel sendInfoModel= new SendInfoModel(params, MODIFY_DRIVER_URL, id);
+        sendInfoModel.setIsDriver();
+        SaveData.addSendInfo(sendInfoModel);
         // Return JsonObject
         return new SendToServer().send();
 //        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
@@ -82,8 +81,7 @@ public class SendInfoDriver extends SendInfoBase {
         params.put(STATE_KEY, state);
         params.put(ZIP_KEY, zip);
 
-        JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
+        SaveData.makeSendInfo(params, MODIFY_DRIVER_URL);
         // Return JsonObject
         return new SendToServer().send();
 //        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
@@ -102,8 +100,8 @@ public class SendInfoDriver extends SendInfoBase {
         params.put(KILL_KEY, "1");
         params.put(DRIVER_ID_KEY, driverId);
 
-        JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, MODIFY_DRIVER_URL);
+
+        SaveData.makeSendInfo(params, MODIFY_DRIVER_URL);
         // Return JsonObject
         return new SendToServer().send();
 //        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
@@ -166,7 +164,7 @@ public class SendInfoDriver extends SendInfoBase {
         Log.d("LIST", s);
 
         JSONObject json = new JSONObject(params);
-        SaveData.makeSendInfo(json, url);
+        SaveData.makeSendInfo(params, url);
         // Return JsonObject
         return new SendToServer().send();
 //        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
