@@ -1,5 +1,6 @@
 <?php
 require_once("common.php");
+
 if (empty($_SESSION['user'])) {
     echo '{"FLAG":false,"ERR":2}'; # param error
     goto ERR;
@@ -10,6 +11,7 @@ $city      = trim($_POST[':city']);
 $full_name = trim($_POST[':full_name']);
 $zip       = trim(strval($_POST[':zip']));
 $d_id      = trim($_POST[':driver_id']);
+$kill      = trim($_POST['kill']);
 
 if (isset($_POST[':street']) && empty($street)) {
     echo '{"FLAG":false,"ERR":2,"PARAM":":street"}'; # param error
@@ -31,15 +33,17 @@ if (isset($_POST[':driver_id']) && empty($d_id)) {
     echo '{"FLAG":false,"ERR":2,"PARAM":":driver_id"}'; # param error
     goto ERR;
 }
-$zip = intval(strval($zip));
 
-if (!empty($d_id) && !empty($_POST['kill']) && trim($_POST['kill']) == '1') {
+$zip = intval(strval($zip));
+//die("horse");
+if (!empty($d_id) && !empty($_POST['kill']) && $kill == '1') {
     
     $query     = "
-            DELETE FROM Driver
-			WHERE driver_id=:driver_id";
+            DELETE FROM UserDrivers
+			WHERE user_id=:user_id and driver_id=:driver_id";
     $array_ids = array(
-        ':driver_id' => $d_id
+        ':driver_id' => $d_id,
+        ':user_id' => $_SESSION['user']['user_id']
     );
     try {
         // These two statements run the query against your database table.
@@ -47,8 +51,8 @@ if (!empty($d_id) && !empty($_POST['kill']) && trim($_POST['kill']) == '1') {
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        echo '{"FLAG":false,"ERR":3}'; # Database error
-        goto ERR;
+        die( '{"FLAG":false,"ERR":3}'.$ex->getMessage());# Database error
+        
     }
     die('{"FLAG":true}'); // delete success
 }
@@ -101,8 +105,6 @@ if (empty($d_id)) {
             echo '{"FLAG":false,"ERR":3}'; # Database error
             goto ERR;
         }
-        echo '{"FLAG":true,"id":' . json_encode($temp) . '}';
-        // insert grab key and send it back
     }
     // Updates junction table
     $query     = "

@@ -12,6 +12,7 @@ $state      = trim($_POST[':state']);
 $color      = trim($_POST[':color']);
 $year       = trim($_POST[':year']);
 $vehicle_id = trim($_POST[':vehicle_id']);
+$kill       = trim($_POST['kill']);
 
 if (isset($_POST[':make']) && empty($make)) {
     echo '{"FLAG":false,"ERR":2,"PARAM":":make"}'; # param error
@@ -43,22 +44,23 @@ if (isset($_POST[':vehicle_id']) && empty($vehicle_id)) {
 }
 $year  = intval(strval($year));
 $color = intval(strval($color));
-if (!empty($vehicle_id) && !empty($_POST['kill']) && trim($_POST['kill']) == '1') {
+if (!empty($vehicle_id) && !empty($_POST['kill']) && $kill == '1') {
     
     $query     = "
-        DELETE FROM Vehicles
-		WHERE vehicle_id=:vehicle_id";
+        DELETE FROM  UserVehicles
+        WHERE user_id=:user_id and vehicle_id=:vehicle_id";
     $array_ids = array(
-        ':vehicle_id' => $vehicle_id
+        ':vehicle_id' => $vehicle_id,
+        ':user_id' => $_SESSION['user']['user_id']
     );
+    
     try {
         // These two statements run the query against your database table.
         $stmt   = $db->prepare($query);
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        echo '{"FLAG":false,"ERR":3}'; # Database error
-        goto ERR;
+        die( '{"FLAG":false,"ERR":3}'.$ex->getMessage()); # Database error
     }
     die('{"FLAG":true}'); // delete success
 }
