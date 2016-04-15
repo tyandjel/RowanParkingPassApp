@@ -90,9 +90,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.syncNowButton:
                 Toast.makeText(this, "Sync now was clicked", Toast.LENGTH_SHORT).show();
                 SyncDrivers syncDrivers = new SyncDrivers();
-                SyncVehicles syncVehicles = new SyncVehicles();
+                //SyncVehicles syncVehicles = new SyncVehicles();
                 syncDrivers.sync(getApplicationContext());
-                syncVehicles.sync(getApplicationContext());
+               // syncVehicles.sync(getApplicationContext());
                 break;
             default:
                 break;

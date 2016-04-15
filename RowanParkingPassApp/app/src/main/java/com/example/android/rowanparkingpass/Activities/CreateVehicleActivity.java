@@ -36,7 +36,6 @@ import com.example.android.rowanparkingpass.utilities.colorpicker.Utils;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -59,6 +58,7 @@ public class CreateVehicleActivity extends BaseActivity {
     private Spinner state;
     private DatabaseHandlerVehicles db;
     private Context context;
+    private States[] arrayOfStates = States.values();
 
     //TODO: Create method for adding/syncing like in Driver. And do the id thing like in driver.
 
@@ -142,46 +142,35 @@ public class CreateVehicleActivity extends BaseActivity {
                         // updates driver in database
                         Vehicle vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
                         if (SaveData.getSync()) {
-                            SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
-                            sendInfoVehicle.updateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                            syncUpdateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), String.valueOf(state.getSelectedItemPosition()), String.valueOf(mSelectedColorCal0), license.getText().toString());
                         }
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else if (currentMode.equals(mode.UPDATE_PASS_VEHICLE.name())) {
                         intent = new Intent(CreateVehicleActivity.this, PassActivity.class);
-                        intent.putExtra(MODE, mode.DRIVERS_LIST.name()); // tells the intent that it has to use the update driver list logic
+                        intent.putExtra(MODE, mode.CREATE_PASS.name()); // tells the intent that it has to use the update driver list logic
                         Vehicle v2 = new Vehicle(vehicle.getVehicleId(), make.getText().toString(), model.getText().toString(), Integer.parseInt(year.getText().toString()), String.valueOf(mSelectedColorCal0), state.getSelectedItem().toString(), license.getText().toString());
                         intent.putExtra("Driver", driver);
                         intent.putExtra("Vehicle", v2);
                         if (SaveData.getSync()) {
-                            SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
-                            sendInfoVehicle.updateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
+                            syncUpdateVehicle(String.valueOf(vehicle.getVehicleId()), year.getText().toString(), make.getText().toString(), model.getText().toString(), String.valueOf(state.getSelectedItemPosition()), String.valueOf(mSelectedColorCal0), license.getText().toString());
                         }
-                        // updates driver in database
+                        // updates vehicle in database
                         db.updateVehicle(vehicle.getVehicleId(), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                     } else { // if not Updating then u are creating a driver
                         if (pastIntent.getStringExtra("Old").equals(mode.VEHICLES_LIST.name())) { // checks if the old intent was the vehicle or vehicle_list
                             intent = new Intent(CreateVehicleActivity.this, VehiclesActivity.class); // it was the drivers list go back to the drivers list
-                            intent.putExtra(MODE, mode.DRIVERS_LIST.name());
+                            intent.putExtra(MODE, mode.VEHICLES_LIST.name());
                         } else { // was not the vehicle list createVehicle driver and move to pass
                             intent = new Intent(CreateVehicleActivity.this, PassActivity.class);
+                            intent.putExtra(MODE, mode.CREATE_PASS.name());
                         }
                         // add new vehicle
                         if (saveInfo.isChecked()) {
                             if (SaveData.getSync()) {
-                                SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
-                                JSONObject json = sendInfoVehicle.addVehicle(year.getText().toString(), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
-                                try {
-                                    String flag = json.getString("FLAG");
-                                    String id = json.getString("id");
-                                    db.addVehicle(Integer.parseInt(id), Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
-                                } catch (JSONException e) {
-                                    db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
-                                    e.printStackTrace();
-                                }
+                                syncNewVehicle(year.getText().toString(), make.getText().toString(), model.getText().toString(), String.valueOf(state.getSelectedItemPosition()), String.valueOf(mSelectedColorCal0), license.getText().toString());
                             } else {
                                 db.addVehicle(Integer.valueOf(year.getText().toString()), make.getText().toString(), model.getText().toString(), state.getSelectedItem().toString(), String.valueOf(mSelectedColorCal0), license.getText().toString());
                             }
-                            intent.putExtra(MODE, mode.CREATE_PASS.name());
                             ArrayList<Vehicle> vehicles = db.getVehicles();
                             intent.putExtra("Vehicle", vehicles.get(vehicles.size() - 1));
                         } else {
@@ -278,7 +267,7 @@ public class CreateVehicleActivity extends BaseActivity {
                             s.deleteVehicle(String.valueOf(vehicle.getVehicleId()));
                         }
                         // delete driver from database
-                        db.deleteVehicle(String.valueOf(driver.getDriverId()));
+                        db.deleteVehicle(String.valueOf(vehicle.getVehicleId()));
                         new DatabaseHandlerPasses(context).deleteRequestVehicleID(String.valueOf(vehicle.getVehicleId()));
                         startActivity(myIntent);
                         finish();
@@ -336,5 +325,23 @@ public class CreateVehicleActivity extends BaseActivity {
         saveInfo.setChecked(true);
         saveInfo.setEnabled(false);
 
+    }
+
+    public synchronized void syncNewVehicle(String year, String make, String model, String state, String color, String license) {
+        String newID = "-400";
+        SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
+        JSONObject json;
+        int oldID = db.addVehicle(Integer.parseInt(year), make, model, arrayOfStates[Integer.parseInt(state)].valueOf(arrayOfStates[Integer.parseInt(state)].name()).toString(), color, license);
+            /*json = */
+        sendInfoVehicle.addVehicle(oldID, make, model, year, state, color, license);
+//        String flag = json.getString("FLAG");
+        return;
+    }
+
+    public String syncUpdateVehicle(String id, String year, String make, String model, String state, String color, String license) {
+        String flag = "-1";
+        SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
+        sendInfoVehicle.updateVehicle(id, make, model, year, state, color, license);
+        return flag;
     }
 }

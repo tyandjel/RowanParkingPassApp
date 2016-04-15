@@ -1,6 +1,7 @@
 package com.example.android.rowanparkingpass.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public ProgressDialog nDialog;
     protected SaveData saveData;
     public static SendInfoTimer timer = new SendInfoTimer();
+    public static Context context;
 
     public static String currentMode;
 
@@ -75,7 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-
+    context = getApplicationContext();
     }
 
     public void onPause(){

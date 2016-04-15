@@ -6,7 +6,6 @@ import android.util.Log;
 import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
-import com.example.android.rowanparkingpass.utilities.JSONParser;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
 import org.json.JSONObject;
@@ -39,7 +38,7 @@ public class SendInfoDriver extends SendInfoBase {
      * @param zip    driver zip code
      * @return JSONObject of whether driver was added successfully along with driver id
      */
-    public JSONObject addDriver(int id, String name, String street, String city, String state, String zip) {
+    public void addDriver(int id, String name, String street, String city, String state, String zip) {
         // Return FLAG - true/false
         // Return id
         // Building Parameters
@@ -49,11 +48,11 @@ public class SendInfoDriver extends SendInfoBase {
         params.put(CITY_KEY, city);
         params.put(STATE_KEY, state);
         params.put(ZIP_KEY, zip);
-        SendInfoModel sendInfoModel= new SendInfoModel(params, MODIFY_DRIVER_URL, id);
+        SendInfoModel sendInfoModel = new SendInfoModel(params, MODIFY_DRIVER_URL, id);
         sendInfoModel.setIsDriver();
         SaveData.addSendInfo(sendInfoModel);
         // Return JsonObject
-        return new SendToServer().send();
+        new SendToServer().send();
 //        return jsonParser.makeHttpRequest(MODIFY_DRIVER_URL, JSONParser.POST, params);
     }
 

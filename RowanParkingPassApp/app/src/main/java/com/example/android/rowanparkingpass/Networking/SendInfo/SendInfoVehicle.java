@@ -42,7 +42,7 @@ public class SendInfoVehicle extends SendInfoBase {
      * @param license car license plate
      * @return JSONObject of whether vehicle was added successfully along with vehicle id
      */
-    public JSONObject addVehicle(String make, String model, String year, String state, String color, String license) {
+    public void addVehicle(int id, String make, String model, String year, String state, String color, String license) {
         // Return FLAG - successful?
         // Return id - id of vehicle
         // send state as num - start at 0
@@ -54,16 +54,12 @@ public class SendInfoVehicle extends SendInfoBase {
         params.put(STATE_KEY, state);
         params.put(COLOR_KEY, color);
         params.put(LICENSE_KEY, license);
-        /**
-         *  SendInfoModel sendInfoModel= new SendInfoModel(params, MODIFY_VEHICLE_URL, id);
-         sendInfoModel.setIsVehicle();
-         SaveData.addSendInfo(sendInfoModel);
-         */
-        //// TODO: 4/15/2016 make above work
 
-        SaveData.makeSendInfo(params, MODIFY_VEHICLE_URL);
-        // Return JsonObject
-        return new SendToServer().send();
+        SendInfoModel sendInfoModel = new SendInfoModel(params, MODIFY_VEHICLE_URL, id);
+        sendInfoModel.setIsVehicle();
+        SaveData.addSendInfo(sendInfoModel);
+
+        new SendToServer().send();
 //        return jsonParser.makeHttpRequest(MODIFY_VEHICLE_URL, JSONParser.POST, params);
     }
 

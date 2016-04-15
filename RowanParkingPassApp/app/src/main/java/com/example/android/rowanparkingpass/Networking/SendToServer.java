@@ -48,7 +48,6 @@ public class SendToServer extends BaseActivity {
     StringBuilder sbParams;
 
     public SendToServer() {
-
     }
 
 
@@ -61,7 +60,7 @@ public class SendToServer extends BaseActivity {
 
     public class SendJSON extends AsyncTask<Void, Void, JSONObject> {
 
-        private JSONObject sendJSon(HashMap<String, String> output, String urlOut) throws Exception {
+        private synchronized JSONObject sendJSon(HashMap<String, String> output, String urlOut) throws Exception {
             try {
                 URL url = new URL(urlOut);
 
@@ -106,13 +105,13 @@ public class SendToServer extends BaseActivity {
                 dStream.flush(); // Flushes the data output stream.
                 dStream.close(); // Closing the output stream.
                 //====== response from server
-                int responseCode = connection.getResponseCode();
-                if (responseCode > 199 && responseCode < 208) {
-                    Log.d(urlOut + " Response ", responseCode + "");
-                } else {
-                    Log.d(urlOut + " Response Code bad", responseCode + "");
-                    throw new Exception();
-                }
+//                int responseCode = connection.getResponseCode();
+//                if (responseCode > 199 && responseCode < 208) {
+//                    Log.d(urlOut + " Response ", responseCode + "");
+//                } else {
+//                    Log.d(urlOut + " Response Code bad", responseCode + "");
+//                    throw new Exception();
+//                }
                 StringBuilder result = new StringBuilder();
                 try {
                     //Receive the response from the server
@@ -170,16 +169,17 @@ public class SendToServer extends BaseActivity {
                         jsonObject = sendJSon(tempSendInfo.getJson(), tempSendInfo.getUrl());
                         if (tempSendInfo.isDriverFlag()) {
                             int newID = Integer.parseInt(jsonObject.getString("id"));
-                            new DatabaseHandlerDrivers(getApplicationContext()).updateDriverWithID(tempSendInfo.getId(), newID - 1);
+                            DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(context);
+                            db.updateDriverWithID(tempSendInfo.getId(), newID);
                         } else if (tempSendInfo.isVehicleFlag()) {
                             int newID = Integer.parseInt(jsonObject.getString("id"));
-                            new DatabaseHandlerVehicles(getApplicationContext()).updateVehicleWithID(tempSendInfo.getId(), newID - 1);
+                            new DatabaseHandlerVehicles(context).updateVehicleWithID(tempSendInfo.getId(), newID);
                         }
                         return jsonObject;
                     }
                 } catch (Exception e) {
                     SaveData.addSendInfo(tempSendInfo);
-                    Log.d("Send to server failed: ", e.toString());
+                    Log.d("Send to server failed: ", String.valueOf(e.getMessage()));
                     Log.d("Queue Size:", String.valueOf(SaveData.size()));
                 }
             }

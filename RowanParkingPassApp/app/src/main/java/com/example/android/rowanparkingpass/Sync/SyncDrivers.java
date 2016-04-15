@@ -4,10 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.personinfo.States;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
-import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,7 +40,8 @@ public class SyncDrivers {
                     String city = jsonObj.getString("city");
                     String state = jsonObj.getString("state");
                     String zip = jsonObj.getString("zip");
-                    db.addDriver(Integer.parseInt(driverID), fullName, street, city, state, zip);
+                    States[] arrayStates = States.values();
+                    db.addDriver(Integer.parseInt(driverID), fullName, street, city, arrayStates[Integer.parseInt(state)].name(), zip);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
