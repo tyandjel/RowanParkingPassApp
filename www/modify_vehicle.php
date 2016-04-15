@@ -16,11 +16,8 @@ if($_SESSION['user'] && $_POST && $_POST[':make'] && $_POST[':model'] && $_POST[
 	':year'=>intval($_POST[':year']));
 	try {
         // These two statements run the query against your database table.
-        
         $stmt   = $db->prepare($query);
-		
         $result = $stmt->execute($array_ids);
-		
     }
     catch (PDOException $ex) {
         goto ERR;
