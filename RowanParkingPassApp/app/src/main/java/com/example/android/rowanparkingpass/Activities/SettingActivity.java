@@ -13,6 +13,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
+import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.Sync.SyncDrivers;
@@ -86,13 +87,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         // Change to new activity
-        switch (v.getId()) {
-            case R.id.changePassButton:
+        switch (v.getId()) {            case R.id.changePassButton:
                 Intent myIntent = new Intent(this, RowanWebPageActivity.class);
                 myIntent.putExtra(MODE, RowanWebPageActivity.mode.CHANGE_PASSWORD.name());
                 startActivity(myIntent);
                 break;
             case R.id.syncNowButton:
+                Log.d("TESTING NETWORK ",String.valueOf(new NetworkCheck().haveNetworkConnection()));
                 Toast.makeText(this, "Sync complete", Toast.LENGTH_SHORT).show();
                 SyncDrivers syncDrivers = new SyncDrivers();
                 SyncVehicles syncVehicles = new SyncVehicles();

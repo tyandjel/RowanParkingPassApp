@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class NetworkCheck extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d("Ping ","false");
         return false;
     }
 
