@@ -1,6 +1,7 @@
 package com.example.android.rowanparkingpass.Sync;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
@@ -34,7 +35,7 @@ public class SyncDrivers {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     //[{"model":"zaz","color":"1","state":"23","user_id":"10","year":"1945","license":"bingling","vehicle_id":"3","make":"me a sammich"}
 
-                    JSONObject jsonObj =  jsonArray.getJSONObject(i);
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
                     //Log.d("JSONOBJ", jsonObj.toString());
                     String driverID = jsonObj.getString("driver_id");
                     String fullName = jsonObj.getString("full_name");
@@ -42,8 +43,11 @@ public class SyncDrivers {
                     String city = jsonObj.getString("city");
                     String state = jsonObj.getString("state");
                     String zip = jsonObj.getString("zip");
-
-                    db.addDriver(Integer.parseInt(driverID), fullName, street, city, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), zip);
+                    try {
+                        db.addDriver(Integer.parseInt(driverID), fullName, street, city, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), zip);
+                    } catch (SQLiteConstraintException sqlCe) {
+                        sqlCe.printStackTrace();
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

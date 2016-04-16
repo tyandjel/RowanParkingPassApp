@@ -1,6 +1,7 @@
 package com.example.android.rowanparkingpass.Sync;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteConstraintException;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
@@ -42,7 +43,11 @@ public class SyncVehicles {
                     String license = jsonObj.getString("license");
                     String vehicle_id = jsonObj.getString("vehicle_id");
                     String make = jsonObj.getString("make");
-                    db.addVehicle(Integer.parseInt(vehicle_id), Integer.parseInt(year), make, model, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), color, license);
+                    try {
+                        db.addVehicle(Integer.parseInt(vehicle_id), Integer.parseInt(year), make, model, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), color, license);
+                    } catch (SQLiteConstraintException sqlC) {
+                        sqlC.printStackTrace();
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
