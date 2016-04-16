@@ -104,7 +104,6 @@ public abstract class ListActivity extends BaseActivity {
                 break;
             // action with ID action_search_pass was selected
             case R.id.action_search_pass:
-                //TODO: Will check to see if person logged in is allowed to search through passes. If so then go to search pass screen
                 if (new SendInfoUsers().isAdmin()) {
                     final Intent intent = new Intent(ListActivity.this, PassesActivity.class);
                     intent.putExtra(MODE, mode.PASS_SEARCH.name());

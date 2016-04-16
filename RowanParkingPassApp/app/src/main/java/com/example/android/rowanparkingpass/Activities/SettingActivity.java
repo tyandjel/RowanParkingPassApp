@@ -72,7 +72,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         switch (item.getItemId()) {
             // action with ID action_drivers was selected
             case R.id.action_home:
-                Toast.makeText(this, "Home Selected", Toast.LENGTH_SHORT).show();
                 myIntent = new Intent(this, PassesActivity.class);
                 myIntent.putExtra(MODE, mode.HOME_PAGE.name());
                 startActivity(myIntent);
@@ -89,13 +88,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         // Change to new activity
         switch (v.getId()) {
             case R.id.changePassButton:
-                Toast.makeText(this, "Change password was clicked", Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(this, RowanWebPageActivity.class);
                 myIntent.putExtra(MODE, RowanWebPageActivity.mode.CHANGE_PASSWORD.name());
                 startActivity(myIntent);
                 break;
             case R.id.syncNowButton:
-                Toast.makeText(this, "Sync now was clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Sync complete", Toast.LENGTH_SHORT).show();
                 SyncDrivers syncDrivers = new SyncDrivers();
                 SyncVehicles syncVehicles = new SyncVehicles();
                 syncDrivers.sync(getApplicationContext());

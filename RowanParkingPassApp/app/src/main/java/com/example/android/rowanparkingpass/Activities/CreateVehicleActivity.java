@@ -60,8 +60,6 @@ public class CreateVehicleActivity extends BaseActivity {
     private Context context;
     private States[] arrayOfStates = States.values();
 
-    //TODO: Create method for adding/syncing like in Driver. And do the id thing like in driver.
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
