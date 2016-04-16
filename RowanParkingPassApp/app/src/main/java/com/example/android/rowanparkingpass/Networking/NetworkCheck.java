@@ -25,7 +25,7 @@ public class NetworkCheck extends BaseActivity {
         new NetCheck(view, activity).execute();
     }
 
-    public boolean haveNetworkConnection() {
+    public  boolean haveNetworkConnection() {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
 
