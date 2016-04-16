@@ -26,21 +26,16 @@ public class NetworkCheck extends BaseActivity {
         new NetCheck(view, activity).execute();
     }
 
-    public synchronized boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
+    public static synchronized boolean haveNetworkConnection() {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return (haveConnectedWifi || haveConnectedMobile) && pingNetwork();
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+
+        return isConnected;//&& pingNetwork();
     }
 
     public static boolean pingNetwork() {
@@ -51,7 +46,7 @@ public class NetworkCheck extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("Ping ","false");
+        Log.d("Ping ", "false");
         return false;
     }
 

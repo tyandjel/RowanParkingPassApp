@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoBase;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
@@ -21,9 +22,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -106,7 +109,7 @@ public class SendToServer extends BaseActivity {
                     Log.d("COOKIE", BaseActivity.COOKIE);
                 }
                 connection.connect();
-                    Log.d("WHAT I SEND REALLY:",sbParams.toString());
+                Log.d("WHAT I SEND REALLY:", sbParams.toString());
                 OutputStream outputStream = connection.getOutputStream();
                 DataOutputStream dStream = new DataOutputStream(outputStream);
                 dStream.writeBytes(sbParams.toString()); // Writes out the string to the underlying output stream as a sequence of bytes
@@ -169,32 +172,46 @@ public class SendToServer extends BaseActivity {
         @Override
         protected JSONObject doInBackground(Void... params) {
             int a = SaveData.size() * 3;
-            for (int i = a - 1; i >= 0 && !(SaveData.size() == 0); i--) {
-                Log.d("SEND Number", a - i + "");
-                SendInfoModel tempSendInfo = SaveData.remove();
+            //TODO: Put back ping
+            if (NetworkCheck.haveNetworkConnection() /*&& pingNetwork()*/) {
+                for (int i = a - 1; i >= 0 && !(SaveData.size() == 0); i--) {
+                    Log.d("SEND Number", a - i + "");
+                    SendInfoModel tempSendInfo = SaveData.remove();
 
-                try {
-                    if (tempSendInfo != null) {
-                        Log.d("SENDJSON", tempSendInfo.getJson() + "");
-                        jsonObject = sendJSon(tempSendInfo.getJson(), tempSendInfo.getUrl());
-                        if (tempSendInfo.isDriverFlag()) {
-                            int newID = Integer.parseInt(jsonObject.getString("id"));
-                            DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(context);
-                            db.updateDriverWithID(tempSendInfo.getId(), newID);
-                        } else if (tempSendInfo.isVehicleFlag()) {
-                            int newID = Integer.parseInt(jsonObject.getString("id"));
-                            new DatabaseHandlerVehicles(context).updateVehicleWithID(tempSendInfo.getId(), newID);
+                    try {
+                        if (tempSendInfo != null) {
+                            Log.d("SENDJSON", tempSendInfo.getJson() + "");
+                            jsonObject = sendJSon(tempSendInfo.getJson(), tempSendInfo.getUrl());
+                            if (tempSendInfo.isDriverFlag()) {
+                                int newID = Integer.parseInt(jsonObject.getString("id"));
+                                DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(context);
+                                db.updateDriverWithID(tempSendInfo.getId(), newID);
+                            } else if (tempSendInfo.isVehicleFlag()) {
+                                int newID = Integer.parseInt(jsonObject.getString("id"));
+                                new DatabaseHandlerVehicles(context).updateVehicleWithID(tempSendInfo.getId(), newID);
+                            }
                         }
-                        return jsonObject;
+                    } catch (Exception e) {
+                        SaveData.addSendInfo(tempSendInfo);
+                        Log.d("Send to server failed: ", String.valueOf(e.getMessage()));
+                        Log.d("Queue Size:", String.valueOf(SaveData.size()));
                     }
-                } catch (Exception e) {
-                    SaveData.addSendInfo(tempSendInfo);
-                    Log.d("Send to server failed: ", String.valueOf(e.getMessage()));
-                    Log.d("Queue Size:", String.valueOf(SaveData.size()));
                 }
             }
             return jsonObject;
         }
+    }
+
+    public static boolean pingNetwork() {
+        try {
+            return InetAddress.getByName(SendInfoBase.IP_ADDRESS_URL).isReachable(20);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("Ping ", "false");
+        return false;
     }
 }
 

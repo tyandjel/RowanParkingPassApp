@@ -2,7 +2,10 @@ package com.example.android.rowanparkingpass.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -17,6 +20,7 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Driver
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.Networking.NetworkCheck;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoBase;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoPass;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
@@ -27,7 +31,10 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPa
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
