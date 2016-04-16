@@ -2,6 +2,7 @@ package com.example.android.rowanparkingpass.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,12 +41,18 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         syncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Toast.makeText(SettingActivity.this, "Sync is " + (isChecked ? "on" : "off"),
-                        Toast.LENGTH_SHORT).show();
                 if (isChecked) {
                     SaveData.setSync(true);
-                } else
+                    Toast.makeText(SettingActivity.this, "Information will be synced with the server.",
+                            Toast.LENGTH_LONG).show();
+                } else {
                     SaveData.setSync(false);
+                    Log.d("QUE SIZE", "" + SaveData.getQueue().size());
+                    SaveData.getQueue().clear();
+                    Log.d("QUE SIZE", "" + SaveData.getQueue().size());
+                    Toast.makeText(SettingActivity.this, "Information not yet sent to the server will not be synced",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
