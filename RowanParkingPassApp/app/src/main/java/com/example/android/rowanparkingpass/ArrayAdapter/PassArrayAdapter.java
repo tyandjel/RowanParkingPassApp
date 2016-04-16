@@ -11,6 +11,7 @@ import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PassArrayAdapter extends ListViewArrayAdapter {
@@ -60,6 +61,7 @@ public class PassArrayAdapter extends ListViewArrayAdapter {
      */
     public void makePassesList(List<Pass> p) {
         passesList.add(new Pass()); // adds empty place holder to position 0
+        Collections.reverse(p);
         passesList.addAll(p);
         filteredPassesList.add(0, new Pass());
         filteredPassesList.addAll(p);

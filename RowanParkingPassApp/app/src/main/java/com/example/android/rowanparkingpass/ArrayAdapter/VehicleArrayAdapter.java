@@ -11,6 +11,7 @@ import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class VehicleArrayAdapter extends ListViewArrayAdapter {
@@ -43,6 +44,7 @@ public class VehicleArrayAdapter extends ListViewArrayAdapter {
      */
     public void makeVehiclesList(List<Vehicle> v) {
         vehicleList.add(0, null); // adds empty place holder to position 0
+        Collections.reverse(v);
         vehicleList.addAll(v);
         filteredVehicleList.add(0, null);
         filteredVehicleList.addAll(v);
