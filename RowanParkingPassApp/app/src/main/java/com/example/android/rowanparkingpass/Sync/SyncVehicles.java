@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.personinfo.States;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import org.json.JSONArray;
@@ -17,21 +18,22 @@ import java.net.URLDecoder;
  */
 public class SyncVehicles {
 
-    public void sync(Context c) {
+    public synchronized void sync(Context c) {
         if (SaveData.getSync()) {
             SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
             JSONObject json = sendInfoVehicle.syncVehicles(c);
             JSONArray jsonArray;
+            States[] arrayStates = States.values();
             try {
-                String s = (String) json.get("JSONS");
+                String s = json.getString("JSONS");
                 s = URLDecoder.decode(s);
-                Log.d("S", s);
+                Log.d("Sssssss", s);
                 jsonArray = new JSONArray(s);
                 Log.d("JSON ARRAY", jsonArray.toString());
                 DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(c);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     //[{"model":"zaz","color":"1","state":"23","user_id":"10","year":"1945","license":"bingling","vehicle_id":"3","make":"me a sammich"}
-                    JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
                     //Log.d("JSONOBJ", jsonObj.toString());
                     String model = jsonObj.getString("model");
                     String color = jsonObj.getString("color");
@@ -40,7 +42,7 @@ public class SyncVehicles {
                     String license = jsonObj.getString("license");
                     String vehicle_id = jsonObj.getString("vehicle_id");
                     String make = jsonObj.getString("make");
-                    db.addVehicle(Integer.parseInt(vehicle_id), Integer.parseInt(year), make, model, state, color, license);
+                    db.addVehicle(Integer.parseInt(vehicle_id), Integer.parseInt(year), make, model, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), color, license);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

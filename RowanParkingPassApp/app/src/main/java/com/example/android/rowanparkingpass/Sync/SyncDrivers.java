@@ -18,13 +18,14 @@ import java.net.URLDecoder;
  */
 public class SyncDrivers {
 
-    public void sync(Context c) {
+    public synchronized void sync(Context c) {
         if (SaveData.getSync()) {
             SendInfoDriver sendInfoDriver = new SendInfoDriver();
             JSONObject json = sendInfoDriver.syncDrivers(c);
             JSONArray jsonArray;
+            States[] arrayStates = States.values();
             try {
-                String s = (String) json.get("JSONS");
+                String s = json.getString("JSONS");
                 s = URLDecoder.decode(s);
                 Log.d("S", s);
                 jsonArray = new JSONArray(s);
@@ -32,7 +33,8 @@ public class SyncDrivers {
                 DatabaseHandlerDrivers db = new DatabaseHandlerDrivers(c);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     //[{"model":"zaz","color":"1","state":"23","user_id":"10","year":"1945","license":"bingling","vehicle_id":"3","make":"me a sammich"}
-                    JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+
+                    JSONObject jsonObj =  jsonArray.getJSONObject(i);
                     //Log.d("JSONOBJ", jsonObj.toString());
                     String driverID = jsonObj.getString("driver_id");
                     String fullName = jsonObj.getString("full_name");
@@ -40,8 +42,8 @@ public class SyncDrivers {
                     String city = jsonObj.getString("city");
                     String state = jsonObj.getString("state");
                     String zip = jsonObj.getString("zip");
-                    States[] arrayStates = States.values();
-                    db.addDriver(Integer.parseInt(driverID), fullName, street, city, arrayStates[Integer.parseInt(state)].name(), zip);
+
+                    db.addDriver(Integer.parseInt(driverID), fullName, street, city, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), zip);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

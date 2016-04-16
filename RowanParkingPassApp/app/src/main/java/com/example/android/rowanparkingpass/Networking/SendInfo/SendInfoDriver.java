@@ -145,7 +145,7 @@ public class SendInfoDriver extends SendInfoBase {
      *
      * @return JSONObject whether drivers were successfully synced and all vehicles associated with the user id
      */
-    public JSONObject syncDrivers(Context context) {
+    public synchronized JSONObject syncDrivers(Context context) {
         // Send everything to server
         // Get need stuff back
         // Return json array of objects
@@ -157,10 +157,14 @@ public class SendInfoDriver extends SendInfoBase {
             sb.append(d.toString());
             sb.append(",");
         }
-        String s = sb.substring(0, sb.length() - 1) + "]";
+        String s = "[";
+        if (sb.length() > 1) {
+            s = sb.substring(0, sb.length() - 1);
+        }
+        s += "]";
         HashMap<String, String> params = new HashMap<>();
-        params.put("LIST", s);
-        Log.d("LIST", s);
+        params.put("json_obj", s);
+        Log.d("json_obj", s);
 
         JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(params, url);

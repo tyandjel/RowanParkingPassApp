@@ -18,7 +18,7 @@ public class Pass implements Serializable {
         this.toDate = toDate;
     }
 
-    public Pass( Driver driver, Vehicle vehicle, String fromDate, String toDate) {
+    public Pass(Driver driver, Vehicle vehicle, String fromDate, String toDate) {
         this.driver = driver;
         this.vehicle = vehicle;
         this.fromDate = fromDate;
@@ -75,10 +75,9 @@ public class Pass implements Serializable {
 
     @Override
     public String toString() {
-        return "Pass{" +
-                "driver='" + driver + '\'' +
-                ", vehicle='" + vehicle + '\'' +
-                ", fromDate=" + fromDate +
-                '}';
+        return "':driver'='" + driver + '\'' +
+                "&':vehicle'='" + vehicle + '\'' +
+                "&':start'='" + fromDate + '\'' +
+                "&':end'=" + toDate + '\'';
     }
 }

@@ -6,7 +6,6 @@ import android.util.Log;
 import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
-import com.example.android.rowanparkingpass.utilities.JSONParser;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import org.json.JSONObject;
@@ -152,26 +151,30 @@ public class SendInfoVehicle extends SendInfoBase {
      *
      * @return JSONObject whether vehicles were successfully synced and all vehicles associated with the user id
      */
-    public JSONObject syncVehicles(Context context) {
+    public synchronized JSONObject syncVehicles(Context context) {
         // Send everything to server
         // Get need stuff back
         // Return json array of objects
         final String url = IP_ADDRESS_URL + "/sync_vehicles.php";
         DatabaseHandlerVehicles db = new DatabaseHandlerVehicles(context);
-        ArrayList<Vehicle> listOfDriver = db.getVehicles();
+        ArrayList<Vehicle> listOfVehicles = db.getVehicles();
         StringBuilder sb = new StringBuilder("[");
-        for (Vehicle v : listOfDriver) {
+        for (Vehicle v : listOfVehicles) {
             sb.append(v.toString());
             sb.append(",");
         }
-        String s = sb.substring(0, sb.length() - 1) + "]";
+        String s = "[";
+        if (sb.length() > 1) {
+            s = sb.substring(0, sb.length() - 1);
+        }
+        s += "]";
         HashMap<String, String> params = new HashMap<>();
         params.put("json_obj", s);
         Log.d("json_obj", s);
         SaveData.makeSendInfo(params, url);
         // Return JsonObject
-//        return new SendToServer().send();
-        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
+        return new SendToServer().send();
+//        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 
 }

@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 /**
  * {example of sending a driver
@@ -53,7 +55,13 @@ public class SendToServer extends BaseActivity {
 
     public synchronized JSONObject send() {
         SendJSON api = new SendJSON();
-        api.execute();
+        try {
+            return /*jsonObject*/api.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
         return jsonObject;
     }
 
@@ -98,7 +106,7 @@ public class SendToServer extends BaseActivity {
                     Log.d("COOKIE", BaseActivity.COOKIE);
                 }
                 connection.connect();
-
+                    Log.d("WHAT I SEND REALLY:",sbParams.toString());
                 OutputStream outputStream = connection.getOutputStream();
                 DataOutputStream dStream = new DataOutputStream(outputStream);
                 dStream.writeBytes(sbParams.toString()); // Writes out the string to the underlying output stream as a sequence of bytes
@@ -122,7 +130,7 @@ public class SendToServer extends BaseActivity {
                         Log.d("LINE: ", line);
                         result.append(line);
                     }
-                    Log.d("JSON Parser2", "result: " + result.toString());
+                    Log.d("JSON Parser2", "result: " + URLDecoder.decode(result.toString()));
                     Map<String, List<String>> m = connection.getHeaderFields();
                     Set keys = m.keySet();
 
@@ -154,6 +162,7 @@ public class SendToServer extends BaseActivity {
                 throw new Exception();
             }
             // return JSON Object
+
             return jObj;
         }
 
@@ -166,6 +175,7 @@ public class SendToServer extends BaseActivity {
 
                 try {
                     if (tempSendInfo != null) {
+                        Log.d("SENDJSON", tempSendInfo.getJson() + "");
                         jsonObject = sendJSon(tempSendInfo.getJson(), tempSendInfo.getUrl());
                         if (tempSendInfo.isDriverFlag()) {
                             int newID = Integer.parseInt(jsonObject.getString("id"));

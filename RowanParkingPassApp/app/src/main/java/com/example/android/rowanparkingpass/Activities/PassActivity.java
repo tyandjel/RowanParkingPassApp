@@ -1,7 +1,12 @@
 package com.example.android.rowanparkingpass.Activities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -14,15 +19,21 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoBase;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoPass;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,8 +48,8 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
     private DatePickerDialog startDatePickerDialog;
     private DatePickerDialog endDatePickerDialog;
 
-    private EditText startDate;
-    private EditText endDate;
+    protected EditText startDate;
+    protected EditText endDate;
 
     private Button createPass;
     private Button mainMenu;
@@ -205,7 +216,6 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         carColor.setText("");
         carColor.setTextColor(Integer.parseInt(vehicle.getColor()));
         carColor.setBackgroundColor(Integer.parseInt(vehicle.getColor()));
-
     }
 
     @Override
@@ -219,23 +229,12 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             endDatePickerDialog.show();
         } else {
             if (view == createPass) {
-                //TODO What if send temp vehicle/driver (-1)
                 //TODO Temp driver created the pass is still created with null null null
-
-                SendInfoPass s = new SendInfoPass();
-                s.addPass(String.valueOf(vehicle.getVehicleId()), String.valueOf(driver.getDriverId()), startDate.getText().toString(), endDate.getText().toString());
-                Pass createdPass = new Pass( driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
-                if (createdPass.getDriver().getDriverId() != -1 || createdPass.getVehicle().getVehicleId() != -1) {
-                    db.deleteRequestDriverIDVehicleID(String.valueOf(createdPass.getDriver().getDriverId()), String.valueOf(createdPass.getVehicle().getVehicleId()));
-                    db.addRequest( createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
+                if (haveNetworkConnection()) {
+                    executeProcessRequest();
                 } else {
-                    Toast.makeText(getApplicationContext(), "A temporary driver and/or vehicle was used. Pass will not be stored locally.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "No Network Connection. Cannot create a pass.s", Toast.LENGTH_LONG).show();
                 }
-                intent = new Intent(getApplicationContext(), PassesActivity.class);
-                intent.putExtra(MODE, mode.HOME_PAGE.name());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
             } else if (view == mainMenu) {
                 // Goes back to main menu
                 intent = new Intent(getApplicationContext(), PassesActivity.class);
@@ -247,4 +246,92 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return (haveConnectedWifi || haveConnectedMobile) && pingNetwork();
+    }
+
+    private boolean pingNetwork() {
+        try {
+            return InetAddress.getByName(SendInfoBase.IP_ADDRESS_URL).isReachable(20);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void executeProcessRequest() {
+        new CreatePassRequest().execute();
+    }
+
+
+    /**
+     * Async Task to check login credentials and login the user through JSON response.
+     */
+    private class CreatePassRequest extends AsyncTask<String, JSONObject, JSONObject> {
+
+        private ProgressDialog pDialog;
+        Pass createdPass = new Pass(driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
+        String start = startDate.getText().toString();
+        String end = startDate.getText().toString();
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pDialog = new ProgressDialog(PassActivity.this);
+            pDialog.setTitle("Contacting Servers");
+            pDialog.setMessage("Creating Pass Request ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... args) {
+            SendInfoPass s = new SendInfoPass();
+
+            return s.addPass(vehicle, driver, start, end);
+        }
+
+        protected void onPostExecute(JSONObject json) {
+
+            try {
+                String res = json.getString("FLAG");
+                if (res.equals("true")) {
+                    if (createdPass.getDriver().getDriverId() != -1 || createdPass.getVehicle().getVehicleId() != -1) {
+                        db.deleteRequestDriverIDVehicleID(String.valueOf(createdPass.getDriver().getDriverId()), String.valueOf(createdPass.getVehicle().getVehicleId()));
+                        db.addRequest(createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
+                    } else {
+                        Toast.makeText(getApplicationContext(), "A temporary driver and/or vehicle was used. Pass will not be stored locally.", Toast.LENGTH_LONG).show();
+                    }
+                    Intent intent = new Intent(getApplicationContext(), PassesActivity.class);
+                    intent.putExtra(MODE, mode.HOME_PAGE.name());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    pDialog.dismiss();
+                    startActivity(intent);
+                    finish();
+                } else {
+                    pDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Error in network connection. Try again.", Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException | NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
