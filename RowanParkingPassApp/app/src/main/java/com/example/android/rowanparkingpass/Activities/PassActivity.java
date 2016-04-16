@@ -2,10 +2,7 @@ package com.example.android.rowanparkingpass.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -19,7 +16,7 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.DriversActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoBase;
+import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoPass;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
@@ -30,10 +27,7 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPa
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -230,7 +224,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         } else {
             if (view == createPass) {
                 //TODO Temp driver created the pass is still created with null null null
-                if (haveNetworkConnection()) {
+                if (new NetworkCheck().haveNetworkConnection()) {
                     executeProcessRequest();
                 } else {
                     Toast.makeText(getApplicationContext(), "No Network Connection. Cannot create a pass.s", Toast.LENGTH_LONG).show();
@@ -244,34 +238,6 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                 finish();
             }
         }
-    }
-
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        return (haveConnectedWifi || haveConnectedMobile) && pingNetwork();
-    }
-
-    private boolean pingNetwork() {
-        try {
-            return InetAddress.getByName(SendInfoBase.IP_ADDRESS_URL).isReachable(20);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     private void executeProcessRequest() {

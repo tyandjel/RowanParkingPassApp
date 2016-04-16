@@ -33,7 +33,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"></meta-data>
         </activity>
-        <activity android:name=".Networking.NetworkCheckLogin" />
+        <activity android:name=".Networking.NetworkCheck" />
         <activity
             android:name=".Activities.ListViewActivities.DriversActivity"
             android:label="Drivers"

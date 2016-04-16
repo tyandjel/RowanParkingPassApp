@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
-import com.example.android.rowanparkingpass.Networking.NetworkCheckLogin;
+import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.Utilities;
@@ -56,7 +56,7 @@ public class LoginPageActivity extends BaseActivity {
             public void onClick(View view) {
 
                 if ((!inputUserName.getText().toString().equals("")) && (!inputPassword.getText().toString().equals(""))) {
-                    new NetworkCheckLogin().NetAsync(view, LoginPageActivity.this);
+                    new NetworkCheck().NetAsync(view, LoginPageActivity.this);
                 } else if ((!inputUserName.getText().toString().equals(""))) {
                     Toast.makeText(getApplicationContext(),
                             "Password field empty", Toast.LENGTH_SHORT).show();
