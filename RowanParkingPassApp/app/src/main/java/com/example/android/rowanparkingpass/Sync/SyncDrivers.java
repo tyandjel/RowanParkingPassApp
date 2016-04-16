@@ -45,8 +45,8 @@ public class SyncDrivers {
                     String zip = jsonObj.getString("zip");
                     try {
                         db.addDriver(Integer.parseInt(driverID), fullName, street, city, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), zip);
-                    } catch (SQLiteConstraintException sqlCe) {
-                        sqlCe.printStackTrace();
+                    } catch (SQLiteConstraintException sqlC) {
+                        Log.d("SQLite Exception", sqlC.getMessage());
                     }
                 }
             } catch (Exception e) {

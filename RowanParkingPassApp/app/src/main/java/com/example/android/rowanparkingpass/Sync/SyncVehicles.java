@@ -46,7 +46,7 @@ public class SyncVehicles {
                     try {
                         db.addVehicle(Integer.parseInt(vehicle_id), Integer.parseInt(year), make, model, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), color, license);
                     } catch (SQLiteConstraintException sqlC) {
-                        sqlC.printStackTrace();
+                        Log.d("SQLite Exception", sqlC.getMessage());
                     }
                 }
             } catch (Exception e) {
