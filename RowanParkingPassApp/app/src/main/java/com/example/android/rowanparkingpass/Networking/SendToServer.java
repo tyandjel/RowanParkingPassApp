@@ -169,7 +169,6 @@ public class SendToServer extends BaseActivity {
         @Override
         protected JSONObject doInBackground(Void... params) {
             int a = SaveData.size() * 3;
-            if(new NetworkCheck().haveNetworkConnection()){
             for (int i = a - 1; i >= 0 && !(SaveData.size() == 0); i--) {
                 Log.d("SEND Number", a - i + "");
                 SendInfoModel tempSendInfo = SaveData.remove();
@@ -193,7 +192,7 @@ public class SendToServer extends BaseActivity {
                     Log.d("Send to server failed: ", String.valueOf(e.getMessage()));
                     Log.d("Queue Size:", String.valueOf(SaveData.size()));
                 }
-            }}
+            }
             return jsonObject;
         }
     }
