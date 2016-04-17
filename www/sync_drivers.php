@@ -8,20 +8,16 @@ function extract_ID_ARRAY($obj_rows,$col_name){
     }
     return $returnMe;
 }
-if(empty($_POST)){
-    echo '{"FLAG":false,"ERR":1}';# Not post
-    goto ERR;
-}
-$WAWA = $_POST["json_obj"];
 
+$WAWA = $_POST["json_obj"];
 if(!empty($_SESSION['user'])){
     if( empty($WAWA)){
-        echo '{"FLAG":false,"ERR":2}';# Check parameters
-        goto ERR;
-        //goto CONT;
+        die('{"FLAG":false,"ERR":3,"ERR_MSG":"wawa"}');
     }
+    $row = [];
     $P_OBJ = json_decode($WAWA);
-    $array_ids = extract_ID_ARRAY($P_OBJ,'vehicle_id');
+    $array_ids = extract_ID_ARRAY($P_OBJ,'driver_id');
+    array_unshift($array_ids,-1);
     $qMarks = str_repeat('?,', count($array_ids));
     $qMarks = rtrim($qMarks,",");
 	$array_ids[] = $_SESSION['user']['user_id']; // This will be users ID
@@ -37,27 +33,26 @@ if(!empty($_SESSION['user'])){
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-		echo '{"FLAG":false,"ERR":3}';# Database error
-        goto ERR;
+		die('{"FLAG":false,"ERR":3}'.$ex->getMessage());# Database error
     }
     $row  = $stmt->fetchAll();
-
+    //die(json_encode($array_ids));
     foreach ($P_OBJ as $k => $Trow){
 		$query = "
             INSERT INTO Driver
-            (driver_id,street,city,full_name,zip)
-            VALUES(:driver_id,:street,:city,:full_name,:zip)
+            (driver_id,street,state,city,full_name,zip)
+            VALUES(:driver_id,:street,:state,:city,:full_name,:zip)
             ON DUPLICATE KEY UPDATE
             driver_id=:driver_id,street=:street,city=:city,full_name=:full_name,zip=:zip";
         $array_ids = array(':driver_id'=>$Trow->{'driver_id'},':street'=>$Trow->{'street'},':city'=>$Trow->{'city'},
-                           ':full_name'=>$Trow->{'full_name'},':zip'=>$Trow->{'zip'});
+                           ':full_name'=>$Trow->{'full_name'},':zip'=>$Trow->{'zip'},':state'=>$Trow->{'state'});
         // IF id =0 this forces auto increment. DO NO LET!!
         try {
             $stmt   = $db->prepare($query);
             $result = $stmt->execute($array_ids);
         }
         catch (PDOException $ex) {
-            echo '{"FLAG":false,"ERR":3}';# Database error
+            die('{"FLAG":false,"ERR":3}'.$ex->getMessage());# Database error
             goto ERR;
         }
 		
@@ -74,7 +69,7 @@ if(!empty($_SESSION['user'])){
             $result = $stmt->execute($array_ids);
         }
         catch (PDOException $ex) {
-            echo '{"FLAG":false,"ERR":3}';# Database error
+            die('{"FLAG":false,"ERR":3}'.$ex->getMessage());# Database error
             goto ERR;
         }
     }
@@ -86,4 +81,5 @@ if(!empty($_SESSION['user'])){
 }
 die();
 ERR:
-header("HTTP/1.1 500 Internal Server Error");
+die();
+//header("HTTP/1.1 500 Internal Server Error");

@@ -8,22 +8,20 @@ function extract_ID_ARRAY($obj_rows,$col_name){
     }
     return $returnMe;
 }
-if(empty($_POST)){
-    echo '{"FLAG":false,"ERR":1}';# Not post
-    goto ERR;
-}
+
 $WAWA = $_POST["json_obj"];
+
 if(!empty($_SESSION['user'])){
     if( empty($WAWA)){
-        echo '{"FLAG":false,"ERR":2}';# Check parameters
-        goto ERR;
-        //goto CONT;
+        die('{"FLAG":false,"ERR":3,"ERR_MSG":"wawa"}');
     }
+    $row = [];
     $P_OBJ = json_decode($WAWA);
     $array_ids = extract_ID_ARRAY($P_OBJ,'vehicle_id');
+    array_unshift($array_ids,-1);
     $qMarks = str_repeat('?,', count($array_ids));
     $qMarks = rtrim($qMarks,",");
-	$array_ids[] = $_SESSION['user']['user_id']; // This will be users ID
+	$array_ids[] = intval($_SESSION['user']['user_id']); // This will be users ID
     $query = "
             SELECT
             *
@@ -36,8 +34,7 @@ if(!empty($_SESSION['user'])){
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-		echo '{"FLAG":false,"ERR":3}';# Database error
-        goto ERR;
+		die('{"FLAG":false,"ERR":3,"ERR_MSG":"'.$ex->getMessage().'"}');# Database error
     }
     $row  = $stmt->fetchAll();
     
@@ -58,7 +55,7 @@ if(!empty($_SESSION['user'])){
             $result = $stmt->execute($array_ids);
         }
         catch (PDOException $ex) {
-            echo '{"FLAG":false,"ERR":3}';# Database error
+            die('{"FLAG":false,"ERR":3,"ERR_MSG":"'.$ex->getMessage().'"}');# Database error
             goto ERR;
         }
 		
@@ -76,11 +73,10 @@ if(!empty($_SESSION['user'])){
             $result = $stmt->execute($array_ids);
         }
         catch (PDOException $ex) {
-            echo '{"FLAG":false,"ERR":3}';# Database error
+            die('{"FLAG":false,"ERR":3,"ERR_MSG":"'.$ex->getMessage().'"}');# Database error
             goto ERR;
         }
     }
-	
     die('{"JSONS":"'.urlencode(json_encode($row)).'"}');
 }else{
     print '{"FLAG":false,"ERR":0}'; # Not Logged in

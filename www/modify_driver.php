@@ -10,32 +10,28 @@ $street    = trim($_POST[':street']);
 $city      = trim($_POST[':city']);
 $full_name = trim($_POST[':full_name']);
 $zip       = trim(strval($_POST[':zip']));
+$state       = trim(strval($_POST[':state']));
 $d_id      = trim($_POST[':driver_id']);
 $kill      = trim($_POST['kill']);
 
 if (isset($_POST[':street']) && empty($street)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":street"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":street"}'); # param error
 }
 if (isset($_POST[':city']) && empty($city)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":city"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":city"}'); # param error
 }
 if (isset($_POST[':full_name']) && empty($full_name)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":full_name"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":full_name"}'); # param error
 }
 if (isset($_POST[':zip']) && empty($zip)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":zip"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":zip"}'); # param error
 }
 if (isset($_POST[':driver_id']) && empty($d_id)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":driver_id"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":driver_id"}'); # param error
 }
 
 $zip = intval(strval($zip));
-//die("horse");
+
 if (!empty($d_id) && !empty($_POST['kill']) && $kill == '1') {
     
     $query     = "
@@ -51,8 +47,7 @@ if (!empty($d_id) && !empty($_POST['kill']) && $kill == '1') {
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        die( '{"FLAG":false,"ERR":3}'.$ex->getMessage());# Database error
-        
+        die('{"FLAG":false,"ERR":3,"PDO_ERR":"'.$ex->getMessage().'"}');# Database error
     }
     die('{"FLAG":true}'); // delete success
 }
@@ -60,16 +55,19 @@ if (!empty($d_id) && !empty($_POST['kill']) && $kill == '1') {
 if (empty($d_id)) {
     $query = "
             SELECT
-            *
+            Driver.*
             FROM Driver
+            LEFT JOIN UserDrivers ON (UserDrivers.driver_id = Driver.driver_id)
 			WHERE
-            street=:street and city=:city and full_name=:full_name and zip=:zip";
+            UserDrivers.user_id=:us_id and street=:street and city=:city and full_name=:full_name and state=:state and zip=:zip";
     
     $array_ids = array(
         ':street' => $_POST[':street'],
         ':city' => $city,
+        ':state'=> $state,
         ':full_name' => $full_name,
-        ':zip' => $zip
+        ':zip' => $zip,
+        ':us_id' => $_SESSION['user']['user_id']
     );
     try {
         // These two statements run the query against your database table.
@@ -77,8 +75,7 @@ if (empty($d_id)) {
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        echo '{"FLAG":false,"ERR":3}'; # Database error
-        goto ERR;
+        die('{"FLAG":false,"ERR":3,"PDO_ERR":"'.$ex->getMessage().'"}');# Database error
     }
     $row = $stmt->fetch();
     if ($row) {
@@ -86,12 +83,13 @@ if (empty($d_id)) {
     } else {
         $query     = "
             INSERT INTO Driver
-            (street,city,full_name,zip)
+            (street,city,state,full_name,zip)
             VALUES
-			(:street,:city,:full_name,:zip)";
+			(:street,:city,:state,:full_name,:zip)";
         $array_ids = array(
             ':street' => $street,
             ':city' => $city,
+            ':state' => $state,
             ':full_name' => $full_name,
             ':zip' => $zip
         );
@@ -102,8 +100,7 @@ if (empty($d_id)) {
             $return_id   = $db->lastInsertId();
         }
         catch (PDOException $ex) {
-            echo '{"FLAG":false,"ERR":3}'; # Database error
-            goto ERR;
+            die('{"FLAG":false,"ERR":3,"PDO_ERR":"'.$ex->getMessage().'"}');# Database error
         }
     }
     // Updates junction table
@@ -143,20 +140,20 @@ if (empty($d_id)) {
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        echo '{"FLAG":false,"ERR":3}'; # Database error
-        goto ERR;
+        die('{"FLAG":false,"ERR":3,"PDO_ERR":"'.$ex->getMessage().'"}');# Database error
     }
     
     $row = $stmt->fetch();
     if ($row) {
         $query     = "
             UPDATE Driver
-            SET street=:street, city=:city, full_name=:full_name, zip=:zip
+            SET street=:street, city=:city, full_name=:full_name, zip=:zip, state=:state
             WHERE driver_id=:driver_id";
         $array_ids = array(
             ':street' => $street,
             ':city' => $city,
             ':full_name' => $full_name,
+            ':state' => $state,
             ':zip' => intval($zip),
             ':driver_id' => $d_id
         );
@@ -166,8 +163,7 @@ if (empty($d_id)) {
             $result = $stmt->execute($array_ids);
         }
         catch (PDOException $ex) {
-            echo '{"FLAG":false,"ERR":3}'; # Database error
-            goto ERR;
+            die('{"FLAG":false,"ERR":3,"PDO_ERR":"'.$ex->getMessage().'"}');# Database error
         }
         echo '{"FLAG":true}';
     } else {
@@ -177,4 +173,4 @@ if (empty($d_id)) {
 } //driver id
 die();
 ERR:
-header("HTTP/1.1 500 Internal Server Error");
+die();

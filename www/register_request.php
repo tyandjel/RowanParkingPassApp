@@ -1,90 +1,160 @@
 <?php
 require_once("common.php");
 
-die('{"FLAG":false,"ERR":0}'); # Not Logged in
-die('{"FLAG":false,"ERR":1}'); # POST required
-die('{"FLAG":false,"ERR":2}');# Check parameters
-die('{"FLAG":false,"ERR":3}');# Database error
-die('{"FLAG":false,"ERR":4}');# invalid start date
-die('{"FLAG":false,"ERR":5}');# invalid end data
-die('{"FLAG":false,"ERR":6}');# Date range error
-die('{"FLAG":false,"ERR":7}');# No vehicle error
-die('{"FLAG":false,"ERR":8}');# No driver error
+//die('{"FLAG":false,"ERR":0}'); # Not Logged in
+//die('{"FLAG":false,"ERR":1}'); # POST required
+//die('{"FLAG":false,"ERR":2}');# Check parameters
+//die('{"FLAG":false,"ERR":3}');# Database error
+//die('{"FLAG":false,"ERR":4}');# invalid start date
+//die('{"FLAG":false,"ERR":5}');# invalid end data
+//die('{"FLAG":false,"ERR":6}');# Date range error
+//die('{"FLAG":false,"ERR":7}');# No vehicle error
+//die('{"FLAG":false,"ERR":8}');# No driver error
+
+//echo '{"FLAG":false,"ERR":3}';# Database error
+
+if(!($_SESSION['user'] || $_POST)){
+die('{"FLAG":false,"ERR":0}');
+}
+
+$vehicle = $_POST[':vehicle'];
+$driver = $_POST[':driver'];
+$start_date = $_POST[':start'];
+$end_date = $_POST[':end'];
+if($_POST[':vehicle'] && empty($vehicle)){
+die('{"FLAG":false,"ERR":2,"PARAM":"vehicle"}');
+}
+if($_POST[':driver'] && empty($driver)){
+die('{"FLAG":false,"ERR":2,"PARAM":"driver"}');
+}
 
 
-if($_SESSION['user'] && $_POST && $_POST[':vehicle_id'] && $_POST[':driver_id'] && $_POST[':start_date'] && $_POST[':end_date']){
-    die('{"FLAG":true,"id":1}');
-	// check vehicle/driver exists
-	$query = "
+$vehicle = json_decode($_POST[':vehicle']);
+$driver = json_decode($_POST[':driver']);
+$vehicle_id = $vehicle->{'vehicle_id'};
+$driver_id = $driver->{'driver_id'};
+
+if($vehicle_id==-1){
+    $query     = "
+        INSERT INTO Vehicles
+        (make,model,license,state,color,year)
+        VALUES
+		(:make,:model,:license,:state,:color,:year)";
+    $array_ids = array(
+        ':make' => $vehicle->{'make'},
+        ':model' => $vehicle->{'model'},
+        ':license' => $vehicle->{'license'},
+        ':state' => intval($vehicle->{'state'}),
+        ':color' => intval($vehicle->{'color'}),
+        ':year' => intval($vehicle->{'year'})
+    );
+    try {
+        // These two statements run the query against your database table.
+        $stmt      = $db->prepare($query);
+        $result    = $stmt->execute($array_ids);
+        $return_id = $db->lastInsertId();
+    }
+    catch (PDOException $ex) {
+        die('{"FLAG":false,"ERR":3,\"PDO_MSG\":"' . $ex->getMessage() . '"}'); # Database error
+    }
+    $vehicle_id = $return_id;
+}else{
+    // check vehicle/driver exists
+    $query = "
             SELECT
             1
             FROM Vehicles
-			WHERE
+		    WHERE
             vehicle_id=:vehicle_id";
-    $array_ids = array(':vehicle_id'=>$_POST[':vehicle_id']);
-	try {
+    $array_ids = array(':vehicle_id'=>$vehicle_id);
+    try {
+        // These two statements run the query against your database table.
+        $stmt   = $db->prepare($query);
+        
+        $result = $stmt->execute($array_ids);
+        
+    }
+    catch (PDOException $ex) {
+        die('{"FLAG":false,"ERR":3,\"PDO_MSG\":"' . $ex->getMessage() . '"}'); # Database error
+	    goto ERR;
+    }
+    $row  = $stmt->fetch();
+    if(!$row){
+	    echo '{"FLAG":false,"ERR":7,"post":"'.urlencode(json_encode($vehicle_id)).'"}';
+	    goto ERR;
+    }
+}
+if($driver_id == -1){
+    $query     = "
+        INSERT INTO Driver
+        (street,city,state,full_name,zip)
+        VALUES
+	    (:street,:city,:state,:full_name,:zip)";
+    $array_ids = array(
+        ':street' => $driver->{'street'},
+        ':city' => $driver->{'city'},
+        ':state' => $driver->{'state'},
+        ':full_name' => $driver->{'full_name'},
+        ':zip' => $driver->{'zip'}
+    );
+    try {
         // These two statements run the query against your database table.
         $stmt   = $db->prepare($query);
         $result = $stmt->execute($array_ids);
+        $return_id   = $db->lastInsertId();
     }
     catch (PDOException $ex) {
-        echo '{"FLAG":false,"ERR":3}';
-		goto ERR;
+        die('{"FLAG":false,"ERR":3,"PDO_ERR":"'.$ex->getMessage().'"}');# Database error
     }
-    $row  = $stmt->fetch();
-	if(!$row){
-		echo '{"FLAG":false,"ERR":7}';
-		goto ERR;
-	}
-	$query = "
+    $driver_id = $return_id;
+}else{
+    $query = "
             SELECT
             1
             FROM Driver
-			WHERE
+		    WHERE
             driver_id=:driver_id";
-    $array_ids = array(':driver_id'=>$_POST[':driver_id']);
-	try {
+    $array_ids = array(':driver_id'=>$driver_id);
+    try {
         // These two statements run the query against your database table.
         $stmt   = $db->prepare($query);
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        echo '{"FLAG":false,"ERR":3}';
-		goto ERR;
+        die('{"FLAG":false,"ERR":3,"ERR_DB":"'.$ex->getMessage().'"}');
+	    goto ERR;
     }
+
     $row  = $stmt->fetch();
-	if(!$row){
-		echo '{"FLAG":false,"ERR":8}';
-		goto ERR;
-	}
-	// Check date conflicts
-	// add request
-	$query = "
-            INSERT INTO Requests
-            (vehicle_id,driver_id,user_id,status,start_date,end_date)
-            VALUES
-			(:vehicle_id,:driver_id,:user_id,:status,:start_date,:end_date)";
-	$array_ids = array(':vehicle_id'=>$_POST[':vehicle_id'],
-		':driver_id'=>$_POST[':driver_id'],
-		':user_id'=>$_SESSION['user']['user_id'],
-		':status'=>intval(0),
-		':start_date'=>intval($_POST[':start_date']),
-		':end_date'=>intval($_POST[':end_date']));
-	try {
-			// These two statements run the query against your database table.
-			$stmt   = $db->prepare($query);
-			$result = $stmt->execute($array_ids);
-		}
-		catch (PDOException $ex) {
-			echo '{"FLAG":false,"ERR":3}';
-			goto ERR;
-		}
-		$temp = $stmt->fetch(PDO::FETCH_ASSOC);
-		echo '{"FLAG":true,"id":'+json_encode($temp)+'}';
-}else{
-	echo '{"FLAG":false,"ERR":2}';
-	goto ERR;
+    if(!$row){
+	    echo '{"FLAG":false,"ERR":8}';
+	    goto ERR;
+    }
 }
-die();
+
+// Check date conflicts
+// add request
+$query = "
+        INSERT INTO Requests
+        (vehicle_id,driver_id,user_id,status,start_date,end_date)
+        VALUES
+		(:vehicle_id,:driver_id,:user_id,:status,:start_date,:end_date)";
+$array_ids = array(':vehicle_id'=>$vehicle_id,
+	':driver_id'=>$driver_id,
+	':user_id'=>$_SESSION['user']['user_id'],
+	':status'=>intval(0),
+	':start_date'=>$start_date,
+	':end_date'=>$end_date);
+try {
+	// These two statements run the query against your database table.
+	$stmt   = $db->prepare($query);
+	$result = $stmt->execute($array_ids);
+    $return_id   = $db->lastInsertId();
+}
+catch (PDOException $ex) {
+	die('{"FLAG":false,"ERR":3,"ERR_DB":"'.$ex->getMessage().'"}');
+}
+die('{"FLAG":true,"id":'.json_encode($return_id).'}');
+
 ERR:
-header("HTTP/1.1 500 Internal Server Error");
+die();

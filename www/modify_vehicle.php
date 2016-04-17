@@ -15,32 +15,25 @@ $vehicle_id = trim($_POST[':vehicle_id']);
 $kill       = trim($_POST['kill']);
 
 if (isset($_POST[':make']) && empty($make)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":make"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":make"}'); # param error
 }
 if (isset($_POST[':model']) && empty($model)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":model"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":model"}'); # param error
 }
 if (isset($_POST[':license']) && empty($license)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":license"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":license"}'); # param error
 }
 if (isset($_POST[':state']) && empty($state)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":state"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":state"}'); # param error
 }
 if (isset($_POST[':color']) && empty($color)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":color"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":color"}'); # param error
 }
 if (isset($_POST[':year']) && empty($year)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":year"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":year"}'); # param error
 }
 if (isset($_POST[':vehicle_id']) && empty($vehicle_id)) {
-    echo '{"FLAG":false,"ERR":2,"PARAM":":vehicle_id"}'; # param error
-    goto ERR;
+    die('{"FLAG":false,"ERR":2,"PARAM":":vehicle_id"}'); # param error
 }
 $year  = intval(strval($year));
 $color = intval(strval($color));
@@ -60,24 +53,25 @@ if (!empty($vehicle_id) && !empty($_POST['kill']) && $kill == '1') {
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        die( '{"FLAG":false,"ERR":3}'.$ex->getMessage()); # Database error
+        die('{"FLAG":false,"ERR":3,\"PDO_MSG\":' . $ex->getMessage() . '}'); # Database error
     }
     die('{"FLAG":true}'); // delete success
 }
 if (empty($vehicle_id)) {
     $query     = "
             SELECT
-            *
+            Vehicles.*
             FROM Vehicles
-			WHERE
-            make=:make and model=:model and license=:license and state=:state and color=:color and year=:year";
+            LEFT JOIN UserVehicles ON (UserVehicles.vehicle_id = Vehicles.vehicle_id)
+			WHERE UserVehicles.user_id = :us_id and Vehicles.make=:make and Vehicles.model=:model and Vehicles.license=:license and Vehicles.state=:state and Vehicles.color=:color and Vehicles.year=:year";
     $array_ids = array(
         ':make' => $make,
         ':model' => $model,
         ':license' => $license,
         ':state' => intval($state),
         ':color' => intval($color),
-        ':year' => intval($year)
+        ':year' => intval($year),
+        ':us_id' => $_SESSION['user']['user_id']
     );
     try {
         // These two statements run the query against your database table.
@@ -85,8 +79,7 @@ if (empty($vehicle_id)) {
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        echo '{"FLAG":false,"ERR":3}'; # Database error
-        goto ERR;
+        die('{"FLAG":false,"ERR":3,\"PDO_MSG\":' . $ex->getMessage() . '}'); # Database error
     }
     $row = $stmt->fetch();
     
@@ -113,8 +106,7 @@ if (empty($vehicle_id)) {
             $return_id = $db->lastInsertId();
         }
         catch (PDOException $ex) {
-            echo '{"FLAG":false,"ERR":3}'; # Database error
-            goto ERR;
+            die('{"FLAG":false,"ERR":3,\"pdocode\":' . $ex->getCode() . '}'); # Database error
         }
     }
     
@@ -155,8 +147,7 @@ if (empty($vehicle_id)) {
         $result = $stmt->execute($array_ids);
     }
     catch (PDOException $ex) {
-        echo '{"FLAG":false,"ERR":3}'; # Database error
-        goto ERR;
+        die('{"FLAG":false,"ERR":3,\"pdocode\":' . $ex->getCode() . '}'); # Database error
     }
     $row = $stmt->fetch();
     if ($row) {
@@ -179,8 +170,7 @@ if (empty($vehicle_id)) {
             $result = $stmt->execute($array_ids);
         }
         catch (PDOException $ex) {
-            echo '{"FLAG":false,"ERR":3}'; # Database error
-            goto ERR;
+            die('{"FLAG":false,"ERR":3,\"pdocode\":' . $ex->getCode() . '}'); # Database error
         }
         echo '{"FLAG":true}';
     } else {
@@ -190,4 +180,4 @@ if (empty($vehicle_id)) {
 } //vehicle id
 die();
 ERR:
-header("HTTP/1.1 500 Internal Server Error");
+die();
