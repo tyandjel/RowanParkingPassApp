@@ -292,10 +292,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(intent);
                     finish();
                 } else {
-                    //TODO Figure out what error
-                    //Depending on error we call specific command.
-                    // current vehicle/driver .setId -1
-                    // Recall execute process request
+                    //Figure out what error. Depending on error we call specific command. Current vehicle/driver .setId -1. Recall execute process request
                     String err = json.getString("ERR");
 
                     if (err.equals("7")) {

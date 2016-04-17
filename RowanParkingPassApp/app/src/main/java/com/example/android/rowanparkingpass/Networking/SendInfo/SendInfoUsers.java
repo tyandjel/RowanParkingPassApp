@@ -32,14 +32,4 @@ public class SendInfoUsers extends SendInfoBase {
         // Return JsonObject
         return jsonParser.makeHttpRequest(LOGIN_URL, JSONParser.POST, params);
     }
-
-    /**
-     * Checks if the user is an admin
-     *
-     * @return true if the logged in user is an admin
-     */
-    public boolean isAdmin() {
-        //TODO
-        return true;
-    }
 }

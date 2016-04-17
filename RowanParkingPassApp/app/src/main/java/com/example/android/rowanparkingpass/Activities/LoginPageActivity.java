@@ -17,6 +17,9 @@ import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.Utilities;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
+import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +40,7 @@ public class LoginPageActivity extends BaseActivity {
         inputPassword = (EditText) findViewById(R.id.pword);
         Button btnLogin = (Button) findViewById(R.id.createdmainmenu);
         Button btnForgotPassword = (Button) findViewById(R.id.forgotpass);
+        Button btnAdminLogin = (Button) findViewById(R.id.admin_login);
         loginErrorMsg = (TextView) findViewById(R.id.loginErrorMsg);
 
         btnForgotPassword.setOnClickListener(new View.OnClickListener() {
@@ -47,10 +51,19 @@ public class LoginPageActivity extends BaseActivity {
             }
         });
 
-/**
- * Login button click event
- * A Toast is set to alert when the Email and Password field is empty
- **/
+        btnAdminLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(view.getContext(), RowanWebPageActivity.class);
+                myIntent.putExtra(MODE, mode.PASS_SEARCH.name());
+                startActivity(myIntent);
+            }
+        });
+
+        /*
+         * Login button click event
+         * A Toast is set to alert when the Email and Password field is empty
+         */
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -159,6 +172,7 @@ public class LoginPageActivity extends BaseActivity {
                     Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //TODO: If different user call clearDatabases below
                     pDialog.dismiss();
                     startActivity(upanel);
                     // Start SendInfoTimer guy
@@ -171,6 +185,12 @@ public class LoginPageActivity extends BaseActivity {
                 loginErrorMsg.setText(e.getMessage());
                 e.printStackTrace();
             }
+        }
+
+        private void clearDatabases() {
+            new DatabaseHandlerDrivers(getApplicationContext()).resetTables();
+            new DatabaseHandlerVehicles(getApplicationContext()).resetTables();
+            new DatabaseHandlerPasses(getApplicationContext()).resetTables();
         }
     }
 }

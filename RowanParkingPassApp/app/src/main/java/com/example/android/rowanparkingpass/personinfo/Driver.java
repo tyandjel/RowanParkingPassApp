@@ -1,8 +1,6 @@
 package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Driver implements Serializable {
 
@@ -84,8 +82,8 @@ public class Driver implements Serializable {
     public String toString() {
         States[] arrayOfStates = States.values();
         int stateNum = 0;
-        for(int i = 0; i < arrayOfStates.length; i++){
-            if(state.equals(arrayOfStates[i].toString())){
+        for (int i = 0; i < arrayOfStates.length; i++) {
+            if (state.equals(arrayOfStates[i].toString())) {
                 stateNum = i;
                 break;
             }

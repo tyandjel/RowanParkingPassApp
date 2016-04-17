@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background"
@@ -8,8 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Login"
-    android:id="@+id/parent">
+    tools:context=".Activities.LoginPageActivity">
 
     <TextView
         android:id="@+id/createdLabel"
@@ -35,8 +35,8 @@
         android:drawableStart="@drawable/user"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:textColor="@color/textColor2"
-        android:textSize="15sp" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColor2" />
 
     <Button
         android:id="@+id/createdmainmenu"
@@ -48,8 +48,25 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/button_selector"
         android:text="@string/login_button"
-        android:textColor="@color/textColor"
-        android:textSize="@dimen/login_button_text_size" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/textColor" />
+
+    <Button
+        android:id="@+id/forgotpass"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/pword"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@+id/createdmainmenu"
+        android:layout_toStartOf="@+id/createdmainmenu"
+        android:background="@drawable/button_selector"
+        android:text="@string/forgot_password_button"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColor" />
 
     <TextView
         android:id="@+id/loginErrorMsg"
@@ -58,9 +75,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/forgotpass"
-        android:textColor="@color/Red"
+        android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:gravity="center" />
+        android:textColor="@color/Red" />
 
     <EditText
         android:id="@+id/pword"
@@ -77,25 +94,24 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:textColor="@color/textColor2"
-        android:textSize="15sp" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColor2" />
 
     <Button
-        android:id="@+id/forgotpass"
+        android:id="@+id/admin_login"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/pword"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_toLeftOf="@+id/createdmainmenu"
-        android:layout_toStartOf="@+id/createdmainmenu"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/button_selector"
-        android:text="@string/forgot_password_button"
+        android:drawableLeft="@drawable/ic_pass_search"
+        android:drawableStart="@drawable/ic_pass_search"
+        android:drawableRight="@drawable/ic_pass_search"
+        android:drawableEnd="@drawable/ic_pass_search"
+        android:text="@string/search_passes_button"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/textColor"
-        android:textSize="@dimen/login_button_text_size" />
-
-
+        android:layout_alignLeft="@+id/createdLabel"
+        android:layout_alignStart="@+id/createdLabel"
+        android:layout_alignRight="@+id/createdLabel"
+        android:layout_alignEnd="@+id/createdLabel" />
 </RelativeLayout>

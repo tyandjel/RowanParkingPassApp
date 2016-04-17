@@ -1,8 +1,6 @@
 package com.example.android.rowanparkingpass.Activities.ListViewActivities;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,12 +14,11 @@ import android.widget.SearchView;
 
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
+import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.Tests.Tests;
-import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.Sync.SyncDrivers;
+import com.example.android.rowanparkingpass.Sync.SyncVehicles;
 import com.example.android.rowanparkingpass.personinfo.Pass;
-import com.example.android.rowanparkingpass.personinfo.Vehicle;
-import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
 import java.io.Serializable;
@@ -32,7 +29,6 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
 
     DatabaseHandlerPasses db;
     SearchView searchView;
-    MenuItem searchMenuItem;
     Intent pastIntent;
 
     @Override
@@ -42,57 +38,26 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
         buildEventList(buildList());
+        //TODO had ping network back in
+        if (NetworkCheck.haveNetworkConnection()/* && NetworkCheck.pingNetwork()*/) {
+            sync();
+        }
         loaded();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
-        if (currentMode.equals(mode.HOME_PAGE.name())) {
-            inflator.inflate(R.menu.menu_home_page, menu);
-        } else {
-            inflator.inflate(R.menu.menu_search_home, menu);
-            //Will be used for searching through passes
-            SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            searchMenuItem = menu.findItem(R.id.action_search);
-            searchView = (SearchView) searchMenuItem.getActionView();
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            searchView.setSubmitButtonEnabled(false);
-            searchView.setOnQueryTextListener(this);
-            searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(View v) {
-                }
-
-                @Override
-                public void onViewDetachedFromWindow(View v) {
-                    Utilities.hideSoftKeyboard(PassesActivity.this);
-                    searchView.setQuery("", false);
-                }
-            });
-        }
+        inflator.inflate(R.menu.menu_home_page, menu);
         return true;
     }
 
     private List<Pass> buildList() {
         ArrayList<Pass> listOfAllPasses;
+        listOfAllPasses = db.getPasses();
+        //new Tests();
 
-        if (currentMode.equals(mode.HOME_PAGE.name())) {
-            listOfAllPasses = db.getPasses();
-            //new Tests();
 
-        } else {
-            //TODO: Get list of Passes with current date only with just Name and Vehicle Info from server not local db
-            listOfAllPasses = new ArrayList<>();
-            Driver d = new Driver(-1, "Fake", "Name1", "-1", "-1", "-1", "-1");
-            Driver d2 = new Driver(-2, "Fake", "Name2", "-1", "-1", "-1", "-1");
-            Vehicle v = new Vehicle(-1, "Fake Make", "Fake Model", 2008, "-1", "Fake State", "ABC123");
-            Vehicle v2 = new Vehicle(-1, "Fake Make", "Fake Model", 2099, "-1", "Fake State", "DEF456");
-            Pass p = new Pass(-1, d, v, "Date1", "Date2");
-            Pass p2 = new Pass(-2, d2, v2, "Date1", "Date2");
-            listOfAllPasses.add(p);
-            listOfAllPasses.add(p2);
-        }
         if (listOfAllPasses == null) {
             listOfAllPasses = new ArrayList<>();
         }
@@ -101,11 +66,7 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
 
     private void buildEventList(List<Pass> passes) {
         listView = (ListView) findViewById(R.id.listView);
-        if (currentMode.equals(mode.HOME_PAGE.name())) {
-            adapter = new PassArrayAdapter(passes, this, false);
-        } else {
-            adapter = new PassArrayAdapter(passes, this, true);
-        }
+        adapter = new PassArrayAdapter(passes, this, false);
         listView.setAdapter(adapter);
         // Create a message handling object as an anonymous class.
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
@@ -123,52 +84,34 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
                         intent.putExtra("Pass", (Serializable) adapter.getItem(position));
                         startActivity(intent);
                     }
-                } else {
-                    //Close search view if its visible
-                    try {
-                        if (searchView.isShown()) {
-                            searchMenuItem.collapseActionView();
-                            searchView.setQuery("", false);
-                        }
-                    }catch (NullPointerException npe){
-                        npe.printStackTrace();
-                    }
                 }
             }
         };
         // checks what item in the listview was long clicked
         AdapterView.OnItemLongClickListener mMessageLongClickedHandler = new AdapterView.OnItemLongClickListener() {
             public boolean onItemLongClick(AdapterView parent, View v, final int position, long id) {
-                //Close search view if its visible
-                if (currentMode.equals(mode.HOME_PAGE.name())) {
-                    if (position != 0) {
-                        final Pass pass = (Pass) listView.getItemAtPosition(position);
-                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(PassesActivity.this);
-                        alertDialog.setTitle("Delete Pass?");
-                        alertDialog.setMessage(pass.getDriver().getName() + "\n" + pass.getVehicle().getCarInfo());
-                        alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                db.deleteRequestRequestID(String.valueOf(pass.getRequestID()));
-                                makeAdapter(db.getRequestDetails());
-                            }
-                        });
-                        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Do nothing
-                            }
-                        });
-                        alertDialog.show();
-                    }
-                } else {
-                    if (searchView.isShown()) {
-                        searchMenuItem.collapseActionView();
-                        searchView.setQuery("", false);
-                    }
+
+                if (position != 0) {
+                    final Pass pass = (Pass) listView.getItemAtPosition(position);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(PassesActivity.this);
+                    alertDialog.setTitle("Delete Pass?");
+                    alertDialog.setMessage(pass.getDriver().getName() + "\n" + pass.getVehicle().getCarInfo());
+                    alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            db.deleteRequestRequestID(String.valueOf(pass.getRequestID()));
+                            makeAdapter(db.getRequestDetails());
+                        }
+                    });
+                    alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do nothing
+                        }
+                    });
+                    alertDialog.show();
                 }
                 return true;
-
             }
         };
         listView.setOnItemClickListener(mMessageClickedHandler);
@@ -176,11 +119,7 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
     }
 
     private void makeAdapter(List<Pass> p) {
-        if (currentMode.equals(mode.HOME_PAGE.name())) {
-            adapter = new PassArrayAdapter(p, this, false);
-        } else {
-            adapter = new PassArrayAdapter(p, this, true);
-        }
+        adapter = new PassArrayAdapter(p, this, false);
         listView.setAdapter(adapter);
     }
 
@@ -210,5 +149,12 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
     public boolean onQueryTextChange(String newText) {
         adapter.getFilter().filter(newText);
         return true;
+    }
+
+    private void sync() {
+        SyncDrivers syncDrivers = new SyncDrivers();
+        SyncVehicles syncVehicles = new SyncVehicles();
+        syncDrivers.sync(getApplicationContext());
+        syncVehicles.sync(getApplicationContext());
     }
 }

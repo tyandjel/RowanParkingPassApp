@@ -17,13 +17,6 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_search_pass"
-        android:icon="@drawable/ic_pass_search"
-        android:orderInCategory="100"
-        android:title="@string/menu_pass_search"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_white_18dp"
         android:orderInCategory="100"

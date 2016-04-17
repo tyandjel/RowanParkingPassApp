@@ -131,7 +131,7 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerSwat
 
         if (color != mSelectedColor) {
             mSelectedColor = color;
-            Log.d("COLOR", mSelectedColor+"");
+            Log.d("COLOR", mSelectedColor + "");
             // Redraw palette to show checkmark on newly selected color before dismissing.
             mPalette.drawPalette(mColors, mSelectedColor);
         }

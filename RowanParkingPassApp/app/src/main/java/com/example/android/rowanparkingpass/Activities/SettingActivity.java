@@ -87,21 +87,26 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         // Change to new activity
-        switch (v.getId()) {            case R.id.changePassButton:
+        switch (v.getId()) {
+            case R.id.changePassButton:
                 Intent myIntent = new Intent(this, RowanWebPageActivity.class);
                 myIntent.putExtra(MODE, RowanWebPageActivity.mode.CHANGE_PASSWORD.name());
                 startActivity(myIntent);
                 break;
             case R.id.syncNowButton:
-                Log.d("TESTING NETWORK ",String.valueOf(new NetworkCheck().haveNetworkConnection()));
-                Toast.makeText(this, "Sync complete", Toast.LENGTH_SHORT).show();
-                SyncDrivers syncDrivers = new SyncDrivers();
-                SyncVehicles syncVehicles = new SyncVehicles();
-                syncDrivers.sync(getApplicationContext());
-                syncVehicles.sync(getApplicationContext());
+                Log.d("TESTING NETWORK ", String.valueOf(new NetworkCheck().haveNetworkConnection()));
+                sync();
                 break;
             default:
                 break;
         }
+    }
+
+    private void sync() {
+        SyncDrivers syncDrivers = new SyncDrivers();
+        SyncVehicles syncVehicles = new SyncVehicles();
+        syncDrivers.sync(getApplicationContext());
+        syncVehicles.sync(getApplicationContext());
+        Toast.makeText(this, "Sync complete", Toast.LENGTH_SHORT).show();
     }
 }

@@ -23,19 +23,19 @@ public class SendInfoModel {
         id = i;
     }
 
-    public void setIsDriver(){
+    public void setIsDriver() {
         isDriver = true;
     }
 
-    public boolean isDriverFlag(){
+    public boolean isDriverFlag() {
         return isDriver;
     }
 
-    public void setIsVehicle(){
+    public void setIsVehicle() {
         isVehicle = true;
     }
 
-    public boolean isVehicleFlag(){
+    public boolean isVehicleFlag() {
         return isVehicle;
     }
 

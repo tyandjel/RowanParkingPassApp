@@ -12,14 +12,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoBase;
 import com.example.android.rowanparkingpass.R;
 
 public class RowanWebPageActivity extends BaseActivity {
 
     private WebView webView;
 
-    private static final String forgot_password_url = "https://id.rowan.edu/";
-    private static final String change_password_url = "https://id.rowan.edu/";
+    private static final String password_url = "http://id.rowan.edu/";
+    private static final String search_passes_url = SendInfoBase.IP_ADDRESS_URL + "/Login.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,19 +40,24 @@ public class RowanWebPageActivity extends BaseActivity {
 
         if (currentMode.equals(mode.FORGOT_PASSWORD.name())) {
             setTitle("Forgot Password");
-            webView.loadUrl(forgot_password_url);
+            webView.loadUrl(password_url);
         } else if (currentMode.equals(mode.CHANGE_PASSWORD.name())) {
             setTitle("Change Password");
-            webView.loadUrl(change_password_url);
+            webView.loadUrl(password_url);
+        } else if (currentMode.equals(mode.PASS_SEARCH.name())) {
+            setTitle("Search Passes");
+            webView.loadUrl(search_passes_url);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-
-        inflater.inflate(R.menu.menu_home, menu);
-
+        if (currentMode.equals(mode.PASS_SEARCH.name())) {
+            inflater.inflate(R.menu.menu_search_passes, menu);
+        } else {
+            inflater.inflate(R.menu.menu_home, menu);
+        }
         return true;
     }
 
@@ -74,6 +80,8 @@ public class RowanWebPageActivity extends BaseActivity {
                 startActivity(myIntent);
                 finish();
                 break;
+            case R.id.action_camera:
+                Toast.makeText(this, "Camera Selected", Toast.LENGTH_SHORT).show();
             default:
                 break;
         }

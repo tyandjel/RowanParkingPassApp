@@ -8,13 +8,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
 import com.example.android.rowanparkingpass.Activities.SettingActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.ListViewArrayAdapter;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
 
 public abstract class ListActivity extends BaseActivity {
@@ -101,18 +99,6 @@ public abstract class ListActivity extends BaseActivity {
                 myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
                 startActivity(myIntent);
                 finish();
-                break;
-            // action with ID action_search_pass was selected
-            case R.id.action_search_pass:
-                if (new SendInfoUsers().isAdmin()) {
-                    final Intent intent = new Intent(ListActivity.this, PassesActivity.class);
-                    intent.putExtra(MODE, mode.PASS_SEARCH.name());
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Don't Have Admin Privileges", Toast.LENGTH_LONG).show();
-                }
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:

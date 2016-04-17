@@ -18,7 +18,6 @@ import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
 import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.ArrayAdapter.DriverArrayAdapter;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
@@ -140,7 +139,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                     alertDialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if(SaveData.getSync()){
+                            if (SaveData.getSync()) {
                                 SendInfoDriver sendInfoDriver = new SendInfoDriver();
                                 sendInfoDriver.deleteDriver(String.valueOf(driver.getDriverId()));
                             }

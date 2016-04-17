@@ -3,16 +3,13 @@ package com.example.android.rowanparkingpass.Activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.SavedDate.ReadWrite;
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
-import com.example.android.rowanparkingpass.utilities.SendInfoTimer;
 
 import java.io.IOException;
-import java.util.Timer;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -43,7 +40,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static String COOKIE = "";
     public ProgressDialog nDialog;
     protected SaveData saveData;
-    public static SendInfoTimer timer = new SendInfoTimer();
     public static Context context;
 
     public static String currentMode;
@@ -77,17 +73,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-    context = getApplicationContext();
+        context = getApplicationContext();
     }
 
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         try {
             ReadWrite.writeOut(saveData, ReadWrite.saveDateFile, getApplicationContext());
-            Toast.makeText(this, "Saved",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
 
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             e.getMessage();
         }
 

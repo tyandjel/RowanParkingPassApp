@@ -18,7 +18,7 @@ public class ReadWrite implements Serializable {
 
     public static final String SYNC_ON_FILE = "syncOn.txt";
     public static final String ADMIN_FILE = "admin.txt";
-    public static  final String saveDateFile="SaveDate.ser";
+    public static final String saveDateFile = "SaveDate.ser";
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static void writeOut(SaveData saveData, String fileName, Context context) throws IOException {

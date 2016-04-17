@@ -177,7 +177,6 @@ public class SendToServer extends BaseActivity {
                 for (int i = a - 1; i >= 0 && !(SaveData.size() == 0); i--) {
                     Log.d("SEND Number", a - i + "");
                     SendInfoModel tempSendInfo = SaveData.remove();
-
                     try {
                         if (tempSendInfo != null) {
                             Log.d("SENDJSON", tempSendInfo.getJson() + "");
