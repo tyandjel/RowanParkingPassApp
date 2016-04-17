@@ -35,7 +35,7 @@ public class NetworkCheck extends BaseActivity {
                 activeNetwork.isConnectedOrConnecting();
 
 
-        return isConnected;//&& pingNetwork();
+        return isConnected;
     }
 
     public static boolean pingNetwork() {

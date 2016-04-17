@@ -1,6 +1,8 @@
 package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Driver implements Serializable {
 
@@ -80,6 +82,9 @@ public class Driver implements Serializable {
 
     @Override
     public String toString() {
-        return "{\"driver_id\":" + driverId + ",\"street\":\"" + street + "\",\"city\":\"" + town + "\",\"full_name\":\"" + getName() + "\",\"zip\":" + zipCode + ",\"state\":\"" + state + "\"}";
+        States[] arrayOfStates = States.values();
+        ArrayList<States> states = new ArrayList<>();
+        states.addAll(Arrays.asList(arrayOfStates));
+        return "{\"driver_id\":" + driverId + ",\"street\":\"" + street + "\",\"city\":\"" + town + "\",\"full_name\":\"" + getName() + "\",\"zip\":" + zipCode + ",\"state\":\"" + states.indexOf(state) + "\"}";
     }
 }

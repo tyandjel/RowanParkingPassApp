@@ -1,6 +1,7 @@
 package com.example.android.rowanparkingpass.Networking.SendInfo;
 
-import com.example.android.rowanparkingpass.Networking.SendToServer;
+import android.util.Log;
+
 import com.example.android.rowanparkingpass.SavedDate.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
@@ -8,6 +9,7 @@ import com.example.android.rowanparkingpass.utilities.JSONParser;
 
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class SendInfoPass extends SendInfoBase {
@@ -25,8 +27,8 @@ public class SendInfoPass extends SendInfoBase {
     /**
      * Adds a vehicle to the server side database
      *
-     * @param vehicle vehicle
-     * @param driver  driver
+     * @param vehicle   vehicle
+     * @param driver    driver
      * @param startDate start date
      * @param endDate   end date
      * @return JSONObject of whether pass was added successfully along with pass id
@@ -42,7 +44,7 @@ public class SendInfoPass extends SendInfoBase {
         params.put(DRIVER_KEY, driver.toString());
         params.put(START_DATE_KEY, startDate);
         params.put(END_DATE_KEY, endDate);
-
+        Log.d("PARAMSPASS", Arrays.asList(params) + "");
         SaveData.makeSendInfo(params, url);
         // Return JsonObject
 //        return new SendToServer().send();

@@ -2,10 +2,7 @@ package com.example.android.rowanparkingpass.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -20,7 +17,6 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Driver
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.Networking.NetworkCheck;
-import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoBase;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoPass;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
@@ -31,10 +27,7 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPa
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -231,7 +224,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         } else {
             if (view == createPass) {
                 //TODO Temp driver created the pass is still created with null null null
-                if (new NetworkCheck().haveNetworkConnection()) {
+                if (NetworkCheck.haveNetworkConnection()) {
                     executeProcessRequest();
                 } else {
                     Toast.makeText(getApplicationContext(), "No Network Connection. Cannot create a pass.s", Toast.LENGTH_LONG).show();
@@ -286,7 +279,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             try {
                 String res = json.getString("FLAG");
                 if (res.equals("true")) {
-                    if (createdPass.getDriver().getDriverId() != -1 || createdPass.getVehicle().getVehicleId() != -1) {
+                    if (createdPass.getDriver().getDriverId() != -1 && createdPass.getVehicle().getVehicleId() != -1) {
                         db.deleteRequestDriverIDVehicleID(String.valueOf(createdPass.getDriver().getDriverId()), String.valueOf(createdPass.getVehicle().getVehicleId()));
                         db.addRequest(createdPass.getVehicle().getVehicleId(), createdPass.getDriver().getDriverId(), createdPass.getFromDate(), createdPass.getToDate());
                     } else {
@@ -299,12 +292,62 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(intent);
                     finish();
                 } else {
-                    pDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Error in network connection. Try again.", Toast.LENGTH_LONG).show();
+                    //TODO Figure out what error
+                    //Depending on error we call specific command.
+                    // current vehicle/driver .setId -1
+                    // Recall execute process request
+                    String err = json.getString("ERR");
+
+                    if (err.equals("7")) {
+                        //vehicle
+                        vehicle.setVehicleId(-1);
+                    } else if (err.equals("8")) {
+                        //driver
+                        driver.setDriverId(-1);
+                    } else {
+                        errorMessage(err);
+                    }
+                    executeProcessRequest();
                 }
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    public void errorMessage(String err) {
+        switch (err) {
+            case "0":
+                Toast.makeText(getApplicationContext(), "User not logged in.", Toast.LENGTH_LONG).show();
+                break;
+            case "1":
+                Toast.makeText(getApplicationContext(), "Not using POST.", Toast.LENGTH_LONG).show();
+                break;
+            case "2":
+                Toast.makeText(getApplicationContext(), "Incorrect Parameters", Toast.LENGTH_LONG).show();
+                break;
+            case "3":
+                Toast.makeText(getApplicationContext(), "Internal DB Error", Toast.LENGTH_LONG).show();
+                break;
+            case "4":
+                Toast.makeText(getApplicationContext(), "Invalid Start Date", Toast.LENGTH_LONG).show();
+                break;
+            case "5":
+                Toast.makeText(getApplicationContext(), "Invalid End Date", Toast.LENGTH_LONG).show();
+                break;
+            case "6":
+                Toast.makeText(getApplicationContext(), "Date Range Conflict", Toast.LENGTH_LONG).show();
+                break;
+            case "7":
+                Toast.makeText(getApplicationContext(), "No Vehicle Id", Toast.LENGTH_LONG).show();
+                break;
+            case "8":
+                Toast.makeText(getApplicationContext(), "No Driver Id", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), "Error in network connection. Try again.", Toast.LENGTH_LONG).show();
+                break;
+        }
+    }
+
 }
