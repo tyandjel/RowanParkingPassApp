@@ -301,13 +301,15 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                     if (err.equals("7")) {
                         //vehicle
                         vehicle.setVehicleId(-1);
+                        executeProcessRequest();
                     } else if (err.equals("8")) {
                         //driver
                         driver.setDriverId(-1);
+                        executeProcessRequest();
                     } else {
                         errorMessage(err);
+                        pDialog.dismiss();
                     }
-                    executeProcessRequest();
                 }
             } catch (JSONException | NullPointerException e) {
                 e.printStackTrace();

@@ -91,7 +91,7 @@ public class JSONParser {
                 //conn.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
                 conn.connect();
                 paramsString = sbParams.toString();
-
+                Log.d("PARAMS", paramsString);
                 wr = new DataOutputStream(conn.getOutputStream());
                 wr.writeBytes(paramsString);
                 wr.flush();

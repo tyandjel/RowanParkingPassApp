@@ -83,8 +83,13 @@ public class Driver implements Serializable {
     @Override
     public String toString() {
         States[] arrayOfStates = States.values();
-        ArrayList<States> states = new ArrayList<>();
-        states.addAll(Arrays.asList(arrayOfStates));
-        return "{\"driver_id\":" + driverId + ",\"street\":\"" + street + "\",\"city\":\"" + town + "\",\"full_name\":\"" + getName() + "\",\"zip\":" + zipCode + ",\"state\":\"" + states.indexOf(state) + "\"}";
+        int stateNum = 0;
+        for(int i = 0; i < arrayOfStates.length; i++){
+            if(state.equals(arrayOfStates[i].toString())){
+                stateNum = i;
+                break;
+            }
+        }
+        return "{\"driver_id\":" + driverId + ",\"street\":\"" + street + "\",\"city\":\"" + town + "\",\"full_name\":\"" + getName() + "\",\"zip\":" + zipCode + ",\"state\":" + stateNum + "}";
     }
 }

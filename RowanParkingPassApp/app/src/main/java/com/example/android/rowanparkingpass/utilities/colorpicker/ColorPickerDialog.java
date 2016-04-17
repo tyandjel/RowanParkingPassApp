@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -130,6 +131,7 @@ public class ColorPickerDialog extends DialogFragment implements ColorPickerSwat
 
         if (color != mSelectedColor) {
             mSelectedColor = color;
+            Log.d("COLOR", mSelectedColor+"");
             // Redraw palette to show checkmark on newly selected color before dismissing.
             mPalette.drawPalette(mColors, mSelectedColor);
         }
