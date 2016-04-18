@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,10 +175,10 @@ public class LoginPageActivity extends BaseActivity {
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //TODO: If different user call clearDatabases below
-                    if(USER.equals(SaveData.OLD_USR)){
+                    if (!USER.equals(SaveData.OLD_USR)) {
                         clearDatabases();
                     }
-                    SaveData.OLD_USR=USER;
+                    SaveData.OLD_USR = USER;
                     pDialog.dismiss();
                     startActivity(upanel);
                     // Start SendInfoTimer guy
@@ -196,6 +197,9 @@ public class LoginPageActivity extends BaseActivity {
             new DatabaseHandlerDrivers(getApplicationContext()).resetTables();
             new DatabaseHandlerVehicles(getApplicationContext()).resetTables();
             new DatabaseHandlerPasses(getApplicationContext()).resetTables();
+            Log.d("CLEAR DATABASE", "clear");
+            Toast.makeText(getApplicationContext(),
+                    "Different User Logged In. Cleared local vehicles and drivers.", Toast.LENGTH_SHORT).show();
         }
     }
 }
