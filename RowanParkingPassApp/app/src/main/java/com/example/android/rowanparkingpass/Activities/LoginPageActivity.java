@@ -173,6 +173,7 @@ public class LoginPageActivity extends BaseActivity {
                     USER = userName;
                     Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
+                    upanel.putExtra(SYNC, "true");
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //TODO: If different user call clearDatabases below
                     if (!USER.equals(SaveData.OLD_USR)) {

@@ -39,8 +39,12 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
         currentMode = pastIntent.getStringExtra(MODE);
         buildEventList(buildList());
         //TODO had ping network back in
-        if (NetworkCheck.haveNetworkConnection()/* && NetworkCheck.pingNetwork()*/) {
-            sync();
+        try {
+            if (NetworkCheck.haveNetworkConnection()/* && NetworkCheck.pingNetwork()*/ && pastIntent.getStringExtra(SYNC).equals("true")) {
+                sync();
+            }
+        } catch (NullPointerException npe) {
+
         }
         loaded();
     }
