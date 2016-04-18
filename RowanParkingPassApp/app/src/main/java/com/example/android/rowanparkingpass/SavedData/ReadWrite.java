@@ -1,8 +1,9 @@
-package com.example.android.rowanparkingpass.SavedDate;
+package com.example.android.rowanparkingpass.SavedData;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -39,6 +40,7 @@ public class ReadWrite implements Serializable {
         SaveData saveData = (SaveData) is.readObject();
         is.close();
         fis.close();
+        //SaveData.OLD_USR=saveData.OLD_USR;
         return saveData;
     }
 }

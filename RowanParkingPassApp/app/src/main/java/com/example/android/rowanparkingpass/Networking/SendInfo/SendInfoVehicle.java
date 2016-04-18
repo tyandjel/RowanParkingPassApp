@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendToServer;
-import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 

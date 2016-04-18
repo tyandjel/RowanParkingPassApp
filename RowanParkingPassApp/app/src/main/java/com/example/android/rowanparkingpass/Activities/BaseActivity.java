@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.example.android.rowanparkingpass.SavedDate.ReadWrite;
-import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.SavedData.ReadWrite;
+import com.example.android.rowanparkingpass.SavedData.SaveData;
 
 import java.io.IOException;
 
@@ -64,15 +64,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* try {
+       try {
             saveData= ReadWrite.readIn(getApplicationContext(),ReadWrite.saveDateFile);
-            Toast.makeText(this, "Loaded",Toast.LENGTH_SHORT).show();
+           Toast.makeText(this, SaveData.OLD_USR,Toast.LENGTH_SHORT).show();
+
+           Toast.makeText(this, "Loaded",Toast.LENGTH_SHORT).show();
         }
         catch(ClassNotFoundException e){
             e.getMessage();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         context = getApplicationContext();
     }
 

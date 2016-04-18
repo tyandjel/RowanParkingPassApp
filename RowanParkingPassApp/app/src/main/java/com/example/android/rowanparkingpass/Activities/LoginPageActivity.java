@@ -16,6 +16,7 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Passes
 import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
@@ -173,6 +174,10 @@ public class LoginPageActivity extends BaseActivity {
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //TODO: If different user call clearDatabases below
+                    if(USER.equals(SaveData.OLD_USR)){
+                        clearDatabases();
+                    }
+                    SaveData.OLD_USR=USER;
                     pDialog.dismiss();
                     startActivity(upanel);
                     // Start SendInfoTimer guy

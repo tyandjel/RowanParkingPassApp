@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass.SavedDate;
+package com.example.android.rowanparkingpass.SavedData;
 
 import android.util.Log;
 
@@ -16,6 +16,7 @@ import java.util.Queue;
 public class SaveData implements Serializable {
     private static Queue<SendInfoModel> sendInfos = new LinkedList<>();
     private static boolean sync = true;
+    public static String OLD_USR = "";
 
 
     public static void setSync(boolean sync) {

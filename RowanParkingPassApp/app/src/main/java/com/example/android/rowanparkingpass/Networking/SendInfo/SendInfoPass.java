@@ -2,7 +2,7 @@ package com.example.android.rowanparkingpass.Networking.SendInfo;
 
 import android.util.Log;
 
-import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.JSONParser;

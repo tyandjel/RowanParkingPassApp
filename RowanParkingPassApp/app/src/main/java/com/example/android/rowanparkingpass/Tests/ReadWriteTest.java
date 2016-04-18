@@ -3,8 +3,8 @@ package com.example.android.rowanparkingpass.Tests;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
-import com.example.android.rowanparkingpass.SavedDate.ReadWrite;
-import com.example.android.rowanparkingpass.SavedDate.SaveData;
+import com.example.android.rowanparkingpass.SavedData.ReadWrite;
+import com.example.android.rowanparkingpass.SavedData.SaveData;
 
 import java.io.IOException;
 
