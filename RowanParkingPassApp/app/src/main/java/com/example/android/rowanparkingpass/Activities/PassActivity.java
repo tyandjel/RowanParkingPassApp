@@ -253,7 +253,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         private ProgressDialog pDialog;
         Pass createdPass = new Pass(driver, vehicle, startDate.getText().toString(), endDate.getText().toString());
         String start = startDate.getText().toString();
-        String end = startDate.getText().toString();
+        String end = endDate.getText().toString();
 
         @Override
         protected void onPreExecute() {
