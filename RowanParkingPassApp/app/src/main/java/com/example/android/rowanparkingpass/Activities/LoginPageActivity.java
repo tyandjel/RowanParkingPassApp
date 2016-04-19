@@ -205,7 +205,7 @@ public class LoginPageActivity extends BaseActivity {
                 loginErrorMsg.setText(e.getMessage());
                 e.printStackTrace();
             }
-            finish();
+
         }
 
         private void clearDatabases() {
@@ -219,9 +219,9 @@ public class LoginPageActivity extends BaseActivity {
     }
 
 
-    public void onPause(){
-        super.onPause();
-        //writeOutData();
+    public void onStop(){
+        super.onStop();
+
 
     }
 
