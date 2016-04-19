@@ -16,9 +16,25 @@ import java.util.Queue;
 public class SaveData implements Serializable {
     private static Queue<SendInfoModel> sendInfos = new LinkedList<>();
     private static boolean sync = true;
-    public static String OLD_USR = "";
+    private static String USR;
+    public SaveData(String user,boolean sync, Queue<SendInfoModel> q){
+        USR = user;
+        this.sync = sync;
+        sendInfos = q;
 
-
+    }
+    public static void setUSR(String u){
+        USR = u;
+    }
+    public static String getUSR(){
+        return USR;
+    }
+    public String getUser(){
+        return USR;
+    }
+    public void setUser(String user){
+        USR =user;
+    }
     public static void setSync(boolean sync) {
         SaveData.sync = sync;
     }
@@ -43,6 +59,9 @@ public class SaveData implements Serializable {
 
     public static Queue<SendInfoModel> getQueue() {
         return sendInfos;
+    }
+    public static void setQueue(Queue<SendInfoModel> queue){
+        sendInfos = queue;
     }
 
     public static SendInfoModel peek() {

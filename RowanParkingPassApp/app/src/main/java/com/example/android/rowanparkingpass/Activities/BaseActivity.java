@@ -4,10 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
+
 
 import com.example.android.rowanparkingpass.SavedData.ReadWrite;
 import com.example.android.rowanparkingpass.SavedData.SaveData;
+import com.example.android.rowanparkingpass.SavedData.SaveUser;
 
 import java.io.IOException;
 
@@ -40,7 +43,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static String USER = "";
     public static String COOKIE = "";
     public ProgressDialog nDialog;
-    protected SaveData saveData;
+    public SaveUser saveUser;
+    protected String user="";
+
+
     public static Context context;
 
     public static String currentMode;
@@ -65,30 +71,55 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       try {
-            saveData= ReadWrite.readIn(getApplicationContext(),ReadWrite.saveDateFile);
-           Toast.makeText(this, SaveData.OLD_USR,Toast.LENGTH_SHORT).show();
 
-           Toast.makeText(this, "Loaded",Toast.LENGTH_SHORT).show();
-        }
-        catch(ClassNotFoundException e){
-            e.getMessage();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+
         context = getApplicationContext();
     }
 
-    public void onPause() {
-        super.onPause();
+public void onPause(){
+    super.onPause();
+    writeOutData();
+
+}
+    public void onDestroy() {
+        super.onDestroy();
+
+
+
+    }
+    public void writeOutData(){
         try {
-            ReadWrite.writeOut(saveData, ReadWrite.saveDateFile, getApplicationContext());
-            Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
-
-        } catch (IOException e) {
-            e.getMessage();
+            saveUser = new SaveUser(SaveData.getUSR(),SaveData.getSync(),SaveData.getQueue());
+            ReadWrite.WRITE_OUT(saveUser, this.getApplicationContext());
+            Toast.makeText(getApplicationContext(),
+                    SaveData.size()+""
+                    , Toast.LENGTH_SHORT).show();        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+    public void readInSavedData() {
+        try {
 
+            saveUser = ReadWrite.READ_IN(this.getApplicationContext());
+            SaveData.setQueue(saveUser.getSendInfos());
+            SaveData.setSync(saveUser.isSync());
+            SaveData.setUSR(saveUser.getUSR());
+            if(saveUser!=null) {
+                user = saveUser.getUSR();
+                Toast.makeText(getApplicationContext(),
+                        SaveData.size()+""
+                        , Toast.LENGTH_SHORT).show();
+            }
+            // this will load the contents of the first note in the notepad.
+        }
+        catch (Exception e) {
+            e.printStackTrace();// not able to read in note
+        }
     }
 
     public void dismissNetworkDialog() {

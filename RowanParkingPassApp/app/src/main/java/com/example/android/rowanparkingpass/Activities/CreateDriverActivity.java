@@ -25,6 +25,7 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Driver
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedData.ReadWrite;
 import com.example.android.rowanparkingpass.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.States;
@@ -35,6 +36,7 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPa
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CreateDriverActivity extends BaseActivity {
@@ -295,9 +297,8 @@ public class CreateDriverActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-
-
     }
+
 }

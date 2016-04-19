@@ -17,7 +17,9 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Passes
 import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.SavedData.ReadWrite;
 import com.example.android.rowanparkingpass.SavedData.SaveData;
+import com.example.android.rowanparkingpass.SavedData.SaveUser;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
@@ -25,6 +27,8 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVe
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class LoginPageActivity extends BaseActivity {
 
@@ -36,7 +40,10 @@ public class LoginPageActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         setContentView(R.layout.activity_login);
+        readInSavedData();
         setupUI(findViewById(R.id.parent));
         inputUserName = (EditText) findViewById(R.id.username);
         inputPassword = (EditText) findViewById(R.id.pword);
@@ -44,6 +51,7 @@ public class LoginPageActivity extends BaseActivity {
         Button btnForgotPassword = (Button) findViewById(R.id.forgotpass);
         Button btnAdminLogin = (Button) findViewById(R.id.admin_login);
         loginErrorMsg = (TextView) findViewById(R.id.loginErrorMsg);
+
 
         btnForgotPassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -100,6 +108,8 @@ public class LoginPageActivity extends BaseActivity {
         });
     }
 
+
+
     public void setupUI(View view) {
 
         //Set up touch listener for non-text box views to hide keyboard.
@@ -135,6 +145,7 @@ public class LoginPageActivity extends BaseActivity {
         private static final String KEY_SUCCESS = "FLAG";
         private static final String KEY_COOKIE = "GDHR";
 
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -149,6 +160,7 @@ public class LoginPageActivity extends BaseActivity {
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
+
         }
 
         @Override
@@ -176,10 +188,11 @@ public class LoginPageActivity extends BaseActivity {
                     upanel.putExtra(SYNC, "true");
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     //TODO: If different user call clearDatabases below
-                    if (!USER.equals(SaveData.OLD_USR)) {
+
+                    if (user!=null && !USER.equals(user)) {
                         clearDatabases();
                     }
-                    SaveData.OLD_USR = USER;
+                    SaveData.setUSR(USER);
                     pDialog.dismiss();
                     startActivity(upanel);
                     // Start SendInfoTimer guy
@@ -203,4 +216,15 @@ public class LoginPageActivity extends BaseActivity {
                     "Different User Logged In. Cleared local vehicles and drivers.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    public void onPause(){
+        super.onPause();
+        //writeOutData();
+
+    }
+
+
+
+
 }

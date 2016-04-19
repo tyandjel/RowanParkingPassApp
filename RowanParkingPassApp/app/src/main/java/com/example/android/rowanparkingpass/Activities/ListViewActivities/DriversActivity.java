@@ -44,7 +44,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         context = getApplicationContext();
         build();
