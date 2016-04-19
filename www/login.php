@@ -2,13 +2,6 @@
 // First we execute our common code to connection to the database and start the session
 require_once("common.php");
 
-//Skips page if logged in
-//if (isset($_SESSION['username'])) {
-//   header("Location: TableDisplay.php");
-//    die("Redirecting..");
-//}
-
-
 $name_err;
 $pw_err;
 
