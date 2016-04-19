@@ -205,6 +205,7 @@ public class LoginPageActivity extends BaseActivity {
                 loginErrorMsg.setText(e.getMessage());
                 e.printStackTrace();
             }
+            finish();
         }
 
         private void clearDatabases() {

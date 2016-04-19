@@ -77,6 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        readInSavedData();
 
         context = getApplicationContext();
     }
