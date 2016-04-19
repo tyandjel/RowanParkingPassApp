@@ -266,7 +266,6 @@ public class CreateDriverActivity extends BaseActivity {
      * @param zip    returns a string of the id or -400 if there was an error
      */
     public synchronized void syncNewDriver(String name, String street, String city, String state, String zip) {
-        String newID = "-400";
         SendInfoDriver sendInfoDriver = new SendInfoDriver();
         JSONObject json;
         int oldID = db.addDriver(name, street, city, arrayOfStates[Integer.parseInt(state)].valueOf(arrayOfStates[Integer.parseInt(state)].name()).toString(), zip);

@@ -209,20 +209,22 @@ public class LoginPageActivity extends BaseActivity {
         }
 
         private void clearDatabases() {
-            new DatabaseHandlerDrivers(getApplicationContext()).resetTables();
-            new DatabaseHandlerVehicles(getApplicationContext()).resetTables();
-            new DatabaseHandlerPasses(getApplicationContext()).resetTables();
-            Log.d("CLEAR DATABASE", "clear");
-            Toast.makeText(getApplicationContext(),
-                    "Different User Logged In. Cleared local vehicles and drivers.", Toast.LENGTH_SHORT).show();
+            try {
+                new DatabaseHandlerDrivers(getApplicationContext()).resetTables();
+                new DatabaseHandlerVehicles(getApplicationContext()).resetTables();
+                new DatabaseHandlerPasses(getApplicationContext()).resetTables();
+                Log.d("CLEAR DATABASE", "clear");
+                Toast.makeText(getApplicationContext(),
+                        "Different User Logged In. Cleared local vehicles and drivers.", Toast.LENGTH_SHORT).show();
+            }catch (Exception e){
+
+            }
         }
     }
 
 
     public void onStop(){
         super.onStop();
-
-
     }
 
 

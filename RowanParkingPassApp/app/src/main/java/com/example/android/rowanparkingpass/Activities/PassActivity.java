@@ -18,6 +18,7 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Passes
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoPass;
+import com.example.android.rowanparkingpass.Networking.SendToServer;
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Pass;
@@ -225,6 +226,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             if (view == createPass) {
                 //TODO Temp driver created the pass is still created with null null null
                 if (NetworkCheck.haveNetworkConnection()) {
+                    new SendToServer().send();
                     executeProcessRequest();
                 } else {
                     Toast.makeText(getApplicationContext(), "No Network Connection. Cannot create a pass.s", Toast.LENGTH_LONG).show();
