@@ -51,10 +51,13 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
 
     private DatabaseHandlerPasses db;
 
+    private static int i;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass);
+        i =0;
 
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
@@ -297,15 +300,19 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                     //Figure out what error. Depending on error we call specific command. Current vehicle/driver .setId -1. Recall execute process request
                     String err = json.getString("ERR");
 
-                    if (err.equals("7")) {
+                    if (err.equals("7")&&i<3) {
                         //vehicle
                         vehicle.setVehicleId(-1);
                         executeProcessRequest();
-                    } else if (err.equals("8")) {
+                    } else if (err.equals("8")&& i<3) {
                         //driver
                         driver.setDriverId(-1);
+                        driver.setZipCode(String.valueOf(Integer.parseInt(driver.getZipCode())));
                         executeProcessRequest();
-                    } else {
+                    } else if(i==3) {
+                        Toast.makeText(getApplicationContext(), "Please Login and try again : Dead Loop Error", Toast.LENGTH_LONG).show();
+                    }
+                        else {
                         errorMessage(err);
                         pDialog.dismiss();
                     }
