@@ -230,6 +230,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                 //TODO Temp driver created the pass is still created with null null null
                 if (NetworkCheck.haveNetworkConnection()) {
                     new SendToServer().send();
+
                     executeProcessRequest();
                 } else {
                     Toast.makeText(getApplicationContext(), "No Network Connection. Cannot create a pass.s", Toast.LENGTH_LONG).show();
@@ -269,7 +270,10 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             pDialog.setMessage("Creating Pass Request ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
-            pDialog.show();
+            if(!pDialog.isShowing()){
+                pDialog.show();
+            }
+
         }
 
         @Override
@@ -297,17 +301,23 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                     startActivity(intent);
                     finish();
                 } else {
+                    i++;
                     //Figure out what error. Depending on error we call specific command. Current vehicle/driver .setId -1. Recall execute process request
                     String err = json.getString("ERR");
 
                     if (err.equals("7")&&i<3) {
                         //vehicle
                         vehicle.setVehicleId(-1);
+                        pDialog.dismiss();
                         executeProcessRequest();
                     } else if (err.equals("8")&& i<3) {
                         //driver
-                        driver.setDriverId(-1);
-                        driver.setZipCode(String.valueOf(Integer.parseInt(driver.getZipCode())));
+                        if(i<2){
+                            driver.setZipCode(String.valueOf(Integer.parseInt(driver.getZipCode())));
+                        }else {
+                            driver.setDriverId(-1);
+                        }
+                        pDialog.dismiss();
                         executeProcessRequest();
                     } else if(i==3) {
                         Toast.makeText(getApplicationContext(), "Please Login and try again : Dead Loop Error", Toast.LENGTH_LONG).show();
@@ -322,7 +332,6 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             }
         }
     }
-
     public void errorMessage(String err) {
         switch (err) {
             case "0":
@@ -356,6 +365,8 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                 Toast.makeText(getApplicationContext(), "Error in network connection. Try again.", Toast.LENGTH_LONG).show();
                 break;
         }
+
     }
+
 
 }
