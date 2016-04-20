@@ -145,14 +145,14 @@ public class CreateDriverActivity extends BaseActivity {
                             if (SaveData.getSync()) {
                                 syncNewDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), String.valueOf(state.getSelectedItemPosition()), zipCode.getText().toString());
                             } else {
-                                db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), String.valueOf(state.getSelectedItemPosition()), zipCode.getText().toString());
+                                db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                             }
 
                             ArrayList<Driver> drivers = db.getDrivers();
                             intent.putExtra("Driver", drivers.get(drivers.size() - 1)); // gets newest driver just made in teh database to send
                         } else {
                             intent.putExtra(MODE, mode.VEHICLES.name());
-                            Driver tempDriver = new Driver(-1, fullName.getText().toString(), "", street.getText().toString(), city.getText().toString(), String.valueOf(state.getSelectedItemPosition()), zipCode.getText().toString());
+                            Driver tempDriver = new Driver(-1, fullName.getText().toString(), "", street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                             intent.putExtra("Driver", tempDriver);
                         }
                     }
