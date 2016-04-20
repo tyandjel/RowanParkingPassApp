@@ -79,8 +79,8 @@ public class RowanWebPageActivity extends BaseActivity {
                 startActivity(myIntent);
                 finish();
                 break;
-            case R.id.action_camera:
-                Toast.makeText(this, "Camera Selected", Toast.LENGTH_SHORT).show();
+//            case R.id.action_camera:
+//                Toast.makeText(this, "Camera Selected", Toast.LENGTH_SHORT).show();
             default:
                 break;
         }

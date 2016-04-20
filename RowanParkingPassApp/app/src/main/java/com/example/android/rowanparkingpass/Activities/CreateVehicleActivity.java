@@ -278,12 +278,6 @@ public class CreateVehicleActivity extends BaseActivity {
                     }
                 });
                 alertDialog.show();
-
-                Toast.makeText(this, "Delete selected", Toast.LENGTH_SHORT).show();
-                myIntent = new Intent(this, VehiclesActivity.class);
-                myIntent.putExtra(MODE, mode.VEHICLES_LIST.name());
-                startActivity(myIntent);
-                finish();
                 break;
             default:
                 break;
