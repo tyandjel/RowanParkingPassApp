@@ -30,7 +30,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class LoginPageActivity extends BaseActivity {
+public class
+LoginPageActivity extends BaseActivity {
 
     private static EditText inputUserName;
     private static EditText inputPassword;
