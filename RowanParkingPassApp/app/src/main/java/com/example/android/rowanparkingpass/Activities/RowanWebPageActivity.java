@@ -69,7 +69,6 @@ public class RowanWebPageActivity extends BaseActivity {
         switch (item.getItemId()) {
             // action with ID action_home was selected
             case R.id.action_home:
-                Toast.makeText(this, "Home selected", Toast.LENGTH_SHORT).show();
                 if (currentMode.equals(mode.CHANGE_PASSWORD.name())) {
                     myIntent = new Intent(this, SettingActivity.class);
                     myIntent.putExtra(MODE, mode.SETTINGS.name());

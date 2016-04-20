@@ -1,11 +1,12 @@
 package com.example.android.rowanparkingpass.Networking.SendInfo;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Created by johnathan on 4/8/16.
  */
-public class SendInfoModel {
+public class SendInfoModel implements Serializable {
     private String url = "";
     private HashMap<String, String> json = null;
     private int id = -1;

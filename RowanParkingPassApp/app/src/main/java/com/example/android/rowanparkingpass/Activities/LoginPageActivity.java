@@ -222,9 +222,15 @@ public class LoginPageActivity extends BaseActivity {
         }
     }
 
-
+@Override
     public void onStop(){
         super.onStop();
+        finish();
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finishAffinity();
     }
 
 

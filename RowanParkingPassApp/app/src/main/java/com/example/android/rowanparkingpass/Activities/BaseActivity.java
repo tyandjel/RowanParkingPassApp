@@ -4,15 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
+
 
 
 import com.example.android.rowanparkingpass.SavedData.ReadWrite;
 import com.example.android.rowanparkingpass.SavedData.SaveData;
 import com.example.android.rowanparkingpass.SavedData.SaveUser;
-
-import java.io.IOException;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -97,9 +94,7 @@ public void onPause(){
         try {
             saveUser = new SaveUser(SaveData.getUSR(),SaveData.getSync(),SaveData.getQueue());
             ReadWrite.WRITE_OUT(saveUser, this.getApplicationContext());
-            Toast.makeText(getApplicationContext(),
-                    SaveData.size()+""
-                    , Toast.LENGTH_SHORT).show();        } catch (Exception e) {
+                   } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -112,9 +107,6 @@ public void onPause(){
             SaveData.setUSR(saveUser.getUSR());
             if(saveUser!=null) {
                 user = saveUser.getUSR();
-                Toast.makeText(getApplicationContext(),
-                        SaveData.size()+""
-                        , Toast.LENGTH_SHORT).show();
             }
             // this will load the contents of the first note in the notepad.
         }
