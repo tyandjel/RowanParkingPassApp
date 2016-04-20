@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.States;
+import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
 import org.json.JSONArray;
@@ -42,7 +43,7 @@ public class SyncDrivers {
                     String street = jsonObj.getString("street");
                     String city = jsonObj.getString("city");
                     String state = jsonObj.getString("state");
-                    String zip = jsonObj.getString("zip");
+                    String zip = Utilities.appendZipZero(jsonObj.getString("zip"));
                     try {
                         db.addDriver(Integer.parseInt(driverID), fullName, street, city, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), zip);
                     } catch (SQLiteConstraintException sqlC) {
