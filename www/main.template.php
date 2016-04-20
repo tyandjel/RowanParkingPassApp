@@ -58,7 +58,8 @@ echo $link['msg'];
   
   <footer id="bottom" style="text-align: center;">
     <address>
-      <a href="mailto:mcconnell93@students.rowan.edu">Email (add yours)</a></a>
+      <a href="mailto:mcconnell93@students.rowan.edu">Email (add yours)</a>
+      <a href='register.php'>Make New Account</a>
     </address>
   </footer>
 
