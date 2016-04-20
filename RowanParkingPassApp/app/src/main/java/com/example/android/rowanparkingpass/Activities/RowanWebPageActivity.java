@@ -20,7 +20,7 @@ public class RowanWebPageActivity extends BaseActivity {
     private WebView webView;
 
     private static final String password_url = "http://id.rowan.edu/";
-    private static final String search_passes_url = SendInfoBase.IP_ADDRESS_URL + "/login.php?red='true'/";
+    private static final String search_passes_url = SendInfoBase.IP_ADDRESS_URL + "/mlogin.php";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +116,12 @@ public class RowanWebPageActivity extends BaseActivity {
 //            startActivity(intent);
             return true;
         }
+    }
+    @Override
+    public  void onDestroy(){
+        super.onDestroy();
+        webView.loadUrl("http://shh.mordor.us/logout.php");
+
     }
 }
 
