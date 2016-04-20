@@ -13,7 +13,7 @@ require_once("common.php");
 
 //echo '{"FLAG":false,"ERR":3}';# Database error
 
-if(!($_SESSION['user'] || $_POST)){
+if(!$_SESSION['user'] ){
 die('{"FLAG":false,"ERR":0}');
 }
 
@@ -34,7 +34,9 @@ $driver = json_decode($_POST[':driver']);
 $vehicle_id = $vehicle->{'vehicle_id'};
 $driver_id = $driver->{'driver_id'};
 
-if($vehicle_id==-1){
+//die('{"PARAM":"'.urlencode($_POST[':driver']).'"}');
+
+if($vehicle_id < 0){
     $query     = "
         INSERT INTO Vehicles
         (make,model,license,state,color,year)
@@ -84,7 +86,7 @@ if($vehicle_id==-1){
 	    goto ERR;
     }
 }
-if($driver_id == -1){
+if($driver_id < 0){
     $query     = "
         INSERT INTO Driver
         (street,city,state,full_name,zip)
@@ -127,9 +129,32 @@ if($driver_id == -1){
 
     $row  = $stmt->fetch();
     if(!$row){
-	    echo '{"FLAG":false,"ERR":8}';
+	    echo '{"FLAG":false,"ERR":8,"GAVEME":"'.json_encode($driver).'"}';
 	    goto ERR;
     }
+}
+
+$query = "
+		SELECT
+		1
+		FROM Requests
+		where start_date >= STR_TO_DATE(:startd,'%m/%d/%Y') and start_date <= STR_TO_DATE(:endd,'%m/%d/%Y') and end_date >= STR_TO_DATE(:startd,'%m/%d/%Y') and end_date <= STR_TO_DATE(:endd,'%m/%d/%Y') and vehicle_id=:vehicle_id and driver_id=:driver_id";
+$array_ids = array(':startd'=>$start_date,
+                   ':endd' => $end_date,
+                    ':vehicle_id'=>$vehicle_id,
+                    ':driver_id'=>$driver_id);
+try {
+	// These two statements run the query against your database table.
+	$stmt   = $db->prepare($query);
+	$result = $stmt->execute($array_ids);
+}
+catch (PDOException $ex) {
+	die('{"FLAG":false,"ERR":3}'.$ex->getMessage());# Database error
+}
+$row  = $stmt->fetch();
+
+if($row){
+    die('{"FLAG":false,"ERR":6}');
 }
 
 // Check date conflicts
@@ -138,7 +163,7 @@ $query = "
         INSERT INTO Requests
         (vehicle_id,driver_id,user_id,status,start_date,end_date)
         VALUES
-		(:vehicle_id,:driver_id,:user_id,:status,:start_date,:end_date)";
+		(:vehicle_id,:driver_id,:user_id,:status,STR_TO_DATE(:start_date,'%m/%d/%Y'),STR_TO_DATE(:end_date,'%m/%d/%Y'))";
 $array_ids = array(':vehicle_id'=>$vehicle_id,
 	':driver_id'=>$driver_id,
 	':user_id'=>$_SESSION['user']['user_id'],

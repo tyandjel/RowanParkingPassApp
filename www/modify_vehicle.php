@@ -1,7 +1,7 @@
 <?php
 require_once("common.php");
 if (empty($_SESSION['user'])) {
-    echo '{"FLAG":false,"ERR":2}'; # param error
+    echo '{"FLAG":false,"ERR":0}'; # param error
     goto ERR;
 }
 
@@ -14,6 +14,10 @@ $year       = trim($_POST[':year']);
 $vehicle_id = trim($_POST[':vehicle_id']);
 $kill       = trim($_POST['kill']);
 
+$year  = intval(strval($year));
+$color = intval(strval($color));
+$state = intval(strval($state));
+
 if (isset($_POST[':make']) && empty($make)) {
     die('{"FLAG":false,"ERR":2,"PARAM":":make"}'); # param error
 }
@@ -23,20 +27,19 @@ if (isset($_POST[':model']) && empty($model)) {
 if (isset($_POST[':license']) && empty($license)) {
     die('{"FLAG":false,"ERR":2,"PARAM":":license"}'); # param error
 }
-if (isset($_POST[':state']) && empty($state)) {
+if (isset($_POST[':state']) && $state<0) {
     die('{"FLAG":false,"ERR":2,"PARAM":":state"}'); # param error
 }
-if (isset($_POST[':color']) && empty($color)) {
+if (isset($_POST[':color']) && !$color) {
     die('{"FLAG":false,"ERR":2,"PARAM":":color"}'); # param error
 }
-if (isset($_POST[':year']) && empty($year)) {
+if (isset($_POST[':year']) && $year<0) {
     die('{"FLAG":false,"ERR":2,"PARAM":":year"}'); # param error
 }
-if (isset($_POST[':vehicle_id']) && empty($vehicle_id)) {
+if (isset($_POST[':vehicle_id']) && empty($vehicle_id)) { #vehicle_id cannot be 0 hence empty()
     die('{"FLAG":false,"ERR":2,"PARAM":":vehicle_id"}'); # param error
 }
-$year  = intval(strval($year));
-$color = intval(strval($color));
+
 if (!empty($vehicle_id) && !empty($_POST['kill']) && $kill == '1') {
     
     $query     = "

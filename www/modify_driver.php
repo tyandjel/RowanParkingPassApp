@@ -13,6 +13,8 @@ $zip       = trim(strval($_POST[':zip']));
 $state       = trim(strval($_POST[':state']));
 $d_id      = trim($_POST[':driver_id']);
 $kill      = trim($_POST['kill']);
+$zip = intval(strval($zip));
+$state = intval(strval($state));
 
 if (isset($_POST[':street']) && empty($street)) {
     die('{"FLAG":false,"ERR":2,"PARAM":":street"}'); # param error
@@ -23,14 +25,15 @@ if (isset($_POST[':city']) && empty($city)) {
 if (isset($_POST[':full_name']) && empty($full_name)) {
     die('{"FLAG":false,"ERR":2,"PARAM":":full_name"}'); # param error
 }
-if (isset($_POST[':zip']) && empty($zip)) {
+if (isset($_POST[':state']) && $state<0) {
+    die('{"FLAG":false,"ERR":2,"PARAM":":state"}'); # param error
+}
+if (isset($_POST[':zip']) && $zip<0) {
     die('{"FLAG":false,"ERR":2,"PARAM":":zip"}'); # param error
 }
 if (isset($_POST[':driver_id']) && empty($d_id)) {
     die('{"FLAG":false,"ERR":2,"PARAM":":driver_id"}'); # param error
 }
-
-$zip = intval(strval($zip));
 
 if (!empty($d_id) && !empty($_POST['kill']) && $kill == '1') {
     
