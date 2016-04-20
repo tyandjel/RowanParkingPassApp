@@ -72,7 +72,7 @@
     <Button
         android:id="@+id/admin_login"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@drawable/button_selector"
         android:drawableLeft="@drawable/ic_pass_search"
@@ -97,7 +97,7 @@
             android:layout_alignLeft="@+id/pword"
             android:layout_toLeftOf="@+id/createdmainmenu"
 
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="30dp"
@@ -112,7 +112,7 @@
             android:layout_alignRight="@+id/pword"
             android:layout_below="@+id/pword"
             android:layout_width="170dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:background="@drawable/button_selector"
             android:text="@string/login_button"
