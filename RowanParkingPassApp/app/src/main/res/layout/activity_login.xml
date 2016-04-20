@@ -39,7 +39,6 @@
         android:textColor="@color/textColor2" />
 
 
-
     <TextView
         android:id="@+id/loginErrorMsg"
         android:layout_width="fill_parent"
@@ -73,51 +72,49 @@
         android:id="@+id/admin_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/createdLabel"
+        android:layout_alignLeft="@+id/createdLabel"
         android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/createdLabel"
+        android:layout_alignStart="@+id/createdLabel"
         android:background="@drawable/button_selector"
-        android:drawableLeft="@drawable/ic_pass_search"
-        android:drawableStart="@drawable/ic_pass_search"
-        android:drawableRight="@drawable/ic_pass_search"
         android:drawableEnd="@drawable/ic_pass_search"
+        android:drawableLeft="@drawable/ic_pass_search"
+        android:drawableRight="@drawable/ic_pass_search"
+        android:drawableStart="@drawable/ic_pass_search"
         android:text="@string/search_passes_button"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/textColor"
-        android:layout_alignLeft="@+id/createdLabel"
-        android:layout_alignStart="@+id/createdLabel"
-        android:layout_alignRight="@+id/createdLabel"
-        android:layout_alignEnd="@+id/createdLabel" />
+        android:textColor="@color/textColor" />
 
 
+    <Button
+        android:id="@+id/forgotpass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/pword"
+        android:layout_alignStart="@+id/pword"
+        android:layout_below="@+id/pword"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@+id/createdmainmenu"
+        android:background="@drawable/button_selector"
+        android:text="@string/forgot_password_button"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/textColor" />
 
-        <Button
-            android:id="@+id/forgotpass"
-            android:layout_width="wrap_content"
-            android:layout_alignStart="@+id/pword"
-            android:layout_below="@+id/pword"
-            android:layout_alignLeft="@+id/pword"
-            android:layout_toLeftOf="@+id/createdmainmenu"
-
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/button_selector"
-            android:text="@string/forgot_password_button"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/textColor"
-             />
-        <Button
-            android:id="@+id/createdmainmenu"
-            android:layout_alignEnd="@+id/pword"
-            android:layout_alignRight="@+id/pword"
-            android:layout_below="@+id/pword"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/button_selector"
-            android:text="@string/login_button"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textColor" />
+    <Button
+        android:id="@+id/createdmainmenu"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/pword"
+        android:layout_alignRight="@+id/pword"
+        android:layout_below="@+id/pword"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_selector"
+        android:text="@string/login_button"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/textColor" />
 
 
 </RelativeLayout>
