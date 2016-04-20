@@ -206,6 +206,9 @@ function getColor($color)
 	   case -16640:
 	   $color_name = 'Light Orange';
 	   break;
+	   case -32768:
+	   $color_name = 'Orange';
+	   break;
 	   case -256:
 	   $color_name = 'Yellow';
 	   break;

@@ -37,7 +37,7 @@ if (isset($_SESSION['username'])) {
     die("Redirecting..");
 }
 
-$query = "SELECT * FROM Requests Where status = 0 ORDER BY `time_stamp` LIMIT 20";
+$query = "SELECT * FROM Requests Where status = 0 ORDER BY `time_stamp`";
 
 try {
             // These two statements run the query against your database table.
@@ -116,7 +116,7 @@ try {
 
 
 
-$query = "SELECT * FROM Requests Where status != 0 ORDER BY `time_stamp` DESC";
+$query = "SELECT * FROM Requests Where status != 0 ORDER BY `time_stamp` DESC LIMIT 20";
 
 try {
             // These two statements run the query against your database table.
