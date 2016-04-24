@@ -17,9 +17,9 @@ public class Utilities {
 
     public static String appendZipZero(String zip) {
         int zipLength = zip.length();
-        int zerosNeeded = zipLength;
+        int zerosNeeded = 5-zipLength;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i <= zerosNeeded; i++) {
+        for (int i = 0; i < zerosNeeded; i++) {
             sb.append("0");
         }
         sb.append(zip);
