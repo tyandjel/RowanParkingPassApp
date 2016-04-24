@@ -37,7 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static final String TAG = "tag";
     public static final String MODE = "mode";
     public static final String SYNC = "sync";
-    public static String USER = "";
+    public static String USER = null;
     public static String COOKIE = "";
     public ProgressDialog nDialog;
     public SaveUser saveUser;

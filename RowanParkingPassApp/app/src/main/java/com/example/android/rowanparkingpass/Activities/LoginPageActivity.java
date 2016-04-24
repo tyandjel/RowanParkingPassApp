@@ -53,7 +53,6 @@ LoginPageActivity extends BaseActivity {
         Button btnAdminLogin = (Button) findViewById(R.id.admin_login);
         loginErrorMsg = (TextView) findViewById(R.id.loginErrorMsg);
 
-
         btnForgotPassword.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent myIntent = new Intent(view.getContext(), RowanWebPageActivity.class);
