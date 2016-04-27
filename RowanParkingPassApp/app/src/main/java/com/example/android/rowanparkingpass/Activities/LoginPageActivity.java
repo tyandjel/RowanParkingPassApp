@@ -17,9 +17,7 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Passes
 import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoUsers;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.SavedData.ReadWrite;
-import com.example.android.rowanparkingpass.SavedData.SaveData;
-import com.example.android.rowanparkingpass.SavedData.SaveUser;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
@@ -27,9 +25,6 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVe
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-
 public class
 LoginPageActivity extends BaseActivity {
 

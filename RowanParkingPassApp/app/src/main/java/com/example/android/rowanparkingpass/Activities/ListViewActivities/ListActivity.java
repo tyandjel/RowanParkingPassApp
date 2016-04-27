@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
 import com.example.android.rowanparkingpass.Activities.SettingActivity;
-import com.example.android.rowanparkingpass.ArrayAdapter.ListViewArrayAdapter;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ArrayAdapter.ListViewArrayAdapter;
 import com.example.android.rowanparkingpass.R;
 
 public abstract class ListActivity extends BaseActivity {

@@ -1,11 +1,8 @@
-package com.example.android.rowanparkingpass.SavedData;
-
-import android.util.Log;
+package com.example.android.rowanparkingpass.utilities.SavedData;
 
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoModel;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 

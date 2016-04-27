@@ -16,10 +16,10 @@ import android.widget.SearchView;
 
 import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
 import com.example.android.rowanparkingpass.Activities.PassActivity;
-import com.example.android.rowanparkingpass.ArrayAdapter.DriverArrayAdapter;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ArrayAdapter.DriverArrayAdapter;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.SavedData.SaveData;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;

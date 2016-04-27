@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass.ArrayAdapter;
+package com.example.android.rowanparkingpass.Activities.ListViewActivities.ArrayAdapter;
 
 import android.view.View;
 import android.view.animation.Animation;

@@ -13,11 +13,11 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.android.rowanparkingpass.Activities.PassActivity;
-import com.example.android.rowanparkingpass.ArrayAdapter.PassArrayAdapter;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ArrayAdapter.PassArrayAdapter;
 import com.example.android.rowanparkingpass.Networking.NetworkCheck;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.Sync.SyncDrivers;
-import com.example.android.rowanparkingpass.Sync.SyncVehicles;
+import com.example.android.rowanparkingpass.Networking.Sync.SyncDrivers;
+import com.example.android.rowanparkingpass.Networking.Sync.SyncVehicles;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 

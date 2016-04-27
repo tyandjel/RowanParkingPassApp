@@ -1,4 +1,4 @@
-package com.example.android.rowanparkingpass.SavedData;
+package com.example.android.rowanparkingpass.utilities.SavedData;
 
 import android.util.Log;
 
