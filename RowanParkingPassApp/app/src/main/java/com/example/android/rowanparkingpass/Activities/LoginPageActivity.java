@@ -62,6 +62,7 @@ LoginPageActivity extends BaseActivity {
                 Intent myIntent = new Intent(view.getContext(), RowanWebPageActivity.class);
                 myIntent.putExtra(MODE, mode.PASS_SEARCH.name());
                 startActivity(myIntent);
+
             }
         });
 

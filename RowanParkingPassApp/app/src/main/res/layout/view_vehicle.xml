@@ -71,4 +71,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:paddingRight="10dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/vehicle_image_view"
+        android:src="@drawable/ic_motorcycle_white_18dp"
+        android:layout_above="@+id/plate_text_view"
+        android:layout_toLeftOf="@+id/new_vehicle_text_view"
+        android:layout_toStartOf="@+id/new_vehicle_text_view" />
 </RelativeLayout>

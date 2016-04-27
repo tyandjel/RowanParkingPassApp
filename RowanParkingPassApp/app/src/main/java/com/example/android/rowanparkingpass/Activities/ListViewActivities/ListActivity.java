@@ -7,6 +7,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.widget.ListView;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
@@ -23,8 +28,12 @@ public abstract class ListActivity extends BaseActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        overridePendingTransition(R.anim.slide_left, R.anim.fadeout);
         setContentView(R.layout.activity_list_view);
+        //transition();
+
+
+
 
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
@@ -44,6 +53,24 @@ public abstract class ListActivity extends BaseActivity {
             }
         }
         // wait for Child to be built
+    }
+
+    public void transition(){
+        AnimationSet set = new AnimationSet(true);
+
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(100);
+        set.addAnimation(animation);
+
+        animation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f
+        );
+        animation.setDuration(500);
+        set.addAnimation(animation);
+
+        LayoutAnimationController controller =
+                new LayoutAnimationController(set, 0.25f);
     }
 
     public void loaded() {
