@@ -23,6 +23,7 @@ public abstract class ListActivity extends BaseActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         setContentView(R.layout.activity_list_view);
 
         pastIntent = getIntent();
