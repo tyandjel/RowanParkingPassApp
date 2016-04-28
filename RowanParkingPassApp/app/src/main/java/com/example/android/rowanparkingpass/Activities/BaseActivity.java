@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 
-
+import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.SavedData.ReadWrite;
 import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.SavedData.SaveUser;
@@ -113,6 +113,13 @@ public void onPause(){
         catch (Exception e) {
             e.printStackTrace();// not able to read in note
         }
+    }
+
+    /*
+    overrides the default transition to have the the new activity move in from the right to the left while the old one fades out
+     */
+    public void leftToRightTransition(){
+        overridePendingTransition(R.anim.slide_left, R.anim.fadeout);
     }
 
     public void dismissNetworkDialog() {

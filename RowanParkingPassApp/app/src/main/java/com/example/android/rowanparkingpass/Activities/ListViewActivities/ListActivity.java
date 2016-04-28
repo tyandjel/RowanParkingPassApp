@@ -28,7 +28,6 @@ public abstract class ListActivity extends BaseActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.slide_left, R.anim.fadeout);
         setContentView(R.layout.activity_list_view);
         //transition();
 
@@ -55,23 +54,7 @@ public abstract class ListActivity extends BaseActivity {
         // wait for Child to be built
     }
 
-    public void transition(){
-        AnimationSet set = new AnimationSet(true);
 
-        Animation animation = new AlphaAnimation(0.0f, 1.0f);
-        animation.setDuration(100);
-        set.addAnimation(animation);
-
-        animation = new TranslateAnimation(
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f
-        );
-        animation.setDuration(500);
-        set.addAnimation(animation);
-
-        LayoutAnimationController controller =
-                new LayoutAnimationController(set, 0.25f);
-    }
 
     public void loaded() {
         // Checks if the listView has finished loading in and then tells the adapter so it can stop animating things
@@ -119,6 +102,7 @@ public abstract class ListActivity extends BaseActivity {
                 myIntent = new Intent(this, DriversActivity.class);
                 myIntent.putExtra(MODE, mode.DRIVERS_LIST.name());
                 startActivity(myIntent);
+                leftToRightTransition();
                 finish();
                 break;
             // action with ID action_vehicles was selected

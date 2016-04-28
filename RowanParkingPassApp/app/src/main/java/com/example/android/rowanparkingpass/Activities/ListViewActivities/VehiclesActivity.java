@@ -104,6 +104,7 @@ public class VehiclesActivity extends ListActivity implements SearchView.OnQuery
                     } else {// user is selecting this driver for Creating a pass
                         intent = new Intent(VehiclesActivity.this, PassActivity.class);
                         intent.putExtra(MODE, mode.CREATE_PASS.name());
+                        leftToRightTransition();
 
                     }
 

@@ -117,6 +117,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
                     } else {
                         intent = new Intent(DriversActivity.this, VehiclesActivity.class);
                         intent.putExtra(MODE, mode.VEHICLES.name());
+                        leftToRightTransition();
                     }
                     intent.putExtra("Driver", (Serializable) adapter.getItem(position));
                 }

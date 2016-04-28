@@ -82,6 +82,7 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
                         intent = new Intent(PassesActivity.this, DriversActivity.class);
                         intent.putExtra(MODE, mode.DRIVERS.name());
                         startActivity(intent);
+                        leftToRightTransition();
                     } else {
                         intent = new Intent(PassesActivity.this, PassActivity.class);
                         intent.putExtra(MODE, mode.CREATE_PASS.name());

@@ -191,6 +191,7 @@ LoginPageActivity extends BaseActivity {
                     SaveData.setUSR(USER);
                     pDialog.dismiss();
                     startActivity(upanel);
+                    leftToRightTransition();
                     // Start SendInfoTimer guy
                     //timer.sendInfo();
                 } else {
