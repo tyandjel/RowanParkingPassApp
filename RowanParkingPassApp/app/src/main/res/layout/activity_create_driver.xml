@@ -4,7 +4,19 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/background">
-
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/driver_image_button"
+        android:src="@drawable/ic_account_circle_white_18dp"
+        android:layout_above="@+id/plate_text_view"
+        android:layout_toLeftOf="@+id/new_vehicle_text_view"
+        android:layout_toStartOf="@+id/new_vehicle_text_view"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        />
     <TextView
         android:id="@+id/selection"
         android:layout_width="fill_parent"

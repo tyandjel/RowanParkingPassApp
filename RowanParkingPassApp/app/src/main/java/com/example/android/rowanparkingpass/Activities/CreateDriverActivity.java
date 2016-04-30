@@ -1,10 +1,16 @@
 package com.example.android.rowanparkingpass.Activities;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +24,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,6 +33,7 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Driver
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.utilities.PermissionUtils;
 import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.States;
@@ -35,6 +44,8 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPa
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class CreateDriverActivity extends BaseActivity {
@@ -46,6 +57,7 @@ public class CreateDriverActivity extends BaseActivity {
     EditText city;
     Spinner state;
     EditText zipCode;
+    ImageButton imageView;
     CheckBox saveInfo;
     DatabaseHandlerDrivers db;
     Intent pastIntent;
@@ -53,6 +65,13 @@ public class CreateDriverActivity extends BaseActivity {
     Vehicle vehicle;
     Context context;
     States[] arrayOfStates = States.values();
+    private static final int GALLERY_IMAGE_REQUEST = 1;
+    public static final int CAMERA_PERMISSIONS_REQUEST = 2;
+    public static final int CAMERA_IMAGE_REQUEST = 3;
+    public static final String FILE_NAME = "temp.jpg";
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,9 +88,19 @@ public class CreateDriverActivity extends BaseActivity {
         city = (EditText) findViewById(R.id.cityEditText);
         zipCode = (EditText) findViewById(R.id.zipCodeEditText);
         db = new DatabaseHandlerDrivers(getApplicationContext());
+        imageView = (ImageButton) findViewById(R.id.driver_image_button);
 
         driver = (Driver) pastIntent.getSerializableExtra("Driver");
         vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
+
+
+
+        //picture call
+        imageView.setOnClickListener(new View.OnClickListener() {
+                                         public void onClick(View view) {
+                                    pickedCameraStuff();
+                                         }
+                                     });
 
         //new Tests();
 
@@ -292,6 +321,52 @@ public class CreateDriverActivity extends BaseActivity {
             }
         }
     }
+// ===================== camera Stuff
+    private void pickedCameraStuff(){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(CreateDriverActivity.this);
+        builder
+                .setMessage(R.string.dialog_select_prompt)
+                .setPositiveButton(R.string.dialog_select_gallery, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startGalleryChooser();
+                    }
+                })
+                .setNegativeButton(R.string.dialog_select_camera, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dispatchTakePictureIntent();
+                    }
+                });
+        builder.create().show();
+    }
+    public void startGalleryChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select a photo"),
+                GALLERY_IMAGE_REQUEST);
+    }
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+        }
+    }
+
+    public File getCameraFile() {
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        return new File(dir, FILE_NAME);
+    }
+
+
 
     @Override
     public void onResume() {

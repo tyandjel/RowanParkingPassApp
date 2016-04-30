@@ -69,5 +69,8 @@
     <string name="pref_config">Color Picker</string>
 
     <string name="safe_characters">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ėęěĕəèéêëēŕřþťțţýùúûüūůűųìíîïīįıòóôõöøőœàáâãäåæāăąß§śšşďđ ģğķĺļľłźżžçćčñńņňÈÉÊËĒĖĘĚĔƏŔŘÞŤȚŢÝÙÚÛÜŪŮŰŲÌÍÎÏĪĮİÒÓÔÕÖØŐŐŒÀÁÂÃÄÅÆĀĂĄß§ŚŠŞĎĐĢĞĶĹĻĽŁŹŻŽÇĆČÑŃŅŇ. </string>
+    <string name="dialog_select_prompt">Choose picture</string>
+    <string name="dialog_select_gallery">From Gallery</string>
+    <string name="dialog_select_camera">Take with Camera</string>
 
 </resources>
