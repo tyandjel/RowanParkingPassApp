@@ -7,9 +7,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class Utilities {
 
@@ -40,16 +37,11 @@ public class Utilities {
         return bitmap;
     }
 
-    public static byte[] bitmapToByteArray(String file) {
+    public static byte[] bitmapToByteArray(Bitmap bmp) {
         byte[] byteArray = null;
-        try {
-            Bitmap bmp = BitmapFactory.decodeStream(new FileInputStream(new File(file)), null, null);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byteArray = stream.toByteArray();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byteArray = stream.toByteArray();
         return byteArray;
     }
 
