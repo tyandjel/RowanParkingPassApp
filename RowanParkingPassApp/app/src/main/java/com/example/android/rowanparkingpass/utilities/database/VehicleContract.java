@@ -10,6 +10,7 @@ public final class VehicleContract extends BaseContract {
     public static abstract class VehicleEntry implements BaseColumns {
         public static final String TABLE_NAME = "Vehicles";
         public static final String COLUMN_VEHICLE_ID = "vehicle_id";
+        public static final String COLUMN_VEHICLE_PIC = "photo";
         public static final String COLUMN_MAKE = "make";
         public static final String COLUMN_MODEL = "model";
         public static final String COLUMN_YEAR = "year";

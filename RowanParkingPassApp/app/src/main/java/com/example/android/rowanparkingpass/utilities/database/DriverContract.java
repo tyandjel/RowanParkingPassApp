@@ -10,6 +10,7 @@ public final class DriverContract extends BaseContract {
     public static abstract class DriverEntry implements BaseColumns {
         public static final String TABLE_NAME = "Driver";
         public static final String COLUMN_DRIVER_ID = "driver_id";
+        public static final String COLUMN_DRIVER_PIC = "photo";
         public static final String COLUMN_FULL_NAME = "full_name";
         public static final String COLUMN_STREET = "street";
         public static final String COLUMN_CITY = "city";
