@@ -70,7 +70,8 @@ public class CreateDriverActivity extends BaseActivity {
     public static final int CAMERA_IMAGE_REQUEST = 3;
     public static final String FILE_NAME = "temp.jpg";
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
+    Bitmap imageBitmap;
+    byte[] byteArray;
 
 
     @Override
@@ -92,6 +93,7 @@ public class CreateDriverActivity extends BaseActivity {
 
         driver = (Driver) pastIntent.getSerializableExtra("Driver");
         vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
+
 
 
 
@@ -128,6 +130,9 @@ public class CreateDriverActivity extends BaseActivity {
         Button createDriver = (Button) findViewById(R.id.createDriverButton);
         createDriver.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                if(imageBitmap != null) {
+                    byteArray = Utilities.bitmapToByteArray(imageBitmap);
+                }
                 Log.d(TAG, "onClick: Createbtn");
                 if (TextUtils.isEmpty(fullName.getText()) || TextUtils.isEmpty(street.getText()) ||
                         TextUtils.isEmpty(city.getText()) || TextUtils.isEmpty(zipCode.getText())) {
@@ -146,19 +151,19 @@ public class CreateDriverActivity extends BaseActivity {
                             syncUpdateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), String.valueOf(state.getSelectedItemPosition()), zipCode.getText().toString());
                         }
                         // updates driver in database
-                        db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                        db.updateDriver(String.valueOf(driver.getDriverId()),byteArray, fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         finish();
                     } else if (currentMode.equals(mode.UPDATE_PASS_DRIVER.name())) {
                         intent = new Intent(CreateDriverActivity.this, PassActivity.class);
                         intent.putExtra(MODE, mode.CREATE_PASS.name()); // tells the intent that it has to use the update driver list logic
-                        Driver d = new Driver(driver.getDriverId(), fullName.getText().toString(), "", street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                        Driver d = new Driver(driver.getDriverId(),imageBitmap, fullName.getText().toString(), "", street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                         intent.putExtra("Driver", d);
                         intent.putExtra("Vehicle", vehicle);
                         if (SaveData.getSync()) {
                             syncUpdateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), String.valueOf(state.getSelectedItemPosition()), zipCode.getText().toString());
                         }
                         // updates driver in database
-                        db.updateDriver(String.valueOf(driver.getDriverId()), fullName.getText().toString(), street.getText().toString(), city.getText().toString(), String.valueOf(state.getSelectedItemPosition()), zipCode.getText().toString());
+                        db.updateDriver(String.valueOf(driver.getDriverId()),byteArray, fullName.getText().toString(), street.getText().toString(), city.getText().toString(), String.valueOf(state.getSelectedItemPosition()), zipCode.getText().toString());
                     } else { // if not Updating then u are creating a driver
                         if (pastIntent.getStringExtra("Old").equals(mode.DRIVERS_LIST.name())) { // checks if the old intent was the DRivers or driver_list
                             intent = new Intent(CreateDriverActivity.this, DriversActivity.class); // it was the drivers list go back to the drivers list
@@ -172,14 +177,14 @@ public class CreateDriverActivity extends BaseActivity {
                             if (SaveData.getSync()) {
                                 syncNewDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), String.valueOf(state.getSelectedItemPosition()), zipCode.getText().toString());
                             } else {
-                                db.addDriver(fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                                db.addDriver(byteArray, fullName.getText().toString(), street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                             }
 
                             ArrayList<Driver> drivers = db.getDrivers();
                             intent.putExtra("Driver", drivers.get(drivers.size() - 1)); // gets newest driver just made in teh database to send
                         } else {
                             intent.putExtra(MODE, mode.VEHICLES.name());
-                            Driver tempDriver = new Driver(-1, fullName.getText().toString(), "", street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
+                            Driver tempDriver = new Driver(-1,imageBitmap, fullName.getText().toString(), "", street.getText().toString(), city.getText().toString(), state.getSelectedItem().toString(), zipCode.getText().toString());
                             intent.putExtra("Driver", tempDriver);
                         }
                     }
@@ -295,7 +300,7 @@ public class CreateDriverActivity extends BaseActivity {
     public synchronized void syncNewDriver(String name, String street, String city, String state, String zip) {
         SendInfoDriver sendInfoDriver = new SendInfoDriver();
         JSONObject json;
-        int oldID = db.addDriver(name, street, city, arrayOfStates[Integer.parseInt(state)].valueOf(arrayOfStates[Integer.parseInt(state)].name()).toString(), zip);
+        int oldID = db.addDriver(byteArray,name, street, city, arrayOfStates[Integer.parseInt(state)].valueOf(arrayOfStates[Integer.parseInt(state)].name()).toString(), zip);
             /*json = */
         sendInfoDriver.addDriver(oldID, name, street, city, state, zip);
 //        String flag = json.getString("FLAG");
@@ -356,16 +361,10 @@ public class CreateDriverActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+             imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
         }
     }
-
-    public File getCameraFile() {
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        return new File(dir, FILE_NAME);
-    }
-
 
 
     @Override

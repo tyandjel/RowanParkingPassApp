@@ -45,7 +45,7 @@ public class SyncDrivers {
                     String state = jsonObj.getString("state");
                     String zip = Utilities.appendZipZero(jsonObj.getString("zip"));
                     try {
-                        db.addDriver(Integer.parseInt(driverID), fullName, street, city, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), zip);
+                        db.addDriver(Integer.parseInt(driverID),Utilities.fakeByte, fullName, street, city, arrayStates[Integer.parseInt(state)].valueOf(arrayStates[Integer.parseInt(state)].name()).toString(), zip);
                     } catch (SQLiteConstraintException sqlC) {
                         Log.d("SQLite Exception", sqlC.getMessage());
                     }

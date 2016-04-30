@@ -1,5 +1,7 @@
 package com.example.android.rowanparkingpass.personinfo;
 
+import com.example.android.rowanparkingpass.utilities.Utilities;
+
 import java.io.Serializable;
 
 public class Pass implements Serializable {
@@ -27,8 +29,7 @@ public class Pass implements Serializable {
 
     public Pass() {
         requestID = -1;
-        driver = new Driver(-1, "-1", "-1", "-1", "-1", "-1", "-1");
-        vehicle = new Vehicle(-1, "-1", "-1", -1, "-1", "-1", "-1");
+
         fromDate = "-1";
         toDate = "-1";
     }

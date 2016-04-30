@@ -9,7 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import java.io.ByteArrayOutputStream;
 
 public class Utilities {
-
+    public static byte[] fakeByte ;
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
