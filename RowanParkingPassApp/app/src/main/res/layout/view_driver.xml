@@ -75,5 +75,7 @@
         android:src="@drawable/ic_account_circle_white_18dp"
         android:layout_above="@+id/plate_text_view"
         android:layout_toLeftOf="@+id/new_vehicle_text_view"
-        android:layout_toStartOf="@+id/new_vehicle_text_view" />
+        android:layout_toStartOf="@+id/new_vehicle_text_view"
+        android:paddingLeft="15dp"
+        />
 </RelativeLayout>
