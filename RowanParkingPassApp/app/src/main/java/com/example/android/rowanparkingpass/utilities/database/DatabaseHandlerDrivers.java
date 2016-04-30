@@ -7,8 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.utilities.Utilities;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
@@ -16,6 +18,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DriverContract.DriverEntry.TABLE_NAME + " (" +
                     DriverContract.DriverEntry.COLUMN_DRIVER_ID + DriverContract.INTEGER_TYPE + " PRIMARY KEY AUTO_INCREMENT," +
+                    DriverContract.DriverEntry.COLUMN_DRIVER_PIC + DriverContract.BLOB + DriverContract.COMMA_SEP +
                     DriverContract.DriverEntry.COLUMN_FULL_NAME + DriverContract.TEXT_TYPE + DriverContract.COMMA_SEP +
                     DriverContract.DriverEntry.COLUMN_STREET + DriverContract.TEXT_TYPE + DriverContract.COMMA_SEP +
                     DriverContract.DriverEntry.COLUMN_CITY + DriverContract.TEXT_TYPE + DriverContract.COMMA_SEP +
@@ -50,10 +53,11 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     /**
      * Storing Driver details in database
      */
-    public void addDriver(int driverId, String fullName, String street, String city, String state, String zip) {
+    public void addDriver(int driverId, byte[] image, String fullName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DriverContract.DriverEntry.COLUMN_DRIVER_ID, driverId);
+        values.put(DriverContract.DriverEntry.COLUMN_DRIVER_PIC, image); // Image
         values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, fullName); // Full Name
         values.put(DriverContract.DriverEntry.COLUMN_STREET, street); // Street
         values.put(DriverContract.DriverEntry.COLUMN_CITY, city); // City
@@ -67,9 +71,10 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     /**
      * Storing Driver details in database
      */
-    public int addDriver(String fullName, String street, String city, String state, String zip) {
+    public int addDriver(byte[] image, String fullName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(DriverContract.DriverEntry.COLUMN_DRIVER_PIC, image); // Image
         values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, fullName); // Full Name
         values.put(DriverContract.DriverEntry.COLUMN_STREET, street); // Street
         values.put(DriverContract.DriverEntry.COLUMN_CITY, city); // City
@@ -84,9 +89,10 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     /**
      * Update visitor details in database
      */
-    public void updateDriver(String driverId, String fullName, String street, String city, String state, String zip) {
+    public void updateDriver(String driverId, byte[] image, String fullName, String street, String city, String state, String zip) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
+        values.put(DriverContract.DriverEntry.COLUMN_DRIVER_PIC, image); // Image
         values.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, fullName); // Full Name
         values.put(DriverContract.DriverEntry.COLUMN_STREET, street); // Street
         values.put(DriverContract.DriverEntry.COLUMN_CITY, city); // City
@@ -128,11 +134,12 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
         String firstName = "";
         String lastName = "";
         if (!cursor.isAfterLast() && cursor.getCount() > 0) {
-            obj.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(1));
-            obj.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(2));
-            obj.put(DriverContract.DriverEntry.COLUMN_CITY, cursor.getString(3));
-            obj.put(DriverContract.DriverEntry.COLUMN_STATE, cursor.getString(4));
-            obj.put(DriverContract.DriverEntry.COLUMN_ZIP, cursor.getString(5));
+            obj.put(DriverContract.DriverEntry.COLUMN_DRIVER_PIC, Arrays.toString(cursor.getBlob(1)));
+            obj.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(2));
+            obj.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(3));
+            obj.put(DriverContract.DriverEntry.COLUMN_CITY, cursor.getString(4));
+            obj.put(DriverContract.DriverEntry.COLUMN_STATE, cursor.getString(5));
+            obj.put(DriverContract.DriverEntry.COLUMN_ZIP, cursor.getString(6));
             // Split the full name
             String[] fullName = obj.get(DriverContract.DriverEntry.COLUMN_FULL_NAME).split(" ");
             firstName = fullName[0];
@@ -142,6 +149,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
             cursor.moveToNext();
         }
         Driver driver = new Driver(Integer.parseInt(id),
+                Utilities.byteArrayToBitmap(obj.get(DriverContract.DriverEntry.COLUMN_DRIVER_PIC).getBytes()),
                 firstName, lastName,
                 obj.get(DriverContract.DriverEntry.COLUMN_STREET),
                 obj.get(DriverContract.DriverEntry.COLUMN_CITY),
@@ -165,11 +173,12 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
         cursor.moveToFirst();
         while (!cursor.isAfterLast() && cursor.getCount() > 0) {
             driver.put(DriverContract.DriverEntry.COLUMN_DRIVER_ID, cursor.getString(0));
-            driver.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(1)); // Full Name
-            driver.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(2)); // Street
-            driver.put(DriverContract.DriverEntry.COLUMN_CITY, cursor.getString(3)); // City
-            driver.put(DriverContract.DriverEntry.COLUMN_STATE, cursor.getString(4)); // State
-            driver.put(DriverContract.DriverEntry.COLUMN_ZIP, cursor.getString(5)); // Zip
+            driver.put(DriverContract.DriverEntry.COLUMN_DRIVER_PIC, Arrays.toString(cursor.getBlob(1)));
+            driver.put(DriverContract.DriverEntry.COLUMN_FULL_NAME, cursor.getString(2));
+            driver.put(DriverContract.DriverEntry.COLUMN_STREET, cursor.getString(3));
+            driver.put(DriverContract.DriverEntry.COLUMN_CITY, cursor.getString(4));
+            driver.put(DriverContract.DriverEntry.COLUMN_STATE, cursor.getString(5));
+            driver.put(DriverContract.DriverEntry.COLUMN_ZIP, cursor.getString(6));
             // Split the full name
             String[] fullName = driver.get(DriverContract.DriverEntry.COLUMN_FULL_NAME).split(" ");
             String firstName = fullName[0];
@@ -178,6 +187,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
                 lastName += fullName[i];
             }
             rows.add(new Driver(Integer.parseInt(driver.get(DriverContract.DriverEntry.COLUMN_DRIVER_ID)),
+                    Utilities.byteArrayToBitmap(driver.get(DriverContract.DriverEntry.COLUMN_DRIVER_PIC).getBytes()),
                     firstName, lastName, driver.get(DriverContract.DriverEntry.COLUMN_STREET),
                     driver.get(DriverContract.DriverEntry.COLUMN_CITY),
                     driver.get(DriverContract.DriverEntry.COLUMN_STATE),

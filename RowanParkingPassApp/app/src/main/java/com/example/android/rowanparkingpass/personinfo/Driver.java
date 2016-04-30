@@ -1,10 +1,13 @@
 package com.example.android.rowanparkingpass.personinfo;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class Driver implements Serializable {
 
     private int driverId;
+    private Bitmap image;
     private String firstName;
     private String lastName;
     private String street;
@@ -12,8 +15,9 @@ public class Driver implements Serializable {
     private String state;
     private String zipCode;
 
-    public Driver(int driverId, String firstName, String lastName, String street, String town, String state, String zipCode) {
+    public Driver(int driverId, Bitmap image, String firstName, String lastName, String street, String town, String state, String zipCode) {
         this.driverId = driverId;
+        this.image = image;
         this.firstName = firstName;
         this.lastName = lastName;
         this.street = street;
@@ -28,6 +32,14 @@ public class Driver implements Serializable {
 
     public void setDriverId(int driverId) {
         this.driverId = driverId;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public String getFirstName() {
