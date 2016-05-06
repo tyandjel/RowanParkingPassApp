@@ -15,12 +15,12 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
-import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.ArrayAdapter.DriverArrayAdapter;
+import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DriversActivity extends ListActivity implements SearchView.OnQueryTextListener {
-
 
     DatabaseHandlerDrivers db;
     Context context;
@@ -51,11 +50,10 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         loaded();
     }
 
+    // Gets drivers for list view
     public void build() {
-
         db = new DatabaseHandlerDrivers(this.getApplicationContext());
         ArrayList<Driver> listOfDrivers = db.getDrivers();
-
         buildDriversList(listOfDrivers);
     }
 
@@ -89,6 +87,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         return true;
     }
 
+    // Creates drivers list for list view
     private void buildDriversList(List<Driver> drivers) {
         listView = (ListView) findViewById(R.id.listView);
         final ListView tempListView = listView;
@@ -164,6 +163,7 @@ public class DriversActivity extends ListActivity implements SearchView.OnQueryT
         listView.setOnItemLongClickListener(mMessageLongClickedHandler);
     }
 
+    // Creates adapter for list view
     private void makeAdapter(List<Driver> d) {
         adapter = new DriverArrayAdapter(d, this);
         listView.setAdapter(adapter);

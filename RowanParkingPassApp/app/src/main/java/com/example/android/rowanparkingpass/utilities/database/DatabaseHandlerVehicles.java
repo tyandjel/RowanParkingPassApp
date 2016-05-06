@@ -11,8 +11,12 @@ import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Database handler vehicles
+ */
 public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
 
+    // Create vehicle table statement
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + VehicleContract.VehicleEntry.TABLE_NAME + " (" +
                     VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + VehicleContract.INTEGER_TYPE + " PRIMARY KEY AUTO_INCREMENT," +
@@ -22,8 +26,10 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
                     VehicleContract.VehicleEntry.COLUMN_STATE + VehicleContract.TEXT_TYPE + VehicleContract.COMMA_SEP +
                     VehicleContract.VehicleEntry.COLUMN_COLOR + VehicleContract.TEXT_TYPE + VehicleContract.COMMA_SEP +
                     VehicleContract.VehicleEntry.COLUMN_LICENSE + VehicleContract.TEXT_TYPE + " )";
+    // Delete table statement
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + VehicleContract.VehicleEntry.TABLE_NAME;
+    // Select all entries statement
     private static final String SQL_SELECT_ALL_ENTRIES =
             "SELECT * FROM " + VehicleContract.VehicleEntry.TABLE_NAME;
 
@@ -99,6 +105,12 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         db.update(VehicleContract.VehicleEntry.TABLE_NAME, values, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + "=" + vehicleId, null);
     }
 
+    /**
+     * Update vehicle with id
+     *
+     * @param oldID old id
+     * @param newID new id
+     */
     public void updateVehicleWithID(int oldID, int newID) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
@@ -107,12 +119,23 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         db.update(VehicleContract.VehicleEntry.TABLE_NAME, values, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + "=" + oldID, null);
     }
 
+    /**
+     * Delete vehicle based on vehicle id
+     *
+     * @param vehicleId vehicle id
+     */
     public void deleteVehicle(String vehicleId) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
-        db.delete(VehicleContract.VehicleEntry.TABLE_NAME, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleId, null);
+        db.delete(VehicleContract.VehicleEntry.TABLE_NAME, VehicleContract.VehicleEntry.COLUMN_VEHICLE_ID + "=" + vehicleId, null);
     }
 
+    /**
+     * Get vehicle based on id
+     *
+     * @param id vehicle id
+     * @return vehicle with specified id
+     */
     public Vehicle getVehicle(String id) {
         final String SQL_SELECT_VEHICLE =
                 "SELECT * FROM " + VehicleContract.VehicleEntry.TABLE_NAME +
@@ -149,8 +172,8 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
      * Getting user data from database
      */
     public ArrayList<Vehicle> getVehicles() {
-        ArrayList<Vehicle> rows = new ArrayList<Vehicle>();
-        HashMap<String, String> vehicle = new HashMap<String, String>();
+        ArrayList<Vehicle> rows = new ArrayList<>();
+        HashMap<String, String> vehicle = new HashMap<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
@@ -178,21 +201,6 @@ public class DatabaseHandlerVehicles extends DatabaseHandlerBase {
         db.close();
         // return vehicle
         return rows;
-    }
-
-    /**
-     * Getting user login status
-     * return true if rows are there in table
-     */
-    public int getRowCount() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
-        int rowCount = cursor.getCount();
-        db.close();
-        cursor.close();
-
-        // return row count
-        return rowCount;
     }
 
     /**

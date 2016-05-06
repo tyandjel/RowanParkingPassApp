@@ -1,5 +1,8 @@
 package com.example.android.rowanparkingpass.personinfo;
 
+/**
+ * Enum of all states in alphabetical order of state abbreviation
+ */
 public enum States {
     AK("Alaska"),
     AL("Alabama"),
@@ -65,10 +68,10 @@ public enum States {
     }
 
     /**
-     * give the postion of the state name or -1 if not included.
+     * give the position of the state name or -1 if not included.
      *
      * @param value State Name
-     * @return
+     * @return position of state
      */
     public static int getPosition(String value) {
         States[] v = values();

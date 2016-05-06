@@ -20,12 +20,20 @@ import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+/**
+ * Checks the network connection
+ */
 public class NetworkCheck extends BaseActivity {
 
     public void NetAsync(View view, BaseActivity activity) {
         new NetCheck(view, activity).execute();
     }
 
+    /**
+     * Checks if user has a network connection
+     *
+     * @return true if has a network connection else false
+     */
     public static synchronized boolean haveNetworkConnection() {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -38,6 +46,11 @@ public class NetworkCheck extends BaseActivity {
         return isConnected;
     }
 
+    /**
+     * Pings the network
+     *
+     * @return true if can ping network else false
+     */
     public static boolean pingNetwork() {
         try {
             return InetAddress.getByName(SendInfoBase.IP_ADDRESS_URL).isReachable(20);

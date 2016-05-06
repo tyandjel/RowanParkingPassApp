@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendToServer;
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import org.json.JSONObject;
@@ -13,6 +13,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Send vehicle info to server
+ */
 public class SendInfoVehicle extends SendInfoBase {
 
     private static final String MODIFY_VEHICLE_URL = IP_ADDRESS_URL + "/modify_vehicle.php";

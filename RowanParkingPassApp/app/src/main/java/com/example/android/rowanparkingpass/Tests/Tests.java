@@ -5,7 +5,7 @@ import android.util.Log;
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
 
 /**
- * Created by johnathan on 4/12/16.
+ * Base test class
  */
 public class Tests extends BaseActivity {
     public Tests() {

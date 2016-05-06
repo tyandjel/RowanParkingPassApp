@@ -17,7 +17,9 @@ import java.util.List;
 public class VehicleArrayAdapter extends ListViewArrayAdapter {
 
     private int lastPos = 0;
+    // List of vehicles
     private List<Vehicle> vehicleList = new ArrayList<>();
+    // List of vehicles based on search
     private ArrayList<Vehicle> filteredVehicleList = new ArrayList<>();
     private VehicleFilter vehicleFilter;
 

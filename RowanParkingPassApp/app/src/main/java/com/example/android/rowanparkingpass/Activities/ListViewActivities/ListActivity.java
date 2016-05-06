@@ -7,17 +7,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
 import android.widget.ListView;
 
 import com.example.android.rowanparkingpass.Activities.BaseActivity;
+import com.example.android.rowanparkingpass.Activities.ListViewActivities.ArrayAdapter.ListViewArrayAdapter;
 import com.example.android.rowanparkingpass.Activities.LoginPageActivity;
 import com.example.android.rowanparkingpass.Activities.SettingActivity;
-import com.example.android.rowanparkingpass.Activities.ListViewActivities.ArrayAdapter.ListViewArrayAdapter;
 import com.example.android.rowanparkingpass.R;
 
 public abstract class ListActivity extends BaseActivity {
@@ -25,15 +20,11 @@ public abstract class ListActivity extends BaseActivity {
     ListView listView;
     ListViewArrayAdapter adapter;
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
-        //transition();
 
-
-
-
+        // Sets the title depending on  the current mode
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
         if (currentMode != null) {
@@ -53,7 +44,6 @@ public abstract class ListActivity extends BaseActivity {
         }
         // wait for Child to be built
     }
-
 
 
     public void loaded() {

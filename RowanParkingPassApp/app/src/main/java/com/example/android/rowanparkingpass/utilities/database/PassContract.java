@@ -2,6 +2,9 @@ package com.example.android.rowanparkingpass.utilities.database;
 
 import android.provider.BaseColumns;
 
+/**
+ * Pass Columns
+ */
 public final class PassContract extends BaseContract {
 
     public PassContract() {
@@ -14,6 +17,5 @@ public final class PassContract extends BaseContract {
         public static final String COLUMN_DRIVER_ID = "driver_id";
         public static final String COLUMN_START_DATE = "start_date";
         public static final String COLUMN_END_DATE = "end_date";
-        public static final String[] selectionArgs = {COLUMN_REQUEST_ID, COLUMN_VEHICLE_ID, COLUMN_DRIVER_ID, COLUMN_START_DATE, COLUMN_END_DATE};
     }
 }

@@ -13,12 +13,14 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.PassesActivity;
-import com.example.android.rowanparkingpass.Networking.NetworkCheck;
-import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.Networking.Sync.SyncDrivers;
 import com.example.android.rowanparkingpass.Networking.Sync.SyncVehicles;
+import com.example.android.rowanparkingpass.R;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 
+/**
+ * Has settings for logged in user
+ */
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
 
     Button changePassword;
@@ -94,7 +96,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivity(myIntent);
                 break;
             case R.id.syncNowButton:
-                Log.d("TESTING NETWORK ", String.valueOf(new NetworkCheck().haveNetworkConnection()));
                 sync();
                 break;
             default:
@@ -102,6 +103,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * Syncs vehicles and drivers
+     */
     private void sync() {
         SyncDrivers syncDrivers = new SyncDrivers();
         SyncVehicles syncVehicles = new SyncVehicles();

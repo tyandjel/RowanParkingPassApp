@@ -6,7 +6,7 @@ import com.example.android.rowanparkingpass.Activities.CreateDriverActivity;
 import com.example.android.rowanparkingpass.Activities.CreateVehicleActivity;
 
 /**
- * Created by johnathan on 4/13/16.
+ * Test to test syncing driver and vehicles
  */
 public class SyncingTest {
     public static boolean testAddDriver(CreateDriverActivity d) {

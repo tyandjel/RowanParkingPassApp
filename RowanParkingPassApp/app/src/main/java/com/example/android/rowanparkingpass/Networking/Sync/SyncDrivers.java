@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.States;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.net.URLDecoder;
 
 /**
- * Created by johnathan on 4/12/16.
+ * Syncs Driver Info between server and local databases
  */
 public class SyncDrivers {
 
@@ -37,7 +37,6 @@ public class SyncDrivers {
                     //[{"model":"zaz","color":"1","state":"23","user_id":"10","year":"1945","license":"bingling","vehicle_id":"3","make":"me a sammich"}
 
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
-                    //Log.d("JSONOBJ", jsonObj.toString());
                     String driverID = jsonObj.getString("driver_id");
                     String fullName = jsonObj.getString("full_name");
                     String street = jsonObj.getString("street");

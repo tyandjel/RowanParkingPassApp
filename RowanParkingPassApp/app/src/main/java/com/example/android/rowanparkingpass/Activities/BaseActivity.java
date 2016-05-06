@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-
 import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.utilities.SavedData.ReadWrite;
 import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
@@ -13,6 +12,7 @@ import com.example.android.rowanparkingpass.utilities.SavedData.SaveUser;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
+    // Enum of modes
     public enum mode {
         HOME_PAGE,
         DRIVERS,
@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static String COOKIE = "";
     public ProgressDialog nDialog;
     public SaveUser saveUser;
-    protected String user="";
+    protected String user = "";
 
 
     public static Context context;
@@ -71,33 +71,40 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         readInSavedData();
 
         context = getApplicationContext();
     }
 
-public void onPause(){
-    super.onPause();
-    writeOutData();
-
-}
-    public void onDestroy() {
-        super.onDestroy();
-
-
+    public void onPause() {
+        super.onPause();
+        writeOutData();
 
     }
-    public void writeOutData(){
+
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    /**
+     * Saves data to phone
+     */
+    public void writeOutData() {
         try {
-            saveUser = new SaveUser(SaveData.getUSR(),SaveData.getSync(),SaveData.getQueue());
+            saveUser = new SaveUser(SaveData.getUSR(), SaveData.getSync(), SaveData.getQueue());
             ReadWrite.WRITE_OUT(saveUser, this.getApplicationContext());
-                   } catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Read saved data from phone
+     */
     public void readInSavedData() {
         try {
 
@@ -105,12 +112,10 @@ public void onPause(){
             SaveData.setQueue(saveUser.getSendInfos());
             SaveData.setSync(saveUser.isSync());
             SaveData.setUSR(saveUser.getUSR());
-            if(saveUser!=null) {
+            if (saveUser != null) {
                 user = saveUser.getUSR();
             }
-            // this will load the contents of the first note in the notepad.
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();// not able to read in note
         }
     }
@@ -118,7 +123,7 @@ public void onPause(){
     /*
     overrides the default transition to have the the new activity move in from the right to the left while the old one fades out
      */
-    public void leftToRightTransition(){
+    public void leftToRightTransition() {
         overridePendingTransition(R.anim.slide_left, R.anim.fadeout);
     }
 

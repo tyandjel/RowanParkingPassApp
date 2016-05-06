@@ -6,6 +6,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+/**
+ * Send user info to server
+ */
 public class SendInfoUsers extends SendInfoBase {
 
     private static final String USERNAME_KEY = "username";

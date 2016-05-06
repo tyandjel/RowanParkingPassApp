@@ -25,6 +25,7 @@ import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVe
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 public class
 LoginPageActivity extends BaseActivity {
 
@@ -35,8 +36,6 @@ LoginPageActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         setContentView(R.layout.activity_login);
         readInSavedData();
@@ -66,7 +65,7 @@ LoginPageActivity extends BaseActivity {
             }
         });
 
-        /*
+        /**
          * Login button click event
          * A Toast is set to alert when the Email and Password field is empty
          */
@@ -83,28 +82,12 @@ LoginPageActivity extends BaseActivity {
                     Toast.makeText(getApplicationContext(),
                             "Email field empty", Toast.LENGTH_SHORT).show();
                 } else {
-
-                    //TODO Remove next line
-
-                    //Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
-
-                    Intent upanel = new Intent(getApplicationContext(), PassesActivity.class);
-
-                    upanel.putExtra(MODE, mode.HOME_PAGE.name());
-                    upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(upanel);
-                    /**
-                     * Close Login Screen
-                     **/
-//                    finish();
                     Toast.makeText(getApplicationContext(),
                             "Email and Password field are empty", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
-
 
     public void setupUI(View view) {
 
@@ -183,17 +166,15 @@ LoginPageActivity extends BaseActivity {
                     upanel.putExtra(MODE, mode.HOME_PAGE.name());
                     upanel.putExtra(SYNC, "true");
                     upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //TODO: If different user call clearDatabases below
 
-                    if (user!=null && !USER.equals(user)) {
+                    // Clears database if different user logs in
+                    if (user != null && !USER.equals(user)) {
                         clearDatabases();
                     }
                     SaveData.setUSR(USER);
                     pDialog.dismiss();
                     startActivity(upanel);
                     leftToRightTransition();
-                    // Start SendInfoTimer guy
-                    //timer.sendInfo();
                 } else {
                     pDialog.dismiss();
                     loginErrorMsg.setText(R.string.incorrect_username_password);
@@ -205,6 +186,9 @@ LoginPageActivity extends BaseActivity {
 
         }
 
+        /**
+         * Clears the database contents
+         */
         private void clearDatabases() {
             try {
                 new DatabaseHandlerDrivers(getApplicationContext()).resetTables();
@@ -213,24 +197,23 @@ LoginPageActivity extends BaseActivity {
                 Log.d("CLEAR DATABASE", "clear");
                 Toast.makeText(getApplicationContext(),
                         "Different User Logged In. Cleared local vehicles and drivers.", Toast.LENGTH_SHORT).show();
-            }catch (Exception e){
-
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
             }
         }
     }
 
-@Override
-    public void onStop(){
+    @Override
+    public void onStop() {
         super.onStop();
         finish();
     }
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
     }
-
-
 
 
 }

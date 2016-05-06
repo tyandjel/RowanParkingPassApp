@@ -2,6 +2,9 @@ package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
 
+/**
+ * A Driver
+ */
 public class Driver implements Serializable {
 
     private int driverId;
@@ -12,6 +15,17 @@ public class Driver implements Serializable {
     private String state;
     private String zipCode;
 
+    /**
+     * Constructor
+     *
+     * @param driverId  driver id
+     * @param firstName first name
+     * @param lastName  last name
+     * @param street    street
+     * @param town      town
+     * @param state     state
+     * @param zipCode   zip code
+     */
     public Driver(int driverId, String firstName, String lastName, String street, String town, String state, String zipCode) {
         this.driverId = driverId;
         this.firstName = firstName;
@@ -22,60 +36,86 @@ public class Driver implements Serializable {
         this.zipCode = zipCode;
     }
 
+    /**
+     * Gets the driver id
+     *
+     * @return driver id
+     */
     public int getDriverId() {
         return driverId;
     }
 
+    /**
+     * Sets the driver id
+     *
+     * @param driverId driver id
+     */
     public void setDriverId(int driverId) {
         this.driverId = driverId;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
+    /**
+     * Gets the driver's name
+     *
+     * @return name
+     */
     public String getName() {
         return firstName + " " + lastName;
     }
 
+    /**
+     * Gets the street
+     *
+     * @return street
+     */
     public String getStreet() {
         return street;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
+    /**
+     * Gets the town
+     *
+     * @return town
+     */
     public String getTown() {
         return town;
     }
 
-    public void setTown(String town) {
-        this.town = town;
-    }
-
+    /**
+     * Gets the state
+     *
+     * @return state
+     */
     public String getState() {
         return state;
     }
 
+
+    /**
+     * Sets the state
+     *
+     * @param state state
+     */
     public void setState(String state) {
         this.state = state;
     }
 
+    /**
+     * Gets the zip code
+     *
+     * @return zip code
+     */
     public String getZipCode() {
         return zipCode;
     }
 
+    /**
+     * Sets the zip code
+     *
+     * @param zipCode zip code
+     */
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
-    }
-
-    public String getAddress() {
-        return street + " " + town + ", " + state + " " + zipCode;
     }
 
     @Override

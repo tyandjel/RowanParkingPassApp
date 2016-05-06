@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendToServer;
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 
 import org.json.JSONObject;
@@ -13,6 +13,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Sends driver info to server
+ */
 public class SendInfoDriver extends SendInfoBase {
 
     private static final String MODIFY_DRIVER_URL = IP_ADDRESS_URL + "/modify_driver.php";
@@ -36,7 +39,6 @@ public class SendInfoDriver extends SendInfoBase {
      * @param city   driver city they live in
      * @param state  driver state they are from
      * @param zip    driver zip code
-     * @return JSONObject of whether driver was added successfully along with driver id
      */
     public void addDriver(int id, String name, String street, String city, String state, String zip) {
         // Return FLAG - true/false
@@ -166,11 +168,9 @@ public class SendInfoDriver extends SendInfoBase {
         params.put("json_obj", s);
         Log.d("json_obj", s);
 
-        JSONObject json = new JSONObject(params);
         SaveData.makeSendInfo(params, url);
         // Return JsonObject
         return new SendToServer().send();
-//        return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 
 }

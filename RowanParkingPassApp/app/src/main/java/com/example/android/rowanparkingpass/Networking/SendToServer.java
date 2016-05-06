@@ -27,12 +27,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -40,7 +35,7 @@ import java.util.concurrent.ExecutionException;
  * SaveData.makeSendInfo(makejson(driver),url);
  * SendToServer s = new SendToServer();
  * s.send();}
- * sends Json objects to the server by poping the queue in saveData for the json object and the url
+ * sends Json objects to the server by popping the queue in saveData for the json object and the url
  * Also Known as Carrier Pigeon <(*_*<)
  * Created by John on 3/7/2016.
  */
@@ -69,6 +64,9 @@ public class SendToServer extends BaseActivity {
     }
 
 
+    /**
+     * Sends json to the server
+     */
     public class SendJSON extends AsyncTask<Void, Void, JSONObject> {
 
         private synchronized JSONObject sendJSon(HashMap<String, String> output, String urlOut) throws Exception {
@@ -91,16 +89,13 @@ public class SendToServer extends BaseActivity {
                     i++;
                 }
 
-
+                // Sets up http url connection
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setUseCaches(false);
                 connection.setReadTimeout(10000); // 10 seconds
                 connection.setConnectTimeout(15000); // 15 seconds
-                //connection.setRequestProperty("Content-Type", "application/json");
                 connection.setRequestProperty("Accept-Charset", charset);
-                //connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                //connection.setRequestProperty("Accept", "application/json");
                 connection.setDoOutput(true); // You need to set it to true  if you want to send (output) a request body
 
 
@@ -115,14 +110,6 @@ public class SendToServer extends BaseActivity {
                 dStream.writeBytes(sbParams.toString()); // Writes out the string to the underlying output stream as a sequence of bytes
                 dStream.flush(); // Flushes the data output stream.
                 dStream.close(); // Closing the output stream.
-                //====== response from server
-//                int responseCode = connection.getResponseCode();
-//                if (responseCode > 199 && responseCode < 208) {
-//                    Log.d(urlOut + " Response ", responseCode + "");
-//                } else {
-//                    Log.d(urlOut + " Response Code bad", responseCode + "");
-//                    throw new Exception();
-//                }
                 StringBuilder result = new StringBuilder();
                 try {
                     //Receive the response from the server
@@ -134,14 +121,6 @@ public class SendToServer extends BaseActivity {
                         result.append(line);
                     }
                     Log.d("JSON Parser2", "result: " + URLDecoder.decode(result.toString()));
-                    Map<String, List<String>> m = connection.getHeaderFields();
-                    Set keys = m.keySet();
-
-                    for (Iterator j = keys.iterator(); j.hasNext(); ) {
-                        String key = (String) j.next();
-                        List<String> value = m.get(key);
-                        Log.d("HEADER", key + " = " + Arrays.asList(value));
-                    }
                 } catch (IOException e) {
                     Log.d("ERROR: ", e.getMessage());
                     e.printStackTrace();
@@ -171,8 +150,8 @@ public class SendToServer extends BaseActivity {
 
         @Override
         protected JSONObject doInBackground(Void... params) {
+            // Try to send anything in the que up to 3 times the current size of the que
             int a = SaveData.size() * 3;
-            //TODO: Put back ping
             if (NetworkCheck.haveNetworkConnection() /*&& pingNetwork()*/) {
                 for (int i = a - 1; i >= 0 && !(SaveData.size() == 0); i--) {
                     Log.d("SEND Number", a - i + "");

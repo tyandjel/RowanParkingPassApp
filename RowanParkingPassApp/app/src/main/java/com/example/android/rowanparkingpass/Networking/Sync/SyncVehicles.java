@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.util.Log;
 
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.States;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
 
 import org.json.JSONArray;
@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import java.net.URLDecoder;
 
 /**
- * Created by johnathan on 4/12/16.
+ * Syncs Vehicle Info between server and local databases
  */
 public class SyncVehicles {
 

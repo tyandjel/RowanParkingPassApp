@@ -25,10 +25,10 @@ import com.example.android.rowanparkingpass.Activities.ListViewActivities.Driver
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.States;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerDrivers;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
@@ -38,8 +38,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class CreateDriverActivity extends BaseActivity {
-
-    private static final String TEMP_DRIVER = "temp";
 
     EditText fullName;
     EditText street;
@@ -72,8 +70,6 @@ public class CreateDriverActivity extends BaseActivity {
 
         driver = (Driver) pastIntent.getSerializableExtra("Driver");
         vehicle = (Vehicle) pastIntent.getSerializableExtra("Vehicle");
-
-        //new Tests();
 
         Button cancel = (Button) findViewById(R.id.cancelDriverButton);
 
@@ -170,7 +166,6 @@ public class CreateDriverActivity extends BaseActivity {
             setTitle("Create New Driver");
         }
 
-
         saveInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -261,7 +256,7 @@ public class CreateDriverActivity extends BaseActivity {
      * @param street
      * @param city
      * @param state
-     * @param zip    returns a string of the id or -400 if there was an error
+     * @param zip
      */
     public synchronized void syncNewDriver(String name, String street, String city, String state, String zip) {
         SendInfoDriver sendInfoDriver = new SendInfoDriver();

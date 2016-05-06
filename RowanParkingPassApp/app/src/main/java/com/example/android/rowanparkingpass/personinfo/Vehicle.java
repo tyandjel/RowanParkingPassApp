@@ -2,6 +2,9 @@ package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
 
+/**
+ * Vehicle
+ */
 public class Vehicle implements Serializable {
 
     private int vehicleId;
@@ -12,6 +15,17 @@ public class Vehicle implements Serializable {
     private String vehicleState;
     private String licensePlate;
 
+    /**
+     * Constructor
+     *
+     * @param vehicleId    vehicle id
+     * @param make         make
+     * @param model        model
+     * @param year         year
+     * @param color        car color
+     * @param vehicleState vehicle state
+     * @param licensePlate license plate
+     */
     public Vehicle(int vehicleId, String make, String model, int year, String color, String vehicleState, String licensePlate) {
         this.vehicleId = vehicleId;
         this.make = make;
@@ -22,62 +36,110 @@ public class Vehicle implements Serializable {
         this.licensePlate = licensePlate;
     }
 
+    /**
+     * Gets vehicle id
+     *
+     * @return vehicle id
+     */
     public int getVehicleId() {
         return vehicleId;
     }
 
+    /**
+     * Sets vehicle id
+     *
+     * @param vehicleId vehicle id
+     */
     public void setVehicleId(int vehicleId) {
         this.vehicleId = vehicleId;
     }
 
+    /**
+     * Gets the vehicle make
+     *
+     * @return make
+     */
     public String getMake() {
         return make;
     }
 
-    public void setMake(String make) {
-        this.make = make;
-    }
-
+    /**
+     * Get vehicle model
+     *
+     * @return vehicle model
+     */
     public String getModel() {
         return model;
     }
 
+    /**
+     * Sets vehicle model
+     *
+     * @param model model
+     */
     public void setModel(String model) {
         this.model = model;
     }
 
+    /**
+     * Gets vehicle year
+     *
+     * @return vehicle year
+     */
     public int getYear() {
         return year;
     }
 
+    /**
+     * Sets vehicle year
+     *
+     * @param year year
+     */
     public void setYear(int year) {
         this.year = year;
     }
 
+    /**
+     * Gets the car color
+     *
+     * @return color
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     * Sets teh car color
+     *
+     * @param color color
+     */
     public void setColor(String color) {
         this.color = color;
     }
 
+    /**
+     * Gets the vehicle state
+     *
+     * @return state
+     */
     public String getVehicleState() {
         return vehicleState;
     }
 
-    public void setVehicleState(String vehicleState) {
-        this.vehicleState = vehicleState;
-    }
-
+    /**
+     * Gets the license plate for vehicle
+     *
+     * @return license plate
+     */
     public String getLicensePlate() {
         return licensePlate;
     }
 
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-
+    /**
+     * All vehicle info
+     *
+     * @return vehicle info
+     */
     public String getCarInfo() {
         return year + " " + make + " " + model + " " + vehicleState + " " + licensePlate;
     }

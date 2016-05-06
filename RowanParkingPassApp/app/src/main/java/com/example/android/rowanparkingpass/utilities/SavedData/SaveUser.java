@@ -7,19 +7,20 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by johnathan on 4/18/16.
+ * Saves user info to android
  */
-public class SaveUser implements Serializable{
+public class SaveUser implements Serializable {
 
-        private  Queue<SendInfoModel> sendInfos = new LinkedList<>();
-        private  boolean sync = true;
-        private  String USR;
-        public SaveUser(String user,boolean sync, Queue<SendInfoModel> q){
-            USR = user;
-            this.sync = sync;
-            sendInfos = q;
+    private Queue<SendInfoModel> sendInfos = new LinkedList<>();
+    private boolean sync = true;
+    private String USR;
 
-        }
+    public SaveUser(String user, boolean sync, Queue<SendInfoModel> q) {
+        USR = user;
+        this.sync = sync;
+        sendInfos = q;
+
+    }
 
 
     public Queue<SendInfoModel> getSendInfos() {

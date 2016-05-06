@@ -8,7 +8,7 @@ import android.view.View;
  * By OMAK at http://stackoverflow.com/questions/17520750/list-view-item-swipe-left-and-swipe-right
  * Modified by: Johnatna saunders
  * Mar 17,2016
- * <p/>
+ * <p>
  * This class is made to detect swipes and thier directions.
  */
 public class SwipeDetector implements View.OnTouchListener {

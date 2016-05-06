@@ -25,18 +25,16 @@ import android.widget.Toast;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.VehiclesActivity;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
 import com.example.android.rowanparkingpass.R;
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.States;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.utilities.Utilities;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerDialog;
 import com.example.android.rowanparkingpass.utilities.colorpicker.ColorPickerSwatch;
 import com.example.android.rowanparkingpass.utilities.colorpicker.Utils;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerVehicles;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -230,6 +228,7 @@ public class CreateVehicleActivity extends BaseActivity {
         colorCalender.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
             @Override
             public void onColorSelected(int color) {
+                //Selects the color
                 mSelectedColorCal0 = color;
                 colorBox.setBackgroundColor(mSelectedColorCal0);
                 colorBox.setTextColor(mSelectedColorCal0);
@@ -319,17 +318,34 @@ public class CreateVehicleActivity extends BaseActivity {
 
     }
 
+    /**
+     * Sends a vehicle to server
+     *
+     * @param year
+     * @param make
+     * @param model
+     * @param state
+     * @param color
+     * @param license
+     */
     public synchronized void syncNewVehicle(String year, String make, String model, String state, String color, String license) {
-        String newID = "-400";
         SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();
-        JSONObject json;
         int oldID = db.addVehicle(Integer.parseInt(year), make, model, arrayOfStates[Integer.parseInt(state)].valueOf(arrayOfStates[Integer.parseInt(state)].name()).toString(), color, license);
-            /*json = */
         sendInfoVehicle.addVehicle(oldID, make, model, year, state, color, license);
-//        String flag = json.getString("FLAG");
-        return;
     }
 
+    /**
+     * Sends update driver to server
+     *
+     * @param id
+     * @param year
+     * @param make
+     * @param model
+     * @param state
+     * @param color
+     * @param license
+     * @return
+     */
     public String syncUpdateVehicle(String id, String year, String make, String model, String state, String color, String license) {
         String flag = "-1";
         SendInfoVehicle sendInfoVehicle = new SendInfoVehicle();

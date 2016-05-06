@@ -11,8 +11,12 @@ import com.example.android.rowanparkingpass.personinfo.Driver;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Database handler for drivers
+ */
 public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
 
+    // Create driver table statement
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + DriverContract.DriverEntry.TABLE_NAME + " (" +
                     DriverContract.DriverEntry.COLUMN_DRIVER_ID + DriverContract.INTEGER_TYPE + " PRIMARY KEY AUTO_INCREMENT," +
@@ -42,7 +46,6 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL(SQL_DELETE_ENTRIES);
-
         // Create tables again
         onCreate(db);
     }
@@ -96,6 +99,12 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
         db.update(DriverContract.DriverEntry.TABLE_NAME, values, DriverContract.DriverEntry.COLUMN_DRIVER_ID + "=" + driverId, null);
     }
 
+    /**
+     * Update a driver with a new id from server
+     *
+     * @param oldID old id
+     * @param newID new id
+     */
     public void updateDriverWithID(int oldID, int newID) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
@@ -110,7 +119,7 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
     public void deleteDriver(String driverId) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
-        db.delete(DriverContract.DriverEntry.TABLE_NAME, DriverContract.DriverEntry.COLUMN_DRIVER_ID.toString() + "=" + driverId, null);
+        db.delete(DriverContract.DriverEntry.TABLE_NAME, DriverContract.DriverEntry.COLUMN_DRIVER_ID + "=" + driverId, null);
     }
 
     /**
@@ -189,21 +198,6 @@ public class DatabaseHandlerDrivers extends DatabaseHandlerBase {
         db.close();
         // return user
         return rows;
-    }
-
-    /**
-     * Getting user login status
-     * return true if rows are there in table
-     */
-    public int getRowCount() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
-        int rowCount = cursor.getCount();
-        db.close();
-        cursor.close();
-
-        // return row count
-        return rowCount;
     }
 
     /**

@@ -13,6 +13,9 @@ import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Database handler passes
+ */
 public class DatabaseHandlerPasses extends DatabaseHandlerBase {
 
     private static final String SQL_DELETE_ENTRIES =
@@ -27,7 +30,7 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
         this.context = context;
     }
 
-    // Creating Tables
+    // Creating Tables (pass, driver, vehicle)
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_PASS_ENTRIES);
@@ -81,22 +84,6 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
     /**
      * Storing pass details in database
      */
-    public void addRequest(int requestId, int vehicleId, int driverId, String startDate, String endDate) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(PassContract.PassEntry.COLUMN_REQUEST_ID, requestId); // Request Id
-        values.put(PassContract.PassEntry.COLUMN_VEHICLE_ID, vehicleId); // Vehicle Id
-        values.put(PassContract.PassEntry.COLUMN_DRIVER_ID, driverId); // Driver Id
-        values.put(PassContract.PassEntry.COLUMN_START_DATE, startDate); // Start Date
-        values.put(PassContract.PassEntry.COLUMN_END_DATE, endDate); // End Date
-        // Inserting Row
-        db.insert(PassContract.PassEntry.TABLE_NAME, null, values);
-        db.close(); // Closing database connection
-    }
-
-    /**
-     * Storing pass details in database
-     */
     public void addRequest(int vehicleId, int driverId, String startDate, String endDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -117,7 +104,7 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
     public void deleteRequestRequestID(String requestID) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
-        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_REQUEST_ID.toString() + "=" + requestID, null);
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_REQUEST_ID + "=" + requestID, null);
     }
 
     /**
@@ -128,7 +115,7 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
     public void deleteRequestDriverID(String driverID) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
-        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_DRIVER_ID.toString() + "=" + driverID, null);
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_DRIVER_ID + "=" + driverID, null);
 
     }
 
@@ -140,7 +127,7 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
     public void deleteRequestVehicleID(String vehicleID) {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
-        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleID, null);
+        db.delete(PassContract.PassEntry.TABLE_NAME, PassContract.PassEntry.COLUMN_VEHICLE_ID + "=" + vehicleID, null);
 
     }
 
@@ -154,8 +141,8 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
         SQLiteDatabase db = this.getReadableDatabase();
         // Delete Row
         db.delete(PassContract.PassEntry.TABLE_NAME,
-                PassContract.PassEntry.COLUMN_DRIVER_ID.toString() + "=" + driverID + " AND "
-                        + PassContract.PassEntry.COLUMN_VEHICLE_ID.toString() + "=" + vehicleID, null);
+                PassContract.PassEntry.COLUMN_DRIVER_ID + "=" + driverID + " AND "
+                        + PassContract.PassEntry.COLUMN_VEHICLE_ID + "=" + vehicleID, null);
     }
 
     /**
@@ -192,21 +179,6 @@ public class DatabaseHandlerPasses extends DatabaseHandlerBase {
         db.close();
         // return passes
         return rows;
-    }
-
-    /**
-     * Getting user login status
-     * return true if rows are there in table
-     */
-    public int getRowCount() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(SQL_SELECT_ALL_ENTRIES, null);
-        int rowCount = cursor.getCount();
-        db.close();
-        cursor.close();
-
-        // return row count
-        return rowCount;
     }
 
     /**

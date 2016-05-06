@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * Created by johnathan on 4/8/16.
+ * Model for sending info to the server
  */
 public class SendInfoModel implements Serializable {
     private String url = "";

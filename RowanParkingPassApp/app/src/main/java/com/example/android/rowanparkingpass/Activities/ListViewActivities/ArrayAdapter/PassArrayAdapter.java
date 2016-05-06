@@ -16,7 +16,9 @@ import java.util.List;
 
 public class PassArrayAdapter extends ListViewArrayAdapter {
 
+    // List of passes
     private List<Pass> passesList = new ArrayList<>();
+    // List of passes based on search
     private ArrayList<Pass> filteredPassesList = new ArrayList<>();
     private PassFilter passFilter;
 

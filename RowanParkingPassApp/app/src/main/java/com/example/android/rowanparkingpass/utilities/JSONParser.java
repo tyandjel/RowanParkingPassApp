@@ -17,22 +17,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
+/**
+ * Parses JSON info to POST or get
+ */
 public class JSONParser {
 
     public static String POST = "POST";
@@ -48,8 +37,6 @@ public class JSONParser {
 
     public JSONObject makeHttpRequest(String url, String method,
                                       HashMap<String, String> params) {
-
-        //disableSSLCertificateChecking();
 
         sbParams = new StringBuilder();
         int i = 0;
@@ -67,6 +54,7 @@ public class JSONParser {
             i++;
         }
 
+        // Post Method
         if (method.equals(POST)) {
             // request method is POST
             try {
@@ -100,6 +88,7 @@ public class JSONParser {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            // Get Method
         } else if (method.equals(GET)) {
             // request method is GET
 
@@ -125,9 +114,8 @@ public class JSONParser {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-
+        // Result from Post or Get call
         result = new StringBuilder();
         try {
             //Receive the response from the server
@@ -135,72 +123,23 @@ public class JSONParser {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
             while ((line = reader.readLine()) != null) {
-                Log.d("LINE: ", line.toString());
+                Log.d("LINE: ", line);
                 result.append(line);
             }
-
             Log.d("JSON Parser", "result: " + result.toString());
-//            Log.d("SESSION:", conn.getHeaderField("Set-Cookie:"));
-            Map<String, List<String>> m = conn.getHeaderFields();
-            Set keys = m.keySet();
-
-            for (Iterator j = keys.iterator(); j.hasNext(); ) {
-                String key = (String) j.next();
-                List<String> value = m.get(key);
-                Log.d("HEADER", key + " = " + Arrays.asList(value));
-            }
-
         } catch (IOException e) {
             Log.d("ERROR: ", e.getMessage());
             e.printStackTrace();
         }
-
         conn.disconnect();
-
         // try parse the string to a JSON object
         try {
-            int j = 1;
             Log.d("RESULT: ", result.toString());
             jObj = new JSONObject(result.toString());
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
-
         // return JSON Object
         return jObj;
-    }
-
-    /**
-     * Disables the SSL certificate checking for new instances of {@link HttpsURLConnection} This has been created to
-     * aid testing on a local box, not for use on production.
-     */
-    private static void disableSSLCertificateChecking() {
-        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            @Override
-            public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-
-            @Override
-            public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-                // Not implemented
-            }
-        }};
-
-        try {
-            SSLContext sc = SSLContext.getInstance("TLS");
-
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
     }
 }

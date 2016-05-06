@@ -33,7 +33,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
+/**
+ * Requesting a pass activity
+ */
 public class PassActivity extends BaseActivity implements View.OnClickListener {
 
     private Driver driver;
@@ -57,7 +61,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pass);
-        i =0;
+        i = 0;
 
         Intent pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
@@ -76,7 +80,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         setDriverView();
         setVehicleView();
 
-        dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormatter = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
 
         startDate = (EditText) findViewById(R.id.createstartdatefield);
         startDate.setInputType(InputType.TYPE_NULL);
@@ -143,6 +147,9 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         mainMenu.setOnClickListener(this);
     }
 
+    /**
+     * Sets up the selected driver view
+     */
     public void setDriverView() {
         View driverView = findViewById(R.id.driver_view);
         driverView.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +186,9 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
         driverTownCity.setText(driver.getTown() + ", " + driver.getState() + " " + driver.getZipCode());
     }
 
+    /**
+     * Sets up the selected vehicle view
+     */
     public void setVehicleView() {
         View vehicleView = findViewById(R.id.vehicle_view);
         vehicleView.setOnClickListener(new View.OnClickListener() {
@@ -230,7 +240,6 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                 //TODO Temp driver created the pass is still created with null null null
                 if (NetworkCheck.haveNetworkConnection()) {
                     new SendToServer().send();
-
                     executeProcessRequest();
                 } else {
                     Toast.makeText(getApplicationContext(), "No Network Connection. Cannot create a pass.s", Toast.LENGTH_LONG).show();
@@ -270,7 +279,7 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             pDialog.setMessage("Creating Pass Request ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
-            if(!pDialog.isShowing()){
+            if (!pDialog.isShowing()) {
                 pDialog.show();
             }
 
@@ -305,24 +314,23 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
                     //Figure out what error. Depending on error we call specific command. Current vehicle/driver .setId -1. Recall execute process request
                     String err = json.getString("ERR");
 
-                    if (err.equals("7")&&i<3) {
+                    if (err.equals("7") && i < 3) {
                         //vehicle
                         vehicle.setVehicleId(-1);
                         pDialog.dismiss();
                         executeProcessRequest();
-                    } else if (err.equals("8")&& i<3) {
+                    } else if (err.equals("8") && i < 3) {
                         //driver
-                        if(i<2){
+                        if (i < 2) {
                             driver.setZipCode(String.valueOf(Integer.parseInt(driver.getZipCode())));
-                        }else {
+                        } else {
                             driver.setDriverId(-1);
                         }
                         pDialog.dismiss();
                         executeProcessRequest();
-                    } else if(i==3) {
+                    } else if (i == 3) {
                         Toast.makeText(getApplicationContext(), "Please Login and try again : Dead Loop Error", Toast.LENGTH_LONG).show();
-                    }
-                        else {
+                    } else {
                         errorMessage(err);
                         pDialog.dismiss();
                     }
@@ -332,6 +340,12 @@ public class PassActivity extends BaseActivity implements View.OnClickListener {
             }
         }
     }
+
+    /**
+     * Error messages from server
+     *
+     * @param err the error
+     */
     public void errorMessage(String err) {
         switch (err) {
             case "0":

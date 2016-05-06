@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,12 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.Activities.ListViewActivities.ArrayAdapter.PassArrayAdapter;
+import com.example.android.rowanparkingpass.Activities.PassActivity;
 import com.example.android.rowanparkingpass.Networking.NetworkCheck;
-import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.Networking.Sync.SyncDrivers;
 import com.example.android.rowanparkingpass.Networking.Sync.SyncVehicles;
+import com.example.android.rowanparkingpass.R;
 import com.example.android.rowanparkingpass.personinfo.Pass;
 import com.example.android.rowanparkingpass.utilities.database.DatabaseHandlerPasses;
 
@@ -38,13 +39,12 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
         pastIntent = getIntent();
         currentMode = pastIntent.getStringExtra(MODE);
         buildEventList(buildList());
-        //TODO had ping network back in
         try {
             if (NetworkCheck.haveNetworkConnection()/* && NetworkCheck.pingNetwork()*/ && pastIntent.getStringExtra(SYNC).equals("true")) {
                 sync();
             }
         } catch (NullPointerException npe) {
-
+            Log.d(TAG, npe.getMessage());
         }
         loaded();
     }
@@ -56,11 +56,10 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
         return true;
     }
 
+    // Creates list of passes
     private List<Pass> buildList() {
         ArrayList<Pass> listOfAllPasses;
         listOfAllPasses = db.getPasses();
-        //new Tests();
-
 
         if (listOfAllPasses == null) {
             listOfAllPasses = new ArrayList<>();
@@ -68,6 +67,7 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
         return listOfAllPasses;
     }
 
+    // Builds the list of passes
     private void buildEventList(List<Pass> passes) {
         listView = (ListView) findViewById(R.id.listView);
         adapter = new PassArrayAdapter(passes, this, false);
@@ -156,6 +156,7 @@ public class PassesActivity extends ListActivity implements SearchView.OnQueryTe
         return true;
     }
 
+    // Calls sync vehicles and drivers
     private void sync() {
         SyncDrivers syncDrivers = new SyncDrivers();
         SyncVehicles syncVehicles = new SyncVehicles();

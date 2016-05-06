@@ -2,6 +2,9 @@ package com.example.android.rowanparkingpass.personinfo;
 
 import java.io.Serializable;
 
+/**
+ * A pass
+ */
 public class Pass implements Serializable {
 
     private int requestID;
@@ -10,6 +13,15 @@ public class Pass implements Serializable {
     private String fromDate;
     private String toDate;
 
+    /**
+     * Constructor with request id
+     *
+     * @param requestID request id
+     * @param driver    driver
+     * @param vehicle   vehicle
+     * @param fromDate  from date
+     * @param toDate    to date
+     */
     public Pass(int requestID, Driver driver, Vehicle vehicle, String fromDate, String toDate) {
         this.requestID = requestID;
         this.driver = driver;
@@ -18,6 +30,14 @@ public class Pass implements Serializable {
         this.toDate = toDate;
     }
 
+    /**
+     * Constructor without request id
+     *
+     * @param driver   driver
+     * @param vehicle  vehicle
+     * @param fromDate from date
+     * @param toDate   to date
+     */
     public Pass(Driver driver, Vehicle vehicle, String fromDate, String toDate) {
         this.driver = driver;
         this.vehicle = vehicle;
@@ -25,6 +45,9 @@ public class Pass implements Serializable {
         this.toDate = toDate;
     }
 
+    /**
+     * Constructor
+     */
     public Pass() {
         requestID = -1;
         driver = new Driver(-1, "-1", "-1", "-1", "-1", "-1", "-1");
@@ -33,44 +56,67 @@ public class Pass implements Serializable {
         toDate = "-1";
     }
 
+    /**
+     * Gets the request id of pass
+     *
+     * @return request id
+     */
     public int getRequestID() {
         return requestID;
     }
 
-    public void setRequestID(int requestID) {
-        this.requestID = requestID;
-    }
-
+    /**
+     * Gets pass driver
+     *
+     * @return driver
+     */
     public Driver getDriver() {
         return driver;
     }
 
+    /**
+     * Sets driver
+     *
+     * @param driver driver for pass
+     */
     public void setDriver(Driver driver) {
         this.driver = driver;
     }
 
+    /**
+     * Gets pass vehicle
+     *
+     * @return vehicle
+     */
     public Vehicle getVehicle() {
         return vehicle;
     }
 
+    /**
+     * Sets vehicle
+     *
+     * @param vehicle vehicle
+     */
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
 
+    /**
+     * Gets from date
+     *
+     * @return date
+     */
     public String getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(String fromDate) {
-        this.fromDate = fromDate;
-    }
-
+    /**
+     * Gets to date
+     *
+     * @return date
+     */
     public String getToDate() {
         return toDate;
-    }
-
-    public void setToDate(String toDate) {
-        this.toDate = toDate;
     }
 
     @Override

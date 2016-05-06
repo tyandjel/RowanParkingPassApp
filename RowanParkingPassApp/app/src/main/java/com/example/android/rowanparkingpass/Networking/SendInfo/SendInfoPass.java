@@ -2,16 +2,19 @@ package com.example.android.rowanparkingpass.Networking.SendInfo;
 
 import android.util.Log;
 
-import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 import com.example.android.rowanparkingpass.personinfo.Driver;
 import com.example.android.rowanparkingpass.personinfo.Vehicle;
 import com.example.android.rowanparkingpass.utilities.JSONParser;
+import com.example.android.rowanparkingpass.utilities.SavedData.SaveData;
 
 import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Send Pass info to server
+ */
 public class SendInfoPass extends SendInfoBase {
 
     private static final String VEHICLE_KEY = ":vehicle";
@@ -46,8 +49,8 @@ public class SendInfoPass extends SendInfoBase {
         params.put(END_DATE_KEY, endDate);
         Log.d("PARAMSPASS", Arrays.asList(params) + "");
         SaveData.makeSendInfo(params, url);
+
         // Return JsonObject
-//        return new SendToServer().send();
         return jsonParser.makeHttpRequest(url, JSONParser.POST, params);
     }
 

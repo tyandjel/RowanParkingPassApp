@@ -1,6 +1,7 @@
 package com.example.android.rowanparkingpass.Activities;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -10,11 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoBase;
 import com.example.android.rowanparkingpass.R;
 
+/**
+ * Class to load web pages in an activity
+ */
 public class RowanWebPageActivity extends BaseActivity {
 
     private WebView webView;
@@ -22,6 +25,7 @@ public class RowanWebPageActivity extends BaseActivity {
     private static final String password_url = "http://id.rowan.edu/";
     private static final String search_passes_url = SendInfoBase.IP_ADDRESS_URL + "/mlogin.php";
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +84,6 @@ public class RowanWebPageActivity extends BaseActivity {
                 finish();
                 break;
 //            case R.id.action_camera:
-//                Toast.makeText(this, "Camera Selected", Toast.LENGTH_SHORT).show();
             default:
                 break;
         }
@@ -96,7 +99,7 @@ public class RowanWebPageActivity extends BaseActivity {
             return true;
         }
 
-        // Check fi the key event was the Forward button and if there's history
+        // Check if the key event was the Forward button and if there's history
         if ((keyCode == KeyEvent.KEYCODE_FORWARD) && webView.canGoForward()) {
             webView.goForward();
             return true;
@@ -106,20 +109,23 @@ public class RowanWebPageActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * Web View Client
+     * Loads webpages based on url
+     */
     private class MyBrowser extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//            startActivity(intent);
             return true;
         }
     }
+
     @Override
-    public  void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        webView.loadUrl("http://shh.mordor.us/logout.php");
+        webView.loadUrl(SendInfoBase.IP_ADDRESS_URL + "/logout.php");
 
     }
 }

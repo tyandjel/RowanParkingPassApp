@@ -15,14 +15,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class DriverArrayAdapter extends ListViewArrayAdapter {
+
     private int lastPos = 0;
+    // List of all drivers
     private List<Driver> driversList = new ArrayList<>();
+    // List of drivers based on search
     private ArrayList<Driver> filteredDriverList = new ArrayList<>();
     private DriverFilter driverFilter;
 
-    private Context context;
     LayoutInflater myInflater;
-
 
     private int layout = R.layout.view_driver;// current layout to use
 

@@ -4,7 +4,7 @@ import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoDriver;
 import com.example.android.rowanparkingpass.Networking.SendInfo.SendInfoVehicle;
 
 /**
- * Created by johnathan on 4/12/16.
+ * Test to test queing
  */
 public class QueuingTest {
 

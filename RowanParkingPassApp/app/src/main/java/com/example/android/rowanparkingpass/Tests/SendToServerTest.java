@@ -1,14 +1,12 @@
 package com.example.android.rowanparkingpass.Tests;
 
 /**
- * Created by johnathan on 4/12/16.
+ * Test to test sending to the server
  */
 public class SendToServerTest {
     public static boolean testSendToServer() {
         try {
             return true;
-
-
         } catch (Exception e) {
             return false;
         }
